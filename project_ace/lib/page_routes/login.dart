@@ -150,10 +150,10 @@ class _LoginState extends State<Login> {
           children: [
             const SizedBox(height: 40),
             ClipRect(
-              child: Image.asset(
-                "assets/images/ace_logo_edited.png",
-                scale: 1.075,
-              ),
+              child: Image( image: NetworkImage
+                ('https://i.hizliresim.com/bxfjezq.png'),
+              width: 200,
+              height:200),
             ),
             const SizedBox(height: 40),
             SizedBox(

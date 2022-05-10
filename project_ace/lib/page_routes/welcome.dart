@@ -16,7 +16,10 @@ class WelcomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRect(
-                child: Image.asset("assets/images/ace_logo_edited.png"),
+                child: Image( image: NetworkImage
+                  ('https://i.hizliresim.com/bxfjezq.png'),
+                    width: 200,
+                    height:200),
               )
             ],
           ),
