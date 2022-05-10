@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/profileSettings.dart';
+import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -101,7 +103,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor:AppColors.profileScreenTextColor ,
+        foregroundColor: AppColors.profileScreenTextColor,
         title: Text(
           '@$userName',
           style: const TextStyle(
@@ -121,9 +123,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
             },
           ),
-
           IconButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pushNamed(context, '/notifications');
             },
             icon: const Icon(
@@ -131,9 +132,57 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               color: AppColors.bottomNavigationBarBackgroundColor,
             ),
           )
-
-
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  tooltip: "Feed",
+                  iconSize: 40,
+                  icon: const Icon(Icons.email),
+                  onPressed: () {
+                    // Navigator.pushNamedAndRemoveUntil(context, Feed.routeName, (route) => false);
+                  }),
+              const Spacer(),
+              IconButton(
+                  tooltip: "Search",
+                  iconSize: 40,
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    // Navigator.push(context, Search.routeName);
+                  }),
+              const Spacer(),
+              IconButton(
+                  tooltip: "Topics",
+                  iconSize: 40,
+                  icon: const Icon(Icons.tag),
+                  onPressed: () {
+                    // Navigator.push(context, Topic.routeName);
+                  }),
+              const Spacer(),
+              IconButton(
+                  tooltip: "",
+                  iconSize: 40,
+                  icon: const Icon(Icons.add_circle_outline),
+                  onPressed: () {
+                    Navigator.pushNamed(context, AddPost.routeName);
+                  }),
+              const Spacer(),
+              IconButton(
+                  tooltip: "Feed",
+                  iconSize: 40,
+                  icon: const Icon(Icons.person_outline),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, ProfileView.routeName, (route) => false);
+                  }),
+            ],
+          ),
+        ),
       ),
       backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SingleChildScrollView(
@@ -236,8 +285,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextButton.icon(
-                                onPressed: (){
-                                    Navigator.pushNamed(context, ProfileSettings.routeName);
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, ProfileSettings.routeName);
                                 },
                                 icon: const Icon(Icons.settings),
                                 label: const Text(
