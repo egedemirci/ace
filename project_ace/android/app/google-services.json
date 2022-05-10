@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "577177345271",
+    "project_id": "project-ace-demo-c1154",
+    "storage_bucket": "project-ace-demo-c1154.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577177345271:android:112580f59bea48a33747f2",
+        "android_client_info": {
+          "package_name": "com.example.project_ace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577177345271-lqeqgdul6i7mfshgm1e39b4i7533lf0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqjBUhrFzKQl9wAbRAO6BuiMORWIEPjxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577177345271-lqeqgdul6i7mfshgm1e39b4i7533lf0s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
