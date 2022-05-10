@@ -2,16 +2,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/page_routes/profileSettings.dart';
+import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
-import "package:project_ace/page_routes/notifications.dart";
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
-  static const String routeName = '/profile_view';
+  static const String routeName = '/own_profile_view';
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -102,6 +103,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: AppColors.profileScreenTextColor,
         title: Text(
           '@$userName',
           style: const TextStyle(
@@ -111,7 +113,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: AppColors.mainAppSmallUsernameColor,
+        backgroundColor: AppColors.profileScreenBackgroundColor,
         elevation: 0.0,
         actions: [
           IconButton(
@@ -121,20 +123,17 @@ class _ProfileViewState extends State<ProfileView> {
               // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
             },
           ),
-          const Spacer(),
-
           IconButton(
-              onPressed: (){
-                Navigator.pushNamed(context, '/notifications');
-              },
-              icon: const Icon(
-                  Icons.notifications_active,
-                color: AppColors.signUpButtonTextColor,
-              ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/notifications');
+            },
+            icon: const Icon(
+              Icons.notifications_active,
+              color: AppColors.bottomNavigationBarBackgroundColor,
+            ),
           )
         ],
       ),
-      backgroundColor: AppColors.mainAppSmallUsernameColor,
       bottomNavigationBar: BottomAppBar(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -185,6 +184,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
       ),
+      backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -198,7 +198,7 @@ class _ProfileViewState extends State<ProfileView> {
                     Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.pink,
                         child: ClipOval(
                           child: Image.network(
                             'https://scontent.fist2-4.fna.fbcdn.net/v/t1.6435-9/158915922_1835177049983620_7867840742222695097_n.jpg?stp=cp0_dst-jpg_e15_p640x640_q65&_nc_cat=107&ccb=1-5&_nc_sid=110474&efg=eyJpIjoidCJ9&_nc_ohc=xewcz6_AcSoAX-HqTcf&tn=yL3fhD3XrmMMdYqA&_nc_ht=scontent.fist2-4.fna&oh=00_AT972WOBWpIHv-2oGq6ghOgkcHrFiivzT1Ghtw--wIb8AQ&oe=626A0233',
