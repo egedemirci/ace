@@ -1,23 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/page_routes/profileSettings.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
-import "package:project_ace/page_routes/notifications.dart";
 
-class ProfileView extends StatefulWidget {
-  const ProfileView({Key? key}) : super(key: key);
+class OwnProfileView extends StatefulWidget {
+  const OwnProfileView({Key? key}) : super(key: key);
 
-  static const String routeName = '/profile_view';
+  static const String routeName = '/own_profile_view';
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
+  State<OwnProfileView> createState() => _OwnProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _OwnProfileViewState extends State<OwnProfileView> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
   List<Post> posts = [
@@ -102,6 +101,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor:AppColors.profileScreenTextColor ,
         title: Text(
           '@$userName',
           style: const TextStyle(
@@ -111,7 +111,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: AppColors.mainAppSmallUsernameColor,
+        backgroundColor: AppColors.profileScreenBackgroundColor,
         elevation: 0.0,
         actions: [
           IconButton(
@@ -121,70 +121,21 @@ class _ProfileViewState extends State<ProfileView> {
               // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
             },
           ),
-          const Spacer(),
 
           IconButton(
-              onPressed: (){
-                Navigator.pushNamed(context, '/notifications');
-              },
-              icon: const Icon(
-                  Icons.notifications_active,
-                color: AppColors.signUpButtonTextColor,
-              ),
+            onPressed: (){
+              Navigator.pushNamed(context, '/notifications');
+            },
+            icon: const Icon(
+              Icons.notifications_active,
+              color: AppColors.bottomNavigationBarBackgroundColor,
+            ),
           )
+
+
         ],
       ),
-      backgroundColor: AppColors.mainAppSmallUsernameColor,
-      bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  tooltip: "Feed",
-                  iconSize: 40,
-                  icon: const Icon(Icons.email),
-                  onPressed: () {
-                    // Navigator.pushNamedAndRemoveUntil(context, Feed.routeName, (route) => false);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Search",
-                  iconSize: 40,
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    // Navigator.push(context, Search.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Topics",
-                  iconSize: 40,
-                  icon: const Icon(Icons.tag),
-                  onPressed: () {
-                    // Navigator.push(context, Topic.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "",
-                  iconSize: 40,
-                  icon: const Icon(Icons.add_circle_outline),
-                  onPressed: () {
-                    Navigator.pushNamed(context, AddPost.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Feed",
-                  iconSize: 40,
-                  icon: const Icon(Icons.person_outline),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, ProfileView.routeName, (route) => false);
-                  }),
-            ],
-          ),
-        ),
-      ),
+      backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -198,7 +149,7 @@ class _ProfileViewState extends State<ProfileView> {
                     Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.pink,
                         child: ClipOval(
                           child: Image.network(
                             'https://scontent.fist2-4.fna.fbcdn.net/v/t1.6435-9/158915922_1835177049983620_7867840742222695097_n.jpg?stp=cp0_dst-jpg_e15_p640x640_q65&_nc_cat=107&ccb=1-5&_nc_sid=110474&efg=eyJpIjoidCJ9&_nc_ohc=xewcz6_AcSoAX-HqTcf&tn=yL3fhD3XrmMMdYqA&_nc_ht=scontent.fist2-4.fna&oh=00_AT972WOBWpIHv-2oGq6ghOgkcHrFiivzT1Ghtw--wIb8AQ&oe=626A0233',
@@ -285,27 +236,17 @@ class _ProfileViewState extends State<ProfileView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextButton.icon(
-                                onPressed: followUser,
-                                icon: const Icon(Icons.group_add),
+                                onPressed: (){
+                                    Navigator.pushNamed(context, ProfileSettings.routeName);
+                                },
+                                icon: const Icon(Icons.settings),
                                 label: const Text(
-                                  "Follow",
+                                  "Profile Settings",
                                   style: TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              TextButton.icon(
-                                  onPressed: messageUser,
-                                  icon: const Icon(Icons.mail),
-                                  label: const Text(
-                                    "Message",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  )),
                             ],
                           ),
                         ),

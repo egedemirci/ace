@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/page_routes/notifications.dart';
+import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/page_routes/profileSettings.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/page_routes/welcome.dart';
@@ -22,6 +25,9 @@ void main() {
     Login.routeName: (context) => const Login(),
     ProfileView.routeName: (context) => const ProfileView(),
     AddPost.routeName: (context) => const AddPost(),
+    OwnProfileView.routeName: (context) => const OwnProfileView(),
+    ProfileSettings.routeName: (context) => const ProfileSettings(),
+    NotificationScreen.routeName: (context) => const NotificationScreen(),
   }));
 }
 
@@ -67,7 +73,7 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
     if (user == null) {
       return const Login();
     } else {
-      return const ProfileView();
+      return const OwnProfileView();
     }
   }
 }
