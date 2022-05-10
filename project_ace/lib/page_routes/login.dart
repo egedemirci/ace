@@ -149,11 +149,11 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
-            ClipRect(
-              child: Image( image: NetworkImage
-                ('https://i.hizliresim.com/bxfjezq.png'),
-              width: 200,
-              height:200),
+            const ClipRect(
+              child: Image(
+                  image: NetworkImage('https://i.hizliresim.com/bxfjezq.png'),
+                  width: 200,
+                  height: 200),
             ),
             const SizedBox(height: 40),
             SizedBox(

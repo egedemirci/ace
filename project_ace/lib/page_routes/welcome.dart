@@ -14,12 +14,12 @@ class WelcomePage extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               ClipRect(
-                child: Image( image: NetworkImage
-                  ('https://i.hizliresim.com/bxfjezq.png'),
+                child: Image(
+                    image: NetworkImage('https://i.hizliresim.com/bxfjezq.png'),
                     width: 200,
-                    height:200),
+                    height: 200),
               )
             ],
           ),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/page_routes/signup.dart';
@@ -20,6 +21,7 @@ void main() {
     SignUp.routeName: (context) => const SignUp(),
     Login.routeName: (context) => const Login(),
     ProfileView.routeName: (context) => const ProfileView(),
+    AddPost.routeName: (context) => const AddPost(),
   }));
 }
 
@@ -194,8 +196,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-Ahmet Furkan Ün
-Efe Tüzün
-Ege Demirci
-Taner Giray Sönmez
  */
