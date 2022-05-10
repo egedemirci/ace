@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/page_routes/notifications.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/profileSettings.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
@@ -24,6 +25,7 @@ void main() {
     ProfileView.routeName: (context) => const ProfileView(),
     OwnProfileView.routeName: (context) => const OwnProfileView(),
     ProfileSettings.routeName: (context) => const ProfileSettings(),
+    NotificationScreen.routeName: (context) => const NotificationScreen(),
   }));
 }
 

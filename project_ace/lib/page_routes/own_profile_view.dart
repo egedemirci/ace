@@ -119,7 +119,20 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               await _auth.signOutUser();
               // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
             },
+          ),
+          const Spacer(),
+
+          IconButton(
+            onPressed: (){
+              Navigator.pushNamed(context, '/notifications');
+            },
+            icon: const Icon(
+              Icons.notifications_active,
+              color: AppColors.signUpButtonTextColor,
+            ),
           )
+
+
         ],
       ),
       backgroundColor: AppColors.mainAppSmallUsernameColor,
