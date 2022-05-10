@@ -5,6 +5,7 @@ import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
+import "package:project_ace/page_routes/notifications.dart";
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -118,6 +119,17 @@ class _ProfileViewState extends State<ProfileView> {
               await _auth.signOutUser();
               // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
             },
+          ),
+          const Spacer(),
+
+          IconButton(
+              onPressed: (){
+                Navigator.pushNamed(context, '/notifications');
+              },
+              icon: const Icon(
+                  Icons.notifications_active,
+                color: AppColors.signUpButtonTextColor,
+              ),
           )
         ],
       ),
