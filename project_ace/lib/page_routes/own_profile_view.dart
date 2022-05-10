@@ -101,16 +101,17 @@ class _OwnProfileViewState extends State<OwnProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor:AppColors.profileScreenTextColor ,
         title: Text(
           '@$userName',
           style: const TextStyle(
             fontSize: 32.0,
             fontWeight: FontWeight.bold,
-            color: AppColors.welcomeScreenBackgroundColor,
+            color: AppColors.profileScreenTextColor,
           ),
         ),
         centerTitle: true,
-        backgroundColor: AppColors.mainAppSmallUsernameColor,
+        backgroundColor: AppColors.profileScreenBackgroundColor,
         elevation: 0.0,
         actions: [
           IconButton(
@@ -120,7 +121,6 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
             },
           ),
-          const Spacer(),
 
           IconButton(
             onPressed: (){
@@ -128,14 +128,14 @@ class _OwnProfileViewState extends State<OwnProfileView> {
             },
             icon: const Icon(
               Icons.notifications_active,
-              color: AppColors.signUpButtonTextColor,
+              color: AppColors.bottomNavigationBarBackgroundColor,
             ),
           )
 
 
         ],
       ),
-      backgroundColor: AppColors.mainAppSmallUsernameColor,
+      backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(

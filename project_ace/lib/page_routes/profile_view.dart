@@ -106,7 +106,7 @@ class _ProfileViewState extends State<ProfileView> {
           style: const TextStyle(
             fontSize: 32.0,
             fontWeight: FontWeight.bold,
-            color: AppColors.welcomeScreenBackgroundColor,
+            color: AppColors.profileScreenTextColor,
           ),
         ),
         centerTitle: true,

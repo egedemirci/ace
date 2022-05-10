@@ -18,7 +18,7 @@ class PostCard extends StatelessWidget {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
               top: Radius.zero, bottom: Radius.circular(0))),
-      color: AppColors.mainAppSmallUsernameColor,
+      color: AppColors.profileScreenBackgroundColor,
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(4),
