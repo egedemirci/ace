@@ -4,12 +4,11 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
-import 'package:project_ace/utilities/screenSizes.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import "package:project_ace/utilities/api.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';

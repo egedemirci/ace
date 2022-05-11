@@ -1,4 +1,4 @@
-//It is in draft name
+// This file is connected to the Draft Branch
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/notifications.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
-import 'package:project_ace/page_routes/profileSettings.dart';
+import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/page_routes/welcome.dart';

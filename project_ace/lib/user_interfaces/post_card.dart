@@ -7,7 +7,7 @@ class PostCard extends StatelessWidget {
   final VoidCallback incrementLikes;
   final VoidCallback decrementLikes;
 
-  PostCard(
+  const PostCard(
       {required this.post,
       required this.incrementLikes,
       required this.decrementLikes});

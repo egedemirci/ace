@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
-import 'package:project_ace/page_routes/login.dart';
-import 'package:project_ace/page_routes/profileSettings.dart';
+import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';

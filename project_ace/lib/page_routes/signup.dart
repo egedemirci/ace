@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
-import 'package:project_ace/utilities/screenSizes.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);

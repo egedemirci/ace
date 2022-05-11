@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class oNotification {
+class AppNotification {
   String text;
   Icon icon;
   bool type;
   String userName;
 
-  oNotification({
+  AppNotification({
     required this.text,
     required this.icon,
     required this.type,
