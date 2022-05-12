@@ -8,7 +8,7 @@ import 'package:project_ace/utilities/firebase_auth.dart';
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
-  static const String routeName = '/own_profile_view';
+  static const String routeName = '/profile_view';
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
