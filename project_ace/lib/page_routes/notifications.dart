@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import "package:project_ace/templates/notif.dart";
 import 'package:project_ace/utilities/colors.dart';
 
-
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
 
@@ -14,26 +13,37 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  //List<Notification> posts = [];
   List<AppNotification> allNotifications = [
     AppNotification(
         text: "started to follow you!",
-        icon: const Icon(Icons.person_add_alt_1_rounded,size: 50.0,),
+        icon: const Icon(
+          Icons.person_add_alt_1_rounded,
+          size: 50.0,
+        ),
         type: false,
         userName: "harrymaguire"),
     AppNotification(
         text: "want to follow you!",
-        icon: const Icon(Icons.person_add_alt_1_rounded,size: 50.0,),
+        icon: const Icon(
+          Icons.person_add_alt_1_rounded,
+          size: 50.0,
+        ),
         type: true,
         userName: "taners"),
     AppNotification(
         text: "liked your photo!",
-        icon: const Icon(Icons.favorite, size: 50.0, ),
+        icon: const Icon(
+          Icons.favorite,
+          size: 50.0,
+        ),
         type: false,
         userName: "afu"),
     AppNotification(
         text: "started to follow you!",
-        icon: const Icon(Icons.person_add_alt_1_rounded,size: 50.0,),
+        icon: const Icon(
+          Icons.person_add_alt_1_rounded,
+          size: 50.0,
+        ),
         type: false,
         userName: "tuzun"),
   ];
@@ -41,16 +51,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
+        foregroundColor: AppColors.welcomeScreenBackgroundColor,
+        elevation: 0,
         title: Text(
-
-            "NOTIFICATIONS",
-            style: GoogleFonts.montserrat(
-              color: AppColors.notificationIconColor,
-              fontWeight: FontWeight.bold,
-            ),
+          "NOTIFICATIONS",
+          style: GoogleFonts.montserrat(
+            color: AppColors.notificationIconColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
+        backgroundColor: AppColors.profileScreenBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -61,7 +74,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.vertical(
                               top: Radius.zero, bottom: Radius.circular(0))),
-                      color: Colors.white,
+                      color: AppColors.profileScreenBackgroundColor,
                       elevation: 0,
                       child: Padding(
                         padding: const EdgeInsets.all(4),
@@ -76,8 +89,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(4, 0, 8, 0),
                                   child: CircleAvatar(
-                                    foregroundColor: AppColors.notificationIconColor,
-                                    backgroundColor: Colors.white,
+                                    foregroundColor:
+                                        AppColors.notificationIconColor,
+                                    backgroundColor:
+                                        AppColors.profileScreenBackgroundColor,
                                     child: ClipOval(child: myNotification.icon),
                                     radius: 30,
                                   ),
@@ -103,7 +118,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       style: GoogleFonts.montserrat(
                                         color: AppColors.notificationIconColor,
                                         fontSize: 15,
-
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -130,10 +144,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       style: TextStyle(fontSize: 10),
                                     ),
                                     style: OutlinedButton.styleFrom(
-                                        primary: AppColors.profileSettingsButtonTextColor,
-                                        backgroundColor: AppColors.decisionButtonColor,
+                                        primary: AppColors
+                                            .profileSettingsButtonTextColor,
+                                        backgroundColor:
+                                            AppColors.decisionButtonColor,
                                         fixedSize: const Size(70, 8)),
-
                                   ),
                                   visible: myNotification.type,
                                 ),
@@ -142,27 +157,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 ),
                                 Visibility(
                                   child: OutlinedButton(
-
                                     onPressed: () {},
                                     child: const Text("Reject!",
                                         style: TextStyle(fontSize: 10)),
                                     style: OutlinedButton.styleFrom(
-                                        primary: AppColors.profileSettingsButtonTextColor,
-                                        backgroundColor: AppColors.decisionButtonColor ,
+                                        primary: AppColors
+                                            .profileSettingsButtonTextColor,
+                                        backgroundColor:
+                                            AppColors.decisionButtonColor,
                                         fixedSize: const Size(70, 8)),
-
                                   ),
                                   visible: myNotification.type,
                                 ),
                               ],
                             ),
                             //const SizedBox(width: 50,),
-
                             const Divider(
                                 height: 10,
                                 thickness: 1.5,
-                                color: AppColors.notificationIconColor
-                            ),
+                                color: AppColors.notificationIconColor),
                           ],
                         ),
                       ),

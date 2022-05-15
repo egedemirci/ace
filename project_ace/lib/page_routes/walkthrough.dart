@@ -69,10 +69,10 @@ class _WalkthroughState extends State<Walkthrough> {
                     children: [
                       TextButton(
                           onPressed: () async {
-                            var prefs = await SharedPreferences.getInstance();
+                            /*var prefs = await SharedPreferences.getInstance();
                             if (prefs.getBool("firstLoad") == null) {
                               prefs.setBool("firstLoad", false);
-                            }
+                            }*/
                             Navigator.pushNamedAndRemoveUntil(
                                 context, Login.routeName, (route) => false);
                           },

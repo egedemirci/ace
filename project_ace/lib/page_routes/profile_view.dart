@@ -101,38 +101,42 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
-        title: Text(
-          '@$userName',
-          style: const TextStyle(
-            fontSize: 32.0,
-            fontWeight: FontWeight.bold,
-            color: AppColors.profileScreenTextColor,
-          ),
+        title: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await _auth.signOutUser();
+                // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
+              },
+            ),
+            const Spacer(),
+            Text(
+              '@$userName',
+              style: const TextStyle(
+                fontSize: 32.0,
+                fontWeight: FontWeight.bold,
+                color: AppColors.profileScreenTextColor,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/notifications');
+              },
+              icon: const Icon(
+                Icons.notifications_active,
+                color: AppColors.bottomNavigationBarBackgroundColor,
+              ),
+            )
+          ],
         ),
         centerTitle: true,
         backgroundColor: AppColors.profileScreenBackgroundColor,
         elevation: 0.0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await _auth.signOutUser();
-              // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
-            },
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/notifications');
-            },
-            icon: const Icon(
-              Icons.notifications_active,
-              color: AppColors.notificationIconColor,
-
-            ),
-          )
-        ],
       ),
       bottomNavigationBar: BottomAppBar(
+        color: AppColors.welcomeScreenBackgroundColor,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
@@ -141,7 +145,10 @@ class _ProfileViewState extends State<ProfileView> {
               IconButton(
                   tooltip: "Feed",
                   iconSize: 40,
-                  icon: const Icon(Icons.email),
+                  icon: const Icon(
+                    Icons.email,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     // Navigator.pushNamedAndRemoveUntil(context, Feed.routeName, (route) => false);
                   }),
@@ -149,7 +156,10 @@ class _ProfileViewState extends State<ProfileView> {
               IconButton(
                   tooltip: "Search",
                   iconSize: 40,
-                  icon: const Icon(Icons.search),
+                  icon: const Icon(
+                    Icons.search,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     // Navigator.push(context, Search.routeName);
                   }),
@@ -157,23 +167,32 @@ class _ProfileViewState extends State<ProfileView> {
               IconButton(
                   tooltip: "Topics",
                   iconSize: 40,
-                  icon: const Icon(Icons.tag),
+                  icon: const Icon(
+                    Icons.tag,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     // Navigator.push(context, Topic.routeName);
                   }),
               const Spacer(),
               IconButton(
-                  tooltip: "",
+                  tooltip: "Add Post",
                   iconSize: 40,
-                  icon: const Icon(Icons.add_circle_outline),
+                  icon: const Icon(
+                    Icons.add_circle_outline,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     Navigator.pushNamed(context, AddPost.routeName);
                   }),
               const Spacer(),
               IconButton(
-                  tooltip: "Feed",
+                  tooltip: "Profile",
                   iconSize: 40,
-                  icon: const Icon(Icons.person_outline),
+                  icon: const Icon(
+                    Icons.person_outline,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, OwnProfileView.routeName, (route) => false);
@@ -284,11 +303,16 @@ class _ProfileViewState extends State<ProfileView> {
                             children: [
                               TextButton.icon(
                                 onPressed: followUser,
-                                icon: const Icon(Icons.group_add),
+                                icon: const Icon(
+                                  Icons.group_add,
+                                  color: AppColors.welcomeScreenBackgroundColor,
+                                ),
                                 label: const Text(
                                   "Follow",
                                   style: TextStyle(
                                     fontSize: 20,
+                                    color:
+                                        AppColors.welcomeScreenBackgroundColor,
                                   ),
                                 ),
                               ),
@@ -297,11 +321,17 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                               TextButton.icon(
                                   onPressed: messageUser,
-                                  icon: const Icon(Icons.mail),
+                                  icon: const Icon(
+                                    Icons.mail,
+                                    color:
+                                        AppColors.welcomeScreenBackgroundColor,
+                                  ),
                                   label: const Text(
                                     "Message",
                                     style: TextStyle(
                                       fontSize: 20,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                     ),
                                   )),
                             ],
@@ -325,11 +355,12 @@ class _ProfileViewState extends State<ProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
-                          child: const Icon(Icons.photo_outlined),
+                          child: const Icon(
+                            Icons.photo_outlined,
+                            color: AppColors.welcomeScreenBackgroundColor,
+                          ),
                           style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                  width: 0,
-                                  color: AppColors.mainAppSmallUsernameColor)),
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                       const Padding(
@@ -341,11 +372,12 @@ class _ProfileViewState extends State<ProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
-                          child: const Icon(Icons.wine_bar),
+                          child: const Icon(
+                            Icons.wine_bar,
+                            color: AppColors.welcomeScreenBackgroundColor,
+                          ),
                           style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                  width: 0,
-                                  color: AppColors.mainAppSmallUsernameColor)),
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                     ],

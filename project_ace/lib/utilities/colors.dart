@@ -17,8 +17,7 @@ class AppColors {
   static const Color signUpTextColor = Color(0xFF003049);
   static const Color signUpButtonBackgroundColor = Color(0xFF003049);
   static const Color signUpButtonTextColor = Color(0xFFFBBC05);
-  static const Color signUpFormBackgroundColor =
-      Colors.white;
+  static const Color signUpFormBackgroundColor = Colors.white;
   static const Color signUpFormTextColor = Colors.grey;
   // Shared Among Views
   static const Color bottomNavigationBarFillColor = Color(0xFF003049);
@@ -38,6 +37,8 @@ class AppColors {
   static const Color userFullNameColor = Color(0xFF003049);
   static const Color userNameColor = Color(0xFFCDEBF4);
   // Create Post
+  static const Color sharePostColor = Color(0xFF659ABB);
+
   static const Color mainAppPostTextColor = Color(0xFF003049);
   static const Color mainAppSmallUsernameColor = Color(0xFFCDEBF4);
   static const Color bottomNavigationBarOutlineColor = Color(0xFFFB8500);
@@ -49,12 +50,9 @@ class AppColors {
   static const Color deleteAccountButtonFillColor = Color(0xFF780000);
   static const Color deactivateAccountButtonFillColor = Color(0xFFFB8500);
 
-
-
   //NOTIFICATION COLORS
   static const Color decisionButtonColor = Color(0xFF88A0B1);
-  static const Color notificationIconColor = Color(0xFF003049); // shapes, appbar,text color as well.
-
-
+  static const Color notificationIconColor =
+      Color(0xFF003049); // shapes, appbar,text color as well.
 
 }

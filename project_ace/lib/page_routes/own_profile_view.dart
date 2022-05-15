@@ -155,6 +155,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
          */
       ),
       bottomNavigationBar: BottomAppBar(
+        color: AppColors.welcomeScreenBackgroundColor,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
@@ -163,7 +164,10 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               IconButton(
                   tooltip: "Feed",
                   iconSize: 40,
-                  icon: const Icon(Icons.email),
+                  icon: const Icon(
+                    Icons.email,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     // Navigator.pushNamedAndRemoveUntil(context, Feed.routeName, (route) => false);
                   }),
@@ -171,7 +175,10 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               IconButton(
                   tooltip: "Search",
                   iconSize: 40,
-                  icon: const Icon(Icons.search),
+                  icon: const Icon(
+                    Icons.search,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     // Navigator.push(context, Search.routeName);
                   }),
@@ -179,23 +186,32 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               IconButton(
                   tooltip: "Topics",
                   iconSize: 40,
-                  icon: const Icon(Icons.tag),
+                  icon: const Icon(
+                    Icons.tag,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     // Navigator.push(context, Topic.routeName);
                   }),
               const Spacer(),
               IconButton(
-                  tooltip: "",
+                  tooltip: "Add Post",
                   iconSize: 40,
-                  icon: const Icon(Icons.add_circle_outline),
+                  icon: const Icon(
+                    Icons.add_circle_outline,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     Navigator.pushNamed(context, AddPost.routeName);
                   }),
               const Spacer(),
               IconButton(
-                  tooltip: "Feed",
+                  tooltip: "Profile",
                   iconSize: 40,
-                  icon: const Icon(Icons.person_outline),
+                  icon: const Icon(
+                    Icons.person_outline,
+                    color: AppColors.userNameColor,
+                  ),
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, OwnProfileView.routeName, (route) => false);
@@ -309,11 +325,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   Navigator.pushNamed(
                                       context, ProfileSettings.routeName);
                                 },
-                                icon: const Icon(Icons.settings),
+                                icon: const Icon(
+                                  Icons.settings,
+                                  color: AppColors.welcomeScreenBackgroundColor,
+                                ),
                                 label: const Text(
                                   "Profile Settings",
                                   style: TextStyle(
                                     fontSize: 20,
+                                    color:
+                                        AppColors.welcomeScreenBackgroundColor,
                                   ),
                                 ),
                               ),
@@ -338,11 +359,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
-                          child: const Icon(Icons.photo_outlined),
+                          child: const Icon(
+                            Icons.photo_outlined,
+                            color: AppColors.welcomeScreenBackgroundColor,
+                          ),
                           style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                  width: 0,
-                                  color: AppColors.mainAppSmallUsernameColor)),
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                       const Padding(
@@ -354,11 +376,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
-                          child: const Icon(Icons.wine_bar),
+                          child: const Icon(
+                            Icons.wine_bar,
+                            color: AppColors.welcomeScreenBackgroundColor,
+                          ),
                           style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                  width: 0,
-                                  color: AppColors.mainAppSmallUsernameColor)),
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                     ],

@@ -46,19 +46,19 @@ class _AddPostState extends State<AddPost> {
                   ),
                   color: AppColors.userNameColor,
                 ),
-                width: 300,
+                width: 400,
                 height: 300,
                 child: Form(
                   key: _formKey,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: Wrap(runSpacing: 0, children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            focusedBorder: InputBorder.none),
-                        maxLines: 13,
-                      )
-                    ]),
+                    child: TextFormField(
+                      textInputAction: TextInputAction.done,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none),
+                      maxLines: 13,
+                    ),
                   ),
                 ),
               ),
@@ -78,17 +78,20 @@ class _AddPostState extends State<AddPost> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      fixedSize: const Size(250, 50),
                       elevation: 0,
-                      backgroundColor: AppColors.profileSettingButtonFillColor,
+                      backgroundColor: AppColors.sharePostColor,
                       side: BorderSide.none,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
                     ),
                   ),
                   const SizedBox(
-                    width: 50,
+                    width: 20,
                   ),
                 ],
               ),
-              const Spacer(),
+              const Spacer(flex: 2),
             ],
           ),
         ),
