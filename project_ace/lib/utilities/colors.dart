@@ -48,4 +48,13 @@ class AppColors {
   static const Color metaGoogleConnectButtonColor = Color(0xFFCDE8F4);
   static const Color deleteAccountButtonFillColor = Color(0xFF780000);
   static const Color deactivateAccountButtonFillColor = Color(0xFFFB8500);
+
+
+
+  //NOTIFICATION COLORS
+  static const Color decisionButtonColor = Color(0xFF88A0B1);
+  static const Color notificationIconColor = Color(0xFF003049); // shapes, appbar,text color as well.
+
+
+
 }

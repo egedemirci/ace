@@ -127,7 +127,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
             },
             icon: const Icon(
               Icons.notifications_active,
-              color: AppColors.bottomNavigationBarBackgroundColor,
+              color: AppColors.notificationIconColor,
             ),
           )
         ],
