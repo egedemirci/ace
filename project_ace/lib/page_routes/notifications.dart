@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import "package:project_ace/templates/notif.dart";
 import 'package:project_ace/utilities/colors.dart';
-import "package:google_fonts/google_fonts.dart";
+
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
