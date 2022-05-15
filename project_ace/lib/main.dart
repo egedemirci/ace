@@ -12,6 +12,7 @@ import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/page_routes/signup.dart';
+import 'package:project_ace/page_routes/walkthrough.dart';
 import 'package:project_ace/page_routes/welcome.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:project_ace/utilities/analytics.dart';
@@ -22,6 +23,7 @@ import 'package:project_ace/page_routes/homePage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +35,7 @@ void main() {
     OwnProfileView.routeName: (context) => const OwnProfileView(),
     ProfileSettings.routeName: (context) => const ProfileSettings(),
     NotificationScreen.routeName: (context) => const NotificationScreen(),
+    Walkthrough.routeName: (context) => const Walkthrough(),
   }));
 }
 

@@ -6,11 +6,13 @@ class PostCard extends StatelessWidget {
   final Post post;
   final VoidCallback incrementLikes;
   final VoidCallback decrementLikes;
+  final Image? image;
 
-  const PostCard(
+  PostCard(
       {required this.post,
       required this.incrementLikes,
-      required this.decrementLikes});
+      required this.decrementLikes,
+      this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class PostCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
                   child: CircleAvatar(
-                    backgroundColor: Colors.pink,
+                    backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     child: ClipOval(
                       child: Image.network(
                         "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png",
