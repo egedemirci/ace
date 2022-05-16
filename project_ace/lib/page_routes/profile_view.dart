@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
@@ -151,15 +152,13 @@ class _ProfileViewState extends State<ProfileView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  tooltip: "Feed",
+                  tooltip: "Messages",
                   iconSize: 40,
                   icon: const Icon(
                     Icons.email,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {
-                    // Navigator.pushNamedAndRemoveUntil(context, Feed.routeName, (route) => false);
-                  }),
+                  onPressed: () {}),
               const Spacer(),
               IconButton(
                   tooltip: "Search",
@@ -173,14 +172,15 @@ class _ProfileViewState extends State<ProfileView> {
                   }),
               const Spacer(),
               IconButton(
-                  tooltip: "Topics",
+                  tooltip: "Home",
                   iconSize: 40,
                   icon: const Icon(
-                    Icons.tag,
+                    Icons.home,
                     color: AppColors.userNameColor,
                   ),
                   onPressed: () {
-                    // Navigator.push(context, Topic.routeName);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Feed.routeName, (route) => false);
                   }),
               const Spacer(),
               IconButton(

@@ -171,16 +171,13 @@ class _OwnProfileViewState extends State<OwnProfileView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  tooltip: "Feed",
+                  tooltip: "Messages",
                   iconSize: 40,
                   icon: const Icon(
                     Icons.email,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Feed.routeName, (route) => false);
-                  }),
+                  onPressed: () {}),
               const Spacer(),
               IconButton(
                   tooltip: "Search",
@@ -194,14 +191,15 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                   }),
               const Spacer(),
               IconButton(
-                  tooltip: "Topics",
+                  tooltip: "Home",
                   iconSize: 40,
                   icon: const Icon(
-                    Icons.tag,
+                    Icons.home,
                     color: AppColors.userNameColor,
                   ),
                   onPressed: () {
-                    // Navigator.push(context, Topic.routeName);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Feed.routeName, (route) => false);
                   }),
               const Spacer(),
               IconButton(
