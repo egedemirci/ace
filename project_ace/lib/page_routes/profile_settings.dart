@@ -19,6 +19,7 @@ class ProfileSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: AppColors.profileScreenTextColor,
         title: const Text(
           'Profile Settings',
           style: TextStyle(
@@ -31,16 +32,6 @@ class ProfileSettings extends StatelessWidget {
         centerTitle: true,
         elevation: 0.0,
         toolbarHeight: 120.0,
-        leading: GestureDetector(
-          child: const Padding(
-            padding: EdgeInsets.all(24.0),
-            child: Icon(Icons.arrow_back_ios,
-                size: 36.0, color: AppColors.profileScreenTextColor),
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SafeArea(
