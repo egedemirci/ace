@@ -8,15 +8,16 @@ class Post {
   int likes;
   String fullName;
   String userName;
-  String imageSource;
+  String postImageSource;
+  String profileImageSource;
 
-  Post({
-    required this.text,
-    required this.fullName,
-    required this.likes,
-    required this.userName,
-    this.imageSource = "default",
-  });
+  Post(
+      {required this.text,
+      required this.fullName,
+      required this.likes,
+      required this.userName,
+      this.postImageSource = "default",
+      this.profileImageSource = "default"});
 }
 
 @JsonSerializable()

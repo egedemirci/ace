@@ -23,7 +23,7 @@ class ProfileSettings extends StatelessWidget {
         title: const Text(
           'Profile Settings',
           style: TextStyle(
-            fontSize: 36.0,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
             color: AppColors.profileScreenTextColor,
           ),

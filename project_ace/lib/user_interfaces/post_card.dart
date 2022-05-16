@@ -28,14 +28,23 @@ class PostCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
-                    child: ClipOval(
-                      child: Image.network(
-                        "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png",
-                        fit: BoxFit.fitHeight,
-                        height: 30,
-                        width: 30,
-                      ),
-                    ),
+                    child: post.profileImageSource != "default"
+                        ? ClipRect(
+                            child: Image.network(
+                              post.profileImageSource,
+                              width: double.infinity,
+                              height: 250,
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )
+                        : ClipRect(
+                            child: Image.network(
+                              "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
+                              width: double.infinity,
+                              height: 250,
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
                     radius: 15,
                   ),
                 ),
@@ -82,15 +91,19 @@ class PostCard extends StatelessWidget {
               ],
             ),
             Center(
-              child: post.imageSource != "default"
+              child: post.postImageSource != "default"
                   ? ClipRect(
                       child: Image.network(
-                        post.imageSource,
-                        width: 100,
-                        height: 100,
+                        post.postImageSource,
+                        width: double.infinity,
+                        height: 250,
+                        fit: BoxFit.fitHeight,
                       ),
                     )
                   : Container(),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             const Divider(
                 height: 10,

@@ -23,7 +23,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         type: false,
         userName: "harrymaguire"),
     AppNotification(
-        text: "want to follow you!",
+        text: "wants to follow you!",
         icon: const Icon(
           Icons.person_add_alt_1_rounded,
           size: 50.0,
