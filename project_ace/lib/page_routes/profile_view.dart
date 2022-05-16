@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -153,7 +154,7 @@ class _ProfileViewState extends State<ProfileView> {
                     color: AppColors.userNameColor,
                   ),
                   onPressed: () {
-                    // Navigator.push(context, Search.routeName);
+                    Navigator.pushNamed(context, Search.routeName);;
                   }),
               const Spacer(),
               IconButton(

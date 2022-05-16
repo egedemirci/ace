@@ -14,6 +14,8 @@ class AppColors {
   static const Color loginPageTextColor = Color(0xFFCDE8F4);
   // Sign Up
   static const Color signUpScreenBackgroundColor = Color(0xFFCDE8F4);
+  static const Color searchScreenBackground = Color(0xFFF7FDFF);
+
   static const Color signUpTextColor = Color(0xFF003049);
   static const Color signUpButtonBackgroundColor = Color(0xFF003049);
   static const Color signUpButtonTextColor = Color(0xFFFBBC05);

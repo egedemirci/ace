@@ -12,9 +12,11 @@ import 'package:project_ace/page_routes/notifications.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/page_routes/walkthrough.dart';
 import 'package:project_ace/page_routes/welcome.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:project_ace/utilities/analytics.dart';
 import 'package:project_ace/utilities/bloc_observer.dart';
@@ -38,6 +40,7 @@ void main() {
     NotificationScreen.routeName: (context) => const NotificationScreen(),
     Walkthrough.routeName: (context) => const Walkthrough(),
     Feed.routeName: (context) => const Feed(),
+    Search.routeName: (context) => const Search(),
   }));
 }
 
