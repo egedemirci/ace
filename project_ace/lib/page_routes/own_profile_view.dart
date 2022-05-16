@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
@@ -23,7 +24,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
         text: "Hello man I fucking hate Harry Maguire",
         fullName: "Efe Tuzun",
         likes: 128,
-        userName: "efetuzun"),
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
     Post(
         text: "Hello man my dick is very long. Looking for sexual partners.",
         fullName: "Efe Tuzun",
@@ -33,7 +36,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
         text: "Hello man",
         fullName: "Efe Tuzun",
         likes: 128,
-        userName: "efetuzun"),
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
+    Post(
+        text: "Hello man",
+        fullName: "Efe Tuzun",
+        likes: 128,
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
     Post(
         text: "Hello man",
         fullName: "Efe Tuzun",
@@ -48,12 +60,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
         text: "Hello man",
         fullName: "Efe Tuzun",
         likes: 128,
-        userName: "efetuzun"),
-    Post(
-        text: "Hello man",
-        fullName: "Efe Tuzun",
-        likes: 128,
-        userName: "efetuzun"),
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
     Post(
         text: "Hello man",
         fullName: "Efe Tuzun",
@@ -169,7 +178,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     color: AppColors.userNameColor,
                   ),
                   onPressed: () {
-                    // Navigator.pushNamedAndRemoveUntil(context, Feed.routeName, (route) => false);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Feed.routeName, (route) => false);
                   }),
               const Spacer(),
               IconButton(
@@ -396,12 +406,6 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                   children: posts
                       .map((post) => PostCard(
                             post: post,
-                            decrementLikes: () {
-                              _decrementLikes(post);
-                            },
-                            incrementLikes: () {
-                              _incrementLikes(post);
-                            },
                           ))
                       .toList(),
                 ),

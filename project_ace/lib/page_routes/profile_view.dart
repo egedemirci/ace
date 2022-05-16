@@ -23,7 +23,9 @@ class _ProfileViewState extends State<ProfileView> {
         text: "Hello man I fucking hate Harry Maguire",
         fullName: "Efe Tuzun",
         likes: 128,
-        userName: "efetuzun"),
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
     Post(
         text: "Hello man my dick is very long. Looking for sexual partners.",
         fullName: "Efe Tuzun",
@@ -33,7 +35,16 @@ class _ProfileViewState extends State<ProfileView> {
         text: "Hello man",
         fullName: "Efe Tuzun",
         likes: 128,
-        userName: "efetuzun"),
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
+    Post(
+        text: "Hello man",
+        fullName: "Efe Tuzun",
+        likes: 128,
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
     Post(
         text: "Hello man",
         fullName: "Efe Tuzun",
@@ -48,12 +59,9 @@ class _ProfileViewState extends State<ProfileView> {
         text: "Hello man",
         fullName: "Efe Tuzun",
         likes: 128,
-        userName: "efetuzun"),
-    Post(
-        text: "Hello man",
-        fullName: "Efe Tuzun",
-        likes: 128,
-        userName: "efetuzun"),
+        userName: "efetuzun",
+        imageSource:
+            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
     Post(
         text: "Hello man",
         fullName: "Efe Tuzun",
@@ -392,12 +400,6 @@ class _ProfileViewState extends State<ProfileView> {
                   children: posts
                       .map((post) => PostCard(
                             post: post,
-                            decrementLikes: () {
-                              _decrementLikes(post);
-                            },
-                            incrementLikes: () {
-                              _incrementLikes(post);
-                            },
                           ))
                       .toList(),
                 ),

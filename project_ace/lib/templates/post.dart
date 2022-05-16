@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/material.dart';
 
 part 'post.g.dart';
 
@@ -7,12 +8,14 @@ class Post {
   int likes;
   String fullName;
   String userName;
+  String imageSource;
 
   Post({
     required this.text,
     required this.fullName,
     required this.likes,
     required this.userName,
+    this.imageSource = "default",
   });
 }
 

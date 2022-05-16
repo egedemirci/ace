@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/notifications.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
@@ -36,6 +37,7 @@ void main() {
     ProfileSettings.routeName: (context) => const ProfileSettings(),
     NotificationScreen.routeName: (context) => const NotificationScreen(),
     Walkthrough.routeName: (context) => const Walkthrough(),
+    Feed.routeName: (context) => const Feed(),
   }));
 }
 

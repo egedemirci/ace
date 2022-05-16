@@ -4,15 +4,8 @@ import 'package:project_ace/utilities/colors.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;
-  final VoidCallback incrementLikes;
-  final VoidCallback decrementLikes;
-  final Image? image;
 
-  PostCard(
-      {required this.post,
-      required this.incrementLikes,
-      required this.decrementLikes,
-      this.image});
+  const PostCard({required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +80,17 @@ class PostCard extends StatelessWidget {
                   style: const TextStyle(fontSize: 10),
                 )
               ],
+            ),
+            Center(
+              child: post.imageSource != "default"
+                  ? ClipRect(
+                      child: Image.network(
+                        post.imageSource,
+                        width: 100,
+                        height: 100,
+                      ),
+                    )
+                  : Container(),
             ),
             const Divider(
                 height: 10,
