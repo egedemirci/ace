@@ -21,14 +21,14 @@ class _OwnProfileViewState extends State<OwnProfileView> {
 
   List<Post> posts = [
     Post(
-        text: "Hello man I fucking hate Harry Maguire",
+        text: "Hello man I hate Harry Maguire",
         fullName: "Efe Tuzun",
         likes: 128,
         userName: "efetuzun",
         imageSource:
             "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png"),
     Post(
-        text: "Hello man my dick is very long. Looking for sexual partners.",
+        text: "Hello my dear friends. I am very lucky today.",
         fullName: "Efe Tuzun",
         likes: 128,
         userName: "efetuzun"),
