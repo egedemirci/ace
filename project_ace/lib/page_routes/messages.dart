@@ -175,19 +175,12 @@ class _MessageScreenState extends State<MessageScreen> {
 
                             Text(
                               "${myMessage.fullName} ",
-                              style: GoogleFonts.montserrat(
-                                  color: AppColors.notificationIconColor,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold
-                              ),
+                              style: Styles.messageUserRealName,
                             ),
                             const SizedBox(width: 5,),
                             Text(
                               "@${myMessage.userName} ",
-                              style: GoogleFonts.montserrat(
-                                color: AppColors.notificationIconColor,
-                                fontSize: 15,
-                              ),
+                              style: Styles.messageUserName,
                             ),
 
                           ],
@@ -198,10 +191,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         margin: const EdgeInsets.only(left: 8.0),
                         child: Text(
                           "${"Hi, how are u? i hope you are fine."} ",
-                          style: GoogleFonts.montserrat(
-                            color: AppColors.notificationIconColor,
-                            fontSize: 15,
-                          ),
+                          style: Styles.messageText,
                         ),
 
                       ),
