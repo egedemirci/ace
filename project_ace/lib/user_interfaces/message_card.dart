@@ -1,49 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-
 class MessageCard extends StatelessWidget {
-  final Message message;
-  final bool isMe;
-
-  const MessageCard({required this.message, required this.isMe});
+  final Message myMessage;
+  const MessageCard({required this.myMessage});
 
   @override
   Widget build(BuildContext context) {
-    const radius = Radius.circular(12);
-    const borderRadius = BorderRadius.all(radius);
-
-    return Row(
-      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: <Widget>[
-        if (!isMe)
-          CircleAvatar(
-              radius: 16, backgroundImage: NetworkImage(message.urlAvatar)),
-        Container(
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.all(16),
-          constraints: const BoxConstraints(maxWidth: 250),
-          decoration: BoxDecoration(
-            color: isMe ? AppColors.messagesFromUserFillColor : AppColors.messagesToUserFillColor,
-            borderRadius: isMe
-                ? borderRadius.subtract(const BorderRadius.only(bottomRight: radius))
-                : borderRadius.subtract(const BorderRadius.only(bottomLeft: radius)),
+    return Card(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+              top: Radius.zero, bottom: Radius.circular(0))),
+      color: AppColors.profileScreenBackgroundColor,
+      elevation: 0,
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, ChatPage.routeName);
+            },
+            child: Row(
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                //photo
+                CircleAvatar(
+                  foregroundColor: AppColors.notificationIconColor,
+                  backgroundColor: AppColors.profileScreenBackgroundColor,
+                  child: ClipOval(child: Image.network(myMessage.urlAvatar)),
+                  radius: 50,
+                ),
+                //text ve name
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${myMessage.fullName} ",
+                            style: messageUserRealName,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "@${myMessage.username} ",
+                            style: messageUserName,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 8.0),
+                      constraints: const BoxConstraints(maxWidth: 270),
+                      child: Column(
+                        children: [
+                          Text(
+                            "${myMessage.message} ",
+                            style: messageText,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          child: Column(
-            crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                message.message,
-                style: isMe ?  chatMessagesSent : chatMessagesTaken,
-                textAlign: TextAlign.start,
-              ),
-            ],
+          const Divider(
+            thickness: 1.0,
+            color: AppColors.notificationIconColor,
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
