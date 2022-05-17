@@ -25,14 +25,14 @@ class _MessageScreenState extends State<MessageScreen> {
         message:
             "Hey Furkan, how you doing. Did you watch the court??",
         fullName: "Johhny Depp",
-        urlAvatar: "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
+        urlAvatar: "https://i.hizliresim.com/kj4mtxc.png",
         username: "johnnydepp",
         createdAt: DateTime.now()),
     Message(
         idUser: "151764433aed7f5e87ade71f137b431b",
         message:
         "Morbi placerat laoreet magna, ",
-        urlAvatar: "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg",
+        urlAvatar: "https://i.hizliresim.com/76b0p2k.png",
         createdAt: DateTime.now(),
         fullName: "Efe Tuzun",
         username: "tuzun"),
@@ -41,7 +41,7 @@ class _MessageScreenState extends State<MessageScreen> {
         message:
             "Arcu luctus eget. Nullam vitae blandit ipsum",
         fullName: "Taner Sonmez",
-        urlAvatar: "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg",
+        urlAvatar: "https://i.hizliresim.com/gb3ufib.png",
         createdAt: DateTime.now(),
         username: "taners"),
     Message(
@@ -50,7 +50,7 @@ class _MessageScreenState extends State<MessageScreen> {
             "Praesent cursus nulla a mi eleifend, ",
         fullName: "Ege Demirci",
         urlAvatar:
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg",
+        "https://i.hizliresim.com/g1vzh7n.png",
         createdAt: DateTime.now(),
         username: "ege.demirci"),
   ];
