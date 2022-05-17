@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/notifications.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
@@ -27,7 +28,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(home: MyFirebaseApp(), routes: {
@@ -41,6 +41,8 @@ void main() {
     Walkthrough.routeName: (context) => const Walkthrough(),
     Feed.routeName: (context) => const Feed(),
     Search.routeName: (context) => const Search(),
+    MessageScreen.routeName: (context) => const MessageScreen(),
+
   }));
 }
 

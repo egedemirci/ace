@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
+import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/templates/post.dart';
@@ -139,7 +140,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     Icons.email,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.pushNamed(context, MessageScreen.routeName);
+                  }),
               const Spacer(),
               IconButton(
                   tooltip: "Search",
