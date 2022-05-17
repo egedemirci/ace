@@ -22,6 +22,7 @@ class _ChatPageState extends State<ChatPage> {
 
   List<Message> messages = [
     Message(
+      fullName: "Johnny Depp",
       idUser: "119fa058e5b43d7955af3c6d58d43782",
       urlAvatar: "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
       message: "Hey Furkan, how you doing. Did you watch the court??",
@@ -29,6 +30,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.parse('2022-05-17 11:41:04Z'),
     ),
     Message(
+      fullName: "me",
       idUser: "435e0648d634175c46bd40ac366545a8",
       urlAvatar: "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
       message: "Hi Johnny, I am great.",
@@ -36,6 +38,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.parse('2022-05-17 11:42:04Z'),
     ),
     Message(
+      fullName: "me",
       idUser: "435e0648d634175c46bd40ac366545a8",
       urlAvatar: "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
       message: "Unfortunately yes. Is it true what Amber told the court?",
@@ -43,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.parse('2022-05-17 11:43:04Z'),
     ),
     Message(
+      fullName: "Johnny Depp",
       idUser: "119fa058e5b43d7955af3c6d58d43782",
       urlAvatar: "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
       message: "Some of them.",
@@ -50,6 +54,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.parse('2022-05-17 11:44:04Z'),
     ),
     Message(
+      fullName: "Johnny Depp",
       idUser: "119fa058e5b43d7955af3c6d58d43782",
       urlAvatar: "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
       message: "But believe me she is an evil!!",
@@ -57,6 +62,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.parse('2022-05-17 11:44:04Z'),
     ),
     Message(
+      fullName: "me",
       idUser: "435e0648d634175c46bd40ac366545a8",
       urlAvatar: "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
       message: "I know man",
@@ -64,6 +70,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.parse('2022-05-17 11:43:04Z'),
     ),
     Message(
+      fullName: "me",
       idUser: "435e0648d634175c46bd40ac366545a8",
       urlAvatar: "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
       message: "Take care",
@@ -83,6 +90,7 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       FocusScope.of(context).unfocus();
       listMessages.add(Message(
+        fullName: "me",
         idUser: "435e0648d634175c46bd40ac366545a8",
         urlAvatar: "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
         username: myUsername,

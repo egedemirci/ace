@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_ace/page_routes/search.dart';
@@ -20,33 +21,38 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   List<Message> allMessages = [
     Message(
-        text:
-            "Duis ultricies velit ut justo egestas, quis maximus nibh ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non porta urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam et nisi quis neque elementum cursus eget eget metus. Duis sodales, enim ut finibus.",
-        fullName: "Furkan Un",
-        profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
-        userName: "fun"),
+        idUser: "77004ea213d5fc71acf74a8c9c6795fb",
+        message:
+            "Hey Furkan, how you doing. Did you watch the court??",
+        fullName: "Johhny Depp",
+        urlAvatar: "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
+        username: "johnnydepp",
+        createdAt: DateTime.now()),
     Message(
-        text:
-            "Morbi placerat laoreet magna, at feugiat elit tempor eu. Duis ut mattis nisi. Donec commodo purus at mollis lacinia. Proin porttitor congue ipsum eu finibus.",
+        idUser: "151764433aed7f5e87ade71f137b431b",
+        message:
+        "Morbi placerat laoreet magna, ",
+        urlAvatar: "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg",
+        createdAt: DateTime.now(),
         fullName: "Efe Tuzun",
-        profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
-        userName: "tuzun"),
+        username: "tuzun"),
     Message(
-        text:
-            "Arcu luctus eget. Nullam vitae blandit ipsum, vel tristique est. Maecenas pharetra orci sed convallis aliquam. Duis laoreet aliquam sagittis. Nunc vel lectus placerat, accumsan nibh sed, pretium justo.",
+        idUser: "d081598884ac423febff5056e123279d",
+        message:
+            "Arcu luctus eget. Nullam vitae blandit ipsum",
         fullName: "Taner Sonmez",
-        profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
-        userName: "taners"),
+        urlAvatar: "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg",
+        createdAt: DateTime.now(),
+        username: "taners"),
     Message(
-        text:
-            "Praesent cursus nulla a mi eleifend, quis ornare enim semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+        idUser: "542c6a9d5fbc72218ce9ae8014dfd90b",
+        message:
+            "Praesent cursus nulla a mi eleifend, ",
         fullName: "Ege Demirci",
-        profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
-        userName: "ege.demirci"),
+        urlAvatar:
+            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg",
+        createdAt: DateTime.now(),
+        username: "ege.demirci"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -161,7 +167,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             foregroundColor: AppColors.notificationIconColor,
                             backgroundColor:
                                 AppColors.profileScreenBackgroundColor,
-                            child: ClipOval(child: myMessage.profilePicture),
+                            child: ClipOval(child: Image.network( myMessage.urlAvatar)),
                             radius: 50,
                           ),
                           //text ve name
@@ -180,7 +186,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                       width: 5,
                                     ),
                                     Text(
-                                      "@${myMessage.userName} ",
+                                      "@${myMessage.username} ",
                                       style: messageUserName,
                                     ),
                                   ],
@@ -188,11 +194,17 @@ class _MessageScreenState extends State<MessageScreen> {
                               ),
                               Container(
                                 margin: const EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  "${"Hi, how are u? i hope you are fine."} ",
-                                  style: messageText,
+                                  constraints: const BoxConstraints(maxWidth: 270),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "${myMessage.message} ",
+                                        style: messageText,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
+
                               Container(
                                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                                 width: MediaQuery.of(context).size.width / 1.5,

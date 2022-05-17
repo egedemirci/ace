@@ -37,7 +37,7 @@ class MessageCard extends StatelessWidget {
             children: <Widget>[
               Text(
                 message.message,
-                style: isMe ?  ChatMessagesSent : ChatMessagesTaken,
+                style: isMe ?  chatMessagesSent : chatMessagesTaken,
                 textAlign: TextAlign.start,
               ),
             ],
