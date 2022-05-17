@@ -8,6 +8,7 @@ import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class OwnProfileView extends StatefulWidget {
   const OwnProfileView({Key? key}) : super(key: key);
@@ -62,30 +63,6 @@ class _OwnProfileViewState extends State<OwnProfileView> {
             "https://img.fanatik.com.tr/img/78/740x418/610c6938ae298b8328517710.jpg"),
   ];
 
-  void _incrementLikes(Post post) {
-    setState(() {
-      post.likes++;
-    });
-  }
-
-  void _decrementLikes(Post post) {
-    setState(() {
-      post.likes--;
-    });
-  }
-
-  void addUserComment(Post post) {
-    print('User would like to add a comment to this post!');
-  }
-
-  void followUser() {
-    print('You would like to follow this user, he?');
-  }
-
-  void messageUser() {
-    print('Would you really like to message this user?');
-  }
-
   String userName = "userName";
 
   @override
@@ -104,11 +81,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
             const Spacer(),
             Text(
               '@$userName',
-              style: const TextStyle(
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold,
-                color: AppColors.profileScreenTextColor,
-              ),
+              style: profileViewHeader,
             ),
             const Spacer(),
             IconButton(
@@ -185,10 +158,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     Icons.person_outline,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, OwnProfileView.routeName, (route) => false);
-                  }),
+                  onPressed: () {}),
             ],
           ),
         ),
@@ -197,7 +167,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(4.0),
             child: Column(
               children: [
                 Row(
@@ -205,7 +175,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: CircleAvatar(
                         backgroundColor: AppColors.welcomeScreenBackgroundColor,
                         child: ClipOval(
@@ -219,61 +189,49 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                           child: Text(
                             '###',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                            style: postsFollowersFollowingsCounts,
                           ),
                         ),
                         Text(
                           'Posts',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: postsFollowersFollowings,
                         )
                       ],
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                           child: Text(
                             '###',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                            style: postsFollowersFollowingsCounts,
                           ),
                         ),
                         Text(
                           'Followers',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: postsFollowersFollowings,
                         )
                       ],
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                           child: Text(
                             '###',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                            style: postsFollowersFollowingsCounts,
                           ),
                         ),
                         Text(
                           'Following',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: postsFollowersFollowings,
                         )
                       ],
                     ),
@@ -288,26 +246,32 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextButton.icon(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, ProfileSettings.routeName);
-                                },
-                                icon: const Icon(
-                                  Icons.settings,
-                                  color: AppColors.welcomeScreenBackgroundColor,
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color:
+                                      AppColors.profileSettingButtonFillColor,
                                 ),
-                                label: const Text(
-                                  "Profile Settings",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color:
-                                        AppColors.welcomeScreenBackgroundColor,
+                                width: 300,
+                                height: 60,
+                                child: TextButton.icon(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, ProfileSettings.routeName);
+                                  },
+                                  icon: const Icon(
+                                    Icons.settings,
+                                    color: AppColors
+                                        .profileSettingsButtonIconColor,
+                                  ),
+                                  label: Text(
+                                    "Profile Settings",
+                                    style: profileViewProfileSettingsButton,
                                   ),
                                 ),
                               ),
@@ -318,18 +282,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     )
                   ],
                 ),
-                const Divider(
-                  color: Colors.blueGrey,
-                  thickness: 2.0,
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 40,
+                Container(
+                  decoration: const BoxDecoration(
+                    color: AppColors.profileImageTextPostViewButton,
+                  ),
+                  width: double.infinity,
+                  height: 50,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                        flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
                           child: const Icon(
@@ -343,14 +305,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                       const Padding(
                         padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
                         child: VerticalDivider(
-                            color: Colors.blueGrey, thickness: 4, width: 10),
+                            color: AppColors.welcomeScreenBackgroundColor,
+                            thickness: 2,
+                            width: 10),
                       ),
                       Expanded(
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
                           child: const Icon(
-                            Icons.wine_bar,
+                            Icons.text_fields,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
                           style: OutlinedButton.styleFrom(
@@ -360,10 +324,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     ],
                   ),
                 ),
-                const Divider(
-                  color: Colors.blueGrey,
-                  thickness: 2.0,
-                  height: 20,
+                const SizedBox(
+                  height: 10,
                 ),
                 Column(
                   children: posts

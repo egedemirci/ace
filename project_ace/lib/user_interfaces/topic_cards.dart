@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 import '../templates/topic.dart';
 
@@ -27,14 +28,14 @@ class TopicCard extends StatelessWidget {
               children: [
                 Text(
                   topic.text,
-                  style: const TextStyle(fontSize: 20),
+                  style: searchTopicText,
                 ),
                 const SizedBox(width: 6),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0,13,0,0),
-              child: const Divider(
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 13, 0, 0),
+              child: Divider(
                   height: 10,
                   thickness: 1,
                   color: AppColors.welcomeScreenBackgroundColor),

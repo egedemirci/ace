@@ -12,6 +12,7 @@ import 'package:project_ace/utilities/screen_sizes.dart';
 import "package:project_ace/utilities/api.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -171,11 +172,14 @@ SingleChildScrollView(reverse: true)
                       enableSuggestions: false,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        labelStyle: const TextStyle(
-                            color: AppColors.loginFormTextColor),
                         label: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [Text("e-mail")],
+                          children: [
+                            Text(
+                              "e-mail",
+                              style: loginForm,
+                            )
+                          ],
                         ),
                         fillColor: AppColors.loginFormBackgroundColor,
                         filled: true,
@@ -201,11 +205,14 @@ SingleChildScrollView(reverse: true)
                       obscureText: true,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        labelStyle: const TextStyle(
-                            color: AppColors.loginFormTextColor),
                         label: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [Text("password")],
+                          children: [
+                            Text(
+                              "password",
+                              style: loginForm,
+                            )
+                          ],
                         ),
                         fillColor: AppColors.loginFormBackgroundColor,
                         filled: true,
@@ -242,12 +249,9 @@ SingleChildScrollView(reverse: true)
                           'Form Error', "Your email or password is invalid!");
                     }
                   },
-                  child: const Text(
+                  child: Text(
                     "LOG IN",
-                    style: TextStyle(
-                      color: AppColors.loginSignupButtonTextColor,
-                      fontSize: 20,
-                    ),
+                    style: loginSignUpButton,
                   ),
                   style: OutlinedButton.styleFrom(
                     backgroundColor: AppColors.loginSignupButtonBackgroundColor,
@@ -257,10 +261,9 @@ SingleChildScrollView(reverse: true)
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
+                Text(
                   "OR CONNECT WITH",
-                  style: TextStyle(
-                      color: AppColors.loginPageTextColor, fontSize: 12),
+                  style: loginPageText,
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -286,12 +289,9 @@ SingleChildScrollView(reverse: true)
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   "NEED ACCOUNT?",
-                  style: TextStyle(
-                    color: AppColors.loginPageTextColor,
-                    fontSize: 12,
-                  ),
+                  style: loginPageText,
                 ),
                 const SizedBox(height: 20),
                 OutlinedButton(
@@ -299,11 +299,9 @@ SingleChildScrollView(reverse: true)
                     Navigator.pushNamedAndRemoveUntil(
                         context, SignUp.routeName, (route) => false);
                   },
-                  child: const Text(
+                  child: Text(
                     "SIGN UP",
-                    style: TextStyle(
-                        color: AppColors.welcomeScreenBackgroundColor,
-                        fontSize: 20),
+                    style: loginSignUpButton,
                   ),
                   style: OutlinedButton.styleFrom(
                     backgroundColor: AppColors.loginSignupButtonBackgroundColor,

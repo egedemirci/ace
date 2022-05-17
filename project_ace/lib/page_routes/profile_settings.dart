@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class ProfileSettings extends StatelessWidget {
   const ProfileSettings({Key? key}) : super(key: key);
@@ -20,23 +21,18 @@ class ProfileSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
-        title: const Text(
+        title: Text(
           'Profile Settings',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: AppColors.profileScreenTextColor,
-          ),
+          style: profileSettingsHeader,
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
         centerTitle: true,
         elevation: 0.0,
-        toolbarHeight: 120.0,
       ),
       backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(48.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -45,11 +41,9 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: changePassword,
-                  child: const Text(
+                  child: Text(
                     'Change password',
-                    style: TextStyle(
-                        color: AppColors.profileScreenTextColor,
-                        fontSize: 24.0),
+                    style: profileSettingsChangeButton,
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
@@ -62,11 +56,9 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: editBio,
-                  child: const Text(
+                  child: Text(
                     'Edit bio',
-                    style: TextStyle(
-                        color: AppColors.profileScreenTextColor,
-                        fontSize: 24.0),
+                    style: profileSettingsChangeButton,
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
@@ -79,11 +71,9 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: changeProfilePicture,
-                  child: const Text(
+                  child: Text(
                     'Change profile picture',
-                    style: TextStyle(
-                        color: AppColors.profileScreenTextColor,
-                        fontSize: 24.0),
+                    style: profileSettingsChangeButton,
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
@@ -96,9 +86,9 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: deactivateAccount,
-                  child: const Text(
+                  child: Text(
                     'Deactivate account',
-                    style: TextStyle(fontSize: 24.0),
+                    style: profileSettingsDeactivateAndDelete,
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.deactivateAccountButtonFillColor,
@@ -111,9 +101,9 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: deleteAccount,
-                  child: const Text(
+                  child: Text(
                     'Delete account',
-                    style: TextStyle(fontSize: 24.0),
+                    style: profileSettingsDeactivateAndDelete,
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.deleteAccountButtonFillColor,

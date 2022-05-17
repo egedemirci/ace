@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -25,40 +26,34 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
+                  padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     child: post.profileImageSource != "default"
-                        ? ClipRect(
+                        ? ClipOval(
                             child: Image.network(
                               post.profileImageSource,
-                              width: double.infinity,
-                              height: 250,
-                              fit: BoxFit.fitHeight,
                             ),
                           )
-                        : ClipRect(
+                        : ClipOval(
                             child: Image.network(
                               "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
-                              width: double.infinity,
-                              height: 250,
-                              fit: BoxFit.fitHeight,
                             ),
                           ),
-                    radius: 15,
+                    radius: 20,
                   ),
                 ),
                 // TODO: Add the correct text style here
                 Text(
                   post.fullName,
-                  style: const TextStyle(fontSize: 10),
+                  style: postCardUserRealName,
                 ),
                 const SizedBox(width: 6),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                   child: Text(
                     "@${post.userName}",
-                    style: const TextStyle(fontSize: 8),
+                    style: postCardUserName,
                   ),
                 ),
               ],
@@ -71,7 +66,7 @@ class PostCard extends StatelessWidget {
                   child: Text(
                     post.text,
                     maxLines: 3,
-                    style: const TextStyle(fontSize: 15),
+                    style: postText,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -80,13 +75,13 @@ class PostCard extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.thumb_up_alt_outlined),
                     onPressed: () {},
-                    iconSize: 10,
-                    splashRadius: 10,
+                    iconSize: 20,
+                    splashRadius: 20,
                   ),
                 ),
                 Text(
                   "${post.likes}",
-                  style: const TextStyle(fontSize: 10),
+                  style: const TextStyle(fontSize: 14),
                 )
               ],
             ),
@@ -96,7 +91,7 @@ class PostCard extends StatelessWidget {
                       child: Image.network(
                         post.postImageSource,
                         width: double.infinity,
-                        height: 250,
+                        height: 200,
                         fit: BoxFit.fitHeight,
                       ),
                     )

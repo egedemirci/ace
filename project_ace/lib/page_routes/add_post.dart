@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -15,25 +16,22 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          toolbarHeight: 80,
-          elevation: 0,
-          centerTitle: true,
-          foregroundColor: AppColors.welcomeScreenBackgroundColor,
-          title: const Text(
-            "Add New Post",
-            style: TextStyle(
-              color: AppColors.welcomeScreenBackgroundColor,
-              fontSize: 25,
-            ),
-          ),
-          backgroundColor: AppColors.profileScreenBackgroundColor,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        toolbarHeight: 80,
+        elevation: 0,
+        centerTitle: true,
+        foregroundColor: AppColors.welcomeScreenBackgroundColor,
+        title: Text(
+          "Add New Post",
+          style: addPostTitle,
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
-        body: Padding(
+      ),
+      backgroundColor: AppColors.profileScreenBackgroundColor,
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
@@ -70,12 +68,9 @@ class _AddPostState extends State<AddPost> {
                 children: [
                   OutlinedButton(
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       "Ace!",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: AppColors.profileScreenBackgroundColor,
-                      ),
+                      style: aceButton,
                     ),
                     style: OutlinedButton.styleFrom(
                       fixedSize: const Size(250, 50),
@@ -95,43 +90,43 @@ class _AddPostState extends State<AddPost> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: AppColors.userNameColor,
-          elevation: 0,
-          child: SizedBox(
-            width: 20,
-            height: 80,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.camera_alt_rounded,
-                        size: 30,
-                      )),
-                  const Spacer(),
-                  const SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: VerticalDivider(
-                      width: 0,
-                      thickness: 3,
-                      color: AppColors.postTextColor,
-                    ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: AppColors.userNameColor,
+        elevation: 0,
+        child: SizedBox(
+          width: 20,
+          height: 80,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Spacer(),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.camera_alt_rounded,
+                      size: 30,
+                    )),
+                const Spacer(),
+                const SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: VerticalDivider(
+                    width: 0,
+                    thickness: 3,
+                    color: AppColors.postTextColor,
                   ),
-                  const Spacer(),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.text_fields,
-                        size: 30,
-                      )),
-                  const Spacer(),
-                ],
-              ),
+                ),
+                const Spacer(),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.text_fields,
+                      size: 30,
+                    )),
+                const Spacer(),
+              ],
             ),
           ),
         ),

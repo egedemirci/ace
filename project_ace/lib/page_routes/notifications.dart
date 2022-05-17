@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import 'package:google_fonts/google_fonts.dart';
 import "package:project_ace/templates/notif.dart";
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -57,10 +57,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         elevation: 0,
         title: Text(
           "NOTIFICATIONS",
-          style: GoogleFonts.montserrat(
-            color: AppColors.notificationIconColor,
-            fontWeight: FontWeight.bold,
-          ),
+          style: notificationsHeader,
         ),
         centerTitle: true,
         backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -102,10 +99,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       const EdgeInsets.fromLTRB(0, 1, 0, 0),
                                   child: Text(
                                     "@${myNotification.userName} ",
-                                    style: GoogleFonts.montserrat(
-                                      color: AppColors.notificationIconColor,
-                                      fontSize: 15,
-                                    ),
+                                    style: notificationText,
                                   ),
                                 ),
                                 Padding(
@@ -115,10 +109,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     Text(
                                       myNotification.text,
                                       maxLines: 3,
-                                      style: GoogleFonts.montserrat(
-                                        color: AppColors.notificationIconColor,
-                                        fontSize: 15,
-                                      ),
+                                      style: notificationText,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ]),
@@ -129,7 +120,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             //print(myNotification.type);
                             //myNotification.type ? OutlinedButton(onPressed: (){}, child: Text("Accept!")):Text("a") ,
                             //OutlinedButton(onPressed: (){}, child: Text("Reject!")),
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -139,16 +129,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 Visibility(
                                   child: OutlinedButton(
                                     onPressed: () {},
-                                    child: const Text(
+                                    child: Text(
                                       "Accept!",
-                                      style: TextStyle(fontSize: 10),
+                                      style: acceptAndReject,
                                     ),
                                     style: OutlinedButton.styleFrom(
                                         primary: AppColors
                                             .profileSettingsButtonTextColor,
                                         backgroundColor:
                                             AppColors.decisionButtonColor,
-                                        fixedSize: const Size(70, 8)),
+                                        fixedSize: const Size(80, 8)),
                                   ),
                                   visible: myNotification.type,
                                 ),
@@ -158,14 +148,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 Visibility(
                                   child: OutlinedButton(
                                     onPressed: () {},
-                                    child: const Text("Reject!",
-                                        style: TextStyle(fontSize: 10)),
+                                    child:
+                                        Text("Reject!", style: acceptAndReject),
                                     style: OutlinedButton.styleFrom(
                                         primary: AppColors
                                             .profileSettingsButtonTextColor,
                                         backgroundColor:
                                             AppColors.decisionButtonColor,
-                                        fixedSize: const Size(70, 8)),
+                                        fixedSize: const Size(80, 8)),
                                   ),
                                   visible: myNotification.type,
                                 ),

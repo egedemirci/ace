@@ -23,11 +23,12 @@ import 'package:project_ace/utilities/analytics.dart';
 import 'package:project_ace/utilities/bloc_observer.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:project_ace/page_routes/homePage.dart';
+import 'package:project_ace/page_routes/home_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(home: MyFirebaseApp(), routes: {
@@ -42,7 +43,6 @@ void main() {
     Feed.routeName: (context) => const Feed(),
     Search.routeName: (context) => const Search(),
     MessageScreen.routeName: (context) => const MessageScreen(),
-
   }));
 }
 

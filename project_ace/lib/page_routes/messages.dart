@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 import "package:project_ace/templates/message.dart";
@@ -7,8 +8,6 @@ import "package:project_ace/templates/message.dart";
 import 'add_post.dart';
 import 'feed.dart';
 import 'own_profile_view.dart';
-
-
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({Key? key}) : super(key: key);
@@ -21,26 +20,33 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   List<Message> allMessages = [
     Message(
-        text: "Duis ultricies velit ut justo egestas, quis maximus nibh ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non porta urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam et nisi quis neque elementum cursus eget eget metus. Duis sodales, enim ut finibus.",
+        text:
+            "Duis ultricies velit ut justo egestas, quis maximus nibh ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non porta urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam et nisi quis neque elementum cursus eget eget metus. Duis sodales, enim ut finibus.",
         fullName: "Furkan Un",
-        profilePicture: Image.network("https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+        profilePicture: Image.network(
+            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
         userName: "fun"),
     Message(
-        text: "Morbi placerat laoreet magna, at feugiat elit tempor eu. Duis ut mattis nisi. Donec commodo purus at mollis lacinia. Proin porttitor congue ipsum eu finibus.",
+        text:
+            "Morbi placerat laoreet magna, at feugiat elit tempor eu. Duis ut mattis nisi. Donec commodo purus at mollis lacinia. Proin porttitor congue ipsum eu finibus.",
         fullName: "Efe Tuzun",
-        profilePicture: Image.network("https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+        profilePicture: Image.network(
+            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
         userName: "tuzun"),
     Message(
-        text: "Arcu luctus eget. Nullam vitae blandit ipsum, vel tristique est. Maecenas pharetra orci sed convallis aliquam. Duis laoreet aliquam sagittis. Nunc vel lectus placerat, accumsan nibh sed, pretium justo.",
+        text:
+            "Arcu luctus eget. Nullam vitae blandit ipsum, vel tristique est. Maecenas pharetra orci sed convallis aliquam. Duis laoreet aliquam sagittis. Nunc vel lectus placerat, accumsan nibh sed, pretium justo.",
         fullName: "Taner Sonmez",
-        profilePicture: Image.network("https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+        profilePicture: Image.network(
+            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
         userName: "taners"),
     Message(
-    text: "Praesent cursus nulla a mi eleifend, quis ornare enim semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-    fullName: "Ege Demirci",
-    profilePicture: Image.network("https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
-    userName: "ege.demirci"),
-
+        text:
+            "Praesent cursus nulla a mi eleifend, quis ornare enim semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+        fullName: "Ege Demirci",
+        profilePicture: Image.network(
+            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+        userName: "ege.demirci"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -60,9 +66,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     Icons.email,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, MessageScreen.routeName);
-                  }),
+                  onPressed: () {}),
               const Spacer(),
               IconButton(
                   tooltip: "Search",
@@ -72,7 +76,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     color: AppColors.userNameColor,
                   ),
                   onPressed: () {
-                    // Navigator.push(context, Search.routeName);
+                    Navigator.pushNamed(context, Search.routeName);
                   }),
               const Spacer(),
               IconButton(
@@ -113,16 +117,16 @@ class _MessageScreenState extends State<MessageScreen> {
           ),
         ),
       ),
-      appBar:AppBar(
+      appBar: AppBar(
         elevation: 0,
         foregroundColor: AppColors.profileScreenTextColor,
         backgroundColor: AppColors.profileScreenBackgroundColor,
         title: Row(
-          children:[
+          children: [
             const Spacer(),
             Text(
               "Messages",
-              style: Styles.messageHeader ,
+              style: messageHeader,
             ),
             const Spacer(),
             IconButton(
@@ -134,99 +138,82 @@ class _MessageScreenState extends State<MessageScreen> {
                 color: AppColors.bottomNavigationBarBackgroundColor,
               ),
             ),
-          ] ,
+          ],
         ),
         centerTitle: true,
-
       ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: allMessages
                 .map((myMessage) => Card(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                      top: Radius.zero, bottom: Radius.circular(0))),
-              color: AppColors.profileScreenBackgroundColor,
-              elevation: 0,
-              child: Row(
-                //crossAxisAlignment: CrossAxisAlignment.start,
-                //mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //photo
-                  CircleAvatar(
-                    foregroundColor:
-                    AppColors.notificationIconColor,
-                    backgroundColor:
-                    AppColors.profileScreenBackgroundColor,
-                    child: ClipOval(child: myMessage.profilePicture ),
-                    radius: 50,
-                  ),
-
-
-                  //text ve name
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-
-                            Text(
-                              "${myMessage.fullName} ",
-                              style: Styles.messageUserRealName,
-                            ),
-                            const SizedBox(width: 5,),
-                            Text(
-                              "@${myMessage.userName} ",
-                              style: Styles.messageUserName,
-                            ),
-
-                          ],
-                        ),
-                      ),
-
-                      Container(
-                        margin: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          "${"Hi, how are u? i hope you are fine."} ",
-                          style: Styles.messageText,
-                        ),
-
-                      ),
-
-                      Container(
-                        padding: const  EdgeInsets.fromLTRB(0, 30 , 0, 0),
-                        width: MediaQuery.of(context).size.width/1.5,
-                        height: 20,
-                        child: Divider(
-                          thickness: 1.0,
-                          color: AppColors.notificationIconColor,
-                        ),
-                      ),
-
-
-
-
-
-
-                      /*
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.zero, bottom: Radius.circular(0))),
+                      color: AppColors.profileScreenBackgroundColor,
+                      elevation: 0,
+                      child: Row(
+                        //crossAxisAlignment: CrossAxisAlignment.start,
+                        //mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //photo
+                          CircleAvatar(
+                            foregroundColor: AppColors.notificationIconColor,
+                            backgroundColor:
+                                AppColors.profileScreenBackgroundColor,
+                            child: ClipOval(child: myMessage.profilePicture),
+                            radius: 50,
+                          ),
+                          //text ve name
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "${myMessage.fullName} ",
+                                      style: messageUserRealName,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "@${myMessage.userName} ",
+                                      style: messageUserName,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  "${"Hi, how are u? i hope you are fine."} ",
+                                  style: messageText,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                                width: MediaQuery.of(context).size.width / 1.5,
+                                height: 20,
+                                child: const Divider(
+                                  thickness: 1.0,
+                                  color: AppColors.notificationIconColor,
+                                ),
+                              ),
+                              /*
                       SizedBox(height: 80,),
                       const Divider(
                           height: 10,
                           thickness: 1.5,
                           color: AppColors.notificationIconColor),
                       */
-                    ],
-
-                  ),
-
-                ],
-
-              ),
-
-            ))
+                            ],
+                          ),
+                        ],
+                      ),
+                    ))
                 .toList(),
           ),
         ),

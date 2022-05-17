@@ -1,259 +1,275 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'colors.dart';
+import 'package:project_ace/utilities/colors.dart';
 
-class Styles {
-  static final feedHeader = GoogleFonts.montserrat(
-    color: AppColors.signUpTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 37.0,
-    letterSpacing: -0.7,
-  );
+// Login
+final loginForm = GoogleFonts.montserrat(
+  color: AppColors.loginFormTextColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+  letterSpacing: -0.7,
+);
 
-//LOGIN SIGNUP
-  static final loginForm = GoogleFonts.montserrat(
-    color: AppColors.loginFormTextColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    letterSpacing: -0.7,
-  );
+final loginSignUpButton = GoogleFonts.montserrat(
+  color: AppColors.loginSignupButtonTextColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 22,
+  letterSpacing: -0.7,
+);
 
-  static final loginSignUpButton = GoogleFonts.montserrat(
-    color: AppColors.loginSignupButtonTextColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 22,
-    letterSpacing: -0.7,
-  );
+final loginPageText = GoogleFonts.montserrat(
+  color: AppColors.loginPageTextColor,
+  fontWeight: FontWeight.normal,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-  static final createAccountHeader = GoogleFonts.montserrat(
-    color: AppColors.loginSignupButtonTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 37,
-    letterSpacing: -0.7,
-  );
+// Sign Up
+final createAccountHeader = GoogleFonts.montserrat(
+  color: AppColors.loginSignupButtonTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 37,
+  letterSpacing: -0.7,
+);
 
-  static final getStarted = GoogleFonts.montserrat(
-    color: AppColors.loginSignupButtonTextColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 18,
-    letterSpacing: -0.7,
-  );
+final getStarted = GoogleFonts.montserrat(
+  color: AppColors.loginSignupButtonTextColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 18,
+  letterSpacing: -0.7,
+);
 
-  static final signUpButton = GoogleFonts.montserrat(
-    color: AppColors.signUpButtonTextColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 22,
-    letterSpacing: -0.7,
-  );
+final signUpButton = GoogleFonts.montserrat(
+  color: AppColors.signUpButtonTextColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 22,
+  letterSpacing: -0.7,
+);
 
-  static final signupForm = GoogleFonts.montserrat(
-    color: AppColors.loginFormTextColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    letterSpacing: -0.7,
-  );
+final signupForm = GoogleFonts.montserrat(
+  color: AppColors.loginFormTextColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+  letterSpacing: -0.7,
+);
 
-//PROFILE VIEWS
-  static final profileViewHeader = GoogleFonts.montserrat(
-    color: AppColors.userFullNameColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 30,
-    letterSpacing: -0.7,
-  );
+// Messages
+final messageHeader = GoogleFonts.montserrat(
+  color: AppColors.mainAppPostTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 32,
+  letterSpacing: -0.7,
+);
 
-  static final postsFollowersFollowings = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 13,
-    letterSpacing: -0.7,
-  );
+final messageUserRealName = GoogleFonts.montserrat(
+  color: AppColors.mainAppPostTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-  static final postsFollowersFollowingsCounts  = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    letterSpacing: -0.7,
-  );
+final messageUserName = GoogleFonts.montserrat(
+  color: AppColors.decisionButtonColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-  static final smallNameUnderProfile  = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 12,
-    letterSpacing: -0.7,
-  );
+final messageText = GoogleFonts.montserrat(
+  color: AppColors.mainAppPostTextColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 13,
+  letterSpacing: -0.7,
+);
 
-  static final biography  = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 13,
-    letterSpacing: -0.7,
-  );
+// Search & Topics
+final searchTopicText = GoogleFonts.montserrat(
+  color: AppColors.welcomeScreenBackgroundColor,
+  fontWeight: FontWeight.normal,
+  fontSize: 18,
+  letterSpacing: -0.7,
+);
 
-  static final profileViewProfileSettingsButton = GoogleFonts.montserrat(
-    color: AppColors.profileScreenBackgroundColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 22,
-    letterSpacing: -0.7,
-  );
+final searchFormText = GoogleFonts.montserrat(
+  color: AppColors.welcomeScreenBackgroundColor,
+  fontWeight: FontWeight.normal,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-  static final followMessageButtons = GoogleFonts.montserrat(
-    color: AppColors.profileScreenBackgroundColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 22,
-    letterSpacing: -0.7,
-  );
+// Feed
+final feedHeader = GoogleFonts.montserrat(
+  color: AppColors.signUpTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 37.0,
+  letterSpacing: -0.7,
+);
 
-  static final postCardUserRealName  = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 12,
-    letterSpacing: -0.7,
-  );
+// Add Post
+final addPostTitle = GoogleFonts.montserrat(
+  color: AppColors.signUpTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 30,
+  letterSpacing: -0.7,
+);
 
-  static final accountIsPrivateMessage  = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 12,
-    letterSpacing: -0.7,
-  );
+final aceButton = GoogleFonts.montserrat(
+  color: AppColors.sendAceColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 22,
+  letterSpacing: -0.7,
+);
 
+// Profile View
+final profileViewHeader = GoogleFonts.montserrat(
+  color: AppColors.userFullNameColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 30,
+  letterSpacing: -0.7,
+);
 
-  static final postCardUserName  = GoogleFonts.montserrat(
-    color: AppColors.userNameColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 12,
-    letterSpacing: -0.7,
-  );
+final postsFollowersFollowings = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 13,
+  letterSpacing: -0.7,
+);
 
-  static final postText  = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 11,
-    letterSpacing: -0.7,
-  );
+final postsFollowersFollowingsCounts = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+  letterSpacing: -0.7,
+);
 
-//PROFILE SETTINGS
+final smallNameUnderProfile = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-  static final profileSettingsHeader  = GoogleFonts.montserrat(
-    color: AppColors.profileScreenTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 32,
-    letterSpacing: -0.7,
-  );
+final biography = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 13,
+  letterSpacing: -0.7,
+);
 
-  static final profileChangePasswordEditBio  = GoogleFonts.montserrat(
-    color: AppColors.loginFormTextColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    letterSpacing: -0.7,
-  );
+final profileViewProfileSettingsButton = GoogleFonts.montserrat(
+  color: AppColors.profileScreenBackgroundColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 22,
+  letterSpacing: -0.7,
+);
 
-  static final profileChangeProfilePicture  = GoogleFonts.montserrat(
-    color: AppColors.profileIconColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 22,
-    letterSpacing: -0.7,
-  );
+final followMessageButtons = GoogleFonts.montserrat(
+  color: AppColors.profileScreenBackgroundColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 22,
+  letterSpacing: -0.7,
+);
 
-  static final deactivateAndDelete  = GoogleFonts.montserrat(
-    color: Colors.white,
-    fontWeight: FontWeight.w500,
-    fontSize: 22,
-    letterSpacing: -0.7,
-  );
+final accountIsPrivateMessage = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
+// Profile Settings
+final profileSettingsHeader = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 32,
+  letterSpacing: -0.7,
+);
 
-//NOTIFICATIONS
-  static final notifHeader  = GoogleFonts.montserrat(
-    color: AppColors.notificationIconColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 30,
-    letterSpacing: -0.7,
-  );
+final profileSettingsChangeButton = GoogleFonts.montserrat(
+  color: AppColors.profileIconColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 22,
+  letterSpacing: -0.7,
+);
 
-  static final notificationText  = GoogleFonts.montserrat(
-    color: AppColors.notificationIconColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 15,
-    letterSpacing: -0.7,
-  );
+final profileSettingsDeactivateAndDelete = GoogleFonts.montserrat(
+  color: Colors.white,
+  fontWeight: FontWeight.w500,
+  fontSize: 22,
+  letterSpacing: -0.7,
+);
 
-  static final acceptAndReject  = GoogleFonts.montserrat(
-    color: Colors.white,
-    fontWeight: FontWeight.w500,
-    fontSize: 12,
-    letterSpacing: -0.7,
-  );
+final acceptAndReject = GoogleFonts.montserrat(
+  color: Colors.white,
+  fontWeight: FontWeight.w500,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-//MESSAGES VIEW
+// Notifications
+final notificationsHeader = GoogleFonts.montserrat(
+  color: AppColors.notificationIconColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 30,
+  letterSpacing: -0.7,
+);
 
-  static final messageHeader  = GoogleFonts.montserrat(
-    color: AppColors.mainAppPostTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 32,
-    letterSpacing: -0.7,
-  );
+final notificationText = GoogleFonts.montserrat(
+  color: AppColors.notificationIconColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 15,
+  letterSpacing: -0.7,
+);
 
-  static final messageUserRealName  = GoogleFonts.montserrat(
-    color: AppColors.mainAppPostTextColor,
-    fontWeight: FontWeight.bold,
-    fontSize: 12,
-    letterSpacing: -0.7,
-  );
+// Post Card
+final postCardUserRealName = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-  static final messageUserName  = GoogleFonts.montserrat(
-    color: AppColors.decisionButtonColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 12,
-    letterSpacing: -0.7,
-  );
+final postCardUserName = GoogleFonts.montserrat(
+  color: AppColors.userNameColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  letterSpacing: -0.7,
+);
 
-  static  final messageText  = GoogleFonts.montserrat(
-    color: AppColors.mainAppPostTextColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 13,
-    letterSpacing: -0.7,
-  );
+final postText = GoogleFonts.montserrat(
+  color: AppColors.profileScreenTextColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 11,
+  letterSpacing: -0.7,
+);
 
-//CHAT SCREEN
+// Chat
+final userNameChatHeader = GoogleFonts.montserrat(
+  color: AppColors.chatHeader,
+  fontWeight: FontWeight.w500,
+  fontSize: 40,
+  letterSpacing: -0.7,
+);
 
-  static final userNameChatHeader  = GoogleFonts.montserrat(
-    color: AppColors.chatHeader,
-    fontWeight: FontWeight.w500,
-    fontSize: 40,
-    letterSpacing: -0.7,
-  );
+final chatMessagesTaken = GoogleFonts.montserrat(
+  color: AppColors.postTextColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 15,
+  letterSpacing: -0.7,
+);
 
+final chatMessagesSent = GoogleFonts.montserrat(
+  color: Colors.white,
+  fontWeight: FontWeight.w400,
+  fontSize: 15,
+  letterSpacing: -0.7,
+);
 
-  static final ChatMessagesTaken  = GoogleFonts.montserrat(
-    color: AppColors.postTextColor,
-    fontWeight: FontWeight.w400,
-    fontSize: 15,
-    letterSpacing: -0.7,
-  );
+final writeSomething = GoogleFonts.montserrat(
+  color: Colors.grey,
+  fontWeight: FontWeight.w500,
+  fontSize: 15,
+  letterSpacing: -0.7,
+);
 
-  static final ChatMessagesSent  = GoogleFonts.montserrat(
-    color: Colors.white,
-    fontWeight: FontWeight.w400,
-    fontSize: 15,
-    letterSpacing: -0.7,
-  );
-
-  static final writeSomething  = GoogleFonts.montserrat(
-    color: Colors.grey,
-    fontWeight: FontWeight.w500,
-    fontSize: 15,
-    letterSpacing: -0.7,
-  );
-
-//AddPost
-
-  static final AceButton  = GoogleFonts.montserrat(
-    color: AppColors.sendAceColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 22,
-    letterSpacing: -0.7,
-  );
 //If you use header here, you can take one of the headers from other views.
-}
-

@@ -1,40 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
+import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/templates/topic.dart';
 import 'package:project_ace/user_interfaces/topic_cards.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/user_interfaces/topic_cards.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
+
   static const String routeName = '/search';
   @override
   State<Search> createState() => _SearchState();
 }
+
 class _SearchState extends State<Search> {
   List<Topic> topics = [
-    Topic(text: "#Wimbledon2018",area: "tennis"),
-    Topic(text: "#Federer",area: "tennis"),
-    Topic(text: "#YaGunnersYa",area: "football"),
-    Topic(text: "#ThankYouTomBrady",area: "nfl"),
-    Topic(text: "#GreekFreak",area: "nba"),
-
-
+    Topic(text: "#Wimbledon2018", area: "tennis"),
+    Topic(text: "#Federer", area: "tennis"),
+    Topic(text: "#YaGunnersYa", area: "football"),
+    Topic(text: "#ThankYouTomBrady", area: "nfl"),
+    Topic(text: "#GreekFreak", area: "nba"),
   ];
+
   final _formKey = GlobalKey<FormState>();
-  var _controller = TextEditingController();
+  final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: BackButton(
-              color: AppColors.postTextColor,
+          leading: const BackButton(
+            color: AppColors.postTextColor,
           ),
           elevation: 0,
-        backgroundColor: AppColors.searchScreenBackground,
-        // The search area here
+          backgroundColor: AppColors.searchScreenBackground,
+          // The search area here
           title: Container(
             width: double.infinity,
             height: 40,
@@ -44,9 +46,10 @@ class _SearchState extends State<Search> {
               child: TextFormField(
                 controller: _controller,
                 decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
+                    labelStyle: searchFormText,
+                    prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.clear),
+                      icon: const Icon(Icons.clear),
                       onPressed: () {
                         _controller.clear();
                         /* Clear the search field */
@@ -65,8 +68,9 @@ class _SearchState extends State<Search> {
             child: Column(
               children: topics
                   .map((Topic) => TopicCard(
-                topic:Topic,
-              )).toList(),
+                        topic: Topic,
+                      ))
+                  .toList(),
             ),
           ),
         ),
@@ -85,7 +89,9 @@ class _SearchState extends State<Search> {
                     Icons.email,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.pushNamed(context, MessageScreen.routeName);
+                  }),
               const Spacer(),
               IconButton(
                   tooltip: "Search",

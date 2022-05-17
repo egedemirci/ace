@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class Feed extends StatefulWidget {
   const Feed({Key? key}) : super(key: key);
@@ -62,10 +64,9 @@ class _FeedState extends State<Feed> {
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "Ace",
-          style: TextStyle(
-              color: AppColors.welcomeScreenBackgroundColor, fontSize: 30),
+        title: Text(
+          "Feed",
+          style: feedHeader,
         ),
         elevation: 0,
         backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -84,7 +85,9 @@ class _FeedState extends State<Feed> {
                     Icons.email,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.pushNamed(context, MessageScreen.routeName);
+                  }),
               const Spacer(),
               IconButton(
                   tooltip: "Search",
@@ -104,10 +107,7 @@ class _FeedState extends State<Feed> {
                     Icons.home,
                     color: AppColors.userNameColor,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Feed.routeName, (route) => false);
-                  }),
+                  onPressed: () {}),
               const Spacer(),
               IconButton(
                   tooltip: "Add Post",

@@ -8,6 +8,7 @@ import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -62,26 +63,6 @@ class _ProfileViewState extends State<ProfileView> {
             "https://img.fanatik.com.tr/img/78/740x418/610c6938ae298b8328517710.jpg"),
   ];
 
-  void _incrementLikes(Post post) {
-    setState(() {
-      post.likes++;
-    });
-  }
-
-  void buttonClicked() {
-    setState(() {});
-  }
-
-  void _decrementLikes(Post post) {
-    setState(() {
-      post.likes--;
-    });
-  }
-
-  void addUserComment(Post post) {
-    print('User would like to add a comment to this post!');
-  }
-
   void followUser() {
     print('You would like to follow this user, he?');
   }
@@ -103,17 +84,12 @@ class _ProfileViewState extends State<ProfileView> {
               icon: const Icon(Icons.logout),
               onPressed: () async {
                 await _auth.signOutUser();
-                // Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
               },
             ),
             const Spacer(),
             Text(
               '@$userName',
-              style: const TextStyle(
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold,
-                color: AppColors.profileScreenTextColor,
-              ),
+              style: profileViewHeader,
             ),
             const Spacer(),
             IconButton(
@@ -157,7 +133,7 @@ class _ProfileViewState extends State<ProfileView> {
                     color: AppColors.userNameColor,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, Search.routeName);;
+                    Navigator.pushNamed(context, Search.routeName);
                   }),
               const Spacer(),
               IconButton(
@@ -202,7 +178,7 @@ class _ProfileViewState extends State<ProfileView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(4.0),
             child: Column(
               children: [
                 Row(
@@ -210,12 +186,12 @@ class _ProfileViewState extends State<ProfileView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: CircleAvatar(
                         backgroundColor: AppColors.welcomeScreenBackgroundColor,
                         child: ClipOval(
                           child: Image.network(
-                            "https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png",
+                            'https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png',
                             fit: BoxFit.fitHeight,
                           ),
                         ),
@@ -224,61 +200,49 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                           child: Text(
                             '###',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                            style: postsFollowersFollowingsCounts,
                           ),
                         ),
                         Text(
                           'Posts',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: postsFollowersFollowings,
                         )
                       ],
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                           child: Text(
                             '###',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                            style: postsFollowersFollowingsCounts,
                           ),
                         ),
                         Text(
                           'Followers',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: postsFollowersFollowings,
                         )
                       ],
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                           child: Text(
                             '###',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                            style: postsFollowersFollowingsCounts,
                           ),
                         ),
                         Text(
                           'Following',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: postsFollowersFollowings,
                         )
                       ],
                     ),
@@ -338,13 +302,12 @@ class _ProfileViewState extends State<ProfileView> {
                     )
                   ],
                 ),
-                const Divider(
-                  color: Colors.blueGrey,
-                  thickness: 2.0,
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 40,
+                Container(
+                  decoration: const BoxDecoration(
+                    color: AppColors.profileImageTextPostViewButton,
+                  ),
+                  width: double.infinity,
+                  height: 50,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -363,14 +326,16 @@ class _ProfileViewState extends State<ProfileView> {
                       const Padding(
                         padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
                         child: VerticalDivider(
-                            color: Colors.blueGrey, thickness: 4, width: 10),
+                            color: AppColors.welcomeScreenBackgroundColor,
+                            thickness: 2,
+                            width: 10),
                       ),
                       Expanded(
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
                           child: const Icon(
-                            Icons.wine_bar,
+                            Icons.text_fields,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
                           style: OutlinedButton.styleFrom(
@@ -380,10 +345,8 @@ class _ProfileViewState extends State<ProfileView> {
                     ],
                   ),
                 ),
-                const Divider(
-                  color: Colors.blueGrey,
-                  thickness: 2.0,
-                  height: 20,
+                const SizedBox(
+                  height: 10,
                 ),
                 Column(
                   children: posts
