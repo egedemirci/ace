@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/messages.dart';
@@ -43,6 +44,7 @@ void main() {
     Feed.routeName: (context) => const Feed(),
     Search.routeName: (context) => const Search(),
     MessageScreen.routeName: (context) => const MessageScreen(),
+    ChatPage.routeName: (context) => const ChatPage(),
   }));
 }
 

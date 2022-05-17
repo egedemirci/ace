@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -158,72 +159,77 @@ class _MessageScreenState extends State<MessageScreen> {
                               top: Radius.zero, bottom: Radius.circular(0))),
                       color: AppColors.profileScreenBackgroundColor,
                       elevation: 0,
-                      child: Row(
-                        //crossAxisAlignment: CrossAxisAlignment.start,
-                        //mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          //photo
-                          CircleAvatar(
-                            foregroundColor: AppColors.notificationIconColor,
-                            backgroundColor:
-                                AppColors.profileScreenBackgroundColor,
-                            child: ClipOval(child: Image.network( myMessage.urlAvatar)),
-                            radius: 50,
-                          ),
-                          //text ve name
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "${myMessage.fullName} ",
-                                      style: messageUserRealName,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "@${myMessage.username} ",
-                                      style: messageUserName,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 8.0),
-                                  constraints: const BoxConstraints(maxWidth: 270),
-                                  child: Column(
+                      child: GestureDetector(
+                        onTap:  () {
+                          Navigator.pushNamed(context, ChatPage.routeName);
+                        },
+                        child: Row(
+                          //crossAxisAlignment: CrossAxisAlignment.start,
+                          //mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            //photo
+                            CircleAvatar(
+                              foregroundColor: AppColors.notificationIconColor,
+                              backgroundColor:
+                                  AppColors.profileScreenBackgroundColor,
+                              child: ClipOval(child: Image.network( myMessage.urlAvatar)),
+                              radius: 50,
+                            ),
+                            //text ve name
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
                                     children: [
                                       Text(
-                                        "${myMessage.message} ",
-                                        style: messageText,
+                                        "${myMessage.fullName} ",
+                                        style: messageUserRealName,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        "@${myMessage.username} ",
+                                        style: messageUserName,
                                       ),
                                     ],
                                   ),
                                 ),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 8.0),
+                                    constraints: const BoxConstraints(maxWidth: 270),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "${myMessage.message} ",
+                                          style: messageText,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
 
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                width: MediaQuery.of(context).size.width / 1.5,
-                                height: 20,
-                                child: const Divider(
-                                  thickness: 1.0,
-                                  color: AppColors.notificationIconColor,
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                                  width: MediaQuery.of(context).size.width / 1.5,
+                                  height: 20,
+                                  child: const Divider(
+                                    thickness: 1.0,
+                                    color: AppColors.notificationIconColor,
+                                  ),
                                 ),
-                              ),
-                              /*
-                      SizedBox(height: 80,),
-                      const Divider(
-                          height: 10,
-                          thickness: 1.5,
-                          color: AppColors.notificationIconColor),
-                      */
-                            ],
-                          ),
-                        ],
+                                /*
+                        SizedBox(height: 80,),
+                        const Divider(
+                            height: 10,
+                            thickness: 1.5,
+                            color: AppColors.notificationIconColor),
+                        */
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ))
                 .toList(),
