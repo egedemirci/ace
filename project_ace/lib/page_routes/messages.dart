@@ -159,7 +159,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               top: Radius.zero, bottom: Radius.circular(0))),
                       color: AppColors.profileScreenBackgroundColor,
                       elevation: 0,
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap:  () {
                           Navigator.pushNamed(context, ChatPage.routeName);
                         },
