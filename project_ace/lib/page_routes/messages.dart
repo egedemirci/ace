@@ -24,28 +24,28 @@ class _MessageScreenState extends State<MessageScreen> {
             "Duis ultricies velit ut justo egestas, quis maximus nibh ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non porta urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam et nisi quis neque elementum cursus eget eget metus. Duis sodales, enim ut finibus.",
         fullName: "Furkan Un",
         profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+            "https://i.hizliresim.com/liw78ml.png"),
         userName: "fun"),
     Message(
         text:
             "Morbi placerat laoreet magna, at feugiat elit tempor eu. Duis ut mattis nisi. Donec commodo purus at mollis lacinia. Proin porttitor congue ipsum eu finibus.",
         fullName: "Efe Tuzun",
         profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+            "https://i.hizliresim.com/76b0p2k.png"),
         userName: "tuzun"),
     Message(
         text:
             "Arcu luctus eget. Nullam vitae blandit ipsum, vel tristique est. Maecenas pharetra orci sed convallis aliquam. Duis laoreet aliquam sagittis. Nunc vel lectus placerat, accumsan nibh sed, pretium justo.",
         fullName: "Taner Sonmez",
         profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+            "https://i.hizliresim.com/gb3ufib.png"),
         userName: "taners"),
     Message(
         text:
             "Praesent cursus nulla a mi eleifend, quis ornare enim semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
         fullName: "Ege Demirci",
         profilePicture: Image.network(
-            "https://www.mockofun.com/wp-content/uploads/2019/12/circle-photo.jpg"),
+            "https://i.hizliresim.com/g1vzh7n.png"),
         userName: "ege.demirci"),
   ];
   @override
