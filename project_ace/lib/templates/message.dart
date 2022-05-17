@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Message {
-  String fullName, userName, text;
-  Image profilePicture;
-  Message(
-      {required this.fullName,
-      required this.text,
-      required this.userName,
-      required this.profilePicture});
+  final String idUser;
+  final String urlAvatar;
+  final String username;
+  final String message;
+  final DateTime createdAt;
+
+  const Message({
+    required this.idUser,
+    required this.urlAvatar,
+    required this.username,
+    required this.message,
+    required this.createdAt,
+  });
 }
