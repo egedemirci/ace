@@ -94,21 +94,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     radius: 30,
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 1, 0, 0),
-                                  child: Text(
-                                    "@${myNotification.userName} ",
-                                    style: notificationText,
-                                  ),
-                                ),
+
                                 Container(
                                   constraints: const BoxConstraints(maxWidth: 270),
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 1, 0, 0),
                                   child: Column(children: [
                                     Text(
-                                      myNotification.text,
+                                      myNotification.userName+" " +myNotification.text,
                                       maxLines: 3,
                                       style: notificationText,
                                       overflow: TextOverflow.ellipsis,
