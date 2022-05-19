@@ -102,7 +102,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     style: notificationText,
                                   ),
                                 ),
-                                Padding(
+                                Container(
+                                  constraints: const BoxConstraints(maxWidth: 270),
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 1, 0, 0),
                                   child: Column(children: [
