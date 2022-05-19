@@ -32,20 +32,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(home: MyFirebaseApp(), routes: {
-    SignUp.routeName: (context) => const SignUp(),
-    Login.routeName: (context) => const Login(),
-    ProfileView.routeName: (context) => const ProfileView(),
-    AddPost.routeName: (context) => const AddPost(),
-    OwnProfileView.routeName: (context) => const OwnProfileView(),
-    ProfileSettings.routeName: (context) => const ProfileSettings(),
-    NotificationScreen.routeName: (context) => const NotificationScreen(),
-    Walkthrough.routeName: (context) => const Walkthrough(),
-    Feed.routeName: (context) => const Feed(),
-    Search.routeName: (context) => const Search(),
-    MessageScreen.routeName: (context) => const MessageScreen(),
-    ChatPage.routeName: (context) => const ChatPage(),
-  }));
+  runApp(MaterialApp(
+      home: MyFirebaseApp(),
+      initialRoute: Walkthrough.routeName,
+      routes: {
+        SignUp.routeName: (context) => const SignUp(),
+        Login.routeName: (context) => const Login(),
+        ProfileView.routeName: (context) => const ProfileView(),
+        AddPost.routeName: (context) => const AddPost(),
+        OwnProfileView.routeName: (context) => const OwnProfileView(),
+        ProfileSettings.routeName: (context) => const ProfileSettings(),
+        NotificationScreen.routeName: (context) => const NotificationScreen(),
+        Walkthrough.routeName: (context) => const Walkthrough(),
+        Feed.routeName: (context) => const Feed(),
+        Search.routeName: (context) => const Search(),
+        MessageScreen.routeName: (context) => const MessageScreen(),
+        ChatPage.routeName: (context) => const ChatPage(),
+      }));
 }
 
 class MyFirebaseApp extends StatelessWidget {
