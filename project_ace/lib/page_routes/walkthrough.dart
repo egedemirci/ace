@@ -68,11 +68,7 @@ class _WalkthroughState extends State<Walkthrough> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                          onPressed: () async {
-                            /*var prefs = await SharedPreferences.getInstance();
-                            if (prefs.getBool("firstLoad") == null) {
-                              prefs.setBool("firstLoad", false);
-                            }*/
+                          onPressed: () {
                             Navigator.pushNamedAndRemoveUntil(
                                 context, Login.routeName, (route) => false);
                           },
