@@ -23,8 +23,8 @@ class ChatCard extends StatelessWidget {
           CircleAvatar(
               radius: 16, backgroundImage: NetworkImage(message.urlAvatar)),
         Container(
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
+          margin: const EdgeInsets.all(8),
           constraints: BoxConstraints(maxWidth: screenWidth(context)*0.60),
           decoration: BoxDecoration(
             color: isMe

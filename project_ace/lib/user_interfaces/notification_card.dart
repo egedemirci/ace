@@ -29,7 +29,7 @@ class NotificationsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
+                  padding: const EdgeInsets.fromLTRB(4, 0, 8, 4),
                   child: CircleAvatar(
                     foregroundColor: AppColors.notificationIconColor,
                     backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -59,44 +59,47 @@ class NotificationsCard extends StatelessWidget {
                 const SizedBox(width: 6),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  width: 80,
-                ),
-                Visibility(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Accept!",
-                      style: acceptAndReject,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    width: 80,
+                  ),
+                  Visibility(
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Accept!",
+                        style: acceptAndReject,
+                      ),
+                      style: OutlinedButton.styleFrom(
+                          primary: AppColors.profileSettingsButtonTextColor,
+                          backgroundColor: AppColors.decisionButtonColor,
+                          fixedSize: const Size(80, 8)),
                     ),
-                    style: OutlinedButton.styleFrom(
-                        primary: AppColors.profileSettingsButtonTextColor,
-                        backgroundColor: AppColors.decisionButtonColor,
-                        fixedSize: const Size(80, 8)),
+                    visible: myNotification.type,
                   ),
-                  visible: myNotification.type,
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Visibility(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text("Reject!", style: acceptAndReject),
-                    style: OutlinedButton.styleFrom(
-                        primary: AppColors.profileSettingsButtonTextColor,
-                        backgroundColor: AppColors.decisionButtonColor,
-                        fixedSize: const Size(80, 8)),
+                  const SizedBox(
+                    width: 15,
                   ),
-                  visible: myNotification.type,
-                ),
-              ],
+                  Visibility(
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: Text("Reject!", style: acceptAndReject),
+                      style: OutlinedButton.styleFrom(
+                          primary: AppColors.profileSettingsButtonTextColor,
+                          backgroundColor: AppColors.decisionButtonColor,
+                          fixedSize: const Size(80, 8)),
+                    ),
+                    visible: myNotification.type,
+                  ),
+                ],
+              ),
             ),
             const Divider(
-                height: 10,
+                height: 1,
                 thickness: 1.5,
                 color: AppColors.notificationIconColor),
           ],

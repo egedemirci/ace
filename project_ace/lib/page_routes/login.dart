@@ -152,90 +152,96 @@ SingleChildScrollView(reverse: true)
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 40),
-            const ClipRect(
+            SizedBox(height: screenHeight(context)*0.048),
+            ClipRect(
               child: Image(
-                  image: NetworkImage('https://i.hizliresim.com/bxfjezq.png'),
-                  width: 200,
-                  height: 200),
+                  image: const NetworkImage('https://i.hizliresim.com/bxfjezq.png'),
+                  width: screenWidth(context)*0.5,
+                  height: screenHeight(context)*0.25),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: screenHeight(context)*0.048),
             SizedBox(
-              width: screenWidth(context) - 80,
+              width: screenWidth(context)*0.75,
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        label: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              "e-mail",
-                              style: loginForm,
-                            )
-                          ],
+                    Container(
+                      constraints: BoxConstraints(maxHeight: screenHeight(context)*0.075),
+                      child: TextFormField(
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          label: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "e-mail",
+                                style: loginForm,
+                              )
+                            ],
+                          ),
+                          fillColor: AppColors.loginFormBackgroundColor,
+                          filled: true,
                         ),
-                        fillColor: AppColors.loginFormBackgroundColor,
-                        filled: true,
+                        validator: (value) {
+                          if (value != null) {
+                            if (value.isEmpty) {
+                              return 'Cannot leave email empty!';
+                            }
+                            if (!EmailValidator.validate(value)) {
+                              return 'Please enter a valid email address!';
+                            }
+                          }
+                        },
+                        onSaved: (value) {
+                          _email = value ?? "";
+                        },
                       ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave email empty!';
-                          }
-                          if (!EmailValidator.validate(value)) {
-                            return 'Please enter a valid email address!';
-                          }
-                        }
-                      },
-                      onSaved: (value) {
-                        _email = value ?? "";
-                      },
                     ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        label: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              "password",
-                              style: loginForm,
-                            )
-                          ],
+                    SizedBox(height: screenHeight(context)*0.024),
+                    Container(
+                      constraints: BoxConstraints(maxHeight: screenHeight(context)*0.075),
+                      child: TextFormField(
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        obscureText: true,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          label: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "password",
+                                style: loginForm,
+                              )
+                            ],
+                          ),
+                          fillColor: AppColors.loginFormBackgroundColor,
+                          filled: true,
                         ),
-                        fillColor: AppColors.loginFormBackgroundColor,
-                        filled: true,
+                        validator: (value) {
+                          if (value != null) {
+                            if (value.isEmpty) {
+                              return 'Cannot leave password empty!';
+                            }
+                            if (value.length < 6) {
+                              return 'Password is too short!';
+                            }
+                          }
+                        },
+                        onSaved: (value) {
+                          _password = value ?? "";
+                        },
                       ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave password empty!';
-                          }
-                          if (value.length < 6) {
-                            return 'Password is too short!';
-                          }
-                        }
-                      },
-                      onSaved: (value) {
-                        _password = value ?? "";
-                      },
                     ),
                   ],
                 ),
               ),
             ),
-            const Spacer(),
+            SizedBox(height: screenHeight(context)*0.024),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -249,23 +255,24 @@ SingleChildScrollView(reverse: true)
                           'Form Error', "Your email or password is invalid!");
                     }
                   },
-                  child: Text(
-                    "LOG IN",
-                    style: loginSignUpButton,
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      "LOG IN",
+                      style: loginSignUpButton,
+                    ),
                   ),
                   style: OutlinedButton.styleFrom(
                     backgroundColor: AppColors.loginSignupButtonBackgroundColor,
-                    fixedSize: const Size(125, 40),
+                    fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: screenHeight(context)*0.012),
                 Text(
                   "OR CONNECT WITH",
                   style: loginPageText,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight(context)*0.012),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -275,37 +282,40 @@ SingleChildScrollView(reverse: true)
                       style: OutlinedButton.styleFrom(
                           backgroundColor: AppColors
                               .loginPageMetaGoogleOptionBackgroundColor,
-                          fixedSize: const Size(150, 40)),
+                          fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05)),
                     ),
-                    const SizedBox(width: 20),
+                    SizedBox(width: screenHeight(context)*0.024),
                     OutlinedButton(
                       onPressed: () {},
                       child: Image.asset("assets/images/google.png", scale: 25),
                       style: OutlinedButton.styleFrom(
                           backgroundColor: AppColors
                               .loginPageMetaGoogleOptionBackgroundColor,
-                          fixedSize: const Size(150, 40)),
+                          fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05)),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight(context)*0.012),
                 Text(
                   "NEED ACCOUNT?",
                   style: loginPageText,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight(context)*0.012),
                 OutlinedButton(
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, SignUp.routeName, (route) => false);
                   },
-                  child: Text(
-                    "SIGN UP",
-                    style: loginSignUpButton,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      "SIGN UP",
+                      style: loginSignUpButton,
+                    ),
                   ),
                   style: OutlinedButton.styleFrom(
                     backgroundColor: AppColors.loginSignupButtonBackgroundColor,
-                    fixedSize: const Size(125, 40),
+                    fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05),
                   ),
                 ),
               ],

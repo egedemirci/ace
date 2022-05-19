@@ -8,6 +8,8 @@ import 'package:project_ace/user_interfaces/topic_cards.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+import '../utilities/screen_sizes.dart';
+
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
@@ -75,68 +77,73 @@ class _SearchState extends State<Search> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: AppColors.welcomeScreenBackgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  tooltip: "Messages",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.email,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, MessageScreen.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Search",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.search,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {}),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Home",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.home,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Feed.routeName, (route) => false);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Add Post",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.add_circle_outline,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, AddPost.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Profile",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.person_outline,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, OwnProfileView.routeName, (route) => false);
-                  }),
-            ],
+      bottomNavigationBar: SizedBox(
+        height: screenHeight(context)*0.095,
+        child: BottomAppBar(
+          color: AppColors.welcomeScreenBackgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    tooltip: "Messages",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.email,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, MessageScreen.routeName);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Search",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.search,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {}),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Home",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.home,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Feed.routeName, (route) => false);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Add Post",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.add_circle_outline,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, AddPost.routeName);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Profile",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.person_outline,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, OwnProfileView.routeName, (route) => false);
+                    }),
+              ],
+            ),
           ),
         ),
       ),

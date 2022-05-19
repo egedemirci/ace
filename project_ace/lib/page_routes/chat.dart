@@ -3,6 +3,7 @@ import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/user_interfaces/chat_card.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 import 'package:project_ace/utilities/colors.dart';
@@ -112,7 +113,7 @@ class _ChatPageState extends State<ChatPage> {
         foregroundColor: AppColors.profileScreenTextColor,
         title: Row(
           children: [
-            Text('@$userNameChatted', style: userNameChatHeader),
+            SizedBox(width: screenWidth(context)*0.60,child: FittedBox(fit: BoxFit.scaleDown ,child: Text('@$userNameChatted', style: userNameChatHeader))),
             const Spacer(),
             IconButton(
               onPressed: () {
@@ -146,6 +147,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 Container(
                   color: AppColors.profileScreenBackgroundColor,
+                  height: screenHeight(context)*0.115,
                   padding: const EdgeInsets.all(8),
                   child: Row(
                     children: <Widget>[

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class ProfileSettings extends StatelessWidget {
@@ -21,9 +22,15 @@ class ProfileSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
-        title: Text(
-          'Profile Settings',
-          style: profileSettingsHeader,
+        title: SizedBox(
+          width: screenWidth(context)*0.6,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              'Profile Settings',
+              style: profileSettingsHeader,
+            ),
+          ),
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
         centerTitle: true,

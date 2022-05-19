@@ -45,7 +45,16 @@ void main() {
     Search.routeName: (context) => const Search(),
     MessageScreen.routeName: (context) => const MessageScreen(),
     ChatPage.routeName: (context) => const ChatPage(),
-  }));
+  },
+  theme: ThemeData(
+    pageTransitionsTheme: const PageTransitionsTheme(
+    builders: {
+    TargetPlatform.android: ZoomPageTransitionsBuilder(),
+    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    },
+  ),
+  ),
+  ));
 }
 
 class MyFirebaseApp extends StatelessWidget {

@@ -33,14 +33,14 @@ class MessageCard extends StatelessWidget {
                   foregroundColor: AppColors.notificationIconColor,
                   backgroundColor: AppColors.profileScreenBackgroundColor,
                   child: ClipOval(child: Image.network(myMessage.urlAvatar)),
-                  radius: 50,
+                  radius: screenWidth(context)*0.10,
                 ),
                 //text ve name
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 12, 6),
                       child: Row(
                         children: [
                           Text(
@@ -58,7 +58,7 @@ class MessageCard extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 8.0),
+                      margin: const EdgeInsets.fromLTRB(8, 0, 0, 15),
                       constraints: BoxConstraints(maxWidth: screenWidth(context)*0.65),
                       child: Column(
                         children: [
@@ -76,6 +76,7 @@ class MessageCard extends StatelessWidget {
           ),
           const Divider(
             thickness: 1.0,
+            height: 1,
             color: AppColors.notificationIconColor,
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class AddPost extends StatefulWidget {
@@ -23,9 +24,15 @@ class _AddPostState extends State<AddPost> {
         elevation: 0,
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,
-        title: Text(
-          "Add New Post",
-          style: addPostTitle,
+        title: SizedBox(
+          width: screenWidth(context)*0.65,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "Add New Post",
+              style: addPostTitle,
+            ),
+          ),
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
       ),
@@ -44,8 +51,8 @@ class _AddPostState extends State<AddPost> {
                   ),
                   color: AppColors.userNameColor,
                 ),
-                width: 400,
-                height: 300,
+                width: screenWidth(context)*0.9,
+                height: screenHeight(context)*0.4,
                 child: Form(
                   key: _formKey,
                   child: Padding(
@@ -73,7 +80,7 @@ class _AddPostState extends State<AddPost> {
                       style: aceButton,
                     ),
                     style: OutlinedButton.styleFrom(
-                      fixedSize: const Size(250, 50),
+                      fixedSize: Size(screenWidth(context)*0.5, screenHeight(context)*0.07),
                       elevation: 0,
                       backgroundColor: AppColors.sharePostColor,
                       side: BorderSide.none,
@@ -96,7 +103,7 @@ class _AddPostState extends State<AddPost> {
         elevation: 0,
         child: SizedBox(
           width: 20,
-          height: 80,
+          height: screenHeight(context)*0.095,
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,

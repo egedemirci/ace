@@ -5,6 +5,7 @@ import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/user_interfaces/message_card.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 import "package:project_ace/templates/message.dart";
 
@@ -55,68 +56,73 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
-      bottomNavigationBar: BottomAppBar(
-        color: AppColors.welcomeScreenBackgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  tooltip: "Messages",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.email,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {}),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Search",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.search,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, Search.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Home",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.home,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Feed.routeName, (route) => false);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Add Post",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.add_circle_outline,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, AddPost.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Profile",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.person_outline,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, OwnProfileView.routeName, (route) => false);
-                  }),
-            ],
+      bottomNavigationBar: SizedBox(
+        height: screenHeight(context)*0.095,
+        child: BottomAppBar(
+          color: AppColors.welcomeScreenBackgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    tooltip: "Messages",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.email,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {}),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Search",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.search,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, Search.routeName);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Home",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.home,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Feed.routeName, (route) => false);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Add Post",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.add_circle_outline,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, AddPost.routeName);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Profile",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.person_outline,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, OwnProfileView.routeName, (route) => false);
+                    }),
+              ],
+            ),
           ),
         ),
       ),
@@ -127,9 +133,15 @@ class _MessageScreenState extends State<MessageScreen> {
         title: Row(
           children: [
             const Spacer(),
-            Text(
-              "Messages",
-              style: messageHeader,
+            SizedBox(
+              width: screenWidth(context)*0.6,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  "Messages",
+                  style: messageHeader,
+                ),
+              ),
             ),
             const Spacer(),
             IconButton(

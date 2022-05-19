@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:project_ace/templates/notif.dart";
 import 'package:project_ace/user_interfaces/notification_card.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -56,9 +57,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppBar(
         foregroundColor: AppColors.welcomeScreenBackgroundColor,
         elevation: 0,
-        title: Text(
-          "NOTIFICATIONS",
-          style: notificationsHeader,
+        title: SizedBox(
+          width: screenWidth(context)*0.6,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "Notifications",
+              style: notificationsHeader,
+            ),
+          ),
         ),
         centerTitle: true,
         backgroundColor: AppColors.profileScreenBackgroundColor,

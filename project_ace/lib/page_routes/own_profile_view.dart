@@ -8,6 +8,7 @@ import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class OwnProfileView extends StatefulWidget {
@@ -79,9 +80,15 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               },
             ),
             const Spacer(),
-            Text(
-              '@$userName',
-              style: profileViewHeader,
+            SizedBox(
+              width: screenWidth(context)*0.6,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  '@$userName',
+                  style: profileViewHeader,
+                ),
+              ),
             ),
             const Spacer(),
             IconButton(
@@ -99,67 +106,70 @@ class _OwnProfileViewState extends State<OwnProfileView> {
         backgroundColor: AppColors.profileScreenBackgroundColor,
         elevation: 0.0,
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: AppColors.welcomeScreenBackgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  tooltip: "Messages",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.email,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, MessageScreen.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Search",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.search,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, Search.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Home",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.home,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Feed.routeName, (route) => false);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Add Post",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.add_circle_outline,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, AddPost.routeName);
-                  }),
-              const Spacer(),
-              IconButton(
-                  tooltip: "Profile",
-                  iconSize: 40,
-                  icon: const Icon(
-                    Icons.person_outline,
-                    color: AppColors.userNameColor,
-                  ),
-                  onPressed: () {}),
-            ],
+      bottomNavigationBar: SizedBox(
+        height: screenHeight(context)*0.095,
+        child: BottomAppBar(
+          color: AppColors.welcomeScreenBackgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    tooltip: "Messages",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.email,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, MessageScreen.routeName);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Search",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.search,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, Search.routeName);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Home",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.home,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Feed.routeName, (route) => false);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Add Post",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.add_circle_outline,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, AddPost.routeName);
+                    }),
+                const Spacer(),
+                IconButton(
+                    tooltip: "Profile",
+                    iconSize: screenWidth(context)*0.08,
+                    icon: const Icon(
+                      Icons.person_outline,
+                      color: AppColors.userNameColor,
+                    ),
+                    onPressed: () {}),
+              ],
+            ),
           ),
         ),
       ),
@@ -184,7 +194,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             fit: BoxFit.fitHeight,
                           ),
                         ),
-                        radius: 60,
+                        radius: screenWidth(context)*0.14,
                       ),
                     ),
                     Column(
@@ -257,8 +267,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   color:
                                       AppColors.profileSettingButtonFillColor,
                                 ),
-                                width: 300,
-                                height: 60,
+                                width: screenWidth(context)*0.8,
+                                height: screenHeight(context)*0.075,
                                 child: TextButton.icon(
                                   onPressed: () {
                                     Navigator.pushNamed(
@@ -269,9 +279,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                     color: AppColors
                                         .profileSettingsButtonIconColor,
                                   ),
-                                  label: Text(
-                                    "Profile Settings",
-                                    style: profileViewProfileSettingsButton,
+                                  label: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      "Profile Settings",
+                                      style: profileViewProfileSettingsButton,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -287,7 +300,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     color: AppColors.profileImageTextPostViewButton,
                   ),
                   width: double.infinity,
-                  height: 50,
+                  height: screenHeight(context)*0.06,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
