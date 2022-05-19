@@ -4,6 +4,8 @@ import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+import '../utilities/screen_sizes.dart';
+
 class MessageCard extends StatelessWidget {
   final Message myMessage;
   const MessageCard({required this.myMessage});
@@ -57,7 +59,7 @@ class MessageCard extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 8.0),
-                      constraints: const BoxConstraints(maxWidth: 270),
+                      constraints: BoxConstraints(maxWidth: screenWidth(context)*0.65),
                       child: Column(
                         children: [
                           Text(

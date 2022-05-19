@@ -3,6 +3,8 @@ import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+import '../utilities/screen_sizes.dart';
+
 class ChatCard extends StatelessWidget {
   final Message message;
   final bool isMe;
@@ -23,7 +25,7 @@ class ChatCard extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.all(16),
-          constraints: const BoxConstraints(maxWidth: 250),
+          constraints: BoxConstraints(maxWidth: screenWidth(context)*0.60),
           decoration: BoxDecoration(
             color: isMe
                 ? AppColors.messagesFromUserFillColor

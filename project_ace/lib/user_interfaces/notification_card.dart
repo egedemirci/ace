@@ -4,6 +4,8 @@ import 'package:project_ace/templates/notif.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+import '../utilities/screen_sizes.dart';
+
 class NotificationsCard extends StatelessWidget {
   final AppNotification myNotification;
 
@@ -43,7 +45,7 @@ class NotificationsCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 270),
+                  constraints: BoxConstraints(maxWidth: screenWidth(context)*0.65),
                   padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                   child: Column(children: [
                     Text(
