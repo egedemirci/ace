@@ -29,10 +29,26 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+bool _seen=false;
+Future<bool> checkFirstSeen() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
+  _seen = (prefs.getBool('seen') ?? false);
+
+  print(_seen);
+
+  if (!_seen) {
+    prefs.setBool("seen", true);
+  }
+
+  return _seen;
+}
 void main() {
+
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(home: MyFirebaseApp(), routes: {
+  runApp(MaterialApp(home: MyFirebaseApp(),
+
+    routes: {
     SignUp.routeName: (context) => const SignUp(),
     Login.routeName: (context) => const Login(),
     ProfileView.routeName: (context) => const ProfileView(),
@@ -59,6 +75,7 @@ void main() {
 
 class MyFirebaseApp extends StatelessWidget {
   MyFirebaseApp({Key? key}) : super(key: key);
+  final Future<bool> firstOpen = checkFirstSeen();
 
   final Future<FirebaseApp> _init = Firebase.initializeApp();
 
@@ -76,7 +93,7 @@ class MyFirebaseApp extends StatelessWidget {
           return StreamProvider<User?>.value(
             value: FirebaseAuthService().user,
             initialData: null,
-            child: const AuthenticationStatus(),
+            child: AuthenticationStatus(),
           );
         }
         return const WelcomePage();
@@ -96,6 +113,9 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
+    if(!_seen){
+      return const Walkthrough();
+    }
     if (user == null) {
       return const Login();
     } else {

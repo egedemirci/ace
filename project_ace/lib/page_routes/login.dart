@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -36,7 +37,7 @@ class _LoginState extends State<Login> {
       _showDialog("Login Error", result);
     } else if (result is User) {
       // user is signed in.
-      // Navigator.pushNamedAndRemoveUntil(context, ProfileView.routeName, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, ProfileView.routeName, (route) => false);
     } else {
       _showDialog("Login Error", result.toString());
     }
