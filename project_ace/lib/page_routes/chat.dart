@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/own_profile_view.dart';
-import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/user_interfaces/chat_card.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/page_routes/add_post.dart';
-import 'package:project_ace/page_routes/feed.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -65,6 +61,15 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.parse('2022-05-17 11:44:04Z'),
     ),
     Message(
+      fullName: "Johnny Depp",
+      idUser: "119fa058e5b43d7955af3c6d58d43782",
+      urlAvatar:
+      "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
+      message: "She made me suffer so many bad things that I couldn't even explain in court.",
+      username: "johnnydepp",
+      createdAt: DateTime.parse('2022-05-17 11:44:04Z'),
+    ),
+    Message(
       fullName: "me",
       idUser: "435e0648d634175c46bd40ac366545a8",
       urlAvatar:
@@ -106,8 +111,54 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  _sendMessageArea(){
+    return Container(
+      color: AppColors.profileScreenBackgroundColor,
+      height: screenHeight(context)*0.110,
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              textCapitalization: TextCapitalization.sentences,
+              autocorrect: true,
+              enableSuggestions: true,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                labelText: 'Type your message',
+                labelStyle: writeSomething,
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 0),
+                  gapPadding: 10,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
+              onChanged: (value) => setState(() {
+                message = value;
+              }),
+            ),
+          ),
+          const SizedBox(width: 20),
+          IconButton(
+              onPressed: message.trim().isEmpty ? null : () {
+                sendMessage(messages);},
+              icon: Container(
+                  padding: const EdgeInsets.fromLTRB(6, 4, 8, 8),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blue,
+                  ),
+                  child: const Icon(Icons.send, color: Colors.white))),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    String prevUserName = "";
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
@@ -131,70 +182,25 @@ class _ChatPageState extends State<ChatPage> {
         elevation: 0.0,
       ),
       backgroundColor: AppColors.profileScreenBackgroundColor,
-      extendBodyBehindAppBar: true,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(children: [
-                Column(
-                  children: messages
-                      .map((message) => ChatCard(
-                            message: message,
-                            isMe: message.username == myUsername,
-                          ))
-                      .toList(),
-                ),
-                Container(
-                  color: AppColors.profileScreenBackgroundColor,
-                  height: screenHeight(context)*0.115,
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          controller: _controller,
-                          textCapitalization: TextCapitalization.sentences,
-                          autocorrect: true,
-                          enableSuggestions: true,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: 'Type your message',
-                            labelStyle: writeSomething,
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(width: 0),
-                              gapPadding: 10,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                          ),
-                          onChanged: (value) => setState(() {
-                            message = value;
-                          }),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      GestureDetector(
-                        onTap: message.trim().isEmpty
-                            ? null
-                            : () {
-                                sendMessage(messages);
-                              },
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.blue,
-                          ),
-                          child: const Icon(Icons.send, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ])),
-        ),
-      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(20),
+              itemCount: messages.length,
+              itemBuilder: (BuildContext context, int index){
+                final Message _message = messages[index];
+                final bool isMe = _message.username == myUsername;
+                final bool isSameUser = prevUserName == _message.username;
+                prevUserName = _message.username;
+                return ChatCard(message: _message, isMe: isMe, isSameUser: isSameUser);
+              },
+            ),
+          ),
+          _sendMessageArea()
+        ],
+      )
+
     );
   }
 }
