@@ -49,7 +49,12 @@ class _SearchState extends State<Search> {
                 controller: _controller,
                 decoration: InputDecoration(
                     labelStyle: searchFormText,
-                    prefixIcon: const Icon(Icons.search),
+                    prefixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: (){
+                        FocusScope.of(context).unfocus();
+                      },
+                    ),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {

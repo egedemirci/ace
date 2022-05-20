@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
@@ -13,13 +14,31 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
-  final _formKey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  String postText = '';
 
+  void sendPost() async {
+    setState(() {
+      FocusScope.of(context).unfocus();
+      _controller.clear();
+    });
+  }
+
+  void _scrollDown() {
+    scrollController.jumpTo(scrollController.position.maxScrollExtent);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            }),
         toolbarHeight: 80,
         elevation: 0,
         centerTitle: true,
@@ -38,63 +57,82 @@ class _AddPostState extends State<AddPost> {
       ),
       backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              const Spacer(),
-              Container(
-                margin: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                  color: AppColors.userNameColor,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          controller: scrollController,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: screenHeight(context)*0.09,
                 ),
-                width: screenWidth(context)*0.9,
-                height: screenHeight(context)*0.4,
-                child: Form(
-                  key: _formKey,
+                Container(
+                  constraints: BoxConstraints(maxHeight: screenHeight(context)*0.4),
+                  margin: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                    color: AppColors.userNameColor,
+                  ),
+                  width: screenWidth(context)*0.9,
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: TextFormField(
-                      textInputAction: TextInputAction.done,
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none),
-                      maxLines: 13,
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    child: TextField(
+
+                      minLines: 15,
+                      maxLines: 15,
+                      onTap: ()async{
+                        await Future.delayed(const Duration(milliseconds: 500));
+                        _scrollDown();
+                      },
+                      controller: _controller,
+                      textCapitalization: TextCapitalization.sentences,
+                      autocorrect: true,
+                      enableSuggestions: true,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'What do you want to tell?',
+                        hintStyle: writeSomething,
+                      ),
+                      onChanged: (value) => setState(() {
+                        postText = value;
+                      }),
                     ),
-                  ),
+                  )
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Ace!",
-                      style: aceButton,
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        sendPost();
+                      },
+                      child: Text(
+                        "Ace!",
+                        style: aceButton,
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        fixedSize: Size(screenWidth(context)*0.5, screenHeight(context)*0.07),
+                        elevation: 0,
+                        backgroundColor: AppColors.sharePostColor,
+                        side: BorderSide.none,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                      ),
                     ),
-                    style: OutlinedButton.styleFrom(
-                      fixedSize: Size(screenWidth(context)*0.5, screenHeight(context)*0.07),
-                      elevation: 0,
-                      backgroundColor: AppColors.sharePostColor,
-                      side: BorderSide.none,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                    const SizedBox(
+                      width: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                ],
-              ),
-              const Spacer(flex: 2),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

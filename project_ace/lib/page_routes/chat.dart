@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:ui';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/user_interfaces/chat_card.dart';
@@ -12,6 +16,8 @@ class ChatPage extends StatefulWidget {
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
+
+
 
 class _ChatPageState extends State<ChatPage> {
   List<Message> messages = [
@@ -90,6 +96,7 @@ class _ChatPageState extends State<ChatPage> {
   ];
 
   final _controller = TextEditingController();
+  final ScrollController scrollController = ScrollController();
   String message = '';
 
   String myUsername = "userName";
@@ -120,6 +127,10 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: TextField(
+              onTap: ()async{
+                await Future.delayed(const Duration(milliseconds: 500));
+                _scrollDown();
+                },
               controller: _controller,
               textCapitalization: TextCapitalization.sentences,
               autocorrect: true,
@@ -143,7 +154,10 @@ class _ChatPageState extends State<ChatPage> {
           const SizedBox(width: 20),
           IconButton(
               onPressed: message.trim().isEmpty ? null : () {
-                sendMessage(messages);},
+                sendMessage(messages);
+                message = "";
+                _scrollDown();
+                },
               icon: Container(
                   padding: const EdgeInsets.fromLTRB(6, 4, 8, 8),
                   decoration: const BoxDecoration(
@@ -156,11 +170,21 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
+  void _scrollDown() {
+    scrollController.jumpTo(scrollController.position.maxScrollExtent);
+  }
+
   @override
   Widget build(BuildContext context) {
     String prevUserName = "";
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            }),
         foregroundColor: AppColors.profileScreenTextColor,
         title: Row(
           children: [
@@ -168,6 +192,7 @@ class _ChatPageState extends State<ChatPage> {
             const Spacer(),
             IconButton(
               onPressed: () {
+                FocusScope.of(context).unfocus();
                 Navigator.pushNamed(context, '/notifications');
               },
               icon: const Icon(
@@ -186,6 +211,9 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: ListView.builder(
+              controller: scrollController,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(20),
               itemCount: messages.length,
               itemBuilder: (BuildContext context, int index){
