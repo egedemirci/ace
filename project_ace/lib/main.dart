@@ -23,6 +23,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:project_ace/utilities/analytics.dart';
 import 'package:project_ace/utilities/bloc_observer.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
+import 'package:project_ace/utilities/transition.dart';
 import 'package:provider/provider.dart';
 import 'package:project_ace/page_routes/home_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -65,8 +66,8 @@ void main() {
   theme: ThemeData(
     pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
-    TargetPlatform.android: ZoomPageTransitionsBuilder(),
-    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    TargetPlatform.android: NoTransitionsBuilder(),
+    TargetPlatform.iOS: NoTransitionsBuilder(),
     },
   ),
   ),
