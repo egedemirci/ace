@@ -18,7 +18,6 @@ import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/page_routes/walkthrough.dart';
 import 'package:project_ace/page_routes/welcome.dart';
-import 'package:project_ace/page_routes/search.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:project_ace/utilities/analytics.dart';
 import 'package:project_ace/utilities/bloc_observer.dart';
@@ -30,54 +29,50 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-bool _seen=false;
+
+bool _seen = false;
+
 Future<bool> checkFirstSeen() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
   _seen = (prefs.getBool('seen') ?? false);
-
   print(_seen);
-
   if (!_seen) {
     prefs.setBool("seen", true);
   }
-
   return _seen;
 }
+
 void main() {
-
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(home: MyFirebaseApp(),
-
-    routes: {
-    SignUp.routeName: (context) => const SignUp(),
-    Login.routeName: (context) => const Login(),
-    ProfileView.routeName: (context) => const ProfileView(),
-    AddPost.routeName: (context) => const AddPost(),
-    OwnProfileView.routeName: (context) => const OwnProfileView(),
-    ProfileSettings.routeName: (context) => const ProfileSettings(),
-    NotificationScreen.routeName: (context) => const NotificationScreen(),
-    Walkthrough.routeName: (context) => const Walkthrough(),
-    Feed.routeName: (context) => const Feed(),
-    Search.routeName: (context) => const Search(),
-    MessageScreen.routeName: (context) => const MessageScreen(),
-    ChatPage.routeName: (context) => const ChatPage(),
-  },
-  theme: ThemeData(
-    pageTransitionsTheme: const PageTransitionsTheme(
-    builders: {
-    TargetPlatform.android: NoTransitionsBuilder(),
-    TargetPlatform.iOS: NoTransitionsBuilder(),
-    },
-  ),
-  ),
-  ));
+  runApp(MaterialApp(
+      home: MyFirebaseApp(),
+      routes: {
+        SignUp.routeName: (context) => const SignUp(),
+        Login.routeName: (context) => const Login(),
+        ProfileView.routeName: (context) => const ProfileView(),
+        AddPost.routeName: (context) => const AddPost(),
+        OwnProfileView.routeName: (context) => const OwnProfileView(),
+        ProfileSettings.routeName: (context) => const ProfileSettings(),
+        NotificationScreen.routeName: (context) => const NotificationScreen(),
+        Walkthrough.routeName: (context) => const Walkthrough(),
+        Feed.routeName: (context) => const Feed(),
+        Search.routeName: (context) => const Search(),
+        MessageScreen.routeName: (context) => const MessageScreen(),
+        ChatPage.routeName: (context) => const ChatPage(),
+      },
+      theme: ThemeData(
+          pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: NoTransitionsBuilder(),
+          TargetPlatform.iOS: NoTransitionsBuilder(),
+        },
+      ))));
 }
 
 class MyFirebaseApp extends StatelessWidget {
   MyFirebaseApp({Key? key}) : super(key: key);
-  final Future<bool> firstOpen = checkFirstSeen();
 
+  final Future<bool> firstOpen = checkFirstSeen();
   final Future<FirebaseApp> _init = Firebase.initializeApp();
 
   @override
@@ -94,7 +89,7 @@ class MyFirebaseApp extends StatelessWidget {
           return StreamProvider<User?>.value(
             value: FirebaseAuthService().user,
             initialData: null,
-            child: AuthenticationStatus(),
+            child: const AuthenticationStatus(),
           );
         }
         return const WelcomePage();
@@ -114,7 +109,7 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
-    if(!_seen){
+    if (!_seen) {
       return const Walkthrough();
     }
     if (user == null) {
