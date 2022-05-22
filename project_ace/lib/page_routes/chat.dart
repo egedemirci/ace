@@ -103,7 +103,6 @@ class _ChatPageState extends State<ChatPage> {
 
   void sendMessage(List<Message> listMessages) async {
     setState(() {
-      FocusScope.of(context).unfocus();
       listMessages.add(Message(
         fullName: "me",
         idUser: "435e0648d634175c46bd40ac366545a8",
@@ -154,9 +153,10 @@ class _ChatPageState extends State<ChatPage> {
           IconButton(
               onPressed: message.trim().isEmpty
                   ? null
-                  : () {
+                  : () async{
                       sendMessage(messages);
                       message = "";
+                      await Future.delayed(const Duration(milliseconds: 25));
                       _scrollDown();
                     },
               icon: Container(

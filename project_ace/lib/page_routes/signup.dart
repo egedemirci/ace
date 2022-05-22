@@ -271,6 +271,7 @@ class _SignUpState extends State<SignUp> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
+                        hintText: "+905xxxxxxxxx",
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
@@ -308,7 +309,7 @@ class _SignUpState extends State<SignUp> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 await registerUser();
-                _showDialog("Sign Up Success",
+                await _showDialog("Sign Up Success",
                     "You have successfully signed up.\nYou will now be directed to the login page");
                 Navigator.pushNamedAndRemoveUntil(
                     context, Login.routeName, (route) => false);
