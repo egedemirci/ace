@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/page_routes/signup.dart';
@@ -38,8 +37,7 @@ class _LoginState extends State<Login> {
       _showDialog("Login Error", result);
     } else if (result is User) {
       // user is signed in.
-      Navigator.pushNamedAndRemoveUntil(
-          context, OwnProfileView.routeName, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, ProfileView.routeName, (route) => false);
     } else {
       _showDialog("Login Error", result.toString());
     }
@@ -155,25 +153,23 @@ SingleChildScrollView(reverse: true)
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: screenHeight(context) * 0.048),
+            SizedBox(height: screenHeight(context)*0.048),
             ClipRect(
               child: Image(
-                  image: const NetworkImage(
-                      'https://i.hizliresim.com/bxfjezq.png'),
-                  width: screenWidth(context) * 0.5,
-                  height: screenHeight(context) * 0.25),
+                  image: const NetworkImage('https://i.hizliresim.com/bxfjezq.png'),
+                  width: screenWidth(context)*0.5,
+                  height: screenHeight(context)*0.25),
             ),
-            SizedBox(height: screenHeight(context) * 0.048),
+            SizedBox(height: screenHeight(context)*0.048),
             SizedBox(
-              width: screenWidth(context) * 0.75,
+              width: screenWidth(context)*0.75,
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      constraints: BoxConstraints(
-                          maxHeight: screenHeight(context) * 0.075),
+                      constraints: BoxConstraints(maxHeight: screenHeight(context)*0.075),
                       child: TextFormField(
                         autocorrect: false,
                         enableSuggestions: false,
@@ -206,10 +202,9 @@ SingleChildScrollView(reverse: true)
                         },
                       ),
                     ),
-                    SizedBox(height: screenHeight(context) * 0.024),
+                    SizedBox(height: screenHeight(context)*0.024),
                     Container(
-                      constraints: BoxConstraints(
-                          maxHeight: screenHeight(context) * 0.075),
+                      constraints: BoxConstraints(maxHeight: screenHeight(context)*0.075),
                       child: TextFormField(
                         autocorrect: false,
                         enableSuggestions: false,
@@ -247,7 +242,7 @@ SingleChildScrollView(reverse: true)
                 ),
               ),
             ),
-            SizedBox(height: screenHeight(context) * 0.024),
+            SizedBox(height: screenHeight(context)*0.024),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -261,11 +256,6 @@ SingleChildScrollView(reverse: true)
                           'Form Error', "Your email or password is invalid!");
                     }
                   },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: AppColors.loginSignupButtonBackgroundColor,
-                    fixedSize: Size(screenWidth(context) * 0.3,
-                        screenHeight(context) * 0.05),
-                  ),
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
@@ -273,59 +263,60 @@ SingleChildScrollView(reverse: true)
                       style: loginSignUpButton,
                     ),
                   ),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: AppColors.loginSignupButtonBackgroundColor,
+                    fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05),
+                  ),
                 ),
-                SizedBox(height: screenHeight(context) * 0.012),
+                SizedBox(height: screenHeight(context)*0.012),
                 Text(
                   "OR CONNECT WITH",
                   style: loginPageText,
                 ),
-                SizedBox(height: screenHeight(context) * 0.012),
+                SizedBox(height: screenHeight(context)*0.012),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     OutlinedButton(
                       onPressed: () {},
+                      child: Image.asset("assets/images/meta.png", scale: 25),
                       style: OutlinedButton.styleFrom(
                           backgroundColor: AppColors
                               .loginPageMetaGoogleOptionBackgroundColor,
-                          fixedSize: Size(screenWidth(context) * 0.3,
-                              screenHeight(context) * 0.05)),
-                      child: Image.asset("assets/images/meta.png", scale: 25),
+                          fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05)),
                     ),
-                    SizedBox(width: screenHeight(context) * 0.024),
+                    SizedBox(width: screenHeight(context)*0.024),
                     OutlinedButton(
                       onPressed: () {},
+                      child: Image.asset("assets/images/google.png", scale: 25),
                       style: OutlinedButton.styleFrom(
                           backgroundColor: AppColors
                               .loginPageMetaGoogleOptionBackgroundColor,
-                          fixedSize: Size(screenWidth(context) * 0.3,
-                              screenHeight(context) * 0.05)),
-                      child: Image.asset("assets/images/google.png", scale: 25),
+                          fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05)),
                     ),
                   ],
                 ),
-                SizedBox(height: screenHeight(context) * 0.012),
+                SizedBox(height: screenHeight(context)*0.012),
                 Text(
                   "NEED ACCOUNT?",
                   style: loginPageText,
                 ),
-                SizedBox(height: screenHeight(context) * 0.012),
+                SizedBox(height: screenHeight(context)*0.012),
                 OutlinedButton(
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, SignUp.routeName, (route) => false);
                   },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: AppColors.loginSignupButtonBackgroundColor,
-                    fixedSize: Size(screenWidth(context) * 0.3,
-                        screenHeight(context) * 0.05),
-                  ),
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
                       "SIGN UP",
                       style: loginSignUpButton,
                     ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: AppColors.loginSignupButtonBackgroundColor,
+                    fixedSize: Size(screenWidth(context)*0.3, screenHeight(context)*0.05),
                   ),
                 ),
               ],

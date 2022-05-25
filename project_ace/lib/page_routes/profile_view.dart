@@ -110,7 +110,7 @@ class _ProfileViewState extends State<ProfileView> {
         elevation: 0.0,
       ),
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.095,
+        height: screenHeight(context)*0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -120,7 +120,7 @@ class _ProfileViewState extends State<ProfileView> {
               children: [
                 IconButton(
                     tooltip: "Messages",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: 40,
                     icon: const Icon(
                       Icons.email,
                       color: AppColors.userNameColor,
@@ -131,7 +131,7 @@ class _ProfileViewState extends State<ProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Search",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: 40,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.userNameColor,
@@ -142,7 +142,7 @@ class _ProfileViewState extends State<ProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Home",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: 40,
                     icon: const Icon(
                       Icons.home,
                       color: AppColors.userNameColor,
@@ -154,7 +154,7 @@ class _ProfileViewState extends State<ProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Add Post",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: 40,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: AppColors.userNameColor,
@@ -165,7 +165,7 @@ class _ProfileViewState extends State<ProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Profile",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: 40,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.userNameColor,
@@ -194,13 +194,13 @@ class _ProfileViewState extends State<ProfileView> {
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: CircleAvatar(
                         backgroundColor: AppColors.welcomeScreenBackgroundColor,
-                        radius: 60,
                         child: ClipOval(
                           child: Image.network(
                             'https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png',
                             fit: BoxFit.fitHeight,
                           ),
                         ),
+                        radius: 60,
                       ),
                     ),
                     Column(
@@ -320,12 +320,12 @@ class _ProfileViewState extends State<ProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                              elevation: 0, side: BorderSide.none),
                           child: const Icon(
                             Icons.photo_outlined,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
+                          style: OutlinedButton.styleFrom(
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                       const Padding(
@@ -339,12 +339,12 @@ class _ProfileViewState extends State<ProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                              elevation: 0, side: BorderSide.none),
                           child: const Icon(
                             Icons.text_fields,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
+                          style: OutlinedButton.styleFrom(
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                     ],

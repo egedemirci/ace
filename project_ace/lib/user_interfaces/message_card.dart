@@ -32,8 +32,8 @@ class MessageCard extends StatelessWidget {
                 CircleAvatar(
                   foregroundColor: AppColors.notificationIconColor,
                   backgroundColor: AppColors.profileScreenBackgroundColor,
-                  radius: screenWidth(context) * 0.10,
                   child: ClipOval(child: Image.network(myMessage.urlAvatar)),
+                  radius: screenWidth(context)*0.10,
                 ),
                 //text ve name
                 Column(
@@ -59,8 +59,7 @@ class MessageCard extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.fromLTRB(8, 0, 0, 15),
-                      constraints:
-                          BoxConstraints(maxWidth: screenWidth(context) * 0.65),
+                      constraints: BoxConstraints(maxWidth: screenWidth(context)*0.65),
                       child: Column(
                         children: [
                           Text(

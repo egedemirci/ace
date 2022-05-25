@@ -14,7 +14,7 @@ class SignUp extends StatefulWidget {
   static const String routeName = '/signup';
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
@@ -271,7 +271,6 @@ class _SignUpState extends State<SignUp> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
-                        hintText: "+905xxxxxxxxx",
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
@@ -309,7 +308,7 @@ class _SignUpState extends State<SignUp> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 await registerUser();
-                await _showDialog("Sign Up Success",
+                _showDialog("Sign Up Success",
                     "You have successfully signed up.\nYou will now be directed to the login page");
                 Navigator.pushNamedAndRemoveUntil(
                     context, Login.routeName, (route) => false);

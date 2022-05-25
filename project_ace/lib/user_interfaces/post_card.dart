@@ -29,7 +29,6 @@ class PostCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
-                    radius: 20,
                     child: post.profileImageSource != "default"
                         ? ClipOval(
                             child: Image.network(
@@ -41,6 +40,7 @@ class PostCard extends StatelessWidget {
                               "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
                             ),
                           ),
+                    radius: 20,
                   ),
                 ),
                 // TODO: Add the correct text style here

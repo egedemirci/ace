@@ -10,7 +10,6 @@ import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
-import 'package:project_ace/page_routes/login.dart';
 
 class OwnProfileView extends StatefulWidget {
   const OwnProfileView({Key? key}) : super(key: key);
@@ -78,13 +77,11 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               icon: const Icon(Icons.logout),
               onPressed: () async {
                 await _auth.signOutUser();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Login.routeName, (route) => false);
               },
             ),
             const Spacer(),
             SizedBox(
-              width: screenWidth(context) * 0.6,
+              width: screenWidth(context)*0.6,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
@@ -110,7 +107,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
         elevation: 0.0,
       ),
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.095,
+        height: screenHeight(context)*0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -120,7 +117,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               children: [
                 IconButton(
                     tooltip: "Messages",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.email,
                       color: AppColors.userNameColor,
@@ -131,7 +128,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Search",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.userNameColor,
@@ -142,7 +139,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Home",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.home,
                       color: AppColors.userNameColor,
@@ -154,7 +151,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Add Post",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: AppColors.userNameColor,
@@ -165,7 +162,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Profile",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.userNameColor,
@@ -191,13 +188,13 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: CircleAvatar(
                         backgroundColor: AppColors.welcomeScreenBackgroundColor,
-                        radius: screenWidth(context) * 0.14,
                         child: ClipOval(
                           child: Image.network(
                             'https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png',
                             fit: BoxFit.fitHeight,
                           ),
                         ),
+                        radius: screenWidth(context)*0.14,
                       ),
                     ),
                     Column(
@@ -270,8 +267,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   color:
                                       AppColors.profileSettingButtonFillColor,
                                 ),
-                                width: screenWidth(context) * 0.8,
-                                height: screenHeight(context) * 0.075,
+                                width: screenWidth(context)*0.8,
+                                height: screenHeight(context)*0.075,
                                 child: TextButton.icon(
                                   onPressed: () {
                                     Navigator.pushNamed(
@@ -303,19 +300,19 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     color: AppColors.profileImageTextPostViewButton,
                   ),
                   width: double.infinity,
-                  height: screenHeight(context) * 0.06,
+                  height: screenHeight(context)*0.06,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                              elevation: 0, side: BorderSide.none),
                           child: const Icon(
                             Icons.photo_outlined,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
+                          style: OutlinedButton.styleFrom(
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                       const Padding(
@@ -329,12 +326,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                              elevation: 0, side: BorderSide.none),
                           child: const Icon(
                             Icons.text_fields,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
+                          style: OutlinedButton.styleFrom(
+                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                     ],

@@ -23,7 +23,7 @@ class ProfileSettings extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
         title: SizedBox(
-          width: screenWidth(context) * 0.6,
+          width: screenWidth(context)*0.6,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
@@ -48,14 +48,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: changePassword,
-                  style: ElevatedButton.styleFrom(
-                      primary: AppColors.metaGoogleConnectButtonColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
                   child: Text(
                     'Change password',
                     style: profileSettingsChangeButton,
                   ),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppColors.metaGoogleConnectButtonColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -63,14 +63,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: editBio,
-                  style: ElevatedButton.styleFrom(
-                      primary: AppColors.metaGoogleConnectButtonColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
                   child: Text(
                     'Edit bio',
                     style: profileSettingsChangeButton,
                   ),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppColors.metaGoogleConnectButtonColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -78,14 +78,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: changeProfilePicture,
-                  style: ElevatedButton.styleFrom(
-                      primary: AppColors.metaGoogleConnectButtonColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
                   child: Text(
                     'Change profile picture',
                     style: profileSettingsChangeButton,
                   ),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppColors.metaGoogleConnectButtonColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -93,14 +93,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: deactivateAccount,
-                  style: ElevatedButton.styleFrom(
-                      primary: AppColors.deactivateAccountButtonFillColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
                   child: Text(
                     'Deactivate account',
                     style: profileSettingsDeactivateAndDelete,
                   ),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppColors.deactivateAccountButtonFillColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -108,14 +108,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: deleteAccount,
-                  style: ElevatedButton.styleFrom(
-                      primary: AppColors.deleteAccountButtonFillColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
                   child: Text(
                     'Delete account',
                     style: profileSettingsDeactivateAndDelete,
                   ),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppColors.deleteAccountButtonFillColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                 ),
               ),
             ],

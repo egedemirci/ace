@@ -74,8 +74,8 @@ class _SearchState extends State<Search> {
             padding: const EdgeInsets.all(8),
             child: Column(
               children: topics
-                  .map((topic) => TopicCard(
-                        topic: topic,
+                  .map((Topic) => TopicCard(
+                        topic: Topic,
                       ))
                   .toList(),
             ),
@@ -83,7 +83,7 @@ class _SearchState extends State<Search> {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.095,
+        height: screenHeight(context)*0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -93,7 +93,7 @@ class _SearchState extends State<Search> {
               children: [
                 IconButton(
                     tooltip: "Messages",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.email,
                       color: AppColors.userNameColor,
@@ -105,7 +105,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Search",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.userNameColor,
@@ -114,7 +114,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Home",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.home,
                       color: AppColors.userNameColor,
@@ -126,7 +126,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Add Post",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: AppColors.userNameColor,
@@ -138,7 +138,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Profile",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.userNameColor,

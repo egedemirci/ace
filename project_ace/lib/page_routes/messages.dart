@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/user_interfaces/message_card.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -54,7 +57,7 @@ class _MessageScreenState extends State<MessageScreen> {
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.095,
+        height: screenHeight(context)*0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -64,7 +67,7 @@ class _MessageScreenState extends State<MessageScreen> {
               children: [
                 IconButton(
                     tooltip: "Messages",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.email,
                       color: AppColors.userNameColor,
@@ -73,7 +76,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Search",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.userNameColor,
@@ -85,7 +88,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Home",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.home,
                       color: AppColors.userNameColor,
@@ -97,7 +100,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Add Post",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: AppColors.userNameColor,
@@ -109,7 +112,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Profile",
-                    iconSize: screenWidth(context) * 0.08,
+                    iconSize: screenWidth(context)*0.08,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.userNameColor,
@@ -131,7 +134,7 @@ class _MessageScreenState extends State<MessageScreen> {
           children: [
             const Spacer(),
             SizedBox(
-              width: screenWidth(context) * 0.6,
+              width: screenWidth(context)*0.6,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
