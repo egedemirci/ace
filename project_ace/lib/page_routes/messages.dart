@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_ace/page_routes/chat.dart';
@@ -9,12 +10,14 @@ import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 import "package:project_ace/templates/message.dart";
 
+import '../services/analytics.dart';
 import 'add_post.dart';
 import 'feed.dart';
 import 'own_profile_view.dart';
 
 class MessageScreen extends StatefulWidget {
-  const MessageScreen({Key? key}) : super(key: key);
+  const MessageScreen({Key? key, required this.analytics}) : super(key: key);
+  final FirebaseAnalytics analytics;
   static const String routeName = '/messages';
 
   @override
@@ -54,6 +57,7 @@ class _MessageScreenState extends State<MessageScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Messages View", "messagesView");
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       bottomNavigationBar: SizedBox(

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/messages.dart';
@@ -9,9 +10,12 @@ import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-class Feed extends StatefulWidget {
-  const Feed({Key? key}) : super(key: key);
+import '../services/analytics.dart';
 
+class Feed extends StatefulWidget {
+  const Feed({Key? key, required this.analytics}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
   static const String routeName = "/feed";
   @override
   State<Feed> createState() => _FeedState();
@@ -61,6 +65,7 @@ class _FeedState extends State<Feed> {
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Feed View", "feedView");
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(

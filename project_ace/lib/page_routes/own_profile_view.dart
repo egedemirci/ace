@@ -1,9 +1,11 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/search.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -12,8 +14,8 @@ import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class OwnProfileView extends StatefulWidget {
-  const OwnProfileView({Key? key}) : super(key: key);
-
+  const OwnProfileView({Key? key, required this.analytics}) : super(key: key);
+  final FirebaseAnalytics analytics;
   static const String routeName = '/own_profile_view';
 
   @override
@@ -68,6 +70,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Own Profile View", "ownProfileView");
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,

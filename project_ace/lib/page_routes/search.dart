@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
@@ -8,11 +9,12 @@ import 'package:project_ace/user_interfaces/topic_cards.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+import '../services/analytics.dart';
 import '../utilities/screen_sizes.dart';
 
 class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
-
+  const Search({Key? key,required this.analytics}) : super(key: key);
+  final FirebaseAnalytics analytics;
   static const String routeName = '/search';
   @override
   State<Search> createState() => _SearchState();
@@ -31,6 +33,7 @@ class _SearchState extends State<Search> {
   final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Search View", "searchView");
     return Scaffold(
       appBar: AppBar(
           leading: const BackButton(

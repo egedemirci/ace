@@ -1,10 +1,14 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+import '../services/analytics.dart';
+
 class ProfileSettings extends StatelessWidget {
-  const ProfileSettings({Key? key}) : super(key: key);
+  const ProfileSettings({Key? key, required this.analytics}) : super(key: key);
+  final FirebaseAnalytics analytics;
   static const String routeName = '/profile_settings';
 
   void changePassword() {}
@@ -19,6 +23,7 @@ class ProfileSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Profile Settings View", "profileSettingsView");
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,

@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
@@ -8,9 +9,11 @@ import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+import '../services/analytics.dart';
 
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key, required this.analytics}) : super(key: key);
+final FirebaseAnalytics analytics;
   static const String routeName = '/signup';
 
   @override
@@ -77,6 +80,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Signup View", "signupView");
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,
       body: SafeArea(

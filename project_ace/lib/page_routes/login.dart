@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
@@ -15,9 +16,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+import '../services/analytics.dart';
 
+class Login extends StatefulWidget {
+  const Login({Key? key, required this.analytics}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
   static const String routeName = "/login";
   @override
   State<Login> createState() => _LoginState();
@@ -130,22 +134,11 @@ class _LoginState extends State<Login> {
     // TODO: implement initState
     super.initState();
     s = '';
-    /*_auth.authStateChanges().listen((user) {
-      if (user == null) {
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, ProfileView.routeName, (route) => false);
-      }
-    });
-     */
   }
-
-/*
-SingleChildScrollView(reverse: true)
- */
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Login View", "loginView");
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.loginScreenBackgroundColor,

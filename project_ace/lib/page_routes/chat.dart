@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/templates/message.dart';
@@ -11,7 +12,8 @@ import 'package:project_ace/utilities/styles.dart';
 import 'package:project_ace/utilities/colors.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({Key? key, required this.analytics}) : super(key: key);
+  final FirebaseAnalytics analytics;
   static const String routeName = "/individualChat";
   @override
   State<ChatPage> createState() => _ChatPageState();

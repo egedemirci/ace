@@ -1,13 +1,17 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+import '../services/analytics.dart';
 
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({Key? key, required this.analytics}) : super(key: key);
+  final FirebaseAnalytics analytics;
   static const String routeName = "/welcome";
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Welcome View", "welcomeView");
     return Scaffold(
       backgroundColor: AppColors.welcomeScreenBackgroundColor,
       body: SafeArea(

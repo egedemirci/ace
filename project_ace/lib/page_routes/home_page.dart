@@ -1,12 +1,15 @@
 //AFU was here
 // App Level State Management
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/home_bloc/home_bloc.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+import '../services/analytics.dart';
 
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title,required this.analytics}) : super(key: key);
+  final FirebaseAnalytics analytics;
   final String title;
 
   @override
@@ -16,6 +19,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Home Page View", "homePageView");
     return BlocProvider(
       create: (context) => HomeBloc()..add(const HomeInitialLoad()),
       child: BlocBuilder<HomeBloc, HomeState>(

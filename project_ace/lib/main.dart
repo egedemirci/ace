@@ -20,7 +20,7 @@ import 'package:project_ace/page_routes/walkthrough.dart';
 import 'package:project_ace/page_routes/welcome.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:project_ace/utilities/analytics.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/bloc_observer.dart';
 import 'package:project_ace/utilities/firebase_auth.dart';
 import 'package:project_ace/utilities/transition.dart';
@@ -32,6 +32,121 @@ import 'package:path/path.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 bool _seen=false;
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyFirebaseApp());
+}
+
+Future<bool> checkFirstSeen() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  bool _seen = (prefs.getBool('seen') ?? false);
+
+  print(_seen);
+
+  if (!_seen) {
+    prefs.setBool("seen", true);
+  }
+
+  return _seen;
+}
+
+class MyFirebaseApp extends StatefulWidget {
+  const MyFirebaseApp({Key? key}) : super(key: key);
+
+  @override
+  _MyFirebaseAppState createState() => _MyFirebaseAppState();
+}
+
+class _MyFirebaseAppState extends State<MyFirebaseApp> {
+  final Future<FirebaseApp> _initialization =  Firebase.initializeApp();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: Text(
+                    'No Firebase Connection!!! ${snapshot.error.toString()}'),
+              ),
+            ),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          //FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+          return const AppBase();
+        }
+
+        return const MaterialApp(
+          home: Center(child: Text("Connecting to Firebase...")),
+        );
+      },
+    );
+  }
+}
+
+class AppBase extends StatefulWidget {
+  const AppBase({Key? key}) : super(key: key);
+
+  @override
+  _AppBaseState createState() => _AppBaseState();
+}
+
+class _AppBaseState extends State<AppBase> {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+  final Future<bool> firstOpen = checkFirstSeen();
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<User?>.value(
+      value: FirebaseAuthService().user,
+      initialData: null,
+      child: FutureBuilder(
+        future: checkFirstSeen(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return MaterialApp(
+             // navigatorObservers: <NavigatorObserver>[observer],
+              initialRoute: (snapshot.data == true) ? Login.routeName: Walkthrough.routeName,
+              routes: {
+                SignUp.routeName: (context) => SignUp(
+                  analytics: analytics,
+                ),
+                Login.routeName: (context) =>  Login(analytics: analytics,),
+                ProfileView.routeName: (context) => ProfileView(analytics: analytics,),
+                AddPost.routeName: (context) => AddPost(analytics: analytics,),
+                OwnProfileView.routeName: (context) => OwnProfileView(analytics: analytics,),
+                ProfileSettings.routeName: (context) =>  ProfileSettings(analytics: analytics,),
+                NotificationScreen.routeName: (context) =>  NotificationScreen(analytics: analytics,),
+                Walkthrough.routeName: (context) =>  Walkthrough(analytics: analytics,),
+                Feed.routeName: (context) => Feed(analytics: analytics,),
+                Search.routeName: (context) =>  Search(analytics: analytics,),
+                MessageScreen.routeName: (context) => MessageScreen(analytics: analytics,),
+                ChatPage.routeName: (context) =>  ChatPage(analytics: analytics,),
+              },
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
+  }
+}
+
+
+
+/*
+bool _seen = false;
+
 Future<bool> checkFirstSeen() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -142,7 +257,7 @@ class ErrorScreen extends StatelessWidget {
     );
   }
 }
-
+*/
 /*
 // Shared Preferences -> Keys are string, values can be dynamic.
     SharedPreferences? prefs;

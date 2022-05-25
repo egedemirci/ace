@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+import '../services/analytics.dart';
+
 class AddPost extends StatefulWidget {
-  const AddPost({Key? key}) : super(key: key);
+  const AddPost({Key? key, required this.analytics}) : super(key: key);
 
   static const String routeName = "/addPost";
-
+  final FirebaseAnalytics analytics;
   @override
   State<AddPost> createState() => _AddPostState();
 }
@@ -30,6 +33,7 @@ class _AddPostState extends State<AddPost> {
   }
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Add Post View", "addPostView");
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
