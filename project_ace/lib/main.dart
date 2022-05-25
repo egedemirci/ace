@@ -29,6 +29,7 @@ import 'package:project_ace/page_routes/home_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 bool _seen=false;
 Future<bool> checkFirstSeen() async {
@@ -77,9 +78,7 @@ void main() {
 class MyFirebaseApp extends StatelessWidget {
   MyFirebaseApp({Key? key}) : super(key: key);
   final Future<bool> firstOpen = checkFirstSeen();
-
   final Future<FirebaseApp> _init = Firebase.initializeApp();
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
