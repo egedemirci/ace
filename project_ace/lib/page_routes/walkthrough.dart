@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
-import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/utilities/screen_sizes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Walkthrough extends StatefulWidget {
   const Walkthrough({Key? key}) : super(key: key);

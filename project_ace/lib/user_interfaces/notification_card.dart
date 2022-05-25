@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/templates/notif.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -33,8 +32,8 @@ class NotificationsCard extends StatelessWidget {
                   child: CircleAvatar(
                     foregroundColor: AppColors.notificationIconColor,
                     backgroundColor: AppColors.profileScreenBackgroundColor,
-                    child: ClipOval(child: myNotification.icon),
                     radius: 30,
+                    child: ClipOval(child: myNotification.icon),
                   ),
                 ),
                 Padding(
@@ -45,7 +44,8 @@ class NotificationsCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  constraints: BoxConstraints(maxWidth: screenWidth(context)*0.65),
+                  constraints:
+                      BoxConstraints(maxWidth: screenWidth(context) * 0.65),
                   padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                   child: Column(children: [
                     Text(
@@ -68,32 +68,32 @@ class NotificationsCard extends StatelessWidget {
                     width: 80,
                   ),
                   Visibility(
+                    visible: myNotification.type,
                     child: OutlinedButton(
                       onPressed: () {},
-                      child: Text(
-                        "Accept!",
-                        style: acceptAndReject,
-                      ),
                       style: OutlinedButton.styleFrom(
                           primary: AppColors.profileSettingsButtonTextColor,
                           backgroundColor: AppColors.decisionButtonColor,
                           fixedSize: const Size(80, 8)),
+                      child: Text(
+                        "Accept!",
+                        style: acceptAndReject,
+                      ),
                     ),
-                    visible: myNotification.type,
                   ),
                   const SizedBox(
                     width: 15,
                   ),
                   Visibility(
+                    visible: myNotification.type,
                     child: OutlinedButton(
                       onPressed: () {},
-                      child: Text("Reject!", style: acceptAndReject),
                       style: OutlinedButton.styleFrom(
                           primary: AppColors.profileSettingsButtonTextColor,
                           backgroundColor: AppColors.decisionButtonColor,
                           fixedSize: const Size(80, 8)),
+                      child: Text("Reject!", style: acceptAndReject),
                     ),
-                    visible: myNotification.type,
                   ),
                 ],
               ),

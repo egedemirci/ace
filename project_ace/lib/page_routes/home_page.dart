@@ -35,9 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         OutlinedButton(
-                          child: state.isDarkMode
-                              ? const Text("Toggle dark mode")
-                              : const Text("Toggle light mode"),
                           onPressed: () {
                             BlocProvider.of<HomeBloc>(context)
                                 .add(const HomeToggleThemeButtonTapped());
@@ -47,6 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   state.isDarkMode
                                       ? Colors.white
                                       : Colors.black)),
+                          child: state.isDarkMode
+                              ? const Text("Toggle dark mode")
+                              : const Text("Toggle light mode"),
                         ),
                         Text(
                           'You have pushed the button this many times:',
