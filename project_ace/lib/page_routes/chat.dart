@@ -11,6 +11,8 @@ import 'package:project_ace/utilities/styles.dart';
 
 import 'package:project_ace/utilities/colors.dart';
 
+import '../services/analytics.dart';
+
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key, required this.analytics}) : super(key: key);
   final FirebaseAnalytics analytics;
@@ -178,6 +180,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Chart View", "chartView");
     String prevUserName = "";
     return Scaffold(
       appBar: AppBar(
