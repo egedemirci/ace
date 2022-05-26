@@ -3,8 +3,9 @@ import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/templates/notif.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 
-import '../utilities/screen_sizes.dart';
+
 
 //TODO AppNotification class has a parameter called type, this widget should return corresponding view of this type using a bunch of if else statement.
 
