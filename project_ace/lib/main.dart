@@ -27,8 +27,6 @@ import 'package:project_ace/utilities/transition.dart';
 import 'package:provider/provider.dart';
 import 'package:project_ace/page_routes/home_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,8 +39,7 @@ void main() {
 
 Future<bool> checkFirstSeen() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool seen = (prefs.getBool('seen') ?? false);
-  print(seen);
+  seen = (prefs.getBool('seen') ?? false);
   if (!seen) {
     prefs.setBool("seen", true);
   }
@@ -95,8 +92,7 @@ class AceBase extends StatefulWidget {
 
 class _AceBaseState extends State<AceBase> {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  // static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
   final Future<bool> firstOpen = checkFirstSeen();
 
   @override
@@ -169,120 +165,8 @@ class _AceBaseState extends State<AceBase> {
   }
 }
 
-/*
-bool _seen = false;
+// Using sharedPreferences to store userID
 
-Future<bool> checkFirstSeen() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  _seen = (prefs.getBool('seen') ?? false);
-
-  print(_seen);
-
-  if (!_seen) {
-    prefs.setBool("seen", true);
-  }
-
-  return _seen;
-}
-void main() {
-
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(home: MyFirebaseApp(),
-
-    routes: {
-    SignUp.routeName: (context) => const SignUp(),
-    Login.routeName: (context) => const Login(),
-    ProfileView.routeName: (context) => const ProfileView(),
-    AddPost.routeName: (context) => const AddPost(),
-    OwnProfileView.routeName: (context) => const OwnProfileView(),
-    ProfileSettings.routeName: (context) => const ProfileSettings(),
-    NotificationScreen.routeName: (context) => const NotificationScreen(),
-    Walkthrough.routeName: (context) => const Walkthrough(),
-    Feed.routeName: (context) => const Feed(),
-    Search.routeName: (context) => const Search(),
-    MessageScreen.routeName: (context) => const MessageScreen(),
-    ChatPage.routeName: (context) => const ChatPage(),
-  },
-  theme: ThemeData(
-    pageTransitionsTheme: const PageTransitionsTheme(
-    builders: {
-    TargetPlatform.android: NoTransitionsBuilder(),
-    TargetPlatform.iOS: NoTransitionsBuilder(),
-    },
-  ),
-  ),
-  ));
-}
-
-class MyFirebaseApp extends StatelessWidget {
-  MyFirebaseApp({Key? key}) : super(key: key);
-  final Future<bool> firstOpen = checkFirstSeen();
-  final Future<FirebaseApp> _init = Firebase.initializeApp();
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _init,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          ErrorScreen(
-            message: snapshot.error.toString(),
-          );
-        }
-        if (snapshot.connectionState == ConnectionState.done) {
-          return StreamProvider<User?>.value(
-            value: AuthServices().user,
-            initialData: null,
-            child: AuthenticationStatus(),
-          );
-        }
-        return const WelcomePage();
-      },
-    );
-  }
-}
-
-class AuthenticationStatus extends StatefulWidget {
-  const AuthenticationStatus({Key? key}) : super(key: key);
-
-  @override
-  State<AuthenticationStatus> createState() => _AuthenticationStatusState();
-}
-
-class _AuthenticationStatusState extends State<AuthenticationStatus> {
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<User?>(context);
-    if(!_seen){
-      return const Walkthrough();
-    }
-    if (user == null) {
-      return const Login();
-    } else {
-      return const OwnProfileView();
-    }
-  }
-}
-
-class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({Key? key, required this.message}) : super(key: key);
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Project Ace"),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text(message),
-      ),
-    );
-  }
-}
-*/
 /*
 // Shared Preferences -> Keys are string, values can be dynamic.
     SharedPreferences? prefs;
