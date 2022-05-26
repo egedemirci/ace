@@ -1,22 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import "package:flutter/material.dart";
-import 'package:google_fonts/google_fonts.dart';
-import 'package:project_ace/page_routes/chat.dart';
+import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/feed.dart';
+import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/user_interfaces/message_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 import "package:project_ace/templates/message.dart";
 
-import '../services/analytics.dart';
-import 'add_post.dart';
-import 'feed.dart';
-import 'own_profile_view.dart';
-
 class MessageScreen extends StatefulWidget {
   const MessageScreen({Key? key, required this.analytics}) : super(key: key);
+
   final FirebaseAnalytics analytics;
   static const String routeName = '/messages';
 
@@ -61,7 +58,7 @@ class _MessageScreenState extends State<MessageScreen> {
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context)*0.095,
+        height: screenHeight(context) * 0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -71,7 +68,7 @@ class _MessageScreenState extends State<MessageScreen> {
               children: [
                 IconButton(
                     tooltip: "Messages",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.email,
                       color: AppColors.userNameColor,
@@ -80,7 +77,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Search",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.userNameColor,
@@ -92,7 +89,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Home",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.home,
                       color: AppColors.userNameColor,
@@ -104,7 +101,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Add Post",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: AppColors.userNameColor,
@@ -116,7 +113,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Profile",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.userNameColor,
@@ -138,7 +135,7 @@ class _MessageScreenState extends State<MessageScreen> {
           children: [
             const Spacer(),
             SizedBox(
-              width: screenWidth(context)*0.6,
+              width: screenWidth(context) * 0.6,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(

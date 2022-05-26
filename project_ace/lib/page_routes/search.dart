@@ -4,16 +4,16 @@ import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/topic.dart';
 import 'package:project_ace/user_interfaces/topic_cards.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-import '../services/analytics.dart';
-import '../utilities/screen_sizes.dart';
-
 class Search extends StatefulWidget {
-  const Search({Key? key,required this.analytics}) : super(key: key);
+  const Search({Key? key, required this.analytics}) : super(key: key);
+
   final FirebaseAnalytics analytics;
   static const String routeName = '/search';
   @override
@@ -54,7 +54,7 @@ class _SearchState extends State<Search> {
                     labelStyle: searchFormText,
                     prefixIcon: IconButton(
                       icon: const Icon(Icons.search),
-                      onPressed: (){
+                      onPressed: () {
                         FocusScope.of(context).unfocus();
                       },
                     ),
@@ -77,8 +77,8 @@ class _SearchState extends State<Search> {
             padding: const EdgeInsets.all(8),
             child: Column(
               children: topics
-                  .map((Topic) => TopicCard(
-                        topic: Topic,
+                  .map((myTopic) => TopicCard(
+                        topic: myTopic,
                       ))
                   .toList(),
             ),
@@ -86,7 +86,7 @@ class _SearchState extends State<Search> {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context)*0.095,
+        height: screenHeight(context) * 0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -96,7 +96,7 @@ class _SearchState extends State<Search> {
               children: [
                 IconButton(
                     tooltip: "Messages",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.email,
                       color: AppColors.userNameColor,
@@ -108,7 +108,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Search",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.userNameColor,
@@ -117,7 +117,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Home",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.home,
                       color: AppColors.userNameColor,
@@ -129,7 +129,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Add Post",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: AppColors.userNameColor,
@@ -141,7 +141,7 @@ class _SearchState extends State<Search> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Profile",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.userNameColor,

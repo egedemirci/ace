@@ -6,11 +6,15 @@ import 'package:project_ace/utilities/styles.dart';
 import '../utilities/screen_sizes.dart';
 
 class ChatCard extends StatelessWidget {
+  const ChatCard(
+      {Key? key,
+      required this.message,
+      required this.isMe,
+      required this.isSameUser})
+      : super(key: key);
   final Message message;
   final bool isMe;
   final bool isSameUser;
-
-  const ChatCard({required this.message, required this.isMe, required this.isSameUser});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +24,16 @@ class ChatCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
-        if (!isMe && ! isSameUser)
-            CircleAvatar(
-                radius: 16, backgroundImage: NetworkImage(message.urlAvatar)),
-
-        if(!isMe && isSameUser)
-          const SizedBox(width: 32),
-
+        if (!isMe && !isSameUser)
+          CircleAvatar(
+              radius: 16, backgroundImage: NetworkImage(message.urlAvatar)),
+        if (!isMe && isSameUser) const SizedBox(width: 32),
         Container(
           padding: const EdgeInsets.all(12),
-          margin: !isSameUser ? const EdgeInsets.fromLTRB(8, 16, 8, 6) : const EdgeInsets.fromLTRB(8, 0, 8, 6),
-          constraints: BoxConstraints(maxWidth: screenWidth(context)*0.60),
+          margin: !isSameUser
+              ? const EdgeInsets.fromLTRB(8, 16, 8, 6)
+              : const EdgeInsets.fromLTRB(8, 0, 8, 6),
+          constraints: BoxConstraints(maxWidth: screenWidth(context) * 0.60),
           decoration: BoxDecoration(
             color: isMe
                 ? AppColors.messagesFromUserFillColor

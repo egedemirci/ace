@@ -22,7 +22,7 @@ import 'package:project_ace/page_routes/search.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/bloc_observer.dart';
-import 'package:project_ace/utilities/firebase_auth.dart';
+import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/transition.dart';
 import 'package:provider/provider.dart';
 import 'package:project_ace/page_routes/home_page.dart';
@@ -31,7 +31,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-bool _seen=false;
+
+bool seen = false;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,16 +41,12 @@ void main() {
 
 Future<bool> checkFirstSeen() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  bool _seen = (prefs.getBool('seen') ?? false);
-
-  print(_seen);
-
-  if (!_seen) {
+  bool seen = (prefs.getBool('seen') ?? false);
+  print(seen);
+  if (!seen) {
     prefs.setBool("seen", true);
   }
-
-  return _seen;
+  return seen;
 }
 
 class MyFirebaseApp extends StatefulWidget {
@@ -60,8 +57,7 @@ class MyFirebaseApp extends StatefulWidget {
 }
 
 class _MyFirebaseAppState extends State<MyFirebaseApp> {
-  final Future<FirebaseApp> _initialization =  Firebase.initializeApp();
-
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +74,10 @@ class _MyFirebaseAppState extends State<MyFirebaseApp> {
             ),
           );
         }
-
         if (snapshot.connectionState == ConnectionState.done) {
           //FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-          return const AppBase();
+          return const AceBase();
         }
-
         return const MaterialApp(
           home: Center(child: Text("Connecting to Firebase...")),
         );
@@ -92,46 +86,78 @@ class _MyFirebaseAppState extends State<MyFirebaseApp> {
   }
 }
 
-class AppBase extends StatefulWidget {
-  const AppBase({Key? key}) : super(key: key);
+class AceBase extends StatefulWidget {
+  const AceBase({Key? key}) : super(key: key);
 
   @override
-  _AppBaseState createState() => _AppBaseState();
+  _AceBaseState createState() => _AceBaseState();
 }
 
-class _AppBaseState extends State<AppBase> {
+class _AceBaseState extends State<AceBase> {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
   final Future<bool> firstOpen = checkFirstSeen();
 
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User?>.value(
-      value: FirebaseAuthService().user,
+      value: AuthServices().user,
       initialData: null,
       child: FutureBuilder(
         future: checkFirstSeen(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return MaterialApp(
-             // navigatorObservers: <NavigatorObserver>[observer],
-              initialRoute: (snapshot.data == true) ? Login.routeName: Walkthrough.routeName,
+              initialRoute: (snapshot.data == true)
+                  ? Login.routeName
+                  : Walkthrough.routeName,
               routes: {
                 SignUp.routeName: (context) => SignUp(
-                  analytics: analytics,
-                ),
-                Login.routeName: (context) =>  Login(analytics: analytics,),
-                ProfileView.routeName: (context) => ProfileView(analytics: analytics,),
-                AddPost.routeName: (context) => AddPost(analytics: analytics,),
-                OwnProfileView.routeName: (context) => OwnProfileView(analytics: analytics,),
-                ProfileSettings.routeName: (context) =>  ProfileSettings(analytics: analytics,),
-                NotificationScreen.routeName: (context) =>  NotificationScreen(analytics: analytics,),
-                Walkthrough.routeName: (context) =>  Walkthrough(analytics: analytics,),
-                Feed.routeName: (context) => Feed(analytics: analytics,),
-                Search.routeName: (context) =>  Search(analytics: analytics,),
-                MessageScreen.routeName: (context) => MessageScreen(analytics: analytics,),
-                ChatPage.routeName: (context) =>  ChatPage(analytics: analytics,),
+                      analytics: analytics,
+                    ),
+                Login.routeName: (context) => Login(
+                      analytics: analytics,
+                    ),
+                ProfileView.routeName: (context) => ProfileView(
+                      analytics: analytics,
+                    ),
+                AddPost.routeName: (context) => AddPost(
+                      analytics: analytics,
+                    ),
+                OwnProfileView.routeName: (context) => OwnProfileView(
+                      analytics: analytics,
+                    ),
+                ProfileSettings.routeName: (context) => ProfileSettings(
+                      analytics: analytics,
+                    ),
+                NotificationScreen.routeName: (context) => NotificationScreen(
+                      analytics: analytics,
+                    ),
+                Walkthrough.routeName: (context) => Walkthrough(
+                      analytics: analytics,
+                    ),
+                Feed.routeName: (context) => Feed(
+                      analytics: analytics,
+                    ),
+                Search.routeName: (context) => Search(
+                      analytics: analytics,
+                    ),
+                MessageScreen.routeName: (context) => MessageScreen(
+                      analytics: analytics,
+                    ),
+                ChatPage.routeName: (context) => ChatPage(
+                      analytics: analytics,
+                    ),
               },
+              theme: ThemeData(
+                pageTransitionsTheme: const PageTransitionsTheme(
+                  builders: {
+                    TargetPlatform.android: NoTransitionsBuilder(),
+                    TargetPlatform.iOS: NoTransitionsBuilder(),
+                  },
+                ),
+              ),
             );
           } else {
             return Container();
@@ -141,8 +167,6 @@ class _AppBaseState extends State<AppBase> {
     );
   }
 }
-
-
 
 /*
 bool _seen = false;
@@ -206,7 +230,7 @@ class MyFirebaseApp extends StatelessWidget {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return StreamProvider<User?>.value(
-            value: FirebaseAuthService().user,
+            value: AuthServices().user,
             initialData: null,
             child: AuthenticationStatus(),
           );

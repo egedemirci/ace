@@ -1,17 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
-
-import '../services/analytics.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key, required this.analytics}) : super(key: key);
 
   static const String routeName = "/addPost";
   final FirebaseAnalytics analytics;
+
   @override
   State<AddPost> createState() => _AddPostState();
 }
@@ -31,6 +30,7 @@ class _AddPostState extends State<AddPost> {
   void _scrollDown() {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
   }
+
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Add Post View", "addPostView");
@@ -48,7 +48,7 @@ class _AddPostState extends State<AddPost> {
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,
         title: SizedBox(
-          width: screenWidth(context)*0.65,
+          width: screenWidth(context) * 0.65,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
@@ -70,43 +70,43 @@ class _AddPostState extends State<AddPost> {
             child: Column(
               children: [
                 SizedBox(
-                  height: screenHeight(context)*0.09,
+                  height: screenHeight(context) * 0.09,
                 ),
                 Container(
-                  constraints: BoxConstraints(maxHeight: screenHeight(context)*0.4),
-                  margin: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: AppColors.userNameColor,
-                  ),
-                  width: screenWidth(context)*0.9,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    child: TextField(
-
-                      minLines: 15,
-                      maxLines: 15,
-                      onTap: ()async{
-                        await Future.delayed(const Duration(milliseconds: 500));
-                        _scrollDown();
-                      },
-                      controller: _controller,
-                      textCapitalization: TextCapitalization.sentences,
-                      autocorrect: true,
-                      enableSuggestions: true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'What do you want to tell?',
-                        hintStyle: writeSomething,
+                    constraints:
+                        BoxConstraints(maxHeight: screenHeight(context) * 0.4),
+                    margin: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
                       ),
-                      onChanged: (value) => setState(() {
-                        postText = value;
-                      }),
+                      color: AppColors.userNameColor,
                     ),
-                  )
-                ),
+                    width: screenWidth(context) * 0.9,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      child: TextField(
+                        minLines: 15,
+                        maxLines: 15,
+                        onTap: () async {
+                          await Future.delayed(
+                              const Duration(milliseconds: 500));
+                          _scrollDown();
+                        },
+                        controller: _controller,
+                        textCapitalization: TextCapitalization.sentences,
+                        autocorrect: true,
+                        enableSuggestions: true,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'What do you want to tell?',
+                          hintStyle: writeSomething,
+                        ),
+                        onChanged: (value) => setState(() {
+                          postText = value;
+                        }),
+                      ),
+                    )),
                 const SizedBox(
                   height: 20,
                 ),
@@ -117,17 +117,18 @@ class _AddPostState extends State<AddPost> {
                       onPressed: () {
                         sendPost();
                       },
-                      child: Text(
-                        "Ace!",
-                        style: aceButton,
-                      ),
                       style: OutlinedButton.styleFrom(
-                        fixedSize: Size(screenWidth(context)*0.5, screenHeight(context)*0.07),
+                        fixedSize: Size(screenWidth(context) * 0.5,
+                            screenHeight(context) * 0.07),
                         elevation: 0,
                         backgroundColor: AppColors.sharePostColor,
                         side: BorderSide.none,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
+                      ),
+                      child: Text(
+                        "Ace!",
+                        style: aceButton,
                       ),
                     ),
                     const SizedBox(
@@ -145,7 +146,7 @@ class _AddPostState extends State<AddPost> {
         elevation: 0,
         child: SizedBox(
           width: 20,
-          height: screenHeight(context)*0.095,
+          height: screenHeight(context) * 0.095,
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,

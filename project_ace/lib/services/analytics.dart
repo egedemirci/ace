@@ -3,17 +3,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 logEvent(FirebaseAnalytics analytics) async {
   try {
-    analytics.logEvent(
-        name: 'CS310_Test',
-        parameters: <String, dynamic>{
-          'string': 'string',
-          'int': 310,
-          'long': 1234567890123,
-          'double': 310.202002,
-          'bool': true,
-        }
-    );
-  }  catch (e) {
+    analytics.logEvent(name: 'ace_app_log_event', parameters: <String, dynamic>{
+      'string': 'Log Event',
+      'int': 310,
+      'long': 1234567890123,
+      'double': 310.202002,
+      'bool': true,
+    });
+  } catch (e) {
     await FirebaseCrashlytics.instance.recordError(
       e,
       StackTrace.current,
@@ -22,7 +19,8 @@ logEvent(FirebaseAnalytics analytics) async {
   }
 }
 
-setCurrentScreen(FirebaseAnalytics analytics, String screenName, String screenClass) async {
+setCurrentScreen(
+    FirebaseAnalytics analytics, String screenName, String screenClass) async {
   try {
     analytics.setCurrentScreen(
       screenName: screenName,

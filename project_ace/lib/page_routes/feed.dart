@@ -4,19 +4,19 @@ import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-import '../services/analytics.dart';
-
 class Feed extends StatefulWidget {
   const Feed({Key? key, required this.analytics}) : super(key: key);
 
   final FirebaseAnalytics analytics;
   static const String routeName = "/feed";
+
   @override
   State<Feed> createState() => _FeedState();
 }
@@ -71,7 +71,7 @@ class _FeedState extends State<Feed> {
       appBar: AppBar(
         centerTitle: true,
         title: SizedBox(
-          width: screenWidth(context)*0.6,
+          width: screenWidth(context) * 0.6,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
@@ -84,7 +84,7 @@ class _FeedState extends State<Feed> {
         backgroundColor: AppColors.profileScreenBackgroundColor,
       ),
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context)*0.095,
+        height: screenHeight(context) * 0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -94,7 +94,7 @@ class _FeedState extends State<Feed> {
               children: [
                 IconButton(
                     tooltip: "Messages",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.email,
                       color: AppColors.userNameColor,
@@ -105,7 +105,7 @@ class _FeedState extends State<Feed> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Search",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.userNameColor,
@@ -116,7 +116,7 @@ class _FeedState extends State<Feed> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Home",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.home,
                       color: AppColors.userNameColor,
@@ -125,7 +125,7 @@ class _FeedState extends State<Feed> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Add Post",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: AppColors.userNameColor,
@@ -136,7 +136,7 @@ class _FeedState extends State<Feed> {
                 const Spacer(),
                 IconButton(
                     tooltip: "Profile",
-                    iconSize: screenWidth(context)*0.08,
+                    iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.userNameColor,

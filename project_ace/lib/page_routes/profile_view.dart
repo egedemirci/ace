@@ -5,17 +5,17 @@ import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/utilities/firebase_auth.dart';
+import 'package:project_ace/services/auth_services.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
-
-import '../services/analytics.dart';
-import '../utilities/screen_sizes.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key, required this.analytics}) : super(key: key);
+
   final FirebaseAnalytics analytics;
   static const String routeName = '/profile_view';
 
@@ -24,7 +24,7 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  final FirebaseAuthService _auth = FirebaseAuthService();
+  final AuthServices _auth = AuthServices();
 
   List<Post> posts = [
     Post(
@@ -113,7 +113,7 @@ class _ProfileViewState extends State<ProfileView> {
         elevation: 0.0,
       ),
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context)*0.095,
+        height: screenHeight(context) * 0.095,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(
@@ -197,13 +197,13 @@ class _ProfileViewState extends State<ProfileView> {
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: CircleAvatar(
                         backgroundColor: AppColors.welcomeScreenBackgroundColor,
+                        radius: 60,
                         child: ClipOval(
                           child: Image.network(
                             'https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png',
                             fit: BoxFit.fitHeight,
                           ),
                         ),
-                        radius: 60,
                       ),
                     ),
                     Column(
@@ -323,12 +323,12 @@ class _ProfileViewState extends State<ProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                              elevation: 0, side: BorderSide.none),
                           child: const Icon(
                             Icons.photo_outlined,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
-                          style: OutlinedButton.styleFrom(
-                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                       const Padding(
@@ -342,12 +342,12 @@ class _ProfileViewState extends State<ProfileView> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                              elevation: 0, side: BorderSide.none),
                           child: const Icon(
                             Icons.text_fields,
                             color: AppColors.welcomeScreenBackgroundColor,
                           ),
-                          style: OutlinedButton.styleFrom(
-                              elevation: 0, side: BorderSide.none),
                         ),
                       ),
                     ],

@@ -4,9 +4,8 @@ import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class PostCard extends StatelessWidget {
+  const PostCard({Key? key, required this.post}) : super(key: key);
   final Post post;
-
-  const PostCard({required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +28,7 @@ class PostCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
+                    radius: 20,
                     child: post.profileImageSource != "default"
                         ? ClipOval(
                             child: Image.network(
@@ -40,7 +40,6 @@ class PostCard extends StatelessWidget {
                               "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
                             ),
                           ),
-                    radius: 20,
                   ),
                 ),
                 // TODO: Add the correct text style here

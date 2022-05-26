@@ -5,9 +5,8 @@ import 'package:project_ace/utilities/styles.dart';
 import '../templates/topic.dart';
 
 class TopicCard extends StatelessWidget {
+  const TopicCard({Key? key, required this.topic}) : super(key: key);
   final Topic topic;
-
-  const TopicCard({required this.topic});
 
   @override
   Widget build(BuildContext context) {

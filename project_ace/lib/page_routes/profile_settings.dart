@@ -1,13 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-import '../services/analytics.dart';
-
 class ProfileSettings extends StatelessWidget {
   const ProfileSettings({Key? key, required this.analytics}) : super(key: key);
+
   final FirebaseAnalytics analytics;
   static const String routeName = '/profile_settings';
 
@@ -28,7 +28,7 @@ class ProfileSettings extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
         title: SizedBox(
-          width: screenWidth(context)*0.6,
+          width: screenWidth(context) * 0.6,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
@@ -68,14 +68,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: editBio,
-                  child: Text(
-                    'Edit bio',
-                    style: profileSettingsChangeButton,
-                  ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    'Edit bio',
+                    style: profileSettingsChangeButton,
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -83,14 +83,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: changeProfilePicture,
-                  child: Text(
-                    'Change profile picture',
-                    style: profileSettingsChangeButton,
-                  ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    'Change profile picture',
+                    style: profileSettingsChangeButton,
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -98,14 +98,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: deactivateAccount,
-                  child: Text(
-                    'Deactivate account',
-                    style: profileSettingsDeactivateAndDelete,
-                  ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.deactivateAccountButtonFillColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    'Deactivate account',
+                    style: profileSettingsDeactivateAndDelete,
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -113,14 +113,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: deleteAccount,
-                  child: Text(
-                    'Delete account',
-                    style: profileSettingsDeactivateAndDelete,
-                  ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.deleteAccountButtonFillColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    'Delete account',
+                    style: profileSettingsDeactivateAndDelete,
+                  ),
                 ),
               ),
             ],
