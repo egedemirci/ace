@@ -7,27 +7,33 @@ part of 'post.dart';
 // **************************************************************************
 
 _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
+      userId: json['userId'] as String,
       assetUrl: json['assetUrl'] as String? ?? "default",
       urlAvatar: json['urlAvatar'] as String? ?? "default",
       text: json['text'] as String,
-      commentCount: json['commentCount'] as int,
-      dislikes: json['dislikes'] as int,
-      likes: json['likes'] as int,
+      dislikeCount: json['dislikeCount'] as int,
+      likeCount: json['likeCount'] as int,
       createdAt: DateTime.parse(json['createdAt'] as String),
       username: json['username'] as String,
       fullName: json['fullName'] as String,
-      topicId: json['topicId'] as String?,
+      comments: json['comments'] ?? const <dynamic>[],
+      isShared: json['isShared'] as bool? ?? false,
+      fromWho: json['fromWho'] as String? ?? "",
+      topic: json['topic'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
+      'userId': instance.userId,
       'assetUrl': instance.assetUrl,
       'urlAvatar': instance.urlAvatar,
       'text': instance.text,
-      'commentCount': instance.commentCount,
-      'dislikes': instance.dislikes,
-      'likes': instance.likes,
+      'dislikeCount': instance.dislikeCount,
+      'likeCount': instance.likeCount,
       'createdAt': instance.createdAt.toIso8601String(),
       'username': instance.username,
       'fullName': instance.fullName,
-      'topicId': instance.topicId,
+      'comments': instance.comments,
+      'isShared': instance.isShared,
+      'fromWho': instance.fromWho,
+      'topic': instance.topic,
     };

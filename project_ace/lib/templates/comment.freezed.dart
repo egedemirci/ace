@@ -22,6 +22,7 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
 mixin _$Comment {
   String get text => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -32,7 +33,7 @@ mixin _$Comment {
 abstract class $CommentCopyWith<$Res> {
   factory $CommentCopyWith(Comment value, $Res Function(Comment) then) =
       _$CommentCopyWithImpl<$Res>;
-  $Res call({String text, String username});
+  $Res call({String text, String username, DateTime createdAt});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$CommentCopyWithImpl<$Res> implements $CommentCopyWith<$Res> {
   $Res call({
     Object? text = freezed,
     Object? username = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       text: text == freezed
@@ -57,6 +59,10 @@ class _$CommentCopyWithImpl<$Res> implements $CommentCopyWith<$Res> {
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -67,7 +73,7 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
           _$_Comment value, $Res Function(_$_Comment) then) =
       __$$_CommentCopyWithImpl<$Res>;
   @override
-  $Res call({String text, String username});
+  $Res call({String text, String username, DateTime createdAt});
 }
 
 /// @nodoc
@@ -83,6 +89,7 @@ class __$$_CommentCopyWithImpl<$Res> extends _$CommentCopyWithImpl<$Res>
   $Res call({
     Object? text = freezed,
     Object? username = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$_Comment(
       text: text == freezed
@@ -93,6 +100,10 @@ class __$$_CommentCopyWithImpl<$Res> extends _$CommentCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -100,7 +111,8 @@ class __$$_CommentCopyWithImpl<$Res> extends _$CommentCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Comment implements _Comment {
-  const _$_Comment({required this.text, required this.username});
+  const _$_Comment(
+      {required this.text, required this.username, required this.createdAt});
 
   factory _$_Comment.fromJson(Map<String, dynamic> json) =>
       _$$_CommentFromJson(json);
@@ -109,10 +121,12 @@ class _$_Comment implements _Comment {
   final String text;
   @override
   final String username;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Comment(text: $text, username: $username)';
+    return 'Comment(text: $text, username: $username, createdAt: $createdAt)';
   }
 
   @override
@@ -121,7 +135,8 @@ class _$_Comment implements _Comment {
         (other.runtimeType == runtimeType &&
             other is _$_Comment &&
             const DeepCollectionEquality().equals(other.text, text) &&
-            const DeepCollectionEquality().equals(other.username, username));
+            const DeepCollectionEquality().equals(other.username, username) &&
+            const DeepCollectionEquality().equals(other.createdAt, createdAt));
   }
 
   @JsonKey(ignore: true)
@@ -129,7 +144,8 @@ class _$_Comment implements _Comment {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(text),
-      const DeepCollectionEquality().hash(username));
+      const DeepCollectionEquality().hash(username),
+      const DeepCollectionEquality().hash(createdAt));
 
   @JsonKey(ignore: true)
   @override
@@ -145,7 +161,8 @@ class _$_Comment implements _Comment {
 abstract class _Comment implements Comment {
   const factory _Comment(
       {required final String text,
-      required final String username}) = _$_Comment;
+      required final String username,
+      required final DateTime createdAt}) = _$_Comment;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$_Comment.fromJson;
 
@@ -153,6 +170,8 @@ abstract class _Comment implements Comment {
   String get text => throw _privateConstructorUsedError;
   @override
   String get username => throw _privateConstructorUsedError;
+  @override
+  DateTime get createdAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_CommentCopyWith<_$_Comment> get copyWith =>

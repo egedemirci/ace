@@ -10,6 +10,7 @@ class Comment with _$Comment{
   const factory Comment({
     required String text,
     required String username,
+    required DateTime createdAt,
   }) = _Comment;
 
   factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);

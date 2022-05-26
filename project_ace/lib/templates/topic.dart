@@ -7,9 +7,8 @@ part 'topic.freezed.dart';
 
 class Topic with _$Topic{
   const factory Topic({
-    required String text,
-    required int count,
-    required String area,
+    required String topicName,
+    required List<dynamic> postIdList,
   }) = _Topic;
 
   factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);

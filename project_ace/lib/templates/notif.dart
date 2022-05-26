@@ -9,7 +9,6 @@ class AppNotification with _$AppNotification{
   const factory AppNotification({
     required String notifType,
     required String subjectUsername,
-    required String username,
     required DateTime createdAt,
   }) = _AppNotification;
 

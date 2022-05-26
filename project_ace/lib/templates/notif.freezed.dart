@@ -22,7 +22,6 @@ AppNotification _$AppNotificationFromJson(Map<String, dynamic> json) {
 mixin _$AppNotification {
   String get notifType => throw _privateConstructorUsedError;
   String get subjectUsername => throw _privateConstructorUsedError;
-  String get username => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,11 +35,7 @@ abstract class $AppNotificationCopyWith<$Res> {
   factory $AppNotificationCopyWith(
           AppNotification value, $Res Function(AppNotification) then) =
       _$AppNotificationCopyWithImpl<$Res>;
-  $Res call(
-      {String notifType,
-      String subjectUsername,
-      String username,
-      DateTime createdAt});
+  $Res call({String notifType, String subjectUsername, DateTime createdAt});
 }
 
 /// @nodoc
@@ -56,7 +51,6 @@ class _$AppNotificationCopyWithImpl<$Res>
   $Res call({
     Object? notifType = freezed,
     Object? subjectUsername = freezed,
-    Object? username = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -67,10 +61,6 @@ class _$AppNotificationCopyWithImpl<$Res>
       subjectUsername: subjectUsername == freezed
           ? _value.subjectUsername
           : subjectUsername // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: username == freezed
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -87,11 +77,7 @@ abstract class _$$_AppNotificationCopyWith<$Res>
           _$_AppNotification value, $Res Function(_$_AppNotification) then) =
       __$$_AppNotificationCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String notifType,
-      String subjectUsername,
-      String username,
-      DateTime createdAt});
+  $Res call({String notifType, String subjectUsername, DateTime createdAt});
 }
 
 /// @nodoc
@@ -109,7 +95,6 @@ class __$$_AppNotificationCopyWithImpl<$Res>
   $Res call({
     Object? notifType = freezed,
     Object? subjectUsername = freezed,
-    Object? username = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$_AppNotification(
@@ -120,10 +105,6 @@ class __$$_AppNotificationCopyWithImpl<$Res>
       subjectUsername: subjectUsername == freezed
           ? _value.subjectUsername
           : subjectUsername // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: username == freezed
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -139,7 +120,6 @@ class _$_AppNotification implements _AppNotification {
   const _$_AppNotification(
       {required this.notifType,
       required this.subjectUsername,
-      required this.username,
       required this.createdAt});
 
   factory _$_AppNotification.fromJson(Map<String, dynamic> json) =>
@@ -150,13 +130,11 @@ class _$_AppNotification implements _AppNotification {
   @override
   final String subjectUsername;
   @override
-  final String username;
-  @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'AppNotification(notifType: $notifType, subjectUsername: $subjectUsername, username: $username, createdAt: $createdAt)';
+    return 'AppNotification(notifType: $notifType, subjectUsername: $subjectUsername, createdAt: $createdAt)';
   }
 
   @override
@@ -167,7 +145,6 @@ class _$_AppNotification implements _AppNotification {
             const DeepCollectionEquality().equals(other.notifType, notifType) &&
             const DeepCollectionEquality()
                 .equals(other.subjectUsername, subjectUsername) &&
-            const DeepCollectionEquality().equals(other.username, username) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt));
   }
 
@@ -177,7 +154,6 @@ class _$_AppNotification implements _AppNotification {
       runtimeType,
       const DeepCollectionEquality().hash(notifType),
       const DeepCollectionEquality().hash(subjectUsername),
-      const DeepCollectionEquality().hash(username),
       const DeepCollectionEquality().hash(createdAt));
 
   @JsonKey(ignore: true)
@@ -195,7 +171,6 @@ abstract class _AppNotification implements AppNotification {
   const factory _AppNotification(
       {required final String notifType,
       required final String subjectUsername,
-      required final String username,
       required final DateTime createdAt}) = _$_AppNotification;
 
   factory _AppNotification.fromJson(Map<String, dynamic> json) =
@@ -205,8 +180,6 @@ abstract class _AppNotification implements AppNotification {
   String get notifType => throw _privateConstructorUsedError;
   @override
   String get subjectUsername => throw _privateConstructorUsedError;
-  @override
-  String get username => throw _privateConstructorUsedError;
   @override
   DateTime get createdAt => throw _privateConstructorUsedError;
   @override

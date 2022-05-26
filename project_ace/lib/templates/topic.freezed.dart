@@ -20,9 +20,8 @@ Topic _$TopicFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Topic {
-  String get text => throw _privateConstructorUsedError;
-  int get count => throw _privateConstructorUsedError;
-  String get area => throw _privateConstructorUsedError;
+  String get topicName => throw _privateConstructorUsedError;
+  List<dynamic> get postIdList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +32,7 @@ mixin _$Topic {
 abstract class $TopicCopyWith<$Res> {
   factory $TopicCopyWith(Topic value, $Res Function(Topic) then) =
       _$TopicCopyWithImpl<$Res>;
-  $Res call({String text, int count, String area});
+  $Res call({String topicName, List<dynamic> postIdList});
 }
 
 /// @nodoc
@@ -46,23 +45,18 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? text = freezed,
-    Object? count = freezed,
-    Object? area = freezed,
+    Object? topicName = freezed,
+    Object? postIdList = freezed,
   }) {
     return _then(_value.copyWith(
-      text: text == freezed
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      topicName: topicName == freezed
+          ? _value.topicName
+          : topicName // ignore: cast_nullable_to_non_nullable
               as String,
-      count: count == freezed
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-      area: area == freezed
-          ? _value.area
-          : area // ignore: cast_nullable_to_non_nullable
-              as String,
+      postIdList: postIdList == freezed
+          ? _value.postIdList
+          : postIdList // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }
@@ -72,7 +66,7 @@ abstract class _$$_TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
   factory _$$_TopicCopyWith(_$_Topic value, $Res Function(_$_Topic) then) =
       __$$_TopicCopyWithImpl<$Res>;
   @override
-  $Res call({String text, int count, String area});
+  $Res call({String topicName, List<dynamic> postIdList});
 }
 
 /// @nodoc
@@ -86,23 +80,18 @@ class __$$_TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? text = freezed,
-    Object? count = freezed,
-    Object? area = freezed,
+    Object? topicName = freezed,
+    Object? postIdList = freezed,
   }) {
     return _then(_$_Topic(
-      text: text == freezed
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      topicName: topicName == freezed
+          ? _value.topicName
+          : topicName // ignore: cast_nullable_to_non_nullable
               as String,
-      count: count == freezed
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-      area: area == freezed
-          ? _value.area
-          : area // ignore: cast_nullable_to_non_nullable
-              as String,
+      postIdList: postIdList == freezed
+          ? _value._postIdList
+          : postIdList // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }
@@ -110,21 +99,25 @@ class __$$_TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Topic implements _Topic {
-  const _$_Topic({required this.text, required this.count, required this.area});
+  const _$_Topic(
+      {required this.topicName, required final List<dynamic> postIdList})
+      : _postIdList = postIdList;
 
   factory _$_Topic.fromJson(Map<String, dynamic> json) =>
       _$$_TopicFromJson(json);
 
   @override
-  final String text;
+  final String topicName;
+  final List<dynamic> _postIdList;
   @override
-  final int count;
-  @override
-  final String area;
+  List<dynamic> get postIdList {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_postIdList);
+  }
 
   @override
   String toString() {
-    return 'Topic(text: $text, count: $count, area: $area)';
+    return 'Topic(topicName: $topicName, postIdList: $postIdList)';
   }
 
   @override
@@ -132,18 +125,17 @@ class _$_Topic implements _Topic {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Topic &&
-            const DeepCollectionEquality().equals(other.text, text) &&
-            const DeepCollectionEquality().equals(other.count, count) &&
-            const DeepCollectionEquality().equals(other.area, area));
+            const DeepCollectionEquality().equals(other.topicName, topicName) &&
+            const DeepCollectionEquality()
+                .equals(other._postIdList, _postIdList));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(text),
-      const DeepCollectionEquality().hash(count),
-      const DeepCollectionEquality().hash(area));
+      const DeepCollectionEquality().hash(topicName),
+      const DeepCollectionEquality().hash(_postIdList));
 
   @JsonKey(ignore: true)
   @override
@@ -158,18 +150,15 @@ class _$_Topic implements _Topic {
 
 abstract class _Topic implements Topic {
   const factory _Topic(
-      {required final String text,
-      required final int count,
-      required final String area}) = _$_Topic;
+      {required final String topicName,
+      required final List<dynamic> postIdList}) = _$_Topic;
 
   factory _Topic.fromJson(Map<String, dynamic> json) = _$_Topic.fromJson;
 
   @override
-  String get text => throw _privateConstructorUsedError;
+  String get topicName => throw _privateConstructorUsedError;
   @override
-  int get count => throw _privateConstructorUsedError;
-  @override
-  String get area => throw _privateConstructorUsedError;
+  List<dynamic> get postIdList => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_TopicCopyWith<_$_Topic> get copyWith =>
