@@ -1,9 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Topic {
-  String text;
-  String area;
-  Topic({
-    required this.text,required this.area
-  });
+part 'topic.g.dart';
+part 'topic.freezed.dart';
+
+@Freezed()
+
+class Topic with _$Topic{
+  const factory Topic({
+    required String text,
+    required int count,
+    required String area,
+  }) = _Topic;
+
+  factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
 }

@@ -6,6 +6,8 @@ import 'package:project_ace/utilities/styles.dart';
 
 import '../utilities/screen_sizes.dart';
 
+//TODO AppNotification class has a parameter called type, this widget should return corresponding view of this type using a bunch of if else statement.
+
 class NotificationsCard extends StatelessWidget {
   final AppNotification myNotification;
   const NotificationsCard({Key? key, required this.myNotification})
@@ -13,6 +15,7 @@ class NotificationsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(myNotification.notifType == "followRequest")
     return Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -40,7 +43,7 @@ class NotificationsCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                   child: Text(
-                    "@${myNotification.userName} ",
+                    "@${myNotification.username} ",
                     style: notificationText,
                   ),
                 ),

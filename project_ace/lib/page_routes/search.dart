@@ -21,13 +21,8 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<Topic> topics = [
-    Topic(text: "#Wimbledon2018", area: "tennis"),
-    Topic(text: "#Federer", area: "tennis"),
-    Topic(text: "#YaGunnersYa", area: "football"),
-    Topic(text: "#ThankYouTomBrady", area: "nfl"),
-    Topic(text: "#GreekFreak", area: "nba"),
-  ];
+  //TODO Get topics from Firestore
+  List<Topic> topics = [];
 
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();

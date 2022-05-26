@@ -1,19 +1,17 @@
-import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Message {
-  final String fullName;
-  final String idUser;
-  final String urlAvatar;
-  final String username;
-  final String message;
-  final DateTime createdAt;
+part 'message.g.dart';
+part 'message.freezed.dart';
 
-  const Message({
-    required this.fullName,
-    required this.idUser,
-    required this.urlAvatar,
-    required this.username,
-    required this.message,
-    required this.createdAt,
-  });
+@Freezed()
+
+class Message with _$Message{
+  const factory Message({
+    required String senderUsername,
+    required String message,
+    required DateTime createdAt,
+    required String urlAvatar,
+  }) = _Message;
+
+  factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
 }

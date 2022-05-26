@@ -119,9 +119,10 @@ class _AceBaseState extends State<AceBase> {
                 Login.routeName: (context) => Login(
                       analytics: analytics,
                     ),
+                /*
                 ProfileView.routeName: (context) => ProfileView(
                       analytics: analytics,
-                    ),
+                    ),*/
                 AddPost.routeName: (context) => AddPost(
                       analytics: analytics,
                     ),
@@ -146,9 +147,9 @@ class _AceBaseState extends State<AceBase> {
                 MessageScreen.routeName: (context) => MessageScreen(
                       analytics: analytics,
                     ),
-                ChatPage.routeName: (context) => ChatPage(
+                /*ChatPage.routeName: (context) => ChatPage(
                       analytics: analytics,
-                    ),
+                    ),*/
               },
               theme: ThemeData(
                 pageTransitionsTheme: const PageTransitionsTheme(

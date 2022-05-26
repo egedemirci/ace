@@ -7,7 +7,10 @@ import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/current_user.dart';
+import 'package:project_ace/services/database.dart';
 import 'package:project_ace/templates/post.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/services/auth_services.dart';
@@ -28,48 +31,9 @@ class OwnProfileView extends StatefulWidget {
 
 class _OwnProfileViewState extends State<OwnProfileView> {
   final AuthServices _auth = AuthServices();
-
-  List<Post> posts = [
-    Post(
-        text:
-            "Hello man I hate Harry Maguire. This a picture of Tobey Maguire, who has no relation at all.",
-        fullName: "Efe Tuzun",
-        likes: 128,
-        userName: "efetuzun",
-        postImageSource:
-            "https://upload.wikimedia.org/wikipedia/commons/9/90/Spiderman.JPG"),
-    Post(
-        text: "Ronaldo is out of this world! 2 goals in 4 minutes?",
-        fullName: "HarryNotMaguire",
-        likes: 128,
-        userName: "maguireNotHarry",
-        postImageSource:
-            "https://www.juventus.com/images/image/private/t_editorial_landscape_12_desktop/f_auto/dev/nyuf6tne3npisv92zetr.jpg"),
-    Post(
-        text:
-            "Hello my dear friends. I am very lucky today to annouce the birth of my son, Bradley.",
-        fullName: "Landon Donovan",
-        likes: 128,
-        userName: "donovan.landon"),
-    Post(
-        text: "HERE WE GO!",
-        fullName: "Fabrizio Romano",
-        likes: 128,
-        userName: "fabrizio",
-        postImageSource:
-            "https://sportsdias.com/wp-content/uploads/2022/04/MAN-UTD-20.jpg",
-        profileImageSource:
-            "https://pbs.twimg.com/profile_images/1486761402853380113/3ifAqala.jpg"),
-    Post(
-        text:
-            "Messi is out of this world! 7 Ballon d'Ors? Surely no one can match that!",
-        fullName: "Messi is Life",
-        likes: 128,
-        userName: "messifanboy123",
-        postImageSource:
-            "https://img.fanatik.com.tr/img/78/740x418/610c6938ae298b8328517710.jpg"),
-  ];
-
+  //TODO Get the posts of current user
+  List<Post> posts = [];
+  MyUser currUser = DatabaseMethods().getUserInfo(CurrentUser.sharedPreferenceUserEmailKey).docs[0];
   String userName = "userName";
 
   @override
@@ -205,7 +169,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                           radius: screenWidth(context) * 0.14,
                           child: ClipOval(
                             child: Image.network(
-                              'https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png',
+                              DatabaseMethods().getUserInfo(CurrentUser.sharedPreferenceUserEmailKey).docs[0]["urlAvatar"],
                               fit: BoxFit.fitHeight,
                             ),
                           ),
@@ -217,6 +181,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                             child: Text(
+                              //TODO following counts zart zurt
                               '###',
                               style: postsFollowersFollowingsCounts,
                             ),
@@ -358,6 +323,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     children: posts
                         .map((post) => PostCard(
                               post: post,
+                              user: currUser,
                             ))
                         .toList(),
                   ),

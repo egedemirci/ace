@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/chat.dart';
+import 'package:project_ace/templates/chat_room.dart';
 import 'package:project_ace/templates/message.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 import '../utilities/screen_sizes.dart';
 
-class MessageCard extends StatelessWidget {
-  const MessageCard({Key? key, required this.myMessage}) : super(key: key);
-  final Message myMessage;
+class ChatRoomCard extends StatelessWidget {
+  const ChatRoomCard({Key? key, required this.myChatRoom, required this.otherUser}) : super(key: key);
+  final ChatRoom myChatRoom;
+  final MyUser otherUser;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +25,7 @@ class MessageCard extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
+              //TODO navigate to this chatrooms chatpage
               Navigator.pushNamed(context, ChatPage.routeName);
             },
             child: Row(
@@ -33,7 +37,7 @@ class MessageCard extends StatelessWidget {
                   foregroundColor: AppColors.notificationIconColor,
                   backgroundColor: AppColors.profileScreenBackgroundColor,
                   radius: screenWidth(context) * 0.10,
-                  child: ClipOval(child: Image.network(myMessage.urlAvatar)),
+                  child: ClipOval(child: Image.network(otherUser.urlAvatar)),
                 ),
                 //text ve name
                 Column(
@@ -44,14 +48,14 @@ class MessageCard extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "${myMessage.fullName} ",
+                            "${otherUser.fullName} ",
                             style: messageUserRealName,
                           ),
                           const SizedBox(
                             width: 5,
                           ),
                           Text(
-                            "@${myMessage.username} ",
+                            "@${otherUser.userName} ",
                             style: messageUserName,
                           ),
                         ],
@@ -64,7 +68,7 @@ class MessageCard extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            "${myMessage.message} ",
+                            "${myChatRoom.lastMessage} ",
                             style: messageText,
                           ),
                         ],
