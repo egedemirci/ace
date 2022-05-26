@@ -55,7 +55,7 @@ class ChatRoomCard extends StatelessWidget {
                             width: 5,
                           ),
                           Text(
-                            "@${otherUser.userName} ",
+                            "@${otherUser.username} ",
                             style: messageUserName,
                           ),
                         ],
