@@ -242,42 +242,101 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   )
                                 ],
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-                                    child: Text(
-                                      myUser.followers.length.toString(),
-                                      style: postsFollowersFollowingsCounts,
+                              InkWell(
+                                onTap:(){
+                                 //TODO: Show followers list.
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                      child: Text(
+                                        myUser.followers.length.toString(),
+                                        style: postsFollowersFollowingsCounts,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'Followers',
-                                    style: postsFollowersFollowings,
-                                  )
-                                ],
+                                    Text(
+                                      'Followers',
+                                      style: postsFollowersFollowings,
+                                    )
+                                  ],
+                                ),
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-                                    child: Text(
-                                      myUser.following.length.toString(),
-                                      style: postsFollowersFollowingsCounts,
+                              InkWell(
+                                onTap:(){
+                                  //TODO: Show following list.
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                      child: Text(
+                                        myUser.following.length.toString(),
+                                        style: postsFollowersFollowingsCounts,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'Following',
-                                    style: postsFollowersFollowings,
-                                  )
-                                ],
+                                    Text(
+                                      'Following',
+                                      style: postsFollowersFollowings,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap:(){
+                                  //TODO: Show topics list.
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                      child: Text(
+                                        myUser.subscribedTopics.length.toString(),
+                                        style: postsFollowersFollowingsCounts,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Topics',
+                                      style: postsFollowersFollowings,
+                                    )
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 width: 8,
                               ),
                             ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20,16,16,3),
+                            child: Row(
+                              children: [
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: screenWidth(context) * 0.85),
+                                  child: Text(
+                                    myUser.fullName,
+                                    style: smallNameUnderProfile,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20,0,16,0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: screenWidth(context) * 0.85),
+                                  child: Text(
+                                    myUser.biography,
+                                    style: biography ,
+                                  )
+                                )
+                              ],
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -339,7 +398,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
-                                      Icons.photo_outlined,
+                                      Icons.list_outlined,
                                       color: AppColors.welcomeScreenBackgroundColor,
                                     ),
                                   ),
@@ -359,6 +418,44 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
                                       Icons.text_fields,
+                                      color: AppColors.welcomeScreenBackgroundColor,
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                  child: VerticalDivider(
+                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      thickness: 2,
+                                      width: 10),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedButton(
+                                    onPressed: () {},
+                                    style: OutlinedButton.styleFrom(
+                                        elevation: 0, side: BorderSide.none),
+                                    child: const Icon(
+                                      Icons.photo_outlined,
+                                      color: AppColors.welcomeScreenBackgroundColor,
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                  child: VerticalDivider(
+                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      thickness: 2,
+                                      width: 10),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedButton(
+                                    onPressed: () {},
+                                    style: OutlinedButton.styleFrom(
+                                        elevation: 0, side: BorderSide.none),
+                                    child: const Icon(
+                                      Icons.bookmark,
                                       color: AppColors.welcomeScreenBackgroundColor,
                                     ),
                                   ),
