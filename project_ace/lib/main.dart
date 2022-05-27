@@ -109,6 +109,7 @@ class _AceBaseState extends State<AceBase> {
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               initialRoute: (snapshot.data == true)
                   ? Login.routeName
                   : Walkthrough.routeName,

@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project_ace/services/user_services.dart';
 
 class AuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final UserServices _userServices = UserServices();
 
   User? _userFromFirebase(User? user) {
     return user;
@@ -16,7 +18,7 @@ class AuthServices {
     try {
       UserCredential uc = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      return uc.user;
+      return _userFromFirebase(uc.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         return e.message ?? 'Email/Password not found! Try registering :)';
@@ -30,11 +32,12 @@ class AuthServices {
   }
 
   Future<dynamic> registerWithEmailPassword(
-      String email, String password) async {
+      String email, String password, String userName) async {
     try {
       UserCredential uc = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return uc.user;
+      _userServices.addUser(userName, uc.user?.uid);
+      return _userFromFirebase(uc.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {
         return e.message ?? "This email is already in use!";

@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
@@ -72,7 +73,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future registerUser() async {
-    _auth.registerWithEmailPassword(_email, _password);
+    _auth.registerWithEmailPassword(_email, _password, _userName);
   }
 
   @override
@@ -112,7 +113,6 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           const Spacer(),
-          // TODO: Implement the form here
           Center(
             child: SizedBox(
               width: screenWidth(context) - 80,
@@ -309,12 +309,12 @@ class _SignUpState extends State<SignUp> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 await registerUser();
-                _showDialog("Sign Up Success",
-                    "You have successfully signed up.\nYou will now be directed to the login page");
+                await _showDialog("Sign Up Success",
+                    "You have successfully signed up.\nYou will now be directed to your profile page");
                 Navigator.pushNamedAndRemoveUntil(
                     context, Login.routeName, (route) => false);
               } else {
-                _showDialog('Form Error',
+                await _showDialog('Form Error',
                     "You could not register with the current information. Try again!");
               }
             },
