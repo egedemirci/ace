@@ -1,14 +1,9 @@
-import 'dart:io';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
-import 'package:path/path.dart' show basename;
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key, required this.analytics}) : super(key: key);
@@ -25,43 +20,10 @@ class _AddPostState extends State<AddPost> {
   final ScrollController scrollController = ScrollController();
   String postText = '';
 
-  final ImagePicker _picker = ImagePicker();
-  XFile? _image;
-
-  Future pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = pickedFile;
-    });
-  }
-
-  Future uploadImageToFirebase(BuildContext context) async {
-    String fileName = basename(_image!.path);
-    Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('uploads/$fileName');
-    try {
-      await firebaseStorageRef.putFile(File(_image!.path));
-      print("Upload complete");
-      setState(() {
-        _image = null;
-      });
-    } on FirebaseException catch (e) {
-      print('ERROR: ${e.code} - ${e.message}');
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   void sendPost() async {
     setState(() {
       FocusScope.of(context).unfocus();
       _controller.clear();
-    });
-  }
-
-  void removeImage() {
-    setState(() {
-      _image = null;
     });
   }
 
@@ -145,18 +107,8 @@ class _AddPostState extends State<AddPost> {
                         }),
                       ),
                     )),
-                SizedBox(
-                  height: screenWidth(context) * 0.05,
-                ),
-                if (_image != null)
-                  SizedBox(
-                    child: ClipRect(
-                        child: Image.file(
-                      File(_image!.path),
-                    )),
-                  ),
-                SizedBox(
-                  height: screenWidth(context) * 0.05,
+                const SizedBox(
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -201,7 +153,7 @@ class _AddPostState extends State<AddPost> {
               children: [
                 const Spacer(),
                 IconButton(
-                    onPressed: pickImage,
+                    onPressed: () {},
                     icon: const Icon(
                       Icons.camera_alt_rounded,
                       size: 30,
@@ -218,7 +170,7 @@ class _AddPostState extends State<AddPost> {
                 ),
                 const Spacer(),
                 IconButton(
-                    onPressed: removeImage,
+                    onPressed: () {},
                     icon: const Icon(
                       Icons.text_fields,
                       size: 30,

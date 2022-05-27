@@ -1,27 +1,60 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
-part 'user.freezed.dart';
 
-@Freezed()
+@JsonSerializable()
+class MyUser {
+  String name, username, email, phone, website;
+  int id;
+  Address address;
+  Company company;
 
-class MyUser with _$MyUser{
-  const factory MyUser({
-    required String userId,
-    required String email,
-    required String fullName,
-    @Default("https://upload.wikimedia.org/wikipedia/commons/1/18/Color-white.JPG") String urlAvatar,
-    required String username,
-    @Default("") String bio,
-    @Default(false) bool isPrivate,
-    @Default(<dynamic>[]) followers,
-    @Default(<dynamic>[]) following,
-    @Default(<dynamic>[]) requests,
-    @Default(<dynamic>[]) notifications,
-    @Default(<dynamic>[]) bookmarks,
-    @Default(false) bool isDisabled,
-    @Default(<dynamic>[]) posts,
-  }) = _MyUser;
+  MyUser(
+      {required this.name,
+      required this.username,
+      required this.email,
+      required this.phone,
+      required this.website,
+      required this.id,
+      required this.address,
+      required this.company});
 
-  factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
+  factory MyUser.fromJSON(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJSON() => _$UserToJson(this);
+}
+
+@JsonSerializable()
+class Geo {
+  String lat, lng;
+
+  Geo({required this.lat, required this.lng});
+
+  factory Geo.fromJSON(Map<String, dynamic> json) => _$GeoFromJson(json);
+  Map<String, dynamic> toJSON() => _$GeoToJson(this);
+}
+
+@JsonSerializable()
+class Address {
+  String city, street, suite, zipcode;
+  Geo geo;
+  Address(
+      {required this.city,
+      required this.street,
+      required this.suite,
+      required this.zipcode,
+      required this.geo});
+
+  factory Address.fromJSON(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
+  Map<String, dynamic> toJSON() => _$AddressToJson(this);
+}
+
+@JsonSerializable()
+class Company {
+  String name, catchPhrase, bs;
+  Company({required this.name, required this.catchPhrase, required this.bs});
+
+  factory Company.fromJSON(Map<String, dynamic> json) =>
+      _$CompanyFromJson(json);
+  Map<String, dynamic> toJSON() => _$CompanyToJson(this);
 }

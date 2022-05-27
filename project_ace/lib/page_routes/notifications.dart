@@ -19,8 +19,40 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  //TODO get notifications of current user from Firestore
-  List<AppNotification> allNotifications = [];
+  List<AppNotification> allNotifications = [
+    AppNotification(
+        text: "started to follow you!",
+        icon: const Icon(
+          Icons.person_add_alt_1_rounded,
+          size: 50.0,
+        ),
+        type: false,
+        userName: "harrymaguire"),
+    AppNotification(
+        text: "wants to follow you!",
+        icon: const Icon(
+          Icons.person_add_alt_1_rounded,
+          size: 50.0,
+        ),
+        type: true,
+        userName: "taners"),
+    AppNotification(
+        text: "liked your photo!",
+        icon: const Icon(
+          Icons.favorite,
+          size: 50.0,
+        ),
+        type: false,
+        userName: "afu"),
+    AppNotification(
+        text: "started to follow you!",
+        icon: const Icon(
+          Icons.person_add_alt_1_rounded,
+          size: 50.0,
+        ),
+        type: false,
+        userName: "tuzun"),
+  ];
 
   @override
   Widget build(BuildContext context) {

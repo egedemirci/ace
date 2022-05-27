@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project_ace/templates/post.dart';
-import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({Key? key, required this.post, required this.user}) : super(key: key);
+  const PostCard({Key? key, required this.post}) : super(key: key);
   final Post post;
-  final MyUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +29,10 @@ class PostCard extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
-                    child: post.urlAvatar != "default"
+                    child: post.profileImageSource != "default"
                         ? ClipOval(
                             child: Image.network(
-                              post.urlAvatar,
+                              post.profileImageSource,
                             ),
                           )
                         : ClipOval(
@@ -53,7 +51,7 @@ class PostCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                   child: Text(
-                    "@${post.username}",
+                    "@${post.userName}",
                     style: postCardUserName,
                   ),
                 ),
@@ -81,16 +79,16 @@ class PostCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${post.likeCount}",
+                  "${post.likes}",
                   style: const TextStyle(fontSize: 14),
                 )
               ],
             ),
             Center(
-              child: post.assetUrl != "default"
+              child: post.postImageSource != "default"
                   ? ClipRect(
                       child: Image.network(
-                        post.assetUrl,
+                        post.postImageSource,
                         width: double.infinity,
                         height: 200,
                         fit: BoxFit.fitHeight,

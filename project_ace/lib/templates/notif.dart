@@ -1,16 +1,15 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/material.dart';
 
-part 'notif.g.dart';
-part 'notif.freezed.dart';
+class AppNotification {
+  String text;
+  Icon icon;
+  bool type;
+  String userName;
 
-@Freezed()
-
-class AppNotification with _$AppNotification{
-  const factory AppNotification({
-    required String notifType,
-    required String subjectUsername,
-    required DateTime createdAt,
-  }) = _AppNotification;
-
-  factory AppNotification.fromJson(Map<String, dynamic> json) => _$AppNotificationFromJson(json);
+  AppNotification({
+    required this.text,
+    required this.icon,
+    required this.type,
+    required this.userName,
+  });
 }

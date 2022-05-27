@@ -26,7 +26,7 @@ class TopicCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  topic.topicName,
+                  topic.text,
                   style: searchTopicText,
                 ),
                 const SizedBox(width: 6),

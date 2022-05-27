@@ -5,10 +5,7 @@ import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/services/analytics.dart';
-import 'package:project_ace/services/current_user.dart';
-import 'package:project_ace/services/database.dart';
-import 'package:project_ace/templates/chat_room.dart';
-import 'package:project_ace/user_interfaces/chat_room_card.dart';
+import 'package:project_ace/user_interfaces/message_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -25,9 +22,36 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
-  //TODO Get chat_rooms that contain current user
-  List<ChatRoom> chatRooms = [];
-
+  List<Message> allMessages = [
+    Message(
+        idUser: "77004ea213d5fc71acf74a8c9c6795fb",
+        message: "Hey Furkan, how you doing. Did you watch the court??",
+        fullName: "Johhny Depp",
+        urlAvatar: "https://i.hizliresim.com/kj4mtxc.png",
+        username: "johnnydepp",
+        createdAt: DateTime.now()),
+    Message(
+        idUser: "151764433aed7f5e87ade71f137b431b",
+        message: "Morbi placerat laoreet magna, ",
+        urlAvatar: "https://i.hizliresim.com/76b0p2k.png",
+        createdAt: DateTime.now(),
+        fullName: "Efe Tuzun",
+        username: "tuzun"),
+    Message(
+        idUser: "d081598884ac423febff5056e123279d",
+        message: "Arcu luctus eget. Nullam vitae blandit ipsum",
+        fullName: "Taner Sonmez",
+        urlAvatar: "https://i.hizliresim.com/gb3ufib.png",
+        createdAt: DateTime.now(),
+        username: "taners"),
+    Message(
+        idUser: "542c6a9d5fbc72218ce9ae8014dfd90b",
+        message: "Praesent cursus nulla a mi eleifend, ",
+        fullName: "Ege Demirci",
+        urlAvatar: "https://i.hizliresim.com/g1vzh7n.png",
+        createdAt: DateTime.now(),
+        username: "ege.demirci"),
+  ];
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Messages View", "messagesView");
@@ -137,8 +161,8 @@ class _MessageScreenState extends State<MessageScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
             child: Column(
-                children: chatRooms
-                    .map((chatRoom) => ChatRoomCard(myChatRoom: chatRoom, otherUser: CurrentUser.sharedPreferenceUserNameKey == chatRoom.usersChatting[0] ? DatabaseMethods().searchByName(chatRoom.usersChatting[1]).docs[0] : DatabaseMethods().searchByName(chatRoom.usersChatting[0]).docs[0]))
+                children: allMessages
+                    .map((myMessage) => MessageCard(myMessage: myMessage))
                     .toList())),
       ),
     );

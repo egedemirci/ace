@@ -8,8 +8,7 @@ import 'package:project_ace/page_routes/home_bloc/home_bloc.dart';
 import '../services/analytics.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title, required this.analytics})
-      : super(key: key);
+  const MyHomePage({Key? key, required this.title,required this.analytics}) : super(key: key);
   final FirebaseAnalytics analytics;
   final String title;
 
@@ -40,6 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         OutlinedButton(
+                          child: state.isDarkMode
+                              ? const Text("Toggle dark mode")
+                              : const Text("Toggle light mode"),
                           onPressed: () {
                             BlocProvider.of<HomeBloc>(context)
                                 .add(const HomeToggleThemeButtonTapped());
@@ -49,9 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   state.isDarkMode
                                       ? Colors.white
                                       : Colors.black)),
-                          child: state.isDarkMode
-                              ? const Text("Toggle dark mode")
-                              : const Text("Toggle light mode"),
                         ),
                         Text(
                           'You have pushed the button this many times:',
