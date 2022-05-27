@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/services/auth_services.dart';
@@ -17,6 +18,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key, required this.analytics}) : super(key: key);
@@ -47,6 +49,7 @@ class _LoginState extends State<Login> {
     }
   }
 
+/*
   Future getUsers() async {
     final url = Uri.parse(API.allUsers);
     final response = await http.get(Uri.https(url.authority, url.path));
@@ -54,7 +57,7 @@ class _LoginState extends State<Login> {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       // Successful
       // _showDialog("HTTP Response: ${response.statusCode}", response.body);
-      /*
+
       Map<String, dynamic> post = jsonDecode(response.body);
       print('User ID: ${post["userId"]}');
       print('Title: ${post["title"]}');
@@ -65,14 +68,14 @@ class _LoginState extends State<Login> {
           userID: post["userId"],
           postID: post["id"]);
       print(newPost);
-      */
+
       var responseList = jsonDecode(response.body) as List;
-      /*
+
       print("Post Count: ${responseList.length}");
       List<JSONPost> postItems =
           responseList.map((postItem) => JSONPost.fromJSON(postItem)).toList();
       print("${postItems[10]}");
-       */
+
       List<MyUser> users =
           responseList.map((user) => MyUser.fromJSON(user)).toList();
       print("Latitude: ${users[1].address.geo.lat}");
@@ -82,7 +85,7 @@ class _LoginState extends State<Login> {
       _showDialog("HTTP Response: ${response.statusCode}", response.body);
     }
   }
-
+*/
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
     return showDialog(
