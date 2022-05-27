@@ -8,6 +8,7 @@ import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/templates/user.dart';
@@ -32,10 +33,9 @@ class OwnProfileView extends StatefulWidget {
 class _OwnProfileViewState extends State<OwnProfileView> {
   final AuthServices _auth = AuthServices();
 
-  List<Post> posts = [];
-
   String userName = "userName";
   UserServices userService = UserServices();
+  PostService postService = PostService();
 
   @override
   Widget build(BuildContext context) {
@@ -428,13 +428,32 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             height: 10,
                           ),
                           Column(
-                            children: posts
-                                .map((post) => PostCard(
-                              post: post,
-                            ))
-                                .toList(),
+                            children: List.from(myUser.posts.map(
+                                (post)=>PostCard(
+                                  post: Post.fromJson(post),
+                                  isMyPost: true,
+                                  deletePost: ()
+                                  {
+                                    setState(() {
+                                      postService.deletePost(user.uid, post);
+                                    });
+                                  },
+                                  incrementLike:(){
+                                    postService.likePost(user.uid, myUser.userId, post["postId"]);
+                                  },
+                                  incrementComment:(){
+                                    //TODO COMMENT VIEW
+                                  },
+                                  incrementDislike: (){
+                                    postService.dislikePost(user.uid, myUser.userId, post["postId"]);
+                                  },
+                                  reShare:(){
+                                    //TODO RESHARE
+                                  }
+                                )
+                            ).toList().reversed,
                           ),
-                        ],
+                          )],
                       ),
                     ),
                   ),

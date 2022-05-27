@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_ace/services/post_services.dart';
+import 'package:project_ace/templates/post.dart';
 
 class UserServices {
   final CollectionReference usersRef =
       FirebaseFirestore.instance.collection('Users');
 
-  Future addUser(String username, String? userId) async {
+  Future addUser(String username, String fullName, String? userId) async {
     await usersRef.doc(userId).set({
       'username': username,
       'usernameLower': username.toLowerCase(),
@@ -13,7 +14,7 @@ class UserServices {
       'biography': '',
       'profilepicture':
           'https://firebasestorage.googleapis.com/v0/b/sucial-ff03d.appspot.com/o/user%2Fprofile%2FprofilePic%2Fnopp.png?alt=media&token=eaebea99-fc2d-4ede-893d-070e2d2595b0',
-      'fullName': 'unknown',
+      'fullName': fullName,
       'isSignupDone': false,
       'followers': [],
       'subscribedTopic': [],

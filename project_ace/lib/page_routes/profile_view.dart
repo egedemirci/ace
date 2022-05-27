@@ -26,46 +26,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final AuthServices _auth = AuthServices();
 
-  List<Post> posts = [
-    Post(
-        text:
-            "Hello man I hate Harry Maguire. This a picture of Tobey Maguire, who has no relation at all.",
-        fullName: "Efe Tuzun",
-        likes: 128,
-        userName: "efetuzun",
-        postImageSource:
-            "https://upload.wikimedia.org/wikipedia/commons/9/90/Spiderman.JPG"),
-    Post(
-        text: "Ronaldo is out of this world! 2 goals in 4 minutes?",
-        fullName: "HarryNotMaguire",
-        likes: 128,
-        userName: "maguireNotHarry",
-        postImageSource:
-            "https://www.juventus.com/images/image/private/t_editorial_landscape_12_desktop/f_auto/dev/nyuf6tne3npisv92zetr.jpg"),
-    Post(
-        text:
-            "Hello my dear friends. I am very lucky today to annouce the birth of my son, Bradley.",
-        fullName: "Landon Donovan",
-        likes: 128,
-        userName: "donovan.landon"),
-    Post(
-        text: "HERE WE GO!",
-        fullName: "Fabrizio Romano",
-        likes: 128,
-        userName: "fabrizio",
-        postImageSource:
-            "https://sportsdias.com/wp-content/uploads/2022/04/MAN-UTD-20.jpg",
-        profileImageSource:
-            "https://pbs.twimg.com/profile_images/1486761402853380113/3ifAqala.jpg"),
-    Post(
-        text:
-            "Messi is out of this world! 7 Ballon d'Ors? Surely no one can match that!",
-        fullName: "Messi is Life",
-        likes: 128,
-        userName: "messifanboy123",
-        postImageSource:
-            "https://img.fanatik.com.tr/img/78/740x418/610c6938ae298b8328517710.jpg"),
-  ];
+  List<Post> posts = [];
 
   void followUser() {
     print('You would like to follow this user, he?');
@@ -357,11 +318,11 @@ class _ProfileViewState extends State<ProfileView> {
                   height: 10,
                 ),
                 Column(
-                  children: posts
-                      .map((post) => PostCard(
-                            post: post,
-                          ))
-                      .toList(),
+                  //children: posts
+                    //  .map((post) => PostCard(
+                    //        post: post,
+                    //      ))
+                     // .toList(),
                 ),
               ],
             ),

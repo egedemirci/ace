@@ -1,15 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/post_services.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/post.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
+import 'package:provider/provider.dart';
 
 class Feed extends StatefulWidget {
   const Feed({Key? key, required this.analytics}) : super(key: key);
@@ -17,55 +24,26 @@ class Feed extends StatefulWidget {
   final FirebaseAnalytics analytics;
   static const String routeName = "/feed";
 
+
   @override
   State<Feed> createState() => _FeedState();
 }
 
 class _FeedState extends State<Feed> {
-  List<Post> posts = [
-    Post(
-        text:
-            "Hello man I hate Harry Maguire. This a picture of Tobey Maguire, who has no relation at all.",
-        fullName: "Efe Tuzun",
-        likes: 128,
-        userName: "efetuzun",
-        postImageSource:
-            "https://upload.wikimedia.org/wikipedia/commons/9/90/Spiderman.JPG"),
-    Post(
-        text: "Ronaldo is out of this world! 2 goals in 4 minutes?",
-        fullName: "HarryNotMaguire",
-        likes: 128,
-        userName: "maguireNotHarry",
-        postImageSource:
-            "https://www.juventus.com/images/image/private/t_editorial_landscape_12_desktop/f_auto/dev/nyuf6tne3npisv92zetr.jpg"),
-    Post(
-        text:
-            "Hello my dear friends. I am very lucky today to annouce the birth of my son, Bradley.",
-        fullName: "Landon Donovan",
-        likes: 128,
-        userName: "donovan.landon"),
-    Post(
-        text: "HERE WE GO!",
-        fullName: "Fabrizio Romano",
-        likes: 128,
-        userName: "fabrizio",
-        postImageSource:
-            "https://sportsdias.com/wp-content/uploads/2022/04/MAN-UTD-20.jpg",
-        profileImageSource:
-            "https://pbs.twimg.com/profile_images/1486761402853380113/3ifAqala.jpg"),
-    Post(
-        text:
-            "Messi is out of this world! 7 Ballon d'Ors? Surely no one can match that!",
-        fullName: "Messi is Life",
-        likes: 128,
-        userName: "messifanboy123",
-        postImageSource:
-            "https://img.fanatik.com.tr/img/78/740x418/610c6938ae298b8328517710.jpg"),
-  ];
+  List<Post> posts = [];
+  UserServices userService = UserServices();
+  PostService postService = PostService();
 
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Feed View", "feedView");
+    final user = Provider.of<User?>(context);
+    if (user == null) {
+      return Login(
+        analytics: widget.analytics,
+      );
+    }
+    else {
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
@@ -150,20 +128,92 @@ class _FeedState extends State<Feed> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: posts
-                  .map((post) => PostCard(
-                        post: post,
-                      ))
-                  .toList(),
-            ),
-          ),
-        ),
-      ),
+        body: FutureBuilder<DocumentSnapshot>(
+          future: userService.usersRef.doc(user.uid).get(),
+          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+            if(snapshot.hasError)
+            {
+              return const Center(child: Text("Oops, something went wrong"));
+            }
+            if(snapshot.connectionState == ConnectionState.done && snapshot.hasData  && snapshot.data != null && snapshot.data!.data() != null)
+            {
+              MyUser myUser = MyUser.fromJson((snapshot.data!.data() ?? Map<String,dynamic>.identity()) as Map<String,dynamic>);
+              if(myUser.isDisabled == false) {
+                return StreamBuilder<QuerySnapshot>(
+                  stream: userService.usersRef.snapshots().asBroadcastStream(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot){
+                    if(!querySnapshot.hasData){
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    else{
+                        List<dynamic> postsList = querySnapshot.data!.docs
+                            .where(
+                                (QueryDocumentSnapshot<Object?> element) {
+                              return ((myUser.following.contains(
+                                  element["userId"])) &&
+                                  !element["isDisabled"]);
+                            }
+                        ).map((data) => (data["posts"])).toList();
+                      print(postsList);
+                      List<dynamic> followingPosts = [];
+                      for (int j = 0; j < postsList.length; j++){
+                        for (int k = 0; k < postsList[j].length; k++) {
+                          followingPosts += [postsList[j][k]];
+                        }
+                      }
+                      return SingleChildScrollView(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              children: List.from(followingPosts
+                                  .map(
+                                      (post) =>
+                                      PostCard(
+                                          post: Post.fromJson(post),
+                                          isMyPost: false,
+                                          deletePost: () {
+                                            setState(() {
+                                              postService.deletePost(user.uid, post);
+                                            });
+                                          },
+                                          incrementLike: () {
+                                            postService.likePost(
+                                                user.uid, myUser.userId,
+                                                post["postId"]);
+                                          },
+                                          incrementComment: () {
+                                            //TODO COMMENT VIEW
+                                          },
+                                          incrementDislike: () {
+                                            postService.dislikePost(
+                                                user.uid, myUser.userId,
+                                                post["postId"]);
+                                          },
+                                          reShare: () {
+                                            //TODO RESHARE
+                                          }
+                                      )
+                              )
+                                  .toList()
+                                  .reversed,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  }
+                );
+              }
+              else{
+                return const Center(child: Text("Your account is not active."));
+
+              }
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        )
     );
   }
-}
+}}

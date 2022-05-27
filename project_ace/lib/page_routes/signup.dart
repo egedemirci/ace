@@ -24,7 +24,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final AuthServices _auth = AuthServices();
   final _formKey = GlobalKey<FormState>();
-  String _email = '', _password = '', _phone = "", _userName = "";
+  String _email = '', _password = '', _fullName = "", _userName = "";
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -73,7 +73,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future registerUser() async {
-    _auth.registerWithEmailPassword(_email, _password, _userName);
+    _auth.registerWithEmailPassword(_email, _password, _userName, _fullName);
   }
 
   @override
@@ -267,7 +267,7 @@ class _SignUpState extends State<SignUp> {
                     const SizedBox(height: 20),
                     TextFormField(
                       autocorrect: false,
-                      keyboardType: TextInputType.phone,
+                      keyboardType: TextInputType.text,
                       enableSuggestions: false,
                       decoration: InputDecoration(
                         filled: true,
@@ -278,7 +278,7 @@ class _SignUpState extends State<SignUp> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: const [
                             Text(
-                              "phone number",
+                              "full name",
                             ),
                           ],
                         ),
@@ -286,15 +286,15 @@ class _SignUpState extends State<SignUp> {
                       validator: (value) {
                         if (value != null) {
                           if (value.isEmpty) {
-                            return 'Cannot leave phone empty!';
+                            return 'Cannot leave full name empty!';
                           }
-                          if (value.length < 13) {
-                            return 'The number you entered is not in the right format!';
+                          if (value.length > 30) {
+                            return 'The name you entered is too long!';
                           }
                         }
                       },
                       onSaved: (value) {
-                        _phone = value ?? "";
+                        _fullName = value ?? "";
                       },
                     ),
                   ],

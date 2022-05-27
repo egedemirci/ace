@@ -5,7 +5,7 @@ import 'package:project_ace/templates/post.dart';
 class PostService{
   final CollectionReference postsRef = FirebaseFirestore.instance.collection('Posts');
   final CollectionReference usersRef = UserServices().usersRef;
-/*
+
   createPost(String userId, Post post) async
   {
     usersRef.doc(userId).update(
@@ -20,7 +20,7 @@ class PostService{
     );
 
   }
-*/
+
   Future<void> editPost(String userId, int postId, String text) async
   {
     var docRef = await usersRef.doc(userId).get();

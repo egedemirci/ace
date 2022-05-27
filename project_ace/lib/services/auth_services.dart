@@ -32,11 +32,11 @@ class AuthServices {
   }
 
   Future<dynamic> registerWithEmailPassword(
-      String email, String password, String userName) async {
+      String email, String password, String userName, String fullName) async {
     try {
       UserCredential uc = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      _userServices.addUser(userName, uc.user?.uid);
+      _userServices.addUser(userName,fullName,uc.user?.uid);
       return _userFromFirebase(uc.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {

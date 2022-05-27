@@ -1,11 +1,29 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
+
 class PostCard extends StatelessWidget {
-  const PostCard({Key? key, required this.post}) : super(key: key);
   final Post post;
+  final VoidCallback deletePost;
+  final VoidCallback incrementLike;
+  final VoidCallback incrementComment;
+  final VoidCallback incrementDislike;
+  final VoidCallback reShare;
+  final bool isMyPost;
+
+  const PostCard({Key? key, required this.post,
+    required this.deletePost,
+    required this.incrementLike,
+    required this.incrementComment,
+    required this.incrementDislike,
+    required this.reShare,
+    required this.isMyPost,}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +47,10 @@ class PostCard extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
-                    child: post.profileImageSource != "default"
+                    child: post.urlAvatar != "default"
                         ? ClipOval(
                             child: Image.network(
-                              post.profileImageSource,
+                              post.urlAvatar,
                             ),
                           )
                         : ClipOval(
@@ -51,7 +69,7 @@ class PostCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                   child: Text(
-                    "@${post.userName}",
+                    "@${post.username}",
                     style: postCardUserName,
                   ),
                 ),
@@ -79,16 +97,16 @@ class PostCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${post.likes}",
+                  "${post.likeCount}",
                   style: const TextStyle(fontSize: 14),
                 )
               ],
             ),
             Center(
-              child: post.postImageSource != "default"
+              child: post.assetUrl != "default"
                   ? ClipRect(
                       child: Image.network(
-                        post.postImageSource,
+                        post.assetUrl,
                         width: double.infinity,
                         height: 200,
                         fit: BoxFit.fitHeight,
