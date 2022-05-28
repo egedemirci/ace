@@ -42,7 +42,6 @@ void main() {
 Future<bool> checkFirstSeen() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool seen = (prefs.getBool('seen') ?? false);
-  print(seen);
   if (!seen) {
     prefs.setBool("seen", true);
   }

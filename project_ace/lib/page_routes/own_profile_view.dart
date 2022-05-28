@@ -37,6 +37,18 @@ class _OwnProfileViewState extends State<OwnProfileView> {
   UserServices userService = UserServices();
   PostService postService = PostService();
 
+  Future getUserName() async {
+    userName =
+        await userService.getUsername(FirebaseAuth.instance.currentUser!.uid);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserName();
+  }
+
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Own Profile View", "own_profile_view");
@@ -47,122 +59,124 @@ class _OwnProfileViewState extends State<OwnProfileView> {
       );
     } else {
       return Scaffold(
-        appBar: AppBar(
-          foregroundColor: AppColors.profileScreenTextColor,
-          title: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.logout),
-                onPressed: () async {
-                  await _auth.signOutUser();
-                },
-              ),
-              const Spacer(),
-              SizedBox(
-                width: screenWidth(context) * 0.6,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    //TODO
-                    '@username',
-                    style: profileViewHeader,
+          appBar: AppBar(
+            foregroundColor: AppColors.profileScreenTextColor,
+            title: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  onPressed: () async {
+                    await _auth.signOutUser();
+                  },
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: screenWidth(context) * 0.6,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      userName,
+                      style: profileViewHeader,
+                    ),
                   ),
                 ),
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/notifications');
-                },
-                icon: const Icon(
-                  Icons.notifications_active,
-                  color: AppColors.bottomNavigationBarBackgroundColor,
-                ),
-              )
-            ],
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/notifications');
+                  },
+                  icon: const Icon(
+                    Icons.notifications_active,
+                    color: AppColors.bottomNavigationBarBackgroundColor,
+                  ),
+                )
+              ],
+            ),
+            centerTitle: true,
+            backgroundColor: AppColors.profileScreenBackgroundColor,
+            elevation: 0.0,
           ),
-          centerTitle: true,
-          backgroundColor: AppColors.profileScreenBackgroundColor,
-          elevation: 0.0,
-        ),
-        bottomNavigationBar: SizedBox(
-          height: screenHeight(context) * 0.095,
-          child: BottomAppBar(
-            color: AppColors.welcomeScreenBackgroundColor,
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      tooltip: "Messages",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.email,
-                        color: AppColors.userNameColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, MessageScreen.routeName);
-                      }),
-                  const Spacer(),
-                  IconButton(
-                      tooltip: "Search",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.search,
-                        color: AppColors.userNameColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, Search.routeName);
-                      }),
-                  const Spacer(),
-                  IconButton(
-                      tooltip: "Home",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.home,
-                        color: AppColors.userNameColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, Feed.routeName, (route) => false);
-                      }),
-                  const Spacer(),
-                  IconButton(
-                      tooltip: "Add Post",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.add_circle_outline,
-                        color: AppColors.userNameColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, AddPost.routeName);
-                      }),
-                  const Spacer(),
-                  IconButton(
-                      tooltip: "Profile",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.person_outline,
-                        color: AppColors.userNameColor,
-                      ),
-                      onPressed: () {}),
-                ],
+          bottomNavigationBar: SizedBox(
+            height: screenHeight(context) * 0.095,
+            child: BottomAppBar(
+              color: AppColors.welcomeScreenBackgroundColor,
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        tooltip: "Messages",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.email,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, MessageScreen.routeName);
+                        }),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Search",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.search,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, Search.routeName);
+                        }),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Home",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.home,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, Feed.routeName, (route) => false);
+                        }),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Add Post",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, AddPost.routeName);
+                        }),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Profile",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.person_outline,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {}),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        backgroundColor: AppColors.profileScreenBackgroundColor,
-        body: FutureBuilder<DocumentSnapshot>(
-          future: userService.usersRef.doc(user.uid).get(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-            if(snapshot.hasError)
-              {
+          backgroundColor: AppColors.profileScreenBackgroundColor,
+          body: FutureBuilder<DocumentSnapshot>(
+            future: userService.usersRef.doc(user.uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
                 return const Center(child: Text("Oops, something went wrong"));
               }
-            if(snapshot.connectionState == ConnectionState.done && snapshot.hasData  && snapshot.data != null && snapshot.data!.data() != null)
-              {
-                MyUser myUser = MyUser.fromJson((snapshot.data!.data() ?? Map<String,dynamic>.identity()) as Map<String,dynamic>);
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData &&
+                  snapshot.data != null &&
+                  snapshot.data!.data() != null) {
+                MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
+                    Map<String, dynamic>.identity()) as Map<String, dynamic>);
                 return SingleChildScrollView(
                   child: SafeArea(
                     child: Padding(
@@ -177,7 +191,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                 child: CircleAvatar(
                                   backgroundColor:
-                                  AppColors.welcomeScreenBackgroundColor,
+                                      AppColors.welcomeScreenBackgroundColor,
                                   radius: screenWidth(context) * 0.14,
                                   child: ClipOval(
                                     child: Image.network(
@@ -191,7 +205,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 24, 0, 0),
                                     child: Text(
                                       myUser.posts.length.toString(),
                                       style: postsFollowersFollowingsCounts,
@@ -204,14 +219,15 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 ],
                               ),
                               InkWell(
-                                onTap:(){
-                                 //TODO: Show followers list.
+                                onTap: () {
+                                  //TODO: Show followers list.
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 24, 0, 0),
                                       child: Text(
                                         myUser.followers.length.toString(),
                                         style: postsFollowersFollowingsCounts,
@@ -225,14 +241,15 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 ),
                               ),
                               InkWell(
-                                onTap:(){
+                                onTap: () {
                                   //TODO: Show following list.
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 24, 0, 0),
                                       child: Text(
                                         myUser.following.length.toString(),
                                         style: postsFollowersFollowingsCounts,
@@ -246,16 +263,18 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 ),
                               ),
                               InkWell(
-                                onTap:(){
+                                onTap: () {
                                   //TODO: Show topics list.
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 24, 0, 0),
                                       child: Text(
-                                        myUser.subscribedTopics.length.toString(),
+                                        myUser.subscribedTopics.length
+                                            .toString(),
                                         style: postsFollowersFollowingsCounts,
                                       ),
                                     ),
@@ -272,11 +291,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(20,16,16,3),
+                            padding: const EdgeInsets.fromLTRB(20, 16, 16, 3),
                             child: Row(
                               children: [
                                 Container(
-                                  constraints: BoxConstraints(maxWidth: screenWidth(context) * 0.85),
+                                  constraints: BoxConstraints(
+                                      maxWidth: screenWidth(context) * 0.85),
                                   child: Text(
                                     myUser.fullName,
                                     style: smallNameUnderProfile,
@@ -286,16 +306,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(20,0,16,0),
+                            padding: const EdgeInsets.fromLTRB(20, 0, 16, 0),
                             child: Row(
                               children: [
                                 Container(
-                                  constraints: BoxConstraints(maxWidth: screenWidth(context) * 0.85),
-                                  child: Text(
-                                    myUser.biography,
-                                    style: biography ,
-                                  )
-                                )
+                                    constraints: BoxConstraints(
+                                        maxWidth: screenWidth(context) * 0.85),
+                                    child: Text(
+                                      myUser.biography,
+                                      style: biography,
+                                    ))
                               ],
                             ),
                           ),
@@ -307,21 +327,24 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   Padding(
                                     padding: const EdgeInsets.all(16),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color:
-                                            AppColors.profileSettingButtonFillColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: AppColors
+                                                .profileSettingButtonFillColor,
                                           ),
                                           width: screenWidth(context) * 0.8,
                                           height: screenHeight(context) * 0.075,
                                           child: TextButton.icon(
                                             onPressed: () {
-                                              Navigator.pushNamed(
-                                                  context, ProfileSettings.routeName);
+                                              Navigator.pushNamed(context,
+                                                  ProfileSettings.routeName);
                                             },
                                             icon: const Icon(
                                               Icons.settings,
@@ -332,7 +355,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                               fit: BoxFit.scaleDown,
                                               child: Text(
                                                 "Profile Settings",
-                                                style: profileViewProfileSettingsButton,
+                                                style:
+                                                    profileViewProfileSettingsButton,
                                               ),
                                             ),
                                           ),
@@ -360,14 +384,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
                                       Icons.list_outlined,
-                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                     ),
                                   ),
                                 ),
                                 const Padding(
                                   padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
                                   child: VerticalDivider(
-                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                       thickness: 2,
                                       width: 10),
                                 ),
@@ -379,14 +405,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
                                       Icons.text_fields,
-                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                     ),
                                   ),
                                 ),
                                 const Padding(
                                   padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
                                   child: VerticalDivider(
-                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                       thickness: 2,
                                       width: 10),
                                 ),
@@ -398,14 +426,16 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
                                       Icons.photo_outlined,
-                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                     ),
                                   ),
                                 ),
                                 const Padding(
                                   padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
                                   child: VerticalDivider(
-                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                       thickness: 2,
                                       width: 10),
                                 ),
@@ -417,7 +447,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
                                       Icons.bookmark,
-                                      color: AppColors.welcomeScreenBackgroundColor,
+                                      color: AppColors
+                                          .welcomeScreenBackgroundColor,
                                     ),
                                   ),
                                 ),
@@ -428,42 +459,44 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             height: 10,
                           ),
                           Column(
-                            children: List.from(myUser.posts.map(
-                                (post)=>PostCard(
-                                  post: Post.fromJson(post),
-                                  isMyPost: true,
-                                  deletePost: ()
-                                  {
-                                    setState(() {
-                                      postService.deletePost(user.uid, post);
-                                    });
-                                  },
-                                  incrementLike:(){
-                                    postService.likePost(user.uid, myUser.userId, post["postId"]);
-                                  },
-                                  incrementComment:(){
-                                    //TODO COMMENT VIEW
-                                  },
-                                  incrementDislike: (){
-                                    postService.dislikePost(user.uid, myUser.userId, post["postId"]);
-                                  },
-                                  reShare:(){
-                                    //TODO RESHARE
-                                  }
-                                )
-                            ).toList().reversed,
-                          ),
-                          )],
+                            children: List.from(
+                              myUser.posts
+                                  .map((post) => PostCard(
+                                      post: Post.fromJson(post),
+                                      isMyPost: true,
+                                      deletePost: () {
+                                        setState(() {
+                                          postService.deletePost(
+                                              user.uid, post);
+                                        });
+                                      },
+                                      incrementLike: () {
+                                        postService.likePost(user.uid,
+                                            myUser.userId, post["postId"]);
+                                      },
+                                      incrementComment: () {
+                                        //TODO COMMENT VIEW
+                                      },
+                                      incrementDislike: () {
+                                        postService.dislikePost(user.uid,
+                                            myUser.userId, post["postId"]);
+                                      },
+                                      reShare: () {
+                                        //TODO RESHARE
+                                      }))
+                                  .toList()
+                                  .reversed,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
                 );
               }
-            return const Center(child: CircularProgressIndicator());
-          },
-        )
-
-      );
+              return const Center(child: CircularProgressIndicator());
+            },
+          ));
     }
   }
 }
