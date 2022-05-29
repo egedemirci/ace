@@ -62,6 +62,7 @@ class _AddPostState extends State<AddPost> {
     }
   }
 
+  // TODO : Add the correct video player
   Future pickVideo() async {
     try {
       final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
@@ -77,10 +78,11 @@ class _AddPostState extends State<AddPost> {
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<User?>(context);
-    setCurrentScreen(widget.analytics, "Add Post View", "addPostView");
+    setCurrentScreen(widget.analytics, "Add Post View", "add_post.dart");
     if (currentUser == null) {
       return const Center(child: CircularProgressIndicator());
     } else {
+      // TODO: Extend the implementation of Screen Sizes
       return FutureBuilder(
           future: userServices.usersRef.doc(currentUser.uid).get(),
           builder:

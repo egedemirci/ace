@@ -19,22 +19,19 @@ class MessageCard extends StatelessWidget {
       elevation: 0,
       child: Column(
         children: [
+          // TODO: Extend the implementation of Screen Sizes
           InkWell(
             onTap: () {
               Navigator.pushNamed(context, ChatPage.routeName);
             },
             child: Row(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              //mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                //photo
                 CircleAvatar(
                   foregroundColor: AppColors.notificationIconColor,
                   backgroundColor: AppColors.profileScreenBackgroundColor,
                   radius: screenWidth(context) * 0.10,
                   child: ClipOval(child: Image.network(myMessage.urlAvatar)),
                 ),
-                //text ve name
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

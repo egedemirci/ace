@@ -1,38 +1,58 @@
+import 'dart:io';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project_ace/page_routes/change_password.dart';
-import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/page_routes/delete_account.dart';
+import 'package:project_ace/page_routes/edit_bio.dart';
 import 'package:project_ace/services/analytics.dart';
-import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-class ProfileSettings extends StatelessWidget {
-  ProfileSettings({Key? key, required this.analytics}) : super(key: key);
+class ProfileSettings extends StatefulWidget {
+  const ProfileSettings({Key? key, required this.analytics}) : super(key: key);
 
   final FirebaseAnalytics analytics;
   static const String routeName = '/profile_settings';
-  final UserServices  _userServices = UserServices();
-  final AuthServices _auth = AuthServices();
 
-  void changePassword() {}
+  @override
+  State<ProfileSettings> createState() => _ProfileSettingsState();
+}
 
-  void editBio() {}
+class _ProfileSettingsState extends State<ProfileSettings> {
+  final ImagePicker _picker = ImagePicker();
+  final UserServices _userServices = UserServices();
+  File? _image;
 
-  void changeProfilePicture() {}
-
-  void deleteAccount() {
-
+  Future pickImage() async {
+    try {
+      final image = await _picker.pickImage(source: ImageSource.gallery);
+      final imageTemporary = File(image!.path);
+      setState(() {
+        _image = imageTemporary;
+      });
+    } catch (e) {
+      FirebaseCrashlytics.instance.log(e.toString());
+    }
   }
 
-  void deactivateAccount() {}
+  void changePP() async {
+    await pickImage();
+    if (_image != null) {
+      await _userServices.uploadProfilePicture(
+          FirebaseAuth.instance.currentUser, _image!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(analytics, "Profile Settings View", "profileSettingsView");
+    setCurrentScreen(
+        widget.analytics, "Profile Settings View", "profile_settings.dart");
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
@@ -58,10 +78,11 @@ class ProfileSettings extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // TODO: Extend the implementation of Screen Sizes
               SizedBox(
                 height: 54.0,
                 child: ElevatedButton(
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.pushNamed(context, ChangePassword.routeName);
                   },
                   style: ElevatedButton.styleFrom(
@@ -78,7 +99,9 @@ class ProfileSettings extends StatelessWidget {
               SizedBox(
                 height: 54.0,
                 child: ElevatedButton(
-                  onPressed: editBio,
+                  onPressed: () {
+                    Navigator.pushNamed(context, EditBioView.routeName);
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
                       shape: RoundedRectangleBorder(
@@ -93,7 +116,7 @@ class ProfileSettings extends StatelessWidget {
               SizedBox(
                 height: 54.0,
                 child: ElevatedButton(
-                  onPressed: changeProfilePicture,
+                  onPressed: changePP,
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
                       shape: RoundedRectangleBorder(
@@ -124,10 +147,7 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: () {
-
-                    //await _userServices.deleteUserr(FirebaseAuth.instance.currentUser!, FirebaseAuth.instance.currentUser!.email!, FirebaseAuth.instance.currentUser!.p);
-                    //await _userServices.deleteUser(FirebaseAuth.instance.currentUser!.uid);
-                    //Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
+                    Navigator.pushNamed(context, DeleteAccount.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.deleteAccountButtonFillColor,

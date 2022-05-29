@@ -5,30 +5,27 @@ class AppColors {
   static const Color welcomeScreenBackgroundColor = Color(0xFF003049);
   // Login
   static const Color loginFormBackgroundColor = Colors.white;
-  static const Color loginFormTextColor = Colors.grey; // TODO: Check this color
+  static const Color loginFormTextColor = Colors.grey;
   static const Color loginScreenBackgroundColor = Color(0xFF003049);
   static const Color loginSignupButtonBackgroundColor = Color(0xFFFBBC05);
   static const Color loginSignupButtonTextColor = Color(0xFF003049);
   static const Color loginPageMetaGoogleOptionBackgroundColor =
-  Color(0xFFCDE8F4);
+      Color(0xFFCDE8F4);
   static const Color loginPageTextColor = Color(0xFFCDE8F4);
   // Sign Up
   static const Color signUpScreenBackgroundColor = Color(0xFF003049);
   static const Color signUpTextColor = Color(0xFFCDE8F4);
   static const Color signUpButtonBackgroundColor = Color(0xFFCDE8F4);
   static const Color signUpButtonTextColor = Color(0xFFFB8500);
-  static const Color signUpFormBackgroundColor =
-      Colors.white;
+  static const Color signUpFormBackgroundColor = Colors.white;
   static const Color signUpFormTextColor = Colors.grey;
   // Shared Among Views
   static const Color bottomNavigationBarFillColor = Color(0xFF003049);
   static const Color bottomNavigationBarIconOutlineColor = Color(0xFFCDE8F4);
   // Profile
   static const Color profileIconColor = Color(0xFF003049);
-  static const Color profileSettingButtonFillColor =
-  Color(0xFF88A0B1); // TODO: Check this color
-  static const Color profileSettingsButtonTextColor =
-      Colors.white; // TODO: Check this color
+  static const Color profileSettingButtonFillColor = Color(0xFF88A0B1);
+  static const Color profileSettingsButtonTextColor = Colors.white;
   static const Color profileScreenBackgroundColor = Color(0xFF003049);
   static const Color profilePostViewButtonBackgroundColor = Color(0xFFF7FDFF);
   static const Color profileScreenTextColor = Color(0xFFB9D3DF);

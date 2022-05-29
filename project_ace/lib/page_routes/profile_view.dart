@@ -21,6 +21,7 @@ class ProfileView extends StatefulWidget {
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
+// TODO: Copy and paste from OwnProfileView and edit as necessary
 
 class _ProfileViewState extends State<ProfileView> {
   final AuthServices _auth = AuthServices();
@@ -39,7 +40,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Profile View", "profileView");
+    setCurrentScreen(widget.analytics, "Profile View", "profile_view.dart");
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.profileScreenTextColor,
@@ -81,6 +82,7 @@ class _ProfileViewState extends State<ProfileView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // TODO: Extend the implementation of Screen Sizes
                 IconButton(
                     tooltip: "Messages",
                     iconSize: 40,
@@ -154,6 +156,7 @@ class _ProfileViewState extends State<ProfileView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
+                      // TODO: Extend the implementation of Screen Sizes
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: CircleAvatar(
                         backgroundColor: AppColors.welcomeScreenBackgroundColor,

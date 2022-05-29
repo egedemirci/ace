@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_ace/services/user_services.dart';
@@ -36,7 +39,7 @@ class AuthServices {
     try {
       UserCredential uc = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      _userServices.addUser(userName,fullName,uc.user?.uid);
+      _userServices.addUser(userName, fullName, uc.user?.uid);
       return _userFromFirebase(uc.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {
@@ -52,67 +55,70 @@ class AuthServices {
   }
 
   Future<dynamic> signInWithGoogle() async {
-    // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
-    // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential result =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    User? user = result.user;
+    DocumentSnapshot ds = await _userServices.usersRef.doc(user!.uid).get();
+    if (!ds.exists) {
+      int idx = user.email!.indexOf('@');
+      String username = user.email!.substring(0, idx);
+      Random random = Random();
+      while (true) {
+        bool doesExist = await _userServices.doesUsernameExist(username);
+        if (!doesExist) {
+          break;
+        } else {
+          int randomNumber = random.nextInt(10);
+          username += randomNumber.toString();
+        }
+      }
+      _userServices.addUser(
+          username, googleUser?.displayName ?? "unknown", user.uid);
+    }
+    return _userFromFirebase(user);
   }
 
-  Future<bool> changePassword(String crrPass, String newPass) async{
+  Future<bool> changePassword(String crrPass, String newPass) async {
     bool isSuccess = false;
     final user = _auth.currentUser;
-    final credentials = EmailAuthProvider.credential(
-        email: user!.email!,
-        password: crrPass
-    );
-
-
-
-    await user.reauthenticateWithCredential(credentials).then((value) async{
-      await user.updatePassword(newPass).then((value)
-      {
+    final credentials =
+        EmailAuthProvider.credential(email: user!.email!, password: crrPass);
+    await user.reauthenticateWithCredential(credentials).then((value) async {
+      await user.updatePassword(newPass).then((value) {
         isSuccess = true;
-      }).catchError((error){
-        isSuccess =  false;
+      }).catchError((error) {
+        isSuccess = false;
       });
     }).catchError((error) {
       isSuccess = false;
-    });  // end of catch
+    }); // end of catch
     return isSuccess;
-  }// at the end of the change password
+  } // at the end of the change password
 
-  Future<bool> authUser(String crrPass, String newPass) async{
+  Future<bool> deleteUser(String password) async {
     bool isSuccess = false;
     final user = _auth.currentUser;
-    final credentials = EmailAuthProvider.credential(
-        email: user!.email!,
-        password: crrPass
-    );
-
-
-
-    await user.reauthenticateWithCredential(credentials).then((value) async{
-      await user.updatePassword(newPass).then((value)
-      {
+    final credentials =
+        EmailAuthProvider.credential(email: user!.email!, password: password);
+    await user.reauthenticateWithCredential(credentials).then((value) async {
+      await user.delete().then((value) {
         isSuccess = true;
-      }).catchError((error){
-        isSuccess =  false;
+        _auth.signOut();
+      }).catchError((error) {
+        isSuccess = false;
       });
     }).catchError((error) {
       isSuccess = false;
-    });  // end of catch
+    });
     return isSuccess;
-  } // at the end of
-
-
+  }
 }
 
 /*

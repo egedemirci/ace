@@ -39,14 +39,14 @@ class UserServices {
     usersRef.doc(userId).delete();
   }
 
-  Future deleteUserr(User user,String email, String password) async{
+  /*Future deleteUserr(User user,String email, String password) async{
     String uid = user.uid;
     var result = await user.reauthenticateWithCredential(
         EmailAuthProvider.credential(email: email, password: password));
     await result.user!.delete();
     UserServices usersService = UserServices();
     usersService.deleteUser(uid);
-  }
+  }*/
 
   Future<void> disableUser(String userId) async {
     await usersRef.doc(userId).update({'isDisabled': true});
@@ -71,6 +71,13 @@ class UserServices {
     usersRef.doc(userId).update({
       'profilepicture': url,
     });
+    var docRef = await usersRef.doc(userId).get();
+    var posts = (docRef.data() as Map<String, dynamic>)["posts"];
+    int i = 0;
+    for (; i < posts.length; i++) {
+      posts[i]["urlAvatar"] = url;
+    }
+    usersRef.doc(userId).update({'posts': posts});
   }
 
   Future<String> uploadFile(User? user, File file) async {
@@ -135,5 +142,16 @@ class UserServices {
     usersRef.doc(userId).update({
       'bookmarks': FieldValue.arrayUnion([postId])
     });
+  }
+
+  editBio(String userId, String editedBio) async {
+    usersRef.doc(userId).update({"biography": editedBio});
+  }
+
+  getBio(String userId) async {
+    var docRef = await usersRef.doc(userId).get();
+    var obj = docRef.data() as Map<String, dynamic>;
+    var bio = obj["biography"];
+    return bio;
   }
 }

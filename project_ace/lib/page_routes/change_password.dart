@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
@@ -8,7 +7,6 @@ import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
-
 import 'package:project_ace/utilities/colors.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -26,7 +24,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController oldPassword = TextEditingController();
   TextEditingController pass = TextEditingController();
-  final AuthServices  _auth = AuthServices();
+  final AuthServices _auth = AuthServices();
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -39,10 +37,10 @@ class _ChangePasswordState extends State<ChangePassword> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -57,10 +55,10 @@ class _ChangePasswordState extends State<ChangePassword> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -76,21 +74,39 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Change Password View", "changePasswordView");
+    setCurrentScreen(
+        widget.analytics, "Change Password View", "change_password.dart");
     return Scaffold(
+      // TODO: Extend the implementation of Screen Sizes
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
-        foregroundColor: AppColors.profileScreenTextColor,
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            }),
+        toolbarHeight: 80,
+        elevation: 0,
         centerTitle: true,
-        title: Text(
-            "Change Password",
-          style: profileSettingsHeader,
+        foregroundColor: AppColors.welcomeScreenBackgroundColor,
+        title: SizedBox(
+          width: screenWidth(context) * 0.65,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "Change Your Password",
+              style: addPostTitle,
+            ),
+          ),
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
       ),
       body: SafeArea(
         child: Center(
           child: Column(
-           mainAxisAlignment:  MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: screenHeight(context) * 0.048),
               SizedBox(height: screenHeight(context) * 0.048),
@@ -111,10 +127,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
+                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                //const SizedBox( width:60),
                                 Text(
                                   "old password",
                                   style: loginForm,
@@ -124,7 +140,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                             fillColor: AppColors.loginFormBackgroundColor,
                             filled: true,
                           ),
-
                         ),
                       ),
                       SizedBox(height: screenHeight(context) * 0.024),
@@ -138,6 +153,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
+                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -161,7 +177,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                             }
                             return null;
                           },
-
                         ),
                       ),
                     ],
@@ -170,15 +185,16 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               SizedBox(height: screenHeight(context) * 0.024),
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   bool tryAgain = false;
-                  bool isSuccess=false;
-                  if(oldPassword.text ==""){
+                  bool isSuccess = false;
+                  if (oldPassword.text == "") {
                     _showDialog("Try Again", "Old Password cannot be empty!");
                   }
-                  if (oldPassword.text != "")  {
-                    if(_formKey.currentState!.validate() && oldPassword.text != pass.text ) {
-                       isSuccess= await _auth.changePassword(
+                  if (oldPassword.text != "") {
+                    if (_formKey.currentState!.validate() &&
+                        oldPassword.text != pass.text) {
+                      isSuccess = await _auth.changePassword(
                           oldPassword.text, pass.text);
                       if (!isSuccess) {
                         tryAgain = true;
@@ -189,7 +205,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     }
                   }
                   _formKey.currentState!.save();
-                  if(oldPassword.text == pass.text){
+                  if (oldPassword.text == pass.text) {
                     oldPassword.clear();
                     pass.clear();
                     _showDialog("Try Again", "New Password is the same!");
@@ -197,10 +213,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                   if (isSuccess) {
                     oldPassword.clear();
                     pass.clear();
-                    await _showDialog("Success", "Password has changed successfully!");
+                    await _showDialog(
+                        "Success", "Password has changed successfully!");
                     Navigator.of(context).pop();
                   }
-
                 },
                 style: ElevatedButton.styleFrom(
                     primary: AppColors.metaGoogleConnectButtonColor,
@@ -211,7 +227,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                   style: profileSettingsChangeButton,
                 ),
               ),
-
               const Spacer(),
             ],
           ),

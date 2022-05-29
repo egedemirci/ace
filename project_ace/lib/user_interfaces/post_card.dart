@@ -54,6 +54,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Extend the implementation of Screen Sizes
     return Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

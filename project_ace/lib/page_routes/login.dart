@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,43 +43,6 @@ class _LoginState extends State<Login> {
     }
   }
 
-/*
-  Future getUsers() async {
-    final url = Uri.parse(API.allUsers);
-    final response = await http.get(Uri.https(url.authority, url.path));
-    //_showDialog("Response", "${response.statusCode}");
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      // Successful
-      // _showDialog("HTTP Response: ${response.statusCode}", response.body);
-
-      Map<String, dynamic> post = jsonDecode(response.body);
-      print('User ID: ${post["userId"]}');
-      print('Title: ${post["title"]}');
-      print('Body: ${post["body"]}');
-      JSONPost newPost = JSONPost(
-          title: post["title"],
-          body: post["body"],
-          userID: post["userId"],
-          postID: post["id"]);
-      print(newPost);
-
-      var responseList = jsonDecode(response.body) as List;
-
-      print("Post Count: ${responseList.length}");
-      List<JSONPost> postItems =
-          responseList.map((postItem) => JSONPost.fromJSON(postItem)).toList();
-      print("${postItems[10]}");
-
-      List<MyUser> users =
-          responseList.map((user) => MyUser.fromJSON(user)).toList();
-      print("Latitude: ${users[1].address.geo.lat}");
-      print("Longitude: ${users[1].address.geo.lng}");
-    } else {
-      // Unsuccessful
-      _showDialog("HTTP Response: ${response.statusCode}", response.body);
-    }
-  }
-*/
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
     return showDialog(
@@ -135,7 +98,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Login View", "loginView");
+    setCurrentScreen(widget.analytics, "Login View", "login.dart");
     final user = Provider.of<User?>(context);
     if (user == null) {
       return Scaffold(
@@ -169,6 +132,7 @@ class _LoginState extends State<Login> {
                           enableSuggestions: false,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
+                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -206,6 +170,7 @@ class _LoginState extends State<Login> {
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
+                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [

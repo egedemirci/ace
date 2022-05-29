@@ -24,7 +24,7 @@ class _WalkthroughState extends State<Walkthrough> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Walkthrough View", "walkthroughView");
+    setCurrentScreen(widget.analytics, "Walkthrough View", "walkthrough.dart");
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,
       body: SafeArea(

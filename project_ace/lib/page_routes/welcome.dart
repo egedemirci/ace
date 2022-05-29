@@ -11,7 +11,7 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(analytics, "Welcome View", "welcomeView");
+    setCurrentScreen(analytics, "Welcome View", "welcome.dart");
     return Scaffold(
       backgroundColor: AppColors.welcomeScreenBackgroundColor,
       body: SafeArea(

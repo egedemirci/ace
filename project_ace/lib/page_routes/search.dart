@@ -33,7 +33,7 @@ class _SearchState extends State<Search> {
   final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Search View", "searchView");
+    setCurrentScreen(widget.analytics, "Search View", "search.dart");
     return Scaffold(
       appBar: AppBar(
           leading: const BackButton(
@@ -43,6 +43,7 @@ class _SearchState extends State<Search> {
           backgroundColor: AppColors.searchScreenBackground,
           // The search area here
           title: Container(
+            // TODO: Extend the implementation of Screen Sizes
             width: double.infinity,
             height: 40,
             decoration: BoxDecoration(
@@ -52,22 +53,23 @@ class _SearchState extends State<Search> {
                 key: _formKey,
                 controller: _controller,
                 decoration: InputDecoration(
-                    labelStyle: searchFormText,
-                    prefixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                      },
-                    ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _controller.clear();
-                        /* Clear the search field */
-                      },
-                    ),
-                    hintText: 'Search',
-                    border: InputBorder.none),
+                  border: InputBorder.none,
+                  labelStyle: searchFormText,
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      _controller.clear();
+                      /* Clear the search field */
+                    },
+                  ),
+                  hintText: 'Search',
+                ),
               ),
             ),
           )),

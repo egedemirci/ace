@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 class AppBlocObserver extends BlocObserver {
   @override
   void onEvent(bloc, event) {
+    super.onEvent(bloc, event);
     print(event.toString());
   }
 

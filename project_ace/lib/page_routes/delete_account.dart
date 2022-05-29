@@ -1,19 +1,21 @@
 import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
+import 'package:provider/provider.dart';
 
 class DeleteAccount extends StatefulWidget {
   const DeleteAccount({Key? key, required this.analytics}) : super(key: key);
   final FirebaseAnalytics analytics;
   static const String routeName = '/delete_account';
-
 
   @override
   State<DeleteAccount> createState() => _DeleteAccountState();
@@ -21,9 +23,9 @@ class DeleteAccount extends StatefulWidget {
 
 class _DeleteAccountState extends State<DeleteAccount> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController oldPassword = TextEditingController();
-  TextEditingController pass = TextEditingController();
-  final AuthServices  _auth = AuthServices();
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  final AuthServices _auth = AuthServices();
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -36,10 +38,10 @@ class _DeleteAccountState extends State<DeleteAccount> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -54,10 +56,10 @@ class _DeleteAccountState extends State<DeleteAccount> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -73,21 +75,43 @@ class _DeleteAccountState extends State<DeleteAccount> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Delete Account View", "deleteAccountView");
+    setCurrentScreen(
+        widget.analytics, "Delete Account View", "delete_account.dart");
+    final user = Provider.of<User?>(context);
+    if (user == null) {
+      return Login(analytics: widget.analytics);
+    }
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
-        foregroundColor: AppColors.profileScreenTextColor,
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            }),
+        // TODO: Screen sizes
+        toolbarHeight: 80,
+        elevation: 0,
         centerTitle: true,
-        title: Text(
-          "Change Password",
-          style: profileSettingsHeader,
+        foregroundColor: AppColors.welcomeScreenBackgroundColor,
+        title: SizedBox(
+          width: screenWidth(context) * 0.65,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "Delete Your Account",
+              style: addPostTitle,
+            ),
+          ),
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
       ),
       body: SafeArea(
         child: Center(
           child: Column(
-            mainAxisAlignment:  MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: screenHeight(context) * 0.048),
               SizedBox(height: screenHeight(context) * 0.048),
@@ -102,16 +126,15 @@ class _DeleteAccountState extends State<DeleteAccount> {
                         constraints: BoxConstraints(
                             maxHeight: screenHeight(context) * 0.075),
                         child: TextFormField(
-                          controller: oldPassword,
+                          controller: username,
                           autocorrect: false,
                           enableSuggestions: false,
-                          obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
+                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                //const SizedBox( width:60),
                                 Text(
                                   "username",
                                   style: loginForm,
@@ -121,7 +144,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
                             fillColor: AppColors.loginFormBackgroundColor,
                             filled: true,
                           ),
-
                         ),
                       ),
                       SizedBox(height: screenHeight(context) * 0.024),
@@ -129,12 +151,13 @@ class _DeleteAccountState extends State<DeleteAccount> {
                         constraints: BoxConstraints(
                             maxHeight: screenHeight(context) * 0.075),
                         child: TextFormField(
-                          controller: pass,
+                          controller: password,
                           autocorrect: false,
                           enableSuggestions: false,
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
+                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -147,68 +170,37 @@ class _DeleteAccountState extends State<DeleteAccount> {
                             fillColor: AppColors.loginFormBackgroundColor,
                             filled: true,
                           ),
-                          validator: (value) {
-                            if (value != null) {
-                              if (value.isEmpty) {
-                                return 'Cannot leave password empty!';
-                              }
-                              if (value.length < 6) {
-                                return 'Password is too short!';
-                              }
-                            }
-                            return null;
-                          },
-
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: screenHeight(context) * 0.024),
-              ElevatedButton(
-                onPressed: () async{
-                  bool tryAgain = false;
-                  bool isSuccess=false;
-                  if(oldPassword.text ==""){
-                    _showDialog("Try Again", "Old Password cannot be empty!");
+              SizedBox(height: screenHeight(context) * 0.03),
+              OutlinedButton(
+                onPressed: () async {
+                  bool isSuccessful = await _auth.deleteUser(password.text);
+                  if (!isSuccessful) {
+                    _showDialog("Error",
+                        "Your account could not be deleted because you could not confirm the requested information!");
+                    password.clear();
+                    username.clear();
                   }
-                  if (oldPassword.text != "")  {
-                    if(_formKey.currentState!.validate() && oldPassword.text != pass.text ) {
-                      isSuccess= await _auth.changePassword(
-                          oldPassword.text, pass.text);
-                      if (!isSuccess) {
-                        tryAgain = true;
-                        oldPassword.clear();
-                        pass.clear();
-                        _showDialog("Try Again", "Old Password is wrong!");
-                      }
-                    }
-                  }
-                  _formKey.currentState!.save();
-                  if(oldPassword.text == pass.text){
-                    oldPassword.clear();
-                    pass.clear();
-                    _showDialog("Try Again", "New Password is the same!");
-                  }
-                  if (isSuccess) {
-                    oldPassword.clear();
-                    pass.clear();
-                    await _showDialog("Success", "Password has changed successfully!");
-                    Navigator.of(context).pop();
-                  }
-
                 },
-                style: ElevatedButton.styleFrom(
-                    primary: AppColors.metaGoogleConnectButtonColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
+                style: OutlinedButton.styleFrom(
+                  fixedSize: Size(
+                      screenWidth(context) * 0.5, screenHeight(context) * 0.07),
+                  elevation: 0,
+                  backgroundColor: AppColors.sharePostColor,
+                  side: BorderSide.none,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                ),
                 child: Text(
-                  'Change password',
-                  style: profileSettingsChangeButton,
+                  "Confirm delete",
+                  style: aceButton,
                 ),
               ),
-
               const Spacer(),
             ],
           ),

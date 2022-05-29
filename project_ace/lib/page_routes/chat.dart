@@ -152,6 +152,7 @@ class _ChatPageState extends State<ChatPage> {
               }),
             ),
           ),
+          // TODO: Extend the implementation of Screen Sizes
           const SizedBox(width: 20),
           IconButton(
               onPressed: message.trim().isEmpty
@@ -179,7 +180,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Chat View", "chatView");
+    setCurrentScreen(widget.analytics, "Chat View", "chat.dart");
     String prevUserName = "";
     return Scaffold(
         appBar: AppBar(

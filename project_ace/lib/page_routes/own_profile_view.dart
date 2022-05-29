@@ -38,27 +38,29 @@ class _OwnProfileViewState extends State<OwnProfileView> {
   PostService postService = PostService();
 
   Future getUserName() async {
-    userName =
+    final uname =
         await userService.getUsername(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      userName = uname;
+    });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserName();
   }
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Own Profile View", "own_profile_view");
+    setCurrentScreen(
+        widget.analytics, "Own Profile View", "own_profile_view.dart");
     final user = Provider.of<User?>(context);
     if (user == null) {
       return Login(
         analytics: widget.analytics,
       );
     } else {
-      getUserName();
       return Scaffold(
           appBar: AppBar(
             foregroundColor: AppColors.profileScreenTextColor,
@@ -221,7 +223,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  //TODO: Show followers list.
+                                  // TODO: Show followers list.
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -243,7 +245,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  //TODO: Show following list.
+                                  // TODO: Show following list.
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -265,7 +267,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  //TODO: Show topics list.
+                                  // TODO: Show topics list.
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -456,6 +458,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ],
                             ),
                           ),
+                          // TODO: Extend the implementation of Screen Sizes
                           const SizedBox(
                             height: 10,
                           ),
@@ -472,18 +475,22 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         });
                                       },
                                       incrementLike: () {
-                                        postService.likePost(user.uid,
-                                            myUser.userId, post["postId"]);
+                                        setState(() {
+                                          postService.likePost(user.uid,
+                                              myUser.userId, post["postId"]);
+                                        });
                                       },
                                       incrementComment: () {
                                         //TODO COMMENT VIEW
                                       },
                                       incrementDislike: () {
-                                        postService.dislikePost(user.uid,
-                                            myUser.userId, post["postId"]);
+                                        setState(() {
+                                          postService.dislikePost(user.uid,
+                                              myUser.userId, post["postId"]);
+                                        });
                                       },
                                       reShare: () {
-                                        //TODO RESHARE
+                                        //TODO: Implement re-share
                                       }))
                                   .toList()
                                   .reversed,

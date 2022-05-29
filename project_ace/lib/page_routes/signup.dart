@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -77,7 +77,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Signup View", "signUpView");
+    setCurrentScreen(widget.analytics, "Signup View", "signup.dart");
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,
       body: SafeArea(
@@ -89,6 +89,7 @@ class _SignUpState extends State<SignUp> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: const [
+                // TODO: Implement text styles
                 Text(
                   "Create your account",
                   style: TextStyle(
@@ -97,6 +98,7 @@ class _SignUpState extends State<SignUp> {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
+                // TODO: Extend the implementation of Screen Sizes
                 SizedBox(
                   height: 2.5,
                 ),
@@ -126,6 +128,7 @@ class _SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.emailAddress,
                       enableSuggestions: false,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
                         labelStyle: const TextStyle(
@@ -164,6 +167,7 @@ class _SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.text,
                       enableSuggestions: false,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
                         labelStyle: const TextStyle(
@@ -203,6 +207,7 @@ class _SignUpState extends State<SignUp> {
                       enableSuggestions: false,
                       obscureText: true,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
                         labelStyle: const TextStyle(
@@ -269,6 +274,7 @@ class _SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.text,
                       enableSuggestions: false,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
                         labelStyle: const TextStyle(
@@ -319,6 +325,7 @@ class _SignUpState extends State<SignUp> {
             },
             style: OutlinedButton.styleFrom(
               backgroundColor: AppColors.signUpButtonBackgroundColor,
+              // TODO: Extend the implementation of Screen Sizes
               fixedSize: const Size(125, 40),
             ),
             child: const Text(

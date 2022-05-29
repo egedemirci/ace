@@ -19,7 +19,6 @@ class ChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const radius = Radius.circular(24);
     const borderRadius = BorderRadius.all(radius);
-
     return Row(
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[

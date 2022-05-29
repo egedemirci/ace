@@ -54,7 +54,7 @@ class _MessageScreenState extends State<MessageScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Messages View", "messagesView");
+    setCurrentScreen(widget.analytics, "Messages View", "messages.dart");
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       bottomNavigationBar: SizedBox(

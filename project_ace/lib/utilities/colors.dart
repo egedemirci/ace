@@ -5,7 +5,7 @@ class AppColors {
   static const Color welcomeScreenBackgroundColor = Color(0xFF003049);
   // Login
   static const Color loginFormBackgroundColor = Colors.white;
-  static const Color loginFormTextColor = Colors.grey; // TODO: Check this color
+  static const Color loginFormTextColor = Colors.grey;
   static const Color loginScreenBackgroundColor = Color(0xFF003049);
   static const Color loginSignupButtonBackgroundColor = Color(0xFFFBBC05);
   static const Color loginSignupButtonTextColor = Color(0xFF003049);
@@ -26,11 +26,9 @@ class AppColors {
   static const Color bottomNavigationBarIconOutlineColor = Color(0xFFCDE8F4);
   // Profile
   static const Color profileIconColor = Color(0xFF003049);
-  static const Color profileSettingButtonFillColor =
-      Color(0xFF88A0B1); // TODO: Check this color
+  static const Color profileSettingButtonFillColor = Color(0xFF88A0B1);
   static const Color profileImageTextPostViewButton = Color(0xFFCDE8F4);
-  static const Color profileSettingsButtonTextColor =
-      Colors.white; // TODO: Check this color
+  static const Color profileSettingsButtonTextColor = Colors.white;
   static const Color profileSettingsButtonIconColor = Color(0xFFB9D3DF);
   static const Color profileScreenBackgroundColor = Color(0xFFF7FDFF);
   static const Color profilePostViewButtonBackgroundColor = Color(0xFFF7FDFF);

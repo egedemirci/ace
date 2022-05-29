@@ -24,7 +24,6 @@ class Feed extends StatefulWidget {
   final FirebaseAnalytics analytics;
   static const String routeName = "/feed";
 
-
   @override
   State<Feed> createState() => _FeedState();
 }
@@ -36,184 +35,186 @@ class _FeedState extends State<Feed> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Feed View", "feedView");
+    setCurrentScreen(widget.analytics, "Feed View", "feed.dart");
     final user = Provider.of<User?>(context);
     if (user == null) {
       return Login(
         analytics: widget.analytics,
       );
-    }
-    else {
-    return Scaffold(
-      backgroundColor: AppColors.profileScreenBackgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: SizedBox(
-          width: screenWidth(context) * 0.6,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              "Feed",
-              style: feedHeader,
+    } else {
+      return Scaffold(
+          backgroundColor: AppColors.profileScreenBackgroundColor,
+          appBar: AppBar(
+            centerTitle: true,
+            title: SizedBox(
+              width: screenWidth(context) * 0.6,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  "Feed",
+                  style: feedHeader,
+                ),
+              ),
+            ),
+            elevation: 0,
+            backgroundColor: AppColors.profileScreenBackgroundColor,
+          ),
+          bottomNavigationBar: SizedBox(
+            height: screenHeight(context) * 0.095,
+            child: BottomAppBar(
+              color: AppColors.welcomeScreenBackgroundColor,
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        tooltip: "Messages",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.email,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, MessageScreen.routeName);
+                        }),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Search",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.search,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, Search.routeName);
+                        }),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Home",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.home,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {}),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Add Post",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, AddPost.routeName);
+                        }),
+                    const Spacer(),
+                    IconButton(
+                        tooltip: "Profile",
+                        iconSize: screenWidth(context) * 0.08,
+                        icon: const Icon(
+                          Icons.person_outline,
+                          color: AppColors.userNameColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              OwnProfileView.routeName, (route) => false);
+                        }),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-        elevation: 0,
-        backgroundColor: AppColors.profileScreenBackgroundColor,
-      ),
-      bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.095,
-        child: BottomAppBar(
-          color: AppColors.welcomeScreenBackgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    tooltip: "Messages",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.email,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, MessageScreen.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Search",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.search,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, Search.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Home",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.home,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {}),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Add Post",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.add_circle_outline,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, AddPost.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Profile",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.person_outline,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, OwnProfileView.routeName, (route) => false);
-                    }),
-              ],
-            ),
-          ),
-        ),
-      ),
-        body: FutureBuilder<DocumentSnapshot>(
-          future: userService.usersRef.doc(user.uid).get(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-            if(snapshot.hasError)
-            {
-              return const Center(child: Text("Oops, something went wrong"));
-            }
-            if(snapshot.connectionState == ConnectionState.done && snapshot.hasData  && snapshot.data != null && snapshot.data!.data() != null)
-            {
-              MyUser myUser = MyUser.fromJson((snapshot.data!.data() ?? Map<String,dynamic>.identity()) as Map<String,dynamic>);
-              if(myUser.isDisabled == false) {
-                return StreamBuilder<QuerySnapshot>(
-                  stream: userService.usersRef.snapshots().asBroadcastStream(),
-                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot){
-                    if(!querySnapshot.hasData){
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    else{
-                        List<dynamic> postsList = querySnapshot.data!.docs
-                            .where(
-                                (QueryDocumentSnapshot<Object?> element) {
-                              return ((myUser.following.contains(
-                                  element["userId"])) &&
-                                  !element["isDisabled"]);
+          body: FutureBuilder<DocumentSnapshot>(
+            future: userService.usersRef.doc(user.uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return const Center(child: Text("Oops, something went wrong"));
+              }
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData &&
+                  snapshot.data != null &&
+                  snapshot.data!.data() != null) {
+                MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
+                    Map<String, dynamic>.identity()) as Map<String, dynamic>);
+                if (myUser.isDisabled == false) {
+                  return StreamBuilder<QuerySnapshot>(
+                      stream:
+                          userService.usersRef.snapshots().asBroadcastStream(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                        if (!querySnapshot.hasData) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else {
+                          List<dynamic> postsList = querySnapshot.data!.docs
+                              .where((QueryDocumentSnapshot<Object?> element) {
+                                return ((myUser.following
+                                        .contains(element["userId"])) &&
+                                    !element["isDisabled"]);
+                              })
+                              .map((data) => (data["posts"]))
+                              .toList();
+                          print(postsList);
+                          List<dynamic> followingPosts = [];
+                          for (int j = 0; j < postsList.length; j++) {
+                            for (int k = 0; k < postsList[j].length; k++) {
+                              followingPosts += [postsList[j][k]];
                             }
-                        ).map((data) => (data["posts"])).toList();
-                      print(postsList);
-                      List<dynamic> followingPosts = [];
-                      for (int j = 0; j < postsList.length; j++){
-                        for (int k = 0; k < postsList[j].length; k++) {
-                          followingPosts += [postsList[j][k]];
-                        }
-                      }
-                      return SingleChildScrollView(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Column(
-                              children: List.from(followingPosts
-                                  .map(
-                                      (post) =>
-                                      PostCard(
-                                          post: Post.fromJson(post),
-                                          isMyPost: false,
-                                          deletePost: () {
-                                            setState(() {
-                                              postService.deletePost(user.uid, post);
-                                            });
-                                          },
-                                          incrementLike: () {
-                                            postService.likePost(
-                                                user.uid, myUser.userId,
-                                                post["postId"]);
-                                          },
-                                          incrementComment: () {
-                                            //TODO COMMENT VIEW
-                                          },
-                                          incrementDislike: () {
-                                            postService.dislikePost(
-                                                user.uid, myUser.userId,
-                                                post["postId"]);
-                                          },
-                                          reShare: () {
-                                            //TODO RESHARE
-                                          }
-                                      )
-                              )
-                                  .toList()
-                                  .reversed,
+                          }
+                          return SingleChildScrollView(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  children: List.from(
+                                    followingPosts
+                                        .map((post) => PostCard(
+                                            post: Post.fromJson(post),
+                                            isMyPost: false,
+                                            deletePost: () {
+                                              setState(() {
+                                                postService.deletePost(
+                                                    user.uid, post);
+                                              });
+                                            },
+                                            incrementLike: () {
+                                              postService.likePost(
+                                                  user.uid,
+                                                  myUser.userId,
+                                                  post["postId"]);
+                                            },
+                                            incrementComment: () {
+                                              // TODO: COMMENT VIEW
+                                            },
+                                            incrementDislike: () {
+                                              postService.dislikePost(
+                                                  user.uid,
+                                                  myUser.userId,
+                                                  post["postId"]);
+                                            },
+                                            reShare: () {
+                                              // TODO: Re-share
+                                            }))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      );
-                    }
-                  }
-                );
+                          );
+                        }
+                      });
+                } else {
+                  return const Center(
+                      child: Text("Your account is not active."));
+                }
               }
-              else{
-                return const Center(child: Text("Your account is not active."));
-
-              }
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-        )
-    );
+              return const Center(child: CircularProgressIndicator());
+            },
+          ));
+    }
   }
-}}
+}

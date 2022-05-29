@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/templates/comment.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
-import 'package:project_ace/utilities/screen_sizes.dart';
 
 class CommentCard extends StatelessWidget {
-  const CommentCard(
-      {Key? key,
-        required this.comment})
-      : super(key: key);
-  final Comment comment;
+  const CommentCard({Key? key, required this.comment}) : super(key: key);
 
+  final Comment comment;
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Implement screen sizes
     return Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -36,15 +33,15 @@ class CommentCard extends StatelessWidget {
                     radius: 20,
                     child: comment.urlAvatar != "default"
                         ? ClipOval(
-                      child: Image.network(
-                        comment.urlAvatar,
-                      ),
-                    )
+                            child: Image.network(
+                              comment.urlAvatar,
+                            ),
+                          )
                         : ClipOval(
-                      child: Image.network(
-                        "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
-                      ),
-                    ),
+                            child: Image.network(
+                              "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(width: 6),
@@ -77,23 +74,29 @@ class CommentCard extends StatelessWidget {
             Center(
               child: comment.urlAvatar != "default"
                   ? ClipRect(
-                child: Image.network(
-                  comment.urlAvatar,
-                  width: double.infinity,
-                  height: 200,
-                  fit: BoxFit.fitHeight,
-                ),
-              )
+                      child: Image.network(
+                        comment.urlAvatar,
+                        width: double.infinity,
+                        height: 200,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )
                   : Container(),
             ),
             const SizedBox(
               height: 10,
             ),
-            Row(children:[
+            Row(
+              children: [
                 Padding(
                     padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
-                    child: Text(comment.createdAt.toLocal().toString().substring(
-                        0, comment.createdAt.toLocal().toString().length - 7))),
+                    child: Text(comment.createdAt
+                        .toLocal()
+                        .toString()
+                        .substring(
+                            0,
+                            comment.createdAt.toLocal().toString().length -
+                                7))),
               ],
             ),
             const SizedBox(
@@ -108,5 +111,4 @@ class CommentCard extends StatelessWidget {
       ),
     );
   }
-
 }

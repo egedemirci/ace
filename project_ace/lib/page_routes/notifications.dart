@@ -19,6 +19,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  // TODO: Extend the implementation of Screen Sizes
   List<AppNotification> allNotifications = [
     AppNotification(
         text: "started to follow you!",
@@ -57,7 +58,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(
-        widget.analytics, "Notifications View", "notificationsView");
+        widget.analytics, "Notifications View", "notifications.dart");
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
