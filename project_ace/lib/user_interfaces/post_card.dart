@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_ace/templates/menu_item.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -22,6 +23,34 @@ class PostCard extends StatelessWidget {
     required this.reShare,
     required this.isMyPost,
   }) : super(key: key);
+
+  PopupMenuItem<PostMenuItem> buildItem(PostMenuItem item) => PopupMenuItem(
+        value: item,
+        child: Row(
+          children: [
+            Icon(item.icon),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(item.text),
+          ],
+        ),
+      );
+
+  void onSelected(BuildContext context, PostMenuItem item) {
+    switch (item) {
+      case PostMenuItems.reportPost:
+        break; // TODO: Implement here
+      case PostMenuItems.bookmarkPost:
+        break; // TODO: Implement here
+      case PostMenuItems.reSharePost:
+        break; // TODO: Implement here
+      case PostMenuItems.deletePost:
+        break; // TODO: Implement here
+      case PostMenuItems.editPost:
+        break; // TODO: Implement here
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +100,19 @@ class PostCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.more_horiz),
-                  splashRadius: 20,
-                )
+                PopupMenuButton<PostMenuItem>(
+                    onSelected: (item) => onSelected(context, item),
+                    itemBuilder: (context) => (isMyPost == true)
+                        ? [
+                            ...PostMenuItems.userPostList
+                                .map(buildItem)
+                                .toList(),
+                          ]
+                        : [
+                            ...PostMenuItems.otherUsersPostList
+                                .map(buildItem)
+                                .toList(),
+                          ]),
               ],
             ),
             Row(
