@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/message.dart';
@@ -229,12 +227,12 @@ class _ChatPageState extends State<ChatPage> {
                 padding: const EdgeInsets.all(20),
                 itemCount: messages.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final Message _message = messages[index];
-                  final bool isMe = _message.username == myUsername;
-                  final bool isSameUser = prevUserName == _message.username;
-                  prevUserName = _message.username;
+                  final Message message = messages[index];
+                  final bool isMe = message.username == myUsername;
+                  final bool isSameUser = prevUserName == message.username;
+                  prevUserName = message.username;
                   return ChatCard(
-                      message: _message, isMe: isMe, isSameUser: isSameUser);
+                      message: message, isMe: isMe, isSameUser: isSameUser);
                 },
               ),
             ),

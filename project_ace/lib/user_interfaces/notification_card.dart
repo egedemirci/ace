@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/templates/notif.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
-
-import '../utilities/screen_sizes.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 
 class NotificationsCard extends StatelessWidget {
   final AppNotification myNotification;

@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
-
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -15,15 +12,16 @@ class PostCard extends StatelessWidget {
   final VoidCallback reShare;
   final bool isMyPost;
 
-  const PostCard({Key? key, required this.post,
+  const PostCard({
+    Key? key,
+    required this.post,
     required this.deletePost,
     required this.incrementLike,
     required this.incrementComment,
     required this.incrementDislike,
     required this.reShare,
-    required this.isMyPost,}) : super(key: key);
-
-
+    required this.isMyPost,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,6 @@ class PostCard extends StatelessWidget {
                           ),
                   ),
                 ),
-                // TODO: Add the correct text style here
                 Text(
                   post.fullName,
                   style: postCardUserRealName,
@@ -73,6 +70,12 @@ class PostCard extends StatelessWidget {
                     style: postCardUserName,
                   ),
                 ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_horiz),
+                  splashRadius: 20,
+                )
               ],
             ),
             Row(
@@ -80,26 +83,16 @@ class PostCard extends StatelessWidget {
               children: [
                 // TODO: Add the correct text style here
                 Expanded(
-                  child: Text(
-                    post.text,
-                    maxLines: 3,
-                    style: postText,
-                    overflow: TextOverflow.ellipsis,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      post.text,
+                      maxLines: 3,
+                      style: postText,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
-                  child: IconButton(
-                    icon: const Icon(Icons.thumb_up_alt_outlined),
-                    onPressed: () {},
-                    iconSize: 20,
-                    splashRadius: 20,
-                  ),
-                ),
-                Text(
-                  "${post.likeCount}",
-                  style: const TextStyle(fontSize: 14),
-                )
               ],
             ),
             Center(
@@ -113,6 +106,56 @@ class PostCard extends StatelessWidget {
                       ),
                     )
                   : Container(),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.thumb_up_alt_outlined),
+                  onPressed: incrementLike,
+                  iconSize: 20,
+                  splashRadius: 20,
+                ),
+                Text(
+                  "${post.likeCount}",
+                  style: const TextStyle(fontSize: 14),
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
+                  child: IconButton(
+                    icon: const Icon(Icons.thumb_down_alt_outlined),
+                    onPressed: incrementDislike,
+                    iconSize: 20,
+                    splashRadius: 20,
+                  ),
+                ),
+                Text(
+                  "${post.dislikeCount}",
+                  style: const TextStyle(fontSize: 14),
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
+                  child: IconButton(
+                    icon: const Icon(Icons.comment),
+                    onPressed: incrementComment,
+                    iconSize: 20,
+                    splashRadius: 20,
+                  ),
+                ),
+                Text(
+                  "${post.commentCount}",
+                  style: const TextStyle(fontSize: 14),
+                ),
+                const Spacer(),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
+                    child: Text(post.createdAt.toLocal().toString().substring(
+                        0, post.createdAt.toLocal().toString().length - 7))),
+              ],
             ),
             const SizedBox(
               height: 10,

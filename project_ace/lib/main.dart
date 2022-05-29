@@ -1,10 +1,7 @@
 // This file is connected to the Draft Branch
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/feed.dart';
@@ -18,34 +15,26 @@ import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/page_routes/walkthrough.dart';
 import 'package:project_ace/page_routes/welcome.dart';
-import 'package:project_ace/page_routes/search.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:project_ace/services/analytics.dart';
-import 'package:project_ace/utilities/bloc_observer.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/transition.dart';
 import 'package:provider/provider.dart';
-import 'package:project_ace/page_routes/home_page.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool seen = false;
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyFirebaseApp());
-}
-
 Future<bool> checkFirstSeen() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool seen = (prefs.getBool('seen') ?? false);
+  seen = (prefs.getBool('seen') ?? false);
   if (!seen) {
     prefs.setBool("seen", true);
   }
   return seen;
+}
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyFirebaseApp());
 }
 
 class MyFirebaseApp extends StatefulWidget {
@@ -94,8 +83,7 @@ class AceBase extends StatefulWidget {
 
 class _AceBaseState extends State<AceBase> {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  // static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
   final Future<bool> firstOpen = checkFirstSeen();
 
   @override

@@ -1,24 +1,18 @@
-import 'dart:convert';
 import 'dart:io' show Platform;
-import 'package:http/http.dart' as http;
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
-import 'package:project_ace/services/user_services.dart';
-import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
-import "package:project_ace/utilities/api.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key, required this.analytics}) : super(key: key);

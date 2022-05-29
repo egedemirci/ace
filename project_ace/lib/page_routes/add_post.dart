@@ -52,7 +52,7 @@ class _AddPostState extends State<AddPost> {
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await _picker.pickImage(source: ImageSource.gallery);
       final imageTemporary = File(image!.path);
       setState(() {
         _image = imageTemporary;
@@ -239,9 +239,9 @@ class _AddPostState extends State<AddPost> {
                                           (myUser.posts.length + 1).toString(),
                                       userId: currentUser.uid,
                                       text: postText,
-                                      commentCount: 595,
-                                      dislikeCount: 58,
-                                      likeCount: 1589,
+                                      commentCount: 0,
+                                      dislikeCount: 0,
+                                      likeCount: 0,
                                       createdAt: DateTime.now(),
                                       username: myUser.username,
                                       fullName: myUser.fullName,

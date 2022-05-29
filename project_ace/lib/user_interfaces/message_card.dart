@@ -3,8 +3,7 @@ import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
-
-import '../utilities/screen_sizes.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 
 class MessageCard extends StatelessWidget {
   const MessageCard({Key? key, required this.myMessage}) : super(key: key);

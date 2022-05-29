@@ -1,11 +1,8 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
-import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/utilities/screen_sizes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Walkthrough extends StatefulWidget {
   const Walkthrough({Key? key, required this.analytics}) : super(key: key);
@@ -50,6 +47,7 @@ class _WalkthroughState extends State<Walkthrough> {
       children: [
         const SizedBox(height: 10),
         ClipRect(
+          // TODO: Implement the correct image size
           child: Image.network(
             images[i],
             scale: 2,
@@ -60,6 +58,7 @@ class _WalkthroughState extends State<Walkthrough> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
+                      // TODO: Edit button and text styles
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
                             context, Login.routeName, (route) => false);

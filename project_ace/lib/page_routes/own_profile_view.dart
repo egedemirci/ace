@@ -58,6 +58,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
         analytics: widget.analytics,
       );
     } else {
+      getUserName();
       return Scaffold(
           appBar: AppBar(
             foregroundColor: AppColors.profileScreenTextColor,
@@ -75,7 +76,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      userName,
+                      '@$userName',
                       style: profileViewHeader,
                     ),
                   ),

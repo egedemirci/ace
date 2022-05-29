@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
-
-import '../utilities/screen_sizes.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard(

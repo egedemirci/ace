@@ -53,14 +53,14 @@ class ProfileSettings extends StatelessWidget {
                 height: 54.0,
                 child: ElevatedButton(
                   onPressed: changePassword,
-                  child: Text(
-                    'Change password',
-                    style: profileSettingsChangeButton,
-                  ),
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    'Change password',
+                    style: profileSettingsChangeButton,
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),

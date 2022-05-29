@@ -49,6 +49,7 @@ class _SearchState extends State<Search> {
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: Center(
               child: TextFormField(
+                key: _formKey,
                 controller: _controller,
                 decoration: InputDecoration(
                     labelStyle: searchFormText,

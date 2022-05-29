@@ -7,7 +7,6 @@ import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/post.dart';
-import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
@@ -318,12 +317,12 @@ class _ProfileViewState extends State<ProfileView> {
                   height: 10,
                 ),
                 Column(
-                  //children: posts
+                    //children: posts
                     //  .map((post) => PostCard(
                     //        post: post,
                     //      ))
-                     // .toList(),
-                ),
+                    // .toList(),
+                    ),
               ],
             ),
           ),
