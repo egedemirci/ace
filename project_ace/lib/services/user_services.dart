@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/templates/post.dart';
 
 class UserServices {
   final CollectionReference usersRef =
       FirebaseFirestore.instance.collection('Users');
+
+  final FirebaseStorage storage = FirebaseStorage.instance;
 
   Future addUser(String username, String fullName, String? userId) async {
     await usersRef.doc(userId).set({
@@ -60,6 +66,32 @@ class UserServices {
           'isDisabled': false
         }
     );
+    //Profile Picture Change
+    Future getUserPp(String userId) async
+    {
+      var crrGet = await usersRef.doc(userId).get();
+      return crrGet.get("profilepicture");
+    }
+
+    setProfilePic(String url, String userId) async{
+      usersRef.doc(userId).update({
+        'profilepicture': url,
+      });
+    }
+
+    Future<String> uploadFile(User? user,File file) async{
+      var storageRef = storage.ref().child("user/profile/profilePic/${user!.uid}");
+      var uploadTask = await storageRef.putFile(file);
+      String downloadURL = await uploadTask.ref.getDownloadURL();
+      return downloadURL;
+    }
+
+    Future<void> uploadProfilePicture(User? user,File image) async
+    {
+      String url = await uploadFile(user, image);
+      setProfilePic(url, user!.uid);
+    }
+
     var docRef = await usersRef.doc(userId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     int i = 0;
