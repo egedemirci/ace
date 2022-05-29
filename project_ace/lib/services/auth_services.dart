@@ -65,6 +65,54 @@ class AuthServices {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+  Future<bool> changePassword(String crrPass, String newPass) async{
+    bool isSuccess = false;
+    final user = _auth.currentUser;
+    final credentials = EmailAuthProvider.credential(
+        email: user!.email!,
+        password: crrPass
+    );
+
+
+
+    await user.reauthenticateWithCredential(credentials).then((value) async{
+      await user.updatePassword(newPass).then((value)
+      {
+        isSuccess = true;
+      }).catchError((error){
+        isSuccess =  false;
+      });
+    }).catchError((error) {
+      isSuccess = false;
+    });  // end of catch
+    return isSuccess;
+  }// at the end of the change password
+
+  Future<bool> authUser(String crrPass, String newPass) async{
+    bool isSuccess = false;
+    final user = _auth.currentUser;
+    final credentials = EmailAuthProvider.credential(
+        email: user!.email!,
+        password: crrPass
+    );
+
+
+
+    await user.reauthenticateWithCredential(credentials).then((value) async{
+      await user.updatePassword(newPass).then((value)
+      {
+        isSuccess = true;
+      }).catchError((error){
+        isSuccess =  false;
+      });
+    }).catchError((error) {
+      isSuccess = false;
+    });  // end of catch
+    return isSuccess;
+  } // at the end of
+
+
 }
 
 /*

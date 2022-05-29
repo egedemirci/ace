@@ -1,15 +1,22 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ace/page_routes/change_password.dart';
+import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/auth_services.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class ProfileSettings extends StatelessWidget {
-  const ProfileSettings({Key? key, required this.analytics}) : super(key: key);
+  ProfileSettings({Key? key, required this.analytics}) : super(key: key);
 
   final FirebaseAnalytics analytics;
   static const String routeName = '/profile_settings';
+  final UserServices  _userServices = UserServices();
+  final AuthServices _auth = AuthServices();
 
   void changePassword() {}
 
@@ -17,7 +24,9 @@ class ProfileSettings extends StatelessWidget {
 
   void changeProfilePicture() {}
 
-  void deleteAccount() {}
+  void deleteAccount() {
+
+  }
 
   void deactivateAccount() {}
 
@@ -52,7 +61,9 @@ class ProfileSettings extends StatelessWidget {
               SizedBox(
                 height: 54.0,
                 child: ElevatedButton(
-                  onPressed: changePassword,
+                  onPressed: (){
+                    Navigator.pushNamed(context, ChangePassword.routeName);
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
                       shape: RoundedRectangleBorder(
@@ -97,7 +108,7 @@ class ProfileSettings extends StatelessWidget {
               SizedBox(
                 height: 54.0,
                 child: ElevatedButton(
-                  onPressed: deactivateAccount,
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.deactivateAccountButtonFillColor,
                       shape: RoundedRectangleBorder(
@@ -112,7 +123,12 @@ class ProfileSettings extends StatelessWidget {
               SizedBox(
                 height: 54.0,
                 child: ElevatedButton(
-                  onPressed: deleteAccount,
+                  onPressed: () {
+
+                    //await _userServices.deleteUserr(FirebaseAuth.instance.currentUser!, FirebaseAuth.instance.currentUser!.email!, FirebaseAuth.instance.currentUser!.p);
+                    //await _userServices.deleteUser(FirebaseAuth.instance.currentUser!.uid);
+                    //Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.deleteAccountButtonFillColor,
                       shape: RoundedRectangleBorder(

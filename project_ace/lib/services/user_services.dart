@@ -39,6 +39,15 @@ class UserServices {
     usersRef.doc(userId).delete();
   }
 
+  Future deleteUserr(User user,String email, String password) async{
+    String uid = user.uid;
+    var result = await user.reauthenticateWithCredential(
+        EmailAuthProvider.credential(email: email, password: password));
+    await result.user!.delete();
+    UserServices usersService = UserServices();
+    usersService.deleteUser(uid);
+  }
+
   Future<void> disableUser(String userId) async {
     await usersRef.doc(userId).update({'isDisabled': true});
     var docRef = await usersRef.doc(userId).get();
