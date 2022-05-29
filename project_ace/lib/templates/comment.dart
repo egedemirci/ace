@@ -10,6 +10,7 @@ class Comment with _$Comment{
   const factory Comment({
     required String commentId,
     required String text,
+    @Default("default") String urlAvatar,
     required String username,
     required DateTime createdAt,
   }) = _Comment;

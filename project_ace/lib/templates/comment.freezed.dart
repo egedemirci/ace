@@ -22,6 +22,7 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
 mixin _$Comment {
   String get commentId => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
+  String get urlAvatar => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -35,7 +36,11 @@ abstract class $CommentCopyWith<$Res> {
   factory $CommentCopyWith(Comment value, $Res Function(Comment) then) =
       _$CommentCopyWithImpl<$Res>;
   $Res call(
-      {String commentId, String text, String username, DateTime createdAt});
+      {String commentId,
+      String text,
+      String urlAvatar,
+      String username,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$CommentCopyWithImpl<$Res> implements $CommentCopyWith<$Res> {
   $Res call({
     Object? commentId = freezed,
     Object? text = freezed,
+    Object? urlAvatar = freezed,
     Object? username = freezed,
     Object? createdAt = freezed,
   }) {
@@ -61,6 +67,10 @@ class _$CommentCopyWithImpl<$Res> implements $CommentCopyWith<$Res> {
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      urlAvatar: urlAvatar == freezed
+          ? _value.urlAvatar
+          : urlAvatar // ignore: cast_nullable_to_non_nullable
               as String,
       username: username == freezed
           ? _value.username
@@ -81,7 +91,11 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       __$$_CommentCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String commentId, String text, String username, DateTime createdAt});
+      {String commentId,
+      String text,
+      String urlAvatar,
+      String username,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -97,6 +111,7 @@ class __$$_CommentCopyWithImpl<$Res> extends _$CommentCopyWithImpl<$Res>
   $Res call({
     Object? commentId = freezed,
     Object? text = freezed,
+    Object? urlAvatar = freezed,
     Object? username = freezed,
     Object? createdAt = freezed,
   }) {
@@ -108,6 +123,10 @@ class __$$_CommentCopyWithImpl<$Res> extends _$CommentCopyWithImpl<$Res>
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      urlAvatar: urlAvatar == freezed
+          ? _value.urlAvatar
+          : urlAvatar // ignore: cast_nullable_to_non_nullable
               as String,
       username: username == freezed
           ? _value.username
@@ -127,6 +146,7 @@ class _$_Comment implements _Comment {
   const _$_Comment(
       {required this.commentId,
       required this.text,
+      this.urlAvatar = "default",
       required this.username,
       required this.createdAt});
 
@@ -138,13 +158,16 @@ class _$_Comment implements _Comment {
   @override
   final String text;
   @override
+  @JsonKey()
+  final String urlAvatar;
+  @override
   final String username;
   @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Comment(commentId: $commentId, text: $text, username: $username, createdAt: $createdAt)';
+    return 'Comment(commentId: $commentId, text: $text, urlAvatar: $urlAvatar, username: $username, createdAt: $createdAt)';
   }
 
   @override
@@ -154,6 +177,7 @@ class _$_Comment implements _Comment {
             other is _$_Comment &&
             const DeepCollectionEquality().equals(other.commentId, commentId) &&
             const DeepCollectionEquality().equals(other.text, text) &&
+            const DeepCollectionEquality().equals(other.urlAvatar, urlAvatar) &&
             const DeepCollectionEquality().equals(other.username, username) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt));
   }
@@ -164,6 +188,7 @@ class _$_Comment implements _Comment {
       runtimeType,
       const DeepCollectionEquality().hash(commentId),
       const DeepCollectionEquality().hash(text),
+      const DeepCollectionEquality().hash(urlAvatar),
       const DeepCollectionEquality().hash(username),
       const DeepCollectionEquality().hash(createdAt));
 
@@ -182,6 +207,7 @@ abstract class _Comment implements Comment {
   const factory _Comment(
       {required final String commentId,
       required final String text,
+      final String urlAvatar,
       required final String username,
       required final DateTime createdAt}) = _$_Comment;
 
@@ -191,6 +217,8 @@ abstract class _Comment implements Comment {
   String get commentId => throw _privateConstructorUsedError;
   @override
   String get text => throw _privateConstructorUsedError;
+  @override
+  String get urlAvatar => throw _privateConstructorUsedError;
   @override
   String get username => throw _privateConstructorUsedError;
   @override
