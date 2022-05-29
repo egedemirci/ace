@@ -60,38 +60,38 @@ class UserServices {
         }
     );
   }
-  Future enableUser(String userId) async{
+  //Profile Picture Change
+  Future getUserPp(String userId) async
+  {
+    var crrGet = await usersRef.doc(userId).get();
+    return crrGet.get("profilepicture");
+  }
+
+  setProfilePic(String url, String userId) async{
+    usersRef.doc(userId).update({
+      'profilepicture': url,
+    });
+  }
+
+  Future<String> uploadFile(User? user,File file) async{
+    var storageRef = storage.ref().child("user/profile/profilePic/${user!.uid}");
+    var uploadTask = await storageRef.putFile(file);
+    String downloadURL = await uploadTask.ref.getDownloadURL();
+    return downloadURL;
+  }
+
+  Future<void> uploadProfilePicture(User? user,File image) async
+  {
+    String url = await uploadFile(user, image);
+    setProfilePic(url, user!.uid);
+  }
+
+  Future enableUser(String userId) async {
     await usersRef.doc(userId).update(
         {
           'isDisabled': false
         }
     );
-    //Profile Picture Change
-    Future getUserPp(String userId) async
-    {
-      var crrGet = await usersRef.doc(userId).get();
-      return crrGet.get("profilepicture");
-    }
-
-    setProfilePic(String url, String userId) async{
-      usersRef.doc(userId).update({
-        'profilepicture': url,
-      });
-    }
-
-    Future<String> uploadFile(User? user,File file) async{
-      var storageRef = storage.ref().child("user/profile/profilePic/${user!.uid}");
-      var uploadTask = await storageRef.putFile(file);
-      String downloadURL = await uploadTask.ref.getDownloadURL();
-      return downloadURL;
-    }
-
-    Future<void> uploadProfilePicture(User? user,File image) async
-    {
-      String url = await uploadFile(user, image);
-      setProfilePic(url, user!.uid);
-    }
-
     var docRef = await usersRef.doc(userId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     int i = 0;
