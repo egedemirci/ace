@@ -79,9 +79,12 @@ class _AddPostState extends State<AddPost> {
   Widget build(BuildContext context) {
     final currentUser = Provider.of<User?>(context);
     setCurrentScreen(widget.analytics, "Add Post View", "add_post.dart");
+
     if (currentUser == null) {
+
       return const Center(child: CircularProgressIndicator());
     } else {
+      setUserId(widget.analytics, currentUser.uid);
       // TODO: Extend the implementation of Screen Sizes
       return FutureBuilder(
           future: userServices.usersRef.doc(currentUser.uid).get(),

@@ -78,6 +78,9 @@ class _DeleteAccountState extends State<DeleteAccount> {
     setCurrentScreen(
         widget.analytics, "Delete Account View", "delete_account.dart");
     final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     if (user == null) {
       return Login(analytics: widget.analytics);
     }

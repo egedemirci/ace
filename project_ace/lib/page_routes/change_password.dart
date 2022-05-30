@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:project_ace/services/analytics.dart';
@@ -8,6 +9,7 @@ import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key, required this.analytics}) : super(key: key);
@@ -74,6 +76,11 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = Provider.of<User?>(context);
+    if(currentUser!=null){
+      setUserId(widget.analytics, currentUser.uid);
+    }
+
     setCurrentScreen(
         widget.analytics, "Change Password View", "change_password.dart");
     return Scaffold(

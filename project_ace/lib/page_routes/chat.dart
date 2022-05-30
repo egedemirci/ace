@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/message.dart';
@@ -8,6 +9,7 @@ import 'package:project_ace/user_interfaces/chat_card.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key, required this.analytics}) : super(key: key);
@@ -182,6 +184,10 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Chat View", "chat.dart");
     String prevUserName = "";
+    final currentUser = Provider.of<User?>(context);
+    if(currentUser!=null){
+      setUserId(widget.analytics, currentUser.uid);
+    }
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(

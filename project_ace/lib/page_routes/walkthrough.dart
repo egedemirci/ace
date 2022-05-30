@@ -1,8 +1,10 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:provider/provider.dart';
 
 class Walkthrough extends StatefulWidget {
   const Walkthrough({Key? key, required this.analytics}) : super(key: key);
@@ -24,6 +26,10 @@ class _WalkthroughState extends State<Walkthrough> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     setCurrentScreen(widget.analytics, "Walkthrough View", "walkthrough.dart");
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,

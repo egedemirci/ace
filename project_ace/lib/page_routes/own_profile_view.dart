@@ -56,6 +56,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
     setCurrentScreen(
         widget.analytics, "Own Profile View", "own_profile_view.dart");
     final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     if (user == null) {
       return Login(
         analytics: widget.analytics,

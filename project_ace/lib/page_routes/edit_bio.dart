@@ -93,7 +93,11 @@ class _EditBioViewState extends State<EditBioView> {
     // TODO: Extend the implementation of Screen Sizes
     setCurrentScreen(widget.analytics, "Edit Bio View", "edit_bio.dart");
     final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     getOldBio(user!.uid);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.profileScreenBackgroundColor,

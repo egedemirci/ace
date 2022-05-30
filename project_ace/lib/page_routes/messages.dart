@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
@@ -10,6 +11,7 @@ import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 import "package:project_ace/templates/message.dart";
+import 'package:provider/provider.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({Key? key, required this.analytics}) : super(key: key);
@@ -55,6 +57,10 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Messages View", "messages.dart");
+    final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       bottomNavigationBar: SizedBox(

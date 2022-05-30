@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
@@ -11,6 +12,7 @@ import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
+import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key, required this.analytics}) : super(key: key);
@@ -40,6 +42,10 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     setCurrentScreen(widget.analytics, "Profile View", "profile_view.dart");
     return Scaffold(
       appBar: AppBar(

@@ -38,6 +38,9 @@ class _CommentViewState extends State<CommentView> {
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Comments View", "comment_view.dart");
     final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     if (user == null) {
       return Login(
         analytics: widget.analytics,

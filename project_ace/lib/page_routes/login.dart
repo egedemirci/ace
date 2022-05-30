@@ -100,6 +100,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Login View", "login.dart");
     final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     if (user == null) {
       return Scaffold(
         resizeToAvoidBottomInset: false,

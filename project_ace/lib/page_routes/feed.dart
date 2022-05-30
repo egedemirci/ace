@@ -37,6 +37,9 @@ class _FeedState extends State<Feed> {
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Feed View", "feed.dart");
     final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     if (user == null) {
       return Login(
         analytics: widget.analytics,

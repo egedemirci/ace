@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
@@ -9,6 +10,7 @@ import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key, required this.analytics}) : super(key: key);
@@ -78,6 +80,10 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Signup View", "signup.dart");
+    final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,
       body: SafeArea(

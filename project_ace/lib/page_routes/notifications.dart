@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:project_ace/services/analytics.dart';
 import "package:project_ace/templates/notif.dart";
@@ -6,6 +7,7 @@ import 'package:project_ace/user_interfaces/notification_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
+import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key, required this.analytics})
@@ -57,6 +59,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     setCurrentScreen(
         widget.analytics, "Notifications View", "notifications.dart");
     return Scaffold(

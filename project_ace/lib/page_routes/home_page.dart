@@ -1,9 +1,11 @@
 // AFU was here
 // App Level State Management
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_ace/page_routes/home_bloc/home_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../services/analytics.dart';
 
@@ -20,6 +22,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
+    }
     setCurrentScreen(widget.analytics, "Home Page View", "homePageView");
     return BlocProvider(
       create: (context) => HomeBloc()..add(const HomeInitialLoad()),
