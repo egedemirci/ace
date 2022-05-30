@@ -21,6 +21,7 @@ ChatRoom _$ChatRoomFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ChatRoom {
   String get chatRoomId => throw _privateConstructorUsedError;
+  List<dynamic> get texts => throw _privateConstructorUsedError;
   String get lastMessage => throw _privateConstructorUsedError;
   String get lastSenderUsername => throw _privateConstructorUsedError;
   DateTime get lastMessageCreatedAt => throw _privateConstructorUsedError;
@@ -38,6 +39,7 @@ abstract class $ChatRoomCopyWith<$Res> {
       _$ChatRoomCopyWithImpl<$Res>;
   $Res call(
       {String chatRoomId,
+      List<dynamic> texts,
       String lastMessage,
       String lastSenderUsername,
       DateTime lastMessageCreatedAt,
@@ -55,6 +57,7 @@ class _$ChatRoomCopyWithImpl<$Res> implements $ChatRoomCopyWith<$Res> {
   @override
   $Res call({
     Object? chatRoomId = freezed,
+    Object? texts = freezed,
     Object? lastMessage = freezed,
     Object? lastSenderUsername = freezed,
     Object? lastMessageCreatedAt = freezed,
@@ -65,6 +68,10 @@ class _$ChatRoomCopyWithImpl<$Res> implements $ChatRoomCopyWith<$Res> {
           ? _value.chatRoomId
           : chatRoomId // ignore: cast_nullable_to_non_nullable
               as String,
+      texts: texts == freezed
+          ? _value.texts
+          : texts // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       lastMessage: lastMessage == freezed
           ? _value.lastMessage
           : lastMessage // ignore: cast_nullable_to_non_nullable
@@ -93,6 +100,7 @@ abstract class _$$_ChatRoomCopyWith<$Res> implements $ChatRoomCopyWith<$Res> {
   @override
   $Res call(
       {String chatRoomId,
+      List<dynamic> texts,
       String lastMessage,
       String lastSenderUsername,
       DateTime lastMessageCreatedAt,
@@ -112,6 +120,7 @@ class __$$_ChatRoomCopyWithImpl<$Res> extends _$ChatRoomCopyWithImpl<$Res>
   @override
   $Res call({
     Object? chatRoomId = freezed,
+    Object? texts = freezed,
     Object? lastMessage = freezed,
     Object? lastSenderUsername = freezed,
     Object? lastMessageCreatedAt = freezed,
@@ -122,6 +131,10 @@ class __$$_ChatRoomCopyWithImpl<$Res> extends _$ChatRoomCopyWithImpl<$Res>
           ? _value.chatRoomId
           : chatRoomId // ignore: cast_nullable_to_non_nullable
               as String,
+      texts: texts == freezed
+          ? _value._texts
+          : texts // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       lastMessage: lastMessage == freezed
           ? _value.lastMessage
           : lastMessage // ignore: cast_nullable_to_non_nullable
@@ -147,17 +160,27 @@ class __$$_ChatRoomCopyWithImpl<$Res> extends _$ChatRoomCopyWithImpl<$Res>
 class _$_ChatRoom implements _ChatRoom {
   const _$_ChatRoom(
       {required this.chatRoomId,
+      final List<dynamic> texts = const <dynamic>[],
       this.lastMessage = "",
       this.lastSenderUsername = "",
       required this.lastMessageCreatedAt,
       required final List<String> usersChatting})
-      : _usersChatting = usersChatting;
+      : _texts = texts,
+        _usersChatting = usersChatting;
 
   factory _$_ChatRoom.fromJson(Map<String, dynamic> json) =>
       _$$_ChatRoomFromJson(json);
 
   @override
   final String chatRoomId;
+  final List<dynamic> _texts;
+  @override
+  @JsonKey()
+  List<dynamic> get texts {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_texts);
+  }
+
   @override
   @JsonKey()
   final String lastMessage;
@@ -175,7 +198,7 @@ class _$_ChatRoom implements _ChatRoom {
 
   @override
   String toString() {
-    return 'ChatRoom(chatRoomId: $chatRoomId, lastMessage: $lastMessage, lastSenderUsername: $lastSenderUsername, lastMessageCreatedAt: $lastMessageCreatedAt, usersChatting: $usersChatting)';
+    return 'ChatRoom(chatRoomId: $chatRoomId, texts: $texts, lastMessage: $lastMessage, lastSenderUsername: $lastSenderUsername, lastMessageCreatedAt: $lastMessageCreatedAt, usersChatting: $usersChatting)';
   }
 
   @override
@@ -185,6 +208,7 @@ class _$_ChatRoom implements _ChatRoom {
             other is _$_ChatRoom &&
             const DeepCollectionEquality()
                 .equals(other.chatRoomId, chatRoomId) &&
+            const DeepCollectionEquality().equals(other._texts, _texts) &&
             const DeepCollectionEquality()
                 .equals(other.lastMessage, lastMessage) &&
             const DeepCollectionEquality()
@@ -200,6 +224,7 @@ class _$_ChatRoom implements _ChatRoom {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(chatRoomId),
+      const DeepCollectionEquality().hash(_texts),
       const DeepCollectionEquality().hash(lastMessage),
       const DeepCollectionEquality().hash(lastSenderUsername),
       const DeepCollectionEquality().hash(lastMessageCreatedAt),
@@ -219,6 +244,7 @@ class _$_ChatRoom implements _ChatRoom {
 abstract class _ChatRoom implements ChatRoom {
   const factory _ChatRoom(
       {required final String chatRoomId,
+      final List<dynamic> texts,
       final String lastMessage,
       final String lastSenderUsername,
       required final DateTime lastMessageCreatedAt,
@@ -228,6 +254,8 @@ abstract class _ChatRoom implements ChatRoom {
 
   @override
   String get chatRoomId => throw _privateConstructorUsedError;
+  @override
+  List<dynamic> get texts => throw _privateConstructorUsedError;
   @override
   String get lastMessage => throw _privateConstructorUsedError;
   @override

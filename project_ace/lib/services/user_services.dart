@@ -145,7 +145,7 @@ class UserServices {
   }
 
   editBio(String userId, String editedBio) async {
-    usersRef.doc(userId).update({"biography": editedBio});
+    await usersRef.doc(userId).update({"biography": editedBio});
   }
 
   getBio(String userId) async {

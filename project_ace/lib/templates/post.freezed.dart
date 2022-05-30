@@ -25,13 +25,12 @@ mixin _$Post {
   String get assetUrl => throw _privateConstructorUsedError;
   String get urlAvatar => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
-  int get commentCount => throw _privateConstructorUsedError;
-  int get dislikeCount => throw _privateConstructorUsedError;
-  int get likeCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   dynamic get comments => throw _privateConstructorUsedError;
+  dynamic get likes => throw _privateConstructorUsedError;
+  dynamic get dislikes => throw _privateConstructorUsedError;
   bool get isShared => throw _privateConstructorUsedError;
   String get fromWho => throw _privateConstructorUsedError;
   String get topic => throw _privateConstructorUsedError;
@@ -51,13 +50,12 @@ abstract class $PostCopyWith<$Res> {
       String assetUrl,
       String urlAvatar,
       String text,
-      int commentCount,
-      int dislikeCount,
-      int likeCount,
       DateTime createdAt,
       String username,
       String fullName,
       dynamic comments,
+      dynamic likes,
+      dynamic dislikes,
       bool isShared,
       String fromWho,
       String topic});
@@ -78,13 +76,12 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? assetUrl = freezed,
     Object? urlAvatar = freezed,
     Object? text = freezed,
-    Object? commentCount = freezed,
-    Object? dislikeCount = freezed,
-    Object? likeCount = freezed,
     Object? createdAt = freezed,
     Object? username = freezed,
     Object? fullName = freezed,
     Object? comments = freezed,
+    Object? likes = freezed,
+    Object? dislikes = freezed,
     Object? isShared = freezed,
     Object? fromWho = freezed,
     Object? topic = freezed,
@@ -110,18 +107,6 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      commentCount: commentCount == freezed
-          ? _value.commentCount
-          : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      dislikeCount: dislikeCount == freezed
-          ? _value.dislikeCount
-          : dislikeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      likeCount: likeCount == freezed
-          ? _value.likeCount
-          : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -137,6 +122,14 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
       comments: comments == freezed
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      likes: likes == freezed
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      dislikes: dislikes == freezed
+          ? _value.dislikes
+          : dislikes // ignore: cast_nullable_to_non_nullable
               as dynamic,
       isShared: isShared == freezed
           ? _value.isShared
@@ -165,13 +158,12 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String assetUrl,
       String urlAvatar,
       String text,
-      int commentCount,
-      int dislikeCount,
-      int likeCount,
       DateTime createdAt,
       String username,
       String fullName,
       dynamic comments,
+      dynamic likes,
+      dynamic dislikes,
       bool isShared,
       String fromWho,
       String topic});
@@ -193,13 +185,12 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? assetUrl = freezed,
     Object? urlAvatar = freezed,
     Object? text = freezed,
-    Object? commentCount = freezed,
-    Object? dislikeCount = freezed,
-    Object? likeCount = freezed,
     Object? createdAt = freezed,
     Object? username = freezed,
     Object? fullName = freezed,
     Object? comments = freezed,
+    Object? likes = freezed,
+    Object? dislikes = freezed,
     Object? isShared = freezed,
     Object? fromWho = freezed,
     Object? topic = freezed,
@@ -225,18 +216,6 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      commentCount: commentCount == freezed
-          ? _value.commentCount
-          : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      dislikeCount: dislikeCount == freezed
-          ? _value.dislikeCount
-          : dislikeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      likeCount: likeCount == freezed
-          ? _value.likeCount
-          : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -250,6 +229,8 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           : fullName // ignore: cast_nullable_to_non_nullable
               as String,
       comments: comments == freezed ? _value.comments : comments,
+      likes: likes == freezed ? _value.likes : likes,
+      dislikes: dislikes == freezed ? _value.dislikes : dislikes,
       isShared: isShared == freezed
           ? _value.isShared
           : isShared // ignore: cast_nullable_to_non_nullable
@@ -275,13 +256,12 @@ class _$_Post implements _Post {
       this.assetUrl = "default",
       this.urlAvatar = "default",
       required this.text,
-      required this.commentCount,
-      required this.dislikeCount,
-      required this.likeCount,
       required this.createdAt,
       required this.username,
       required this.fullName,
       this.comments = const <dynamic>[],
+      this.likes = const <dynamic>[],
+      this.dislikes = const <dynamic>[],
       this.isShared = false,
       this.fromWho = "",
       this.topic = ""});
@@ -301,12 +281,6 @@ class _$_Post implements _Post {
   @override
   final String text;
   @override
-  final int commentCount;
-  @override
-  final int dislikeCount;
-  @override
-  final int likeCount;
-  @override
   final DateTime createdAt;
   @override
   final String username;
@@ -315,6 +289,12 @@ class _$_Post implements _Post {
   @override
   @JsonKey()
   final dynamic comments;
+  @override
+  @JsonKey()
+  final dynamic likes;
+  @override
+  @JsonKey()
+  final dynamic dislikes;
   @override
   @JsonKey()
   final bool isShared;
@@ -327,7 +307,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(postId: $postId, userId: $userId, assetUrl: $assetUrl, urlAvatar: $urlAvatar, text: $text, commentCount: $commentCount, dislikeCount: $dislikeCount, likeCount: $likeCount, createdAt: $createdAt, username: $username, fullName: $fullName, comments: $comments, isShared: $isShared, fromWho: $fromWho, topic: $topic)';
+    return 'Post(postId: $postId, userId: $userId, assetUrl: $assetUrl, urlAvatar: $urlAvatar, text: $text, createdAt: $createdAt, username: $username, fullName: $fullName, comments: $comments, likes: $likes, dislikes: $dislikes, isShared: $isShared, fromWho: $fromWho, topic: $topic)';
   }
 
   @override
@@ -340,15 +320,12 @@ class _$_Post implements _Post {
             const DeepCollectionEquality().equals(other.assetUrl, assetUrl) &&
             const DeepCollectionEquality().equals(other.urlAvatar, urlAvatar) &&
             const DeepCollectionEquality().equals(other.text, text) &&
-            const DeepCollectionEquality()
-                .equals(other.commentCount, commentCount) &&
-            const DeepCollectionEquality()
-                .equals(other.dislikeCount, dislikeCount) &&
-            const DeepCollectionEquality().equals(other.likeCount, likeCount) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.username, username) &&
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
+            const DeepCollectionEquality().equals(other.likes, likes) &&
+            const DeepCollectionEquality().equals(other.dislikes, dislikes) &&
             const DeepCollectionEquality().equals(other.isShared, isShared) &&
             const DeepCollectionEquality().equals(other.fromWho, fromWho) &&
             const DeepCollectionEquality().equals(other.topic, topic));
@@ -363,13 +340,12 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(assetUrl),
       const DeepCollectionEquality().hash(urlAvatar),
       const DeepCollectionEquality().hash(text),
-      const DeepCollectionEquality().hash(commentCount),
-      const DeepCollectionEquality().hash(dislikeCount),
-      const DeepCollectionEquality().hash(likeCount),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(username),
       const DeepCollectionEquality().hash(fullName),
       const DeepCollectionEquality().hash(comments),
+      const DeepCollectionEquality().hash(likes),
+      const DeepCollectionEquality().hash(dislikes),
       const DeepCollectionEquality().hash(isShared),
       const DeepCollectionEquality().hash(fromWho),
       const DeepCollectionEquality().hash(topic));
@@ -392,13 +368,12 @@ abstract class _Post implements Post {
       final String assetUrl,
       final String urlAvatar,
       required final String text,
-      required final int commentCount,
-      required final int dislikeCount,
-      required final int likeCount,
       required final DateTime createdAt,
       required final String username,
       required final String fullName,
       final dynamic comments,
+      final dynamic likes,
+      final dynamic dislikes,
       final bool isShared,
       final String fromWho,
       final String topic}) = _$_Post;
@@ -416,12 +391,6 @@ abstract class _Post implements Post {
   @override
   String get text => throw _privateConstructorUsedError;
   @override
-  int get commentCount => throw _privateConstructorUsedError;
-  @override
-  int get dislikeCount => throw _privateConstructorUsedError;
-  @override
-  int get likeCount => throw _privateConstructorUsedError;
-  @override
   DateTime get createdAt => throw _privateConstructorUsedError;
   @override
   String get username => throw _privateConstructorUsedError;
@@ -429,6 +398,10 @@ abstract class _Post implements Post {
   String get fullName => throw _privateConstructorUsedError;
   @override
   dynamic get comments => throw _privateConstructorUsedError;
+  @override
+  dynamic get likes => throw _privateConstructorUsedError;
+  @override
+  dynamic get dislikes => throw _privateConstructorUsedError;
   @override
   bool get isShared => throw _privateConstructorUsedError;
   @override

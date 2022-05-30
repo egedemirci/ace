@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -6,7 +7,9 @@ import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/services/analytics.dart';
-import 'package:project_ace/user_interfaces/message_card.dart';
+import 'package:project_ace/services/message_services.dart';
+import 'package:project_ace/templates/chat_room.dart';
+import 'package:project_ace/user_interfaces/chat_room_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -24,39 +27,11 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
-  List<Message> allMessages = [
-    Message(
-        idUser: "77004ea213d5fc71acf74a8c9c6795fb",
-        message: "Hey Furkan, how you doing. Did you watch the court??",
-        fullName: "Johhny Depp",
-        urlAvatar: "https://i.hizliresim.com/kj4mtxc.png",
-        username: "johnnydepp",
-        createdAt: DateTime.now()),
-    Message(
-        idUser: "151764433aed7f5e87ade71f137b431b",
-        message: "Morbi placerat laoreet magna, ",
-        urlAvatar: "https://i.hizliresim.com/76b0p2k.png",
-        createdAt: DateTime.now(),
-        fullName: "Efe Tuzun",
-        username: "tuzun"),
-    Message(
-        idUser: "d081598884ac423febff5056e123279d",
-        message: "Arcu luctus eget. Nullam vitae blandit ipsum",
-        fullName: "Taner Sonmez",
-        urlAvatar: "https://i.hizliresim.com/gb3ufib.png",
-        createdAt: DateTime.now(),
-        username: "taners"),
-    Message(
-        idUser: "542c6a9d5fbc72218ce9ae8014dfd90b",
-        message: "Praesent cursus nulla a mi eleifend, ",
-        fullName: "Ege Demirci",
-        urlAvatar: "https://i.hizliresim.com/g1vzh7n.png",
-        createdAt: DateTime.now(),
-        username: "ege.demirci"),
-  ];
+  List<Message> allMessages = [];
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Messages View", "messages.dart");
+    MessageService messageService = MessageService();
     final user = Provider.of<User?>(context);
     if(user!=null){
       setUserId(widget.analytics, user.uid);
@@ -164,13 +139,31 @@ class _MessageScreenState extends State<MessageScreen> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Column(
-                children: allMessages
-                    .map((myMessage) => MessageCard(myMessage: myMessage))
-                    .toList())),
-      ),
+      body: StreamBuilder(
+          stream: messageService.chatRoomReference.snapshots().asBroadcastStream(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> snapshot){
+            if(!snapshot.hasData){
+              return const Center(child: CircularProgressIndicator());
+            }
+            else{
+              return SingleChildScrollView(
+                child: SafeArea(
+                    child: Column(
+                        children: List.from(snapshot.data!.docs.where((element) =>
+                            element["usersChatting"].contains(user!.uid)
+                        ).map((chat) {
+                          String otherChatter = chat["usersChatting"][0] == user!.uid
+                              ? chat["usersChatting"][1]
+                              : chat["usersChatting"][0];
+
+                          return ChatRoomCard(myChatRoom: ChatRoom.fromJson(chat.data() as Map<String, dynamic>), otherUserId: otherChatter, analytics: widget.analytics,);
+                        }
+                        ).toList().reversed)
+            )
+              ));
+            }
+          })
     );
   }
 }

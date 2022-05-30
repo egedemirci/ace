@@ -17,10 +17,10 @@ class PostService {
       'posts': FieldValue.arrayUnion([post.toJson()]),
       'postCount': FieldValue.increment(1),
     });
-    postsRef.doc(userId + post.postId.toString()).set(post.toJson());
+    postsRef.doc(userId + post.postId).set(post.toJson());
   }
 
-  Future<void> editPost(String userId, int postId, String text) async {
+  Future<void> editPost(String userId, String postId, String text) async {
     var docRef = await usersRef.doc(userId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
@@ -34,7 +34,7 @@ class PostService {
     thePost["text"] = text;
     posts[i] = thePost;
     usersRef.doc(userId).update({'posts': posts});
-    postsRef.doc(userId + postId.toString()).update({'text': text});
+    postsRef.doc(userId + postId).update({'text': text});
   }
 
   Future<String> uploadPostPicture(User? user, File file, String postId) async {
@@ -48,10 +48,10 @@ class PostService {
     usersRef.doc(userId).update({
       "posts": FieldValue.arrayRemove([post])
     });
-    postsRef.doc(userId + post["postId"].toString()).delete();
+    postsRef.doc(userId + post["postId"]).delete();
   }
 
-  likePost(String userId, String otherUserId, int postId) async {
+  likePost(String userId, String otherUserId, String postId) async {
     var docRef = await usersRef.doc(otherUserId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
@@ -72,21 +72,21 @@ class PostService {
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
     }
-    PostService postService = PostService();
-    postService.likePost(userId, otherUserId, postId);
-    var docRefPost = await postsRef.doc(otherUserId + postId.toString()).get();
+
+
+    var docRefPost = await postsRef.doc(otherUserId + postId).get();
     if (!docRefPost["likes"].contains(userId)) {
-      postsRef.doc(otherUserId + postId.toString()).update({
+      postsRef.doc(otherUserId + postId).update({
         "likes": FieldValue.arrayUnion([userId])
       });
     } else {
-      postsRef.doc(otherUserId + postId.toString()).update({
+      postsRef.doc(otherUserId + postId).update({
         "likes": FieldValue.arrayRemove([userId])
       });
     }
   }
 
-  dislikePost(String userId, String otherUserId, int postId) async {
+  dislikePost(String userId, String otherUserId, String postId) async {
     var docRef = await usersRef.doc(otherUserId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
@@ -107,21 +107,21 @@ class PostService {
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
     }
-    var docRefPost = await postsRef.doc(otherUserId + postId.toString()).get();
+    var docRefPost = await postsRef.doc(otherUserId + postId).get();
 
     if (!docRefPost["dislikes"].contains(userId)) {
-      postsRef.doc(otherUserId + postId.toString()).update({
+      postsRef.doc(otherUserId + postId).update({
         "dislikes": FieldValue.arrayUnion([userId])
       });
     } else {
-      postsRef.doc(otherUserId + postId.toString()).update({
+      postsRef.doc(otherUserId + postId).update({
         "dislikes": FieldValue.arrayRemove([userId])
       });
     }
   }
 
   Future<void> sendCommendTo(
-      String userId, String otherUserId, int postId, String context) async {
+      String userId, String otherUserId, String postId, String context) async {
     var docRef = await usersRef.doc(otherUserId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
@@ -138,7 +138,7 @@ class PostService {
         ];
     posts[i] = thePost;
     usersRef.doc(otherUserId).update({"posts": posts});
-    postsRef.doc(otherUserId + postId.toString()).update({
+    postsRef.doc(otherUserId + postId).update({
       "comments": FieldValue.arrayUnion([
         {"senderId": userId, "context": context}
       ])

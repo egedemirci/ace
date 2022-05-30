@@ -8,6 +8,7 @@ part of 'chat_room.dart';
 
 _$_ChatRoom _$$_ChatRoomFromJson(Map<String, dynamic> json) => _$_ChatRoom(
       chatRoomId: json['chatRoomId'] as String,
+      texts: json['texts'] as List<dynamic>? ?? const <dynamic>[],
       lastMessage: json['lastMessage'] as String? ?? "",
       lastSenderUsername: json['lastSenderUsername'] as String? ?? "",
       lastMessageCreatedAt:
@@ -20,6 +21,7 @@ _$_ChatRoom _$$_ChatRoomFromJson(Map<String, dynamic> json) => _$_ChatRoom(
 Map<String, dynamic> _$$_ChatRoomToJson(_$_ChatRoom instance) =>
     <String, dynamic>{
       'chatRoomId': instance.chatRoomId,
+      'texts': instance.texts,
       'lastMessage': instance.lastMessage,
       'lastSenderUsername': instance.lastSenderUsername,
       'lastMessageCreatedAt': instance.lastMessageCreatedAt.toIso8601String(),

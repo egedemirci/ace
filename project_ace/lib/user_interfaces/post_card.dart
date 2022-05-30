@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_ace/templates/menu_item.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-class PostCard extends StatelessWidget {
+
+class PostCard extends StatefulWidget {
   final Post post;
   final VoidCallback deletePost;
   final VoidCallback incrementLike;
@@ -24,6 +26,11 @@ class PostCard extends StatelessWidget {
     required this.isMyPost,
   }) : super(key: key);
 
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
   PopupMenuItem<PostMenuItem> buildItem(PostMenuItem item) => PopupMenuItem(
         value: item,
         child: Row(
@@ -75,10 +82,10 @@ class PostCard extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
-                    child: post.urlAvatar != "default"
+                    child: widget.post.urlAvatar != "default"
                         ? ClipOval(
                             child: Image.network(
-                              post.urlAvatar,
+                              widget.post.urlAvatar,
                             ),
                           )
                         : ClipOval(
@@ -89,21 +96,21 @@ class PostCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  post.fullName,
+                  widget.post.fullName,
                   style: postCardUserRealName,
                 ),
                 const SizedBox(width: 6),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                   child: Text(
-                    "@${post.username}",
+                    "@${widget.post.username}",
                     style: postCardUserName,
                   ),
                 ),
                 const Spacer(),
                 PopupMenuButton<PostMenuItem>(
                     onSelected: (item) => onSelected(context, item),
-                    itemBuilder: (context) => (isMyPost == true)
+                    itemBuilder: (context) => (widget.isMyPost == true)
                         ? [
                             ...PostMenuItems.userPostList
                                 .map(buildItem)
@@ -124,7 +131,7 @@ class PostCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      post.text,
+                      widget.post.text,
                       maxLines: 3,
                       style: postText,
                       overflow: TextOverflow.ellipsis,
@@ -134,10 +141,10 @@ class PostCard extends StatelessWidget {
               ],
             ),
             Center(
-              child: post.assetUrl != "default"
+              child: widget.post.assetUrl != "default"
                   ? ClipRect(
                       child: Image.network(
-                        post.assetUrl,
+                        widget.post.assetUrl,
                         width: double.infinity,
                         height: 200,
                         fit: BoxFit.fitHeight,
@@ -152,12 +159,12 @@ class PostCard extends StatelessWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.thumb_up_alt_outlined),
-                  onPressed: incrementLike,
+                  onPressed: widget.incrementLike,
                   iconSize: 20,
                   splashRadius: 20,
                 ),
                 Text(
-                  "${post.likeCount}",
+                  widget.post.likes.length.toString(),
                   style: const TextStyle(fontSize: 14),
                 ),
                 const Spacer(),
@@ -165,13 +172,13 @@ class PostCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
                   child: IconButton(
                     icon: const Icon(Icons.thumb_down_alt_outlined),
-                    onPressed: incrementDislike,
+                    onPressed: widget.incrementDislike,
                     iconSize: 20,
                     splashRadius: 20,
                   ),
                 ),
                 Text(
-                  "${post.dislikeCount}",
+                  widget.post.dislikes.length.toString(),
                   style: const TextStyle(fontSize: 14),
                 ),
                 const Spacer(),
@@ -179,20 +186,20 @@ class PostCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
                   child: IconButton(
                     icon: const Icon(Icons.comment),
-                    onPressed: incrementComment,
+                    onPressed: widget.incrementComment,
                     iconSize: 20,
                     splashRadius: 20,
                   ),
                 ),
                 Text(
-                  "${post.commentCount}",
+                  widget.post.comments.length.toString(),
                   style: const TextStyle(fontSize: 14),
                 ),
                 const Spacer(),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
-                    child: Text(post.createdAt.toLocal().toString().substring(
-                        0, post.createdAt.toLocal().toString().length - 7))),
+                    child: Text(DateFormat('kk:mm - yyyy-MM-dd').format(widget.post.createdAt))
+                ),
               ],
             ),
             const SizedBox(

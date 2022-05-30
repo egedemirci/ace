@@ -25,7 +25,7 @@ class ChatCard extends StatelessWidget {
         if (!isMe && !isSameUser)
           CircleAvatar(
               radius: 16, backgroundImage: NetworkImage(message.urlAvatar)),
-        if (!isMe && isSameUser) const SizedBox(width: 32),
+        if (!isMe && isSameUser)const SizedBox(width: 32),
         Container(
           padding: const EdgeInsets.all(12),
           margin: !isSameUser

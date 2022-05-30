@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'chat_room.g.dart';
 part 'chat_room.freezed.dart';
 
@@ -9,6 +9,7 @@ part 'chat_room.freezed.dart';
 class ChatRoom with _$ChatRoom{
   const factory ChatRoom({
     required String chatRoomId,
+    @Default(<dynamic>[]) List<dynamic> texts,
     @Default("") String lastMessage,
     @Default("") String lastSenderUsername,
     required DateTime lastMessageCreatedAt,

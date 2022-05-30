@@ -33,14 +33,6 @@ class _EditBioViewState extends State<EditBioView> {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
   }
 
-  Future getOldBio(String userId) async {
-    var oldBio = await userService.getBio(userId);
-    if (mounted) {
-      setState(() {
-        bio = oldBio;
-      });
-    }
-  }
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -96,7 +88,6 @@ class _EditBioViewState extends State<EditBioView> {
     if(user!=null){
       setUserId(widget.analytics, user.uid);
     }
-    getOldBio(user!.uid);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -176,8 +167,8 @@ class _EditBioViewState extends State<EditBioView> {
                       const SizedBox(height: 20),
                       OutlinedButton(
                         onPressed: () async {
-                          await userService.editBio(user.uid, bio);
-                          _showDialog("Success!",
+                          await userService.editBio(user!.uid, bio);
+                          await _showDialog("Success!",
                               "Your bio has been changed successfully.");
                           Navigator.of(context).pop();
                         },

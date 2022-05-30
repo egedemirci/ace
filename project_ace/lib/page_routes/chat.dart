@@ -1,10 +1,14 @@
 import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/message_services.dart';
+import 'package:project_ace/services/user_services.dart';
+import 'package:project_ace/templates/chat_room.dart';
 import 'package:project_ace/templates/message.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/chat_card.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -12,116 +16,34 @@ import 'package:project_ace/utilities/colors.dart';
 import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key, required this.analytics}) : super(key: key);
-
+  const ChatPage({Key? key, required this.chatId, required this.otherUserId, required this.analytics}) : super(key: key);
+  final String chatId;
+  final String otherUserId;
   final FirebaseAnalytics analytics;
-  static const String routeName = "/individualChat";
+
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<Message> messages = [
-    Message(
-      fullName: "Johnny Depp",
-      idUser: "119fa058e5b43d7955af3c6d58d43782",
-      urlAvatar:
-          "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
-      message: "Hey Furkan, how you doing. Did you watch the court??",
-      username: "johnnydepp",
-      createdAt: DateTime.parse('2022-05-17 11:41:04Z'),
-    ),
-    Message(
-      fullName: "me",
-      idUser: "435e0648d634175c46bd40ac366545a8",
-      urlAvatar:
-          "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
-      message: "Hi Johnny, I am great.",
-      username: "userName",
-      createdAt: DateTime.parse('2022-05-17 11:42:04Z'),
-    ),
-    Message(
-      fullName: "me",
-      idUser: "435e0648d634175c46bd40ac366545a8",
-      urlAvatar:
-          "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
-      message: "Unfortunately yes. Is it true what Amber told the court?",
-      username: "userName",
-      createdAt: DateTime.parse('2022-05-17 11:43:04Z'),
-    ),
-    Message(
-      fullName: "Johnny Depp",
-      idUser: "119fa058e5b43d7955af3c6d58d43782",
-      urlAvatar:
-          "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
-      message: "Some of them.",
-      username: "johnnydepp",
-      createdAt: DateTime.parse('2022-05-17 11:44:04Z'),
-    ),
-    Message(
-      fullName: "Johnny Depp",
-      idUser: "119fa058e5b43d7955af3c6d58d43782",
-      urlAvatar:
-          "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
-      message: "But believe me she is an evil!!",
-      username: "johnnydepp",
-      createdAt: DateTime.parse('2022-05-17 11:44:04Z'),
-    ),
-    Message(
-      fullName: "Johnny Depp",
-      idUser: "119fa058e5b43d7955af3c6d58d43782",
-      urlAvatar:
-          "https://im.haberturk.com/2021/08/16/3163823_8a7125710e96a06ebd68e9fbe7509e39_640x640.jpg",
-      message:
-          "She made me suffer so many bad things that I couldn't even explain in court.",
-      username: "johnnydepp",
-      createdAt: DateTime.parse('2022-05-17 11:44:04Z'),
-    ),
-    Message(
-      fullName: "me",
-      idUser: "435e0648d634175c46bd40ac366545a8",
-      urlAvatar:
-          "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
-      message: "I know man",
-      username: "userName",
-      createdAt: DateTime.parse('2022-05-17 11:43:04Z'),
-    ),
-    Message(
-      fullName: "me",
-      idUser: "435e0648d634175c46bd40ac366545a8",
-      urlAvatar:
-          "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
-      message: "Take care",
-      username: "userName",
-      createdAt: DateTime.parse('2022-05-17 11:43:04Z'),
-    ),
-  ];
+
 
   final _controller = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  MessageService messageService = MessageService();
+  UserServices userService = UserServices();
+
   String message = '';
+  String otherUsername = "Yapacaz taam sakin";
 
-  String myUsername = "userName";
-  String userNameChatted = "johnnydepp";
 
-  void sendMessage(List<Message> listMessages) async {
-    setState(() {
-      FocusScope.of(context).unfocus();
-      listMessages.add(Message(
-        fullName: "me",
-        idUser: "435e0648d634175c46bd40ac366545a8",
-        urlAvatar:
-            "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/4206da66a0e5deca9115d19a4bc0c63f.png",
-        username: myUsername,
-        message: message,
-        createdAt: DateTime.now(),
-      ));
-      _controller.clear();
-    });
+  sendMessage(chatId, text, senderUsername, senderAvatar) {
+    messageService.sendMessage(chatId, text, senderUsername, senderAvatar);
+    _controller.clear();
   }
 
-  _sendMessageArea() {
+  _sendMessageArea(chatId, senderUsername, senderAvatar) {
     return Container(
       color: AppColors.profileScreenBackgroundColor,
       height: screenHeight(context) * 0.110,
@@ -149,9 +71,9 @@ class _ChatPageState extends State<ChatPage> {
                   borderRadius: BorderRadius.circular(25),
                 ),
               ),
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 message = value;
-              }),
+              },
             ),
           ),
           // TODO: Extend the implementation of Screen Sizes
@@ -160,10 +82,10 @@ class _ChatPageState extends State<ChatPage> {
               onPressed: message.trim().isEmpty
                   ? null
                   : () {
-                      sendMessage(messages);
-                      message = "";
-                      _scrollDown();
-                    },
+                sendMessage(chatId, message, senderUsername, senderAvatar);
+                message = "";
+                _scrollDown();
+              },
               icon: Container(
                   padding: const EdgeInsets.fromLTRB(6, 4, 8, 8),
                   decoration: const BoxDecoration(
@@ -180,13 +102,20 @@ class _ChatPageState extends State<ChatPage> {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Chat View", "chat.dart");
     String prevUserName = "";
-    final currentUser = Provider.of<User?>(context);
-    if(currentUser!=null){
-      setUserId(widget.analytics, currentUser.uid);
+    final user = Provider.of<User?>(context);
+    if(user!=null){
+      setUserId(widget.analytics, user.uid);
     }
     return Scaffold(
         appBar: AppBar(
@@ -203,7 +132,7 @@ class _ChatPageState extends State<ChatPage> {
                   width: screenWidth(context) * 0.60,
                   child: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text('@$userNameChatted',
+                      child: Text('@$otherUsername',
                           style: userNameChatHeader))),
               const Spacer(),
               IconButton(
@@ -223,28 +152,71 @@ class _ChatPageState extends State<ChatPage> {
           elevation: 0.0,
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                controller: scrollController,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(20),
-                itemCount: messages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final Message message = messages[index];
-                  final bool isMe = message.username == myUsername;
-                  final bool isSameUser = prevUserName == message.username;
-                  prevUserName = message.username;
-                  return ChatCard(
-                      message: message, isMe: isMe, isSameUser: isSameUser);
-                },
-              ),
-            ),
-            _sendMessageArea()
-          ],
-        ));
+        body: StreamBuilder(
+          stream: messageService.chatRoomReference.doc(widget.chatId).snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+            if(snapshot.hasError)
+            {
+              return const Center(child: Text("Oops, something went wrong"));
+            }
+            if(snapshot.hasData && snapshot.data != null && snapshot.data!.data() != null){
+              List<dynamic> messages = (snapshot.data!.data() as Map<String, dynamic>)["texts"];
+                return FutureBuilder<DocumentSnapshot>(
+                    future: userService.usersRef.doc(user!.uid).get(),
+                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> querySnapshot){
+                      if(!querySnapshot.hasData){
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      else {
+                        MyUser myUser = MyUser.fromJson(
+                            (querySnapshot.data!.data() ??
+                                Map<String, dynamic>.identity()) as Map<
+                                String,
+                                dynamic>);
+                        if (myUser.isDisabled == true) {
+                          return const Center(
+                              child: Text("Your account is not active."));
+                        }
+                        else {
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  controller: scrollController,
+                                  keyboardDismissBehavior:
+                                  ScrollViewKeyboardDismissBehavior.onDrag,
+                                  physics: const BouncingScrollPhysics(),
+                                  padding: const EdgeInsets.all(20),
+                                  itemCount: messages.length,
+                                  itemBuilder: (BuildContext context,
+                                      int index) {
+                                    Message message = Message.fromJson(
+                                        messages[index]);
+                                    final bool isMe = message.senderUsername ==
+                                        myUser.username;
+                                    final bool isSameUser = prevUserName ==
+                                        message.senderUsername;
+                                    prevUserName = message.senderUsername;
+                                    return ChatCard(
+                                        message: message,
+                                        isMe: isMe,
+                                        isSameUser: isSameUser);
+                                  },
+                                ),
+                              ),
+                              _sendMessageArea(widget.chatId, myUser.username,
+                                  myUser.profilepicture)
+                            ],
+                          );
+                        }
+                      }
+                    }
+                    );
+              }
+            return const Center(child: CircularProgressIndicator());
+          },
+        )
+
+    );
   }
 }

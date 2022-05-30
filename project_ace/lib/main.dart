@@ -136,9 +136,6 @@ class _AceBaseState extends State<AceBase> {
                 MessageScreen.routeName: (context) => MessageScreen(
                       analytics: analytics,
                     ),
-                ChatPage.routeName: (context) => ChatPage(
-                      analytics: analytics,
-                    ),
                 ChangePassword.routeName: (context) =>
                     ChangePassword(analytics: analytics),
                 EditBioView.routeName: (context) =>
