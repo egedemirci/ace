@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:project_ace/templates/menu_item.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 
@@ -139,8 +140,8 @@ class _PostCardState extends State<PostCard> {
                 borderRadius: BorderRadius.circular(15.0),
                 child: Image.network(
                         widget.post.assetUrl,
-                        width: double.infinity,
-                        height: 200,
+                        width: screenWidth(context) * 0.9708737864,
+                        height: screenHeight(context) * 0.4602991945,
                         fit: BoxFit.cover,
                       ),
                     )

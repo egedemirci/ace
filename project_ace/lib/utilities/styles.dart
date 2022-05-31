@@ -239,7 +239,7 @@ final postCardUserName = GoogleFonts.montserrat(
 final postText = GoogleFonts.montserrat(
   color: AppColors.profileScreenTextColor,
   fontWeight: FontWeight.w400,
-  fontSize: 11,
+  fontSize: 18,
   letterSpacing: -0.7,
 );
 
