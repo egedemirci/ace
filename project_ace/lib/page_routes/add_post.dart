@@ -136,7 +136,7 @@ class _AddPostState extends State<AddPost> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(50),
                               ),
-                              color: AppColors.userNameColor,
+                              color: AppColors.sharePostFillColor,
                             ),
                             width: screenWidth(context) * 0.9,
                             child: Padding(
@@ -172,7 +172,7 @@ class _AddPostState extends State<AddPost> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(50),
                               ),
-                              color: AppColors.userNameColor,
+                              color: AppColors.sharePostFillColor,
                             ),
                             width: screenWidth(context) * 0.9,
                             child: Padding(
@@ -204,10 +204,9 @@ class _AddPostState extends State<AddPost> {
                         if (_image != null)
                           Center(
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
-                                child: Image.file(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: Image.file(
                               _image!,
-
                               width: screenWidth(context) * 0.9708737864,
                               height: screenHeight(context) * 0.4602991945,
                               fit: BoxFit.cover,
@@ -282,7 +281,7 @@ class _AddPostState extends State<AddPost> {
                 ),
               ),
               bottomNavigationBar: BottomAppBar(
-                color: AppColors.userNameColor,
+                color: AppColors.sharePostFillColor,
                 elevation: 0,
                 child: SizedBox(
                   width: screenWidth(context) * 0.048,

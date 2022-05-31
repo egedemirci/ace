@@ -51,7 +51,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       iconSize: screenWidth(context) * 0.08,
                       icon: const Icon(
                         Icons.email,
-                        color: AppColors.userNameColor,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
                       ),
                       onPressed: () {}),
                   const Spacer(),
@@ -60,7 +60,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       iconSize: screenWidth(context) * 0.08,
                       icon: const Icon(
                         Icons.search,
-                        color: AppColors.userNameColor,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -72,7 +72,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       iconSize: screenWidth(context) * 0.08,
                       icon: const Icon(
                         Icons.home,
-                        color: AppColors.userNameColor,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
                       ),
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
@@ -84,7 +84,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       iconSize: screenWidth(context) * 0.08,
                       icon: const Icon(
                         Icons.add_circle_outline,
-                        color: AppColors.userNameColor,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -96,7 +96,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       iconSize: screenWidth(context) * 0.08,
                       icon: const Icon(
                         Icons.person_outline,
-                        color: AppColors.userNameColor,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
                       ),
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(context,

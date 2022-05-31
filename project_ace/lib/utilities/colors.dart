@@ -41,10 +41,11 @@ class AppColors {
   // Create Post
   static const Color sharePostColor = Color(0xFF659ABB);
   static const Color sendAceColor = Color(0xFFF7FDFF);
-
+  static const Color sharePostFillColor = Color(0xFFB9D3DF);
+  // BOTTOM NAVIGATION BAR
+  static const Color bottomNavigationBarOutlineColor = Color(0xFFB9D3DF);
   static const Color mainAppPostTextColor = Color(0xFF003049);
   static const Color mainAppSmallUsernameColor = Color(0xFFCDEBF4);
-  static const Color bottomNavigationBarOutlineColor = Color(0xFFFB8500);
   static const Color bottomNavigationBarBackgroundColor = Color(0xFF001E31);
   static const Color messagesFromUserFillColor = Color(0xFF34A853);
   static const Color messagesToUserFillColor = Color(0xFFCDE8F4);

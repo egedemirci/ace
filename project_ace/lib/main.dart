@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/bookmarks.dart';
 import 'package:project_ace/page_routes/change_password.dart';
 import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/delete_account.dart';
@@ -142,6 +143,8 @@ class _AceBaseState extends State<AceBase> {
                     EditBioView(analytics: analytics),
                 DeleteAccount.routeName: (context) =>
                     DeleteAccount(analytics: analytics),
+                BookMarks.routeName: (context) =>
+                    BookMarks(analytics: analytics),
               },
               theme: ThemeData(
                 pageTransitionsTheme: const PageTransitionsTheme(

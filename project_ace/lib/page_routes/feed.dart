@@ -74,7 +74,7 @@ class _FeedState extends State<Feed> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.email,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, MessageScreen.routeName);
@@ -85,7 +85,7 @@ class _FeedState extends State<Feed> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.search,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, Search.routeName);
@@ -96,7 +96,7 @@ class _FeedState extends State<Feed> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.home,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {}),
                     const Spacer(),
@@ -105,7 +105,7 @@ class _FeedState extends State<Feed> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.add_circle_outline,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, AddPost.routeName);
@@ -116,7 +116,7 @@ class _FeedState extends State<Feed> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.person_outline,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(context,

@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/bookmarks.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
@@ -114,7 +115,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.email,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, MessageScreen.routeName);
@@ -125,7 +126,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.search,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, Search.routeName);
@@ -136,7 +137,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.home,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(
@@ -148,7 +149,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.add_circle_outline,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, AddPost.routeName);
@@ -159,7 +160,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                         iconSize: screenWidth(context) * 0.08,
                         icon: const Icon(
                           Icons.person_outline,
-                          color: AppColors.userNameColor,
+                          color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {}),
                   ],
@@ -197,7 +198,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   backgroundColor:
                                       AppColors.welcomeScreenBackgroundColor,
                                   radius: screenWidth(context) * 0.14,
-                                  backgroundImage: NetworkImage(myUser.profilepicture),
+                                  backgroundImage:
+                                      NetworkImage(myUser.profilepicture),
                                   /*
                                   child: ClipOval(
                                     child: Image.network(
@@ -449,7 +451,10 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 Expanded(
                                   flex: 1,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, BookMarks.routeName);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
