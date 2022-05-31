@@ -1,10 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_ace/services/auth_services.dart';
+import 'package:project_ace/services/post_services.dart';
+import 'package:project_ace/services/report_services.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/menu_item.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
+import 'package:provider/provider.dart';
 
 
 class PostCard extends StatefulWidget {
@@ -32,6 +38,11 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
+
+  final AuthServices _auth = AuthServices();
+  final ReportService _reportService = ReportService();
+  final UserServices _userServices = UserServices();
+
   PopupMenuItem<PostMenuItem> buildItem(PostMenuItem item) => PopupMenuItem(
         value: item,
         child: Row(
@@ -45,11 +56,13 @@ class _PostCardState extends State<PostCard> {
         ),
       );
 
-  void onSelected(BuildContext context, PostMenuItem item) {
+  void onSelected(BuildContext context, PostMenuItem item) async{
     switch (item) {
       case PostMenuItems.reportPost:
+        await _reportService.reportPost(widget.post.postId, widget.post.userId);
         break; // TODO: Implement here
       case PostMenuItems.bookmarkPost:
+        await _userServices.addBookmark(FirebaseAuth.instance.currentUser!.uid, widget.post);
         break; // TODO: Implement here
       case PostMenuItems.reSharePost:
         break; // TODO: Implement here

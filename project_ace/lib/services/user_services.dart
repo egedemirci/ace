@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project_ace/services/post_services.dart';
+import 'package:project_ace/templates/post.dart';
 
 class UserServices {
   final CollectionReference usersRef =
@@ -138,9 +139,9 @@ class UserServices {
     usersRef.doc(userId).update({"isPrivate": isPrivate});
   }
 
-  Future<void> addBookmark(String userId, String postId) async {
+  Future<void> addBookmark(String userId, Post post) async {
     usersRef.doc(userId).update({
-      'bookmarks': FieldValue.arrayUnion([postId])
+      'bookmarks': FieldValue.arrayUnion([post.toJson()])
     });
   }
 
