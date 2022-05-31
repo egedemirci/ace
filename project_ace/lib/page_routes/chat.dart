@@ -125,7 +125,6 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Chat View", "chat.dart");
-    String prevUserName = "";
     final user = Provider.of<User?>(context);
     setUserId(widget.analytics, user!.uid);
     return Scaffold(
@@ -190,6 +189,7 @@ class _ChatPageState extends State<ChatPage> {
                               child: Text("Your account is not active."));
                         }
                         else {
+                          String prevUserName = "";
                           return Column(
                             children: [
                               Expanded(
@@ -204,10 +204,12 @@ class _ChatPageState extends State<ChatPage> {
                                       int index) {
                                     Message message = Message.fromJson(
                                         messages.reversed.toList()[index]);
+
                                     final bool isMe = message.senderUsername ==
                                         myUser.username;
                                     final bool isSameUser = prevUserName ==
                                         message.senderUsername;
+
                                     prevUserName = message.senderUsername;
                                     return ChatCard(
                                       urlAvatar: otherUserpp,
