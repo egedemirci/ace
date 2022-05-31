@@ -145,7 +145,7 @@ final postsFollowersFollowingsCounts = GoogleFonts.montserrat(
 final smallNameUnderProfile = GoogleFonts.montserrat(
   color: AppColors.profileScreenTextColor,
   fontWeight: FontWeight.bold,
-  fontSize: 12,
+  fontSize: 15,
   letterSpacing: -0.7,
 );
 

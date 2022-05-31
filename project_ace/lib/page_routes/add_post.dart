@@ -203,12 +203,14 @@ class _AddPostState extends State<AddPost> {
                         ),
                         if (_image != null)
                           Center(
-                              child: ClipRect(
-                            child: Image.file(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Image.file(
                               _image!,
-                              width: double.infinity,
-                              height: screenHeight(context) * 0.17,
-                              fit: BoxFit.fitHeight,
+
+                              width: screenWidth(context) * 0.9708737864,
+                              height: screenHeight(context) * 0.4602991945,
+                              fit: BoxFit.cover,
                             ),
                           ))
                         else if (_video != null)

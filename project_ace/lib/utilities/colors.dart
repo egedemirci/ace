@@ -24,7 +24,7 @@ class AppColors {
   // Shared Among Views
   static const Color bottomNavigationBarFillColor = Color(0xFF003049);
   static const Color bottomNavigationBarIconOutlineColor = Color(0xFFCDE8F4);
-  // Profile
+  //
   static const Color profileIconColor = Color(0xFF003049);
   static const Color profileSettingButtonFillColor = Color(0xFF88A0B1);
   static const Color profileImageTextPostViewButton = Color(0xFFCDE8F4);
@@ -37,7 +37,7 @@ class AppColors {
   // Posts
   static const Color postTextColor = Color(0xFF003049);
   static const Color userFullNameColor = Color(0xFF003049);
-  static const Color userNameColor = Color(0xFFCDEBF4);
+  static const Color userNameColor = Color(0xFF8CB7CD);
   // Create Post
   static const Color sharePostColor = Color(0xFF659ABB);
   static const Color sendAceColor = Color(0xFFF7FDFF);

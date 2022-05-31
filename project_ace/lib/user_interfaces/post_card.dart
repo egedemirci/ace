@@ -86,9 +86,12 @@ class _PostCardState extends State<PostCard> {
                       backgroundImage: (widget.post.urlAvatar != "default") ? NetworkImage(widget.post.urlAvatar): const NetworkImage( "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                   ),
                 ),
-                Text(
-                  widget.post.fullName,
-                  style: postCardUserRealName,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,2,0,0),
+                  child: Text(
+                    widget.post.fullName,
+                    style: postCardUserRealName,
+                  ),
                 ),
                 const SizedBox(width: 6),
                 Padding(
