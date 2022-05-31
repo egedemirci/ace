@@ -8,6 +8,7 @@ import 'package:project_ace/page_routes/change_password.dart';
 import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/delete_account.dart';
 import 'package:project_ace/page_routes/edit_bio.dart';
+import 'package:project_ace/page_routes/edit_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/messages.dart';
@@ -145,6 +146,8 @@ class _AceBaseState extends State<AceBase> {
                     DeleteAccount(analytics: analytics),
                 BookMarks.routeName: (context) =>
                     BookMarks(analytics: analytics),
+                EditPostView.routeName: (context) =>
+                    EditPostView(analytics: analytics),
               },
               theme: ThemeData(
                 pageTransitionsTheme: const PageTransitionsTheme(

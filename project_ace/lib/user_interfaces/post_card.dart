@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_ace/page_routes/edit_post.dart';
+import 'package:project_ace/page_routes/screen_arguments.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/report_services.dart';
@@ -42,6 +48,8 @@ class _PostCardState extends State<PostCard> {
   final AuthServices _auth = AuthServices();
   final ReportService _reportService = ReportService();
   final UserServices _userServices = UserServices();
+  final PostService _postService = PostService();
+  //final FirebaseAnalytics analytics;
 
   PopupMenuItem<PostMenuItem> buildItem(PostMenuItem item) => PopupMenuItem(
         value: item,
@@ -56,20 +64,71 @@ class _PostCardState extends State<PostCard> {
         ),
       );
 
+  Future<void> _showDialog(String title, String message) async {
+    bool isAndroid = Platform.isAndroid;
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if (isAndroid) {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(message),
+                    ],
+                  )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          } else {
+            return CupertinoAlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(message),
+                    ],
+                  )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          }
+        });
+  }
+
   void onSelected(BuildContext context, PostMenuItem item) async{
     switch (item) {
       case PostMenuItems.reportPost:
         await _reportService.reportPost(widget.post.postId, widget.post.userId);
-        break; // TODO: Implement here
+        _showDialog("Reported!", "You successfully reported ${widget.post.username}'s post!");
+        break;
       case PostMenuItems.bookmarkPost:
         await _userServices.addBookmark(FirebaseAuth.instance.currentUser!.uid, widget.post);
-        break; // TODO: Implement here
+        _showDialog("Bookmark Added!", "You successfully added  ${widget.post.username}'s post into your bookmark list!");
+        break;
       case PostMenuItems.reSharePost:
         break; // TODO: Implement here
       case PostMenuItems.deletePost:
-        break; // TODO: Implement here
+        await _postService.deletePost(FirebaseAuth.instance.currentUser!.uid, widget.post.toJson());
+        _showDialog("Deleted!", "You successfully deleted the post!");
+        break;
       case PostMenuItems.editPost:
-        break; // TODO: Implement here
+        Navigator.pushNamed(context, EditPostView.routeName,arguments: ScreenArguments(widget.post.postId));
+        break;
     }
   }
 

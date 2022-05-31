@@ -43,12 +43,13 @@ class PostService {
     String downloadURL = await uploadTask.ref.getDownloadURL();
     return downloadURL;
   }
-
+//Map<String, dynamic> post
   deletePost(String userId, Map<String, dynamic> post) async {
     usersRef.doc(userId).update({
       "posts": FieldValue.arrayRemove([post])
     });
-    postsRef.doc(userId + post["postId"]).delete();
+    postsRef.doc(userId + post["postId"].toString()).delete();
+    //posts.doc(userId + post["postId"].toString()).delete();
   }
 
   likePost(String userId, String otherUserId, String postId) async {
