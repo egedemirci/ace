@@ -33,7 +33,7 @@ class OwnProfileView extends StatefulWidget {
 class _OwnProfileViewState extends State<OwnProfileView> {
   final AuthServices _auth = AuthServices();
 
-  String userName = "userName";
+  String userName = " ";
   UserServices userService = UserServices();
   PostService postService = PostService();
 
@@ -41,7 +41,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
     final uname =
         await userService.getUsername(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
-      userName = uname;
+      userName = "@$uname";
     });
   }
 
@@ -79,7 +79,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      '@$userName',
+                      userName,
                       style: profileViewHeader,
                     ),
                   ),

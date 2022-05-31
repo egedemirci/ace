@@ -9,11 +9,13 @@ class ChatCard extends StatelessWidget {
       {Key? key,
       required this.message,
       required this.isMe,
-      required this.isSameUser})
+      required this.isSameUser,
+      required this.urlAvatar})
       : super(key: key);
   final Message message;
   final bool isMe;
   final bool isSameUser;
+  final String urlAvatar;
 
   @override
   Widget build(BuildContext context) {

@@ -32,12 +32,35 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final _controller = TextEditingController();
-  final ScrollController scrollController = ScrollController();
   MessageService messageService = MessageService();
   UserServices userService = UserServices();
 
   String message = '';
-  String otherUsername = "otherUserName";
+  String otherUsername = " ";
+  String otherUserpp= " ";
+
+  Future getUserName() async {
+    final uname =
+    await userService.getUsername(widget.otherUserId);
+    setState(() {
+      otherUsername = "@$uname";
+    });
+  }
+
+  Future getUserPP() async {
+    final upp =
+    await userService.getUserPp(widget.otherUserId);
+    setState(() {
+      otherUserpp = upp;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
+    getUserPP();
+  }
 
   sendMessage(chatId, text, senderUsername, senderAvatar) {
     messageService.sendMessage(chatId, text, senderUsername, senderAvatar);
@@ -53,10 +76,10 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: TextField(
-              onTap: () async {
-                await Future.delayed(const Duration(milliseconds: 500));
-                _scrollDown();
-              },
+              //onTap: () async {
+               // await Future.delayed(const Duration(milliseconds: 500));
+               // _scrollDown();
+             // },
               controller: _controller,
               textCapitalization: TextCapitalization.sentences,
               autocorrect: true,
@@ -72,9 +95,9 @@ class _ChatPageState extends State<ChatPage> {
                   borderRadius: BorderRadius.circular(25),
                 ),
               ),
-              onChanged: (value) {
+              onChanged: (value) {setState((){
                 message = value;
-              },
+              });}
             ),
           ),
           SizedBox(width: screenWidth(context) * 0.048),
@@ -82,11 +105,9 @@ class _ChatPageState extends State<ChatPage> {
               onPressed: message.trim().isEmpty
                   ? null
                   : () {
-                      sendMessage(
-                          chatId, message, senderUsername, senderAvatar);
-                      message = "";
-                      _scrollDown();
-                    },
+                sendMessage(chatId, message, senderUsername, senderAvatar);
+                message = "";
+              },
               icon: Container(
                   padding: const EdgeInsets.fromLTRB(6, 4, 8, 8),
                   decoration: const BoxDecoration(
@@ -99,14 +120,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  void _scrollDown() {
-    scrollController.jumpTo(scrollController.position.maxScrollExtent);
-  }
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +143,8 @@ class _ChatPageState extends State<ChatPage> {
                   width: screenWidth(context) * 0.60,
                   child: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child:
-                          Text('@$otherUsername', style: userNameChatHeader))),
+                      child: Text(otherUsername,
+                          style: userNameChatHeader))),
               const Spacer(),
               IconButton(
                 onPressed: () {
@@ -157,51 +171,52 @@ class _ChatPageState extends State<ChatPage> {
             if (snapshot.hasError) {
               return const Center(child: Text("Oops, something went wrong"));
             }
-            if (snapshot.hasData &&
-                snapshot.data != null &&
-                snapshot.data!.data() != null) {
-              List<dynamic> messages =
-                  (snapshot.data!.data() as Map<String, dynamic>)["texts"];
-              return FutureBuilder<DocumentSnapshot>(
-                  future: userService.usersRef.doc(user.uid).get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> querySnapshot) {
-                    if (!querySnapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      MyUser myUser = MyUser.fromJson(
-                          (querySnapshot.data!.data() ??
-                                  Map<String, dynamic>.identity())
-                              as Map<String, dynamic>);
-                      if (myUser.isDisabled == true) {
-                        return const Center(
-                            child: Text("Your account is not active."));
-                      } else {
-                        return Column(
-                          children: [
-                            Expanded(
-                              child: ListView.builder(
-                                controller: scrollController,
-                                keyboardDismissBehavior:
-                                    ScrollViewKeyboardDismissBehavior.onDrag,
-                                physics: const BouncingScrollPhysics(),
-                                padding: const EdgeInsets.all(20),
-                                itemCount: messages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  Message message =
-                                      Message.fromJson(messages[index]);
-                                  final bool isMe =
-                                      message.senderUsername == myUser.username;
-                                  final bool isSameUser =
-                                      prevUserName == message.senderUsername;
-                                  prevUserName = message.senderUsername;
-                                  return ChatCard(
-                                      message: message,
-                                      isMe: isMe,
-                                      isSameUser: isSameUser);
-                                },
+            if(snapshot.hasData && snapshot.data != null && snapshot.data!.data() != null){
+              List<dynamic> messages = (snapshot.data!.data() as Map<String, dynamic>)["texts"];
+                return FutureBuilder<DocumentSnapshot>(
+                    future: userService.usersRef.doc(user.uid).get(),
+                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> querySnapshot){
+                      if(!querySnapshot.hasData){
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      else {
+                        MyUser myUser = MyUser.fromJson(
+                            (querySnapshot.data!.data() ??
+                                Map<String, dynamic>.identity()) as Map<
+                                String,
+                                dynamic>);
+                        if (myUser.isDisabled == true) {
+                          return const Center(
+                              child: Text("Your account is not active."));
+                        }
+                        else {
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  reverse: true,
+                                  keyboardDismissBehavior:
+                                  ScrollViewKeyboardDismissBehavior.onDrag,
+                                  physics: const BouncingScrollPhysics(),
+                                  padding: const EdgeInsets.all(20),
+                                  itemCount: messages.length,
+                                  itemBuilder: (BuildContext context,
+                                      int index) {
+                                    Message message = Message.fromJson(
+                                        messages.reversed.toList()[index]);
+                                    final bool isMe = message.senderUsername ==
+                                        myUser.username;
+                                    final bool isSameUser = prevUserName ==
+                                        message.senderUsername;
+                                    prevUserName = message.senderUsername;
+                                    return ChatCard(
+                                      urlAvatar: otherUserpp,
+                                        message: message,
+                                        isMe: isMe,
+                                        isSameUser: isSameUser);
+                                  },
+                                ),
                               ),
-                            ),
                             _sendMessageArea(widget.chatId, myUser.username,
                                 myUser.profilepicture)
                           ],

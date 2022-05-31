@@ -232,6 +232,7 @@ class _AddPostState extends State<AddPost> {
                                 }
                                 Post userPost = Post(
                                     assetUrl: url,
+                                    urlAvatar: myUser.profilepicture,
                                     postId:
                                         (myUser.posts.length + 1).toString(),
                                     userId: currentUser.uid,

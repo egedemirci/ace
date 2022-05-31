@@ -10,7 +10,7 @@ class MyUser with _$MyUser{
     required String usernameLower,
     required String userId,
     @Default("") String biography,
-    @Default("https://firebasestorage.googleapis.com/v0/b/sucial-ff03d.appspot.com/o/user%2Fprofile%2FprofilePic%2Fnopp.png?alt=media&token=eaebea99-fc2d-4ede-893d-070e2d2595b0") String profilepicture,
+    @Default("default") String profilepicture,
     required String fullName,
     @Default(<dynamic>[]) subscribedTopics,
     @Default(false) bool isPrivate,
