@@ -191,6 +191,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 onPressed: () async {
                   bool tryAgain = false;
                   bool isSuccess = false;
+                  bool process= true;
                   if (oldPassword.text == "") {
                     _showDialog("Try Again", "Old Password cannot be empty!");
                   }
@@ -200,6 +201,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       isSuccess = await _auth.changePassword(
                           oldPassword.text, pass.text);
                       if (!isSuccess) {
+                        process = false;
                         tryAgain = true;
                         oldPassword.clear();
                         pass.clear();
@@ -207,12 +209,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                       }
                     }
                   }
+
                   _formKey.currentState!.save();
-                  if (oldPassword.text == pass.text) {
+
+                  if (oldPassword.text == pass.text && process) {
                     oldPassword.clear();
                     pass.clear();
                     _showDialog("Try Again", "New Password is the same!");
                   }
+
                   if (isSuccess) {
                     oldPassword.clear();
                     pass.clear();

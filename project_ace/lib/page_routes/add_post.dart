@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/user_services.dart';
@@ -255,6 +256,7 @@ class _AddPostState extends State<AddPost> {
                                   topic = "";
                                 });
                                 Navigator.pop(context);
+                                Navigator.pushNamedAndRemoveUntil(context, OwnProfileView.routeName, (route) => false);
                               },
                               style: OutlinedButton.styleFrom(
                                 fixedSize: Size(screenWidth(context) * 0.5,

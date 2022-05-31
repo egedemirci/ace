@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_ace/page_routes/edit_post.dart';
+import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/screen_arguments.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/services/post_services.dart';
@@ -125,6 +126,8 @@ class _PostCardState extends State<PostCard> {
       case PostMenuItems.deletePost:
         await _postService.deletePost(FirebaseAuth.instance.currentUser!.uid, widget.post.toJson());
         _showDialog("Deleted!", "You successfully deleted the post!");
+        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(context, OwnProfileView.routeName, (route) => false);
         break;
       case PostMenuItems.editPost:
         Navigator.pushNamed(context, EditPostView.routeName,arguments: ScreenArguments(widget.post.postId));
