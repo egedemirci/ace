@@ -194,20 +194,40 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: CircleAvatar(
-                                  backgroundColor:
-                                      AppColors.welcomeScreenBackgroundColor,
-                                  radius: screenWidth(context) * 0.14,
-                                  backgroundImage:
-                                      NetworkImage(myUser.profilepicture),
-                                  /*
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      myUser.profilepicture,
-                                      fit: BoxFit.fitHeight,
+                                child: InkWell(
+                                  child: CircleAvatar(
+                                    backgroundColor:
+                                        AppColors.welcomeScreenBackgroundColor,
+                                    radius: screenWidth(context) * 0.14,
+                                    backgroundImage:
+                                        NetworkImage(myUser.profilepicture),
+                                    /*
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        myUser.profilepicture,
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
+                                    */
+                                  ),
+                                  onTap: () => showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      backgroundColor: AppColors.signUpScreenBackgroundColor,
+                                      content: Stack(
+                                        alignment: Alignment.center,
+                                        children: <Widget>[
+                                          Image.network(
+                                            myUser.profilepicture,
+                                            width: screenWidth(context) * 0.97,
+                                            height: screenHeight(context) * 0.46,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  */
+
                                 ),
                               ),
                               Column(
