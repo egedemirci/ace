@@ -82,17 +82,7 @@ class _PostCardState extends State<PostCard> {
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
-                    child: widget.post.urlAvatar != "default"
-                        ? ClipOval(
-                            child: Image.network(
-                              widget.post.urlAvatar,
-                            ),
-                          )
-                        : ClipOval(
-                            child: Image.network(
-                              "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
-                            ),
-                          ),
+                      backgroundImage: (widget.post.urlAvatar != "default") ? NetworkImage(widget.post.urlAvatar): const NetworkImage( "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                   ),
                 ),
                 Text(

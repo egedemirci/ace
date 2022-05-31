@@ -57,7 +57,8 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
                           foregroundColor: AppColors.notificationIconColor,
                           backgroundColor: AppColors.profileScreenBackgroundColor,
                           radius: screenWidth(context) * 0.10,
-                          child: ClipOval(child: Image.network(otherUser.profilepicture)),
+                          backgroundImage: NetworkImage(otherUser.profilepicture),
+                          //child: ClipOval(child: Image.network(otherUser.profilepicture)),
                         ),
                         //text ve name
                         Column(

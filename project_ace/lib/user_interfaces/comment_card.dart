@@ -31,17 +31,8 @@ class CommentCard extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
-                    child: comment.urlAvatar != "default"
-                        ? ClipOval(
-                            child: Image.network(
-                              comment.urlAvatar,
-                            ),
-                          )
-                        : ClipOval(
-                            child: Image.network(
-                              "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
-                            ),
-                          ),
+
+                      backgroundImage: (comment.urlAvatar != "default") ? NetworkImage(comment.urlAvatar): const NetworkImage( "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                   ),
                 ),
                 const SizedBox(width: 6),

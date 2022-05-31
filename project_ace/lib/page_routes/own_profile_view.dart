@@ -199,12 +199,15 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   backgroundColor:
                                       AppColors.welcomeScreenBackgroundColor,
                                   radius: screenWidth(context) * 0.14,
+                                  backgroundImage: NetworkImage(myUser.profilepicture),
+                                  /*
                                   child: ClipOval(
                                     child: Image.network(
                                       myUser.profilepicture,
                                       fit: BoxFit.fitHeight,
                                     ),
                                   ),
+                                  */
                                 ),
                               ),
                               Column(

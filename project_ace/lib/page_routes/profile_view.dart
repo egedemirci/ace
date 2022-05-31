@@ -173,6 +173,7 @@ class _ProfileViewState extends State<ProfileView> {
                             fit: BoxFit.fitHeight,
                           ),
                         ),
+
                       ),
                     ),
                     Column(
