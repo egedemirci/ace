@@ -37,14 +37,12 @@ class _FeedState extends State<Feed> {
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Feed View", "feed.dart");
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
     if (user == null) {
       return Login(
         analytics: widget.analytics,
       );
     } else {
+      setUserId(widget.analytics, user.uid);
       return Scaffold(
           backgroundColor: AppColors.profileScreenBackgroundColor,
           appBar: AppBar(
@@ -160,7 +158,6 @@ class _FeedState extends State<Feed> {
                               })
                               .map((data) => (data["posts"]))
                               .toList();
-                          print(postsList);
                           List<dynamic> followingPosts = [];
                           for (int j = 0; j < postsList.length; j++) {
                             for (int k = 0; k < postsList[j].length; k++) {

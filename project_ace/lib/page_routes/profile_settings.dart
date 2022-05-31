@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:project_ace/page_routes/change_password.dart';
 import 'package:project_ace/page_routes/delete_account.dart';
 import 'package:project_ace/page_routes/edit_bio.dart';
+import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -53,9 +54,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
+    if (user == null) {
+      return Login(analytics: widget.analytics);
     }
+    setUserId(widget.analytics, user.uid);
     setCurrentScreen(
         widget.analytics, "Profile Settings View", "profile_settings.dart");
     return Scaffold(
@@ -83,9 +85,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // TODO: Extend the implementation of Screen Sizes
               SizedBox(
-                height: 54.0,
+                height: screenHeight(context) * 0.062,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, ChangePassword.routeName);
@@ -100,7 +101,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: screenHeight(context) * 0.018),
               SizedBox(
                 height: 54.0,
                 child: ElevatedButton(
@@ -117,9 +118,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: screenHeight(context) * 0.018),
               SizedBox(
-                height: 54.0,
+                height: screenHeight(context) * 0.062,
                 child: ElevatedButton(
                   onPressed: changePP,
                   style: ElevatedButton.styleFrom(
@@ -132,9 +133,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: screenHeight(context) * 0.018),
               SizedBox(
-                height: 54.0,
+                height: screenHeight(context) * 0.062,
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -147,9 +148,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: screenHeight(context) * 0.018),
               SizedBox(
-                height: 54.0,
+                height: screenHeight(context) * 0.062,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, DeleteAccount.routeName);

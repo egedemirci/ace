@@ -77,14 +77,10 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<User?>(context);
-    if(currentUser!=null){
-      setUserId(widget.analytics, currentUser.uid);
-    }
-
+    setUserId(widget.analytics, currentUser!.uid);
     setCurrentScreen(
         widget.analytics, "Change Password View", "change_password.dart");
     return Scaffold(
-      // TODO: Extend the implementation of Screen Sizes
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
@@ -94,7 +90,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               FocusScope.of(context).unfocus();
               Navigator.pop(context);
             }),
-        toolbarHeight: 80,
+        toolbarHeight: screenHeight(context) * 0.092,
         elevation: 0,
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
@@ -10,7 +9,6 @@ import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
-import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key, required this.analytics}) : super(key: key);
@@ -80,10 +78,6 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Signup View", "signup.dart");
-    final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,
       body: SafeArea(
@@ -94,9 +88,9 @@ class _SignUpState extends State<SignUp> {
           Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 // TODO: Implement text styles
-                Text(
+                const Text(
                   "Create your account",
                   style: TextStyle(
                     color: AppColors.signUpTextColor,
@@ -104,11 +98,11 @@ class _SignUpState extends State<SignUp> {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                // TODO: Extend the implementation of Screen Sizes
                 SizedBox(
-                  height: 2.5,
+                  height: screenHeight(context) * 0.003,
                 ),
-                Text(
+                // TODO: Implement text styles
+                const Text(
                   "Sign up to get started!",
                   style: TextStyle(
                     color: AppColors.signUpTextColor,
@@ -122,7 +116,7 @@ class _SignUpState extends State<SignUp> {
           const Spacer(),
           Center(
             child: SizedBox(
-              width: screenWidth(context) - 80,
+              width: screenWidth(context) - 80, // TODO: Correct this
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -137,6 +131,7 @@ class _SignUpState extends State<SignUp> {
                         border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
+                        // TODO: Implement text styles
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
@@ -156,11 +151,6 @@ class _SignUpState extends State<SignUp> {
                           if (!EmailValidator.validate(value)) {
                             return 'Please enter a valid email address!';
                           }
-                          /*
-                          if (!isUnique(email)) {
-                            return "This email is already registered!';
-                          }
-                           */
                         }
                       },
                       onSaved: (value) {
@@ -176,6 +166,7 @@ class _SignUpState extends State<SignUp> {
                         border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
+                        // TODO: Implement text styles
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
@@ -195,11 +186,6 @@ class _SignUpState extends State<SignUp> {
                           if (value.length < 6) {
                             return 'Username is too short!';
                           }
-                          /*
-                          if (!isUnique(value) {
-                            return 'This username has been taken before!';
-                          }
-                           */
                         }
                       },
                       onSaved: (value) {
@@ -283,6 +269,7 @@ class _SignUpState extends State<SignUp> {
                         border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
+                        // TODO: Implement text styles
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
@@ -332,10 +319,12 @@ class _SignUpState extends State<SignUp> {
             style: OutlinedButton.styleFrom(
               backgroundColor: AppColors.signUpButtonBackgroundColor,
               // TODO: Extend the implementation of Screen Sizes
-              fixedSize: const Size(125, 40),
+              fixedSize: Size(
+                  screenWidth(context) * 0.3, screenHeight(context) * 0.046),
             ),
             child: const Text(
               "SIGN UP",
+              // TODO: Implement text styles
               style: TextStyle(
                 color: AppColors.signUpButtonTextColor,
                 fontSize: 20,

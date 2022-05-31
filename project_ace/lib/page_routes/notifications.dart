@@ -60,9 +60,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
+    setUserId(widget.analytics, user!.uid);
     setCurrentScreen(
         widget.analytics, "Notifications View", "notifications.dart");
     return Scaffold(

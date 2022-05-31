@@ -56,14 +56,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
     setCurrentScreen(
         widget.analytics, "Own Profile View", "own_profile_view.dart");
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
     if (user == null) {
       return Login(
         analytics: widget.analytics,
       );
     } else {
+      setUserId(widget.analytics, user.uid);
       return Scaffold(
           appBar: AppBar(
             foregroundColor: AppColors.profileScreenTextColor,
@@ -464,9 +462,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ],
                             ),
                           ),
-                          // TODO: Extend the implementation of Screen Sizes
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: screenHeight(context) * 0.0115,
                           ),
                           Column(
                             children: List.from(
@@ -487,7 +484,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         });
                                       },
                                       incrementComment: () {
-                                        //TODO COMMENT VIEW
+                                        // TODO: Comments View
                                       },
                                       incrementDislike: () {
                                         setState(() {

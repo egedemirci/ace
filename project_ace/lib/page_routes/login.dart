@@ -28,7 +28,6 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   String _password = '';
   String _email = '';
-  late String s;
 
   final AuthServices _auth = AuthServices();
 
@@ -91,18 +90,13 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    s = '';
   }
 
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Login View", "login.dart");
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
     if (user == null) {
       return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -298,6 +292,7 @@ class _LoginState extends State<Login> {
         ),
       );
     } else {
+      setUserId(widget.analytics, user.uid);
       return OwnProfileView(analytics: widget.analytics);
     }
   }

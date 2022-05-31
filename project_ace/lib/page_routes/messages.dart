@@ -28,142 +28,147 @@ class MessageScreen extends StatefulWidget {
 
 class _MessageScreenState extends State<MessageScreen> {
   List<Message> allMessages = [];
+  MessageService messageService = MessageService();
+
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Messages View", "messages.dart");
-    MessageService messageService = MessageService();
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
+    setUserId(widget.analytics, user!.uid);
     return Scaffold(
-      backgroundColor: AppColors.profileScreenBackgroundColor,
-      bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.095,
-        child: BottomAppBar(
-          color: AppColors.welcomeScreenBackgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    tooltip: "Messages",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.email,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {}),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Search",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.search,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, Search.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Home",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.home,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Feed.routeName, (route) => false);
-                    }),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Add Post",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.add_circle_outline,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, AddPost.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
-                    tooltip: "Profile",
-                    iconSize: screenWidth(context) * 0.08,
-                    icon: const Icon(
-                      Icons.person_outline,
-                      color: AppColors.userNameColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, OwnProfileView.routeName, (route) => false);
-                    }),
-              ],
+        backgroundColor: AppColors.profileScreenBackgroundColor,
+        bottomNavigationBar: SizedBox(
+          height: screenHeight(context) * 0.095,
+          child: BottomAppBar(
+            color: AppColors.welcomeScreenBackgroundColor,
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      tooltip: "Messages",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.email,
+                        color: AppColors.userNameColor,
+                      ),
+                      onPressed: () {}),
+                  const Spacer(),
+                  IconButton(
+                      tooltip: "Search",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.search,
+                        color: AppColors.userNameColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, Search.routeName);
+                      }),
+                  const Spacer(),
+                  IconButton(
+                      tooltip: "Home",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.home,
+                        color: AppColors.userNameColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, Feed.routeName, (route) => false);
+                      }),
+                  const Spacer(),
+                  IconButton(
+                      tooltip: "Add Post",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.add_circle_outline,
+                        color: AppColors.userNameColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, AddPost.routeName);
+                      }),
+                  const Spacer(),
+                  IconButton(
+                      tooltip: "Profile",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.person_outline,
+                        color: AppColors.userNameColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            OwnProfileView.routeName, (route) => false);
+                      }),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      appBar: AppBar(
-        elevation: 0,
-        foregroundColor: AppColors.profileScreenTextColor,
-        backgroundColor: AppColors.profileScreenBackgroundColor,
-        title: Row(
-          children: [
-            const Spacer(),
-            SizedBox(
-              width: screenWidth(context) * 0.6,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  "Messages",
-                  style: messageHeader,
+        appBar: AppBar(
+          elevation: 0,
+          foregroundColor: AppColors.profileScreenTextColor,
+          backgroundColor: AppColors.profileScreenBackgroundColor,
+          title: Row(
+            children: [
+              const Spacer(),
+              SizedBox(
+                width: screenWidth(context) * 0.6,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    "Messages",
+                    style: messageHeader,
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/notifications');
-              },
-              icon: const Icon(
-                Icons.notifications_active,
-                color: AppColors.bottomNavigationBarBackgroundColor,
+              const Spacer(),
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/notifications');
+                },
+                icon: const Icon(
+                  Icons.notifications_active,
+                  color: AppColors.bottomNavigationBarBackgroundColor,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: StreamBuilder(
-          stream: messageService.chatRoomReference.snapshots().asBroadcastStream(),
-          builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot){
-            if(!snapshot.hasData){
-              return const Center(child: CircularProgressIndicator());
-            }
-            else{
-              return SingleChildScrollView(
-                child: SafeArea(
-                    child: Column(
-                        children: List.from(snapshot.data!.docs.where((element) =>
-                            element["usersChatting"].contains(user!.uid)
-                        ).map((chat) {
-                          String otherChatter = chat["usersChatting"][0] == user!.uid
-                              ? chat["usersChatting"][1]
-                              : chat["usersChatting"][0];
+        body: StreamBuilder(
+            stream: messageService.chatRoomReference
+                .snapshots()
+                .asBroadcastStream(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return SingleChildScrollView(
+                    child: SafeArea(
+                        child: Column(
+                            children: List.from(snapshot.data!.docs
+                                .where((element) =>
+                                    element["usersChatting"].contains(user.uid))
+                                .map((chat) {
+                                  String otherChatter =
+                                      chat["usersChatting"][0] == user.uid
+                                          ? chat["usersChatting"][1]
+                                          : chat["usersChatting"][0];
 
-                          return ChatRoomCard(myChatRoom: ChatRoom.fromJson(chat.data() as Map<String, dynamic>), otherUserId: otherChatter, analytics: widget.analytics,);
-                        }
-                        ).toList().reversed)
-            )
-              ));
-            }
-          })
-    );
+                                  return ChatRoomCard(
+                                    myChatRoom: ChatRoom.fromJson(
+                                        chat.data() as Map<String, dynamic>),
+                                    otherUserId: otherChatter,
+                                    analytics: widget.analytics,
+                                  );
+                                })
+                                .toList()
+                                .reversed))));
+              }
+            }));
   }
 }

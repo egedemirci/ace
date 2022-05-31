@@ -1,10 +1,9 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:provider/provider.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 
 class Walkthrough extends StatefulWidget {
   const Walkthrough({Key? key, required this.analytics}) : super(key: key);
@@ -18,6 +17,7 @@ class Walkthrough extends StatefulWidget {
 
 class _WalkthroughState extends State<Walkthrough> {
   final pc = PageController(initialPage: 0);
+
   final List images = [
     'https://i.hizliresim.com/5dm4a13.png',
     'https://i.hizliresim.com/4s015vi.png',
@@ -26,10 +26,6 @@ class _WalkthroughState extends State<Walkthrough> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
     setCurrentScreen(widget.analytics, "Walkthrough View", "walkthrough.dart");
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,
@@ -51,7 +47,7 @@ class _WalkthroughState extends State<Walkthrough> {
     bool lastPage = (i == images.length - 1);
     return Column(
       children: [
-        const SizedBox(height: 10),
+        SizedBox(height: screenHeight(context) * 0.0115),
         ClipRect(
           // TODO: Implement the correct image size
           child: Image.network(

@@ -78,12 +78,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
     setCurrentScreen(
         widget.analytics, "Delete Account View", "delete_account.dart");
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
-    if (user == null) {
-      return Login(analytics: widget.analytics);
-    }
+    setUserId(widget.analytics, user!.uid);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -94,8 +89,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
               FocusScope.of(context).unfocus();
               Navigator.pop(context);
             }),
-        // TODO: Screen sizes
-        toolbarHeight: 80,
+        toolbarHeight: screenHeight(context) * 0.092,
         elevation: 0,
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,

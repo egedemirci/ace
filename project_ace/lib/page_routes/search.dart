@@ -18,6 +18,7 @@ class Search extends StatefulWidget {
 
   final FirebaseAnalytics analytics;
   static const String routeName = '/search';
+
   @override
   State<Search> createState() => _SearchState();
 }
@@ -33,13 +34,12 @@ class _SearchState extends State<Search> {
 
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Search View", "search.dart");
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
+    setCurrentScreen(widget.analytics, "Search View", "search.dart");
+    setUserId(widget.analytics, user!.uid);
     return Scaffold(
       appBar: AppBar(
           leading: const BackButton(
@@ -47,11 +47,9 @@ class _SearchState extends State<Search> {
           ),
           elevation: 0,
           backgroundColor: AppColors.searchScreenBackground,
-          // The search area here
           title: Container(
-            // TODO: Extend the implementation of Screen Sizes
             width: double.infinity,
-            height: 40,
+            height: screenHeight(context) * 0.046,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: Center(
@@ -71,7 +69,6 @@ class _SearchState extends State<Search> {
                     icon: const Icon(Icons.clear),
                     onPressed: () {
                       _controller.clear();
-                      /* Clear the search field */
                     },
                   ),
                   hintText: 'Search',

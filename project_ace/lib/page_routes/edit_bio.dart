@@ -33,7 +33,6 @@ class _EditBioViewState extends State<EditBioView> {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
   }
 
-
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
     return showDialog(
@@ -82,13 +81,9 @@ class _EditBioViewState extends State<EditBioView> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Extend the implementation of Screen Sizes
     setCurrentScreen(widget.analytics, "Edit Bio View", "edit_bio.dart");
     final user = Provider.of<User?>(context);
-    if(user!=null){
-      setUserId(widget.analytics, user.uid);
-    }
-
+    setUserId(widget.analytics, user!.uid);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -99,7 +94,7 @@ class _EditBioViewState extends State<EditBioView> {
               FocusScope.of(context).unfocus();
               Navigator.pop(context);
             }),
-        toolbarHeight: 80,
+        toolbarHeight: screenHeight(context) * 0.092,
         elevation: 0,
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,
@@ -126,8 +121,7 @@ class _EditBioViewState extends State<EditBioView> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      // TODO: Add the corresponding height of the screen
-                      const SizedBox(height: 20),
+                      SizedBox(height: screenHeight(context) * 0.023),
                       Container(
                           constraints: BoxConstraints(
                               maxHeight: screenHeight(context) * 0.4),
@@ -163,11 +157,10 @@ class _EditBioViewState extends State<EditBioView> {
                               }),
                             ),
                           )),
-                      // TODO: Implement screen sizes here
-                      const SizedBox(height: 20),
+                      SizedBox(height: screenHeight(context) * 0.023),
                       OutlinedButton(
                         onPressed: () async {
-                          await userService.editBio(user!.uid, bio);
+                          await userService.editBio(user.uid, bio);
                           await _showDialog("Success!",
                               "Your bio has been changed successfully.");
                           Navigator.of(context).pop();
