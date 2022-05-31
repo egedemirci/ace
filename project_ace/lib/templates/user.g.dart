@@ -11,8 +11,7 @@ _$_MyUser _$$_MyUserFromJson(Map<String, dynamic> json) => _$_MyUser(
       usernameLower: json['usernameLower'] as String,
       userId: json['userId'] as String,
       biography: json['biography'] as String? ?? "",
-      profilepicture: json['profilepicture'] as String? ??
-          "https://firebasestorage.googleapis.com/v0/b/sucial-ff03d.appspot.com/o/user%2Fprofile%2FprofilePic%2Fnopp.png?alt=media&token=eaebea99-fc2d-4ede-893d-070e2d2595b0",
+      profilepicture: json['profilepicture'] as String? ?? "default",
       fullName: json['fullName'] as String,
       subscribedTopics: json['subscribedTopics'] ?? const <dynamic>[],
       isPrivate: json['isPrivate'] as bool? ?? false,

@@ -184,8 +184,8 @@ class _FeedState extends State<Feed> {
                                             },
                                             incrementLike: () {
                                               postService.likePost(
-                                                  user.uid,
                                                   myUser.userId,
+                                                  post["userId"],
                                                   post["postId"]);
                                             },
                                             incrementComment: () {
@@ -193,8 +193,8 @@ class _FeedState extends State<Feed> {
                                             },
                                             incrementDislike: () {
                                               postService.dislikePost(
-                                                  user.uid,
                                                   myUser.userId,
+                                                  post["userId"],
                                                   post["postId"]);
                                             },
                                             reShare: () {

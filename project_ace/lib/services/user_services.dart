@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project_ace/services/post_services.dart';
+import 'package:project_ace/templates/notif.dart';
 import 'package:project_ace/templates/post.dart';
 
 class UserServices {
@@ -195,6 +196,20 @@ class UserServices {
     usersRef.doc(userToBeFollow).update(
         {
           "requests": FieldValue.arrayRemove([mainUserId]),
+        }
+    );
+  }
+  pushNotifications(String crrUserId, String otherUserId, String type) async
+  {
+    usersRef.doc(otherUserId).update(
+        {
+          "notifications": FieldValue.arrayUnion([
+            AppNotification(
+                notifType: type,
+                subjectId: crrUserId,
+                createdAt: DateTime.now()).toJson()
+          ]),
+          "isThereNewNotif": true
         }
     );
   }

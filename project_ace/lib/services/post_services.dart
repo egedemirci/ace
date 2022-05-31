@@ -67,7 +67,7 @@ class PostService {
       thePost["likes"] = thePost["likes"] + [userId];
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
-      // TODO pushNotifications(userId, otherUserId, " liked your post.");
+      UserServices().pushNotifications(userId, otherUserId, "likedPost");
     } else {
       thePost["likes"].remove(userId);
       posts[i] = thePost;
@@ -102,7 +102,7 @@ class PostService {
       thePost["dislikes"] = thePost["dislikes"] + [userId];
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
-      //TODO pushNotifications(userId, otherUserId, " disliked your post.");
+      //TODO       await UserServices().pushNotifications(userId, otherUserId, "dislikedPost");
     } else {
       thePost["dislikes"].remove(userId);
       posts[i] = thePost;
@@ -144,7 +144,8 @@ class PostService {
         {"senderId": userId, "context": context}
       ])
     });
-    //TODO pushNotifications(userId, otherUserId, " commented on your post.");
+    UserServices().pushNotifications(userId, otherUserId, "commentedToPost");
+
   }
 
   Future<void> disablePost(String postId) async {

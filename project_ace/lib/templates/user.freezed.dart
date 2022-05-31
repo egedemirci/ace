@@ -289,8 +289,7 @@ class _$_MyUser implements _MyUser {
       required this.usernameLower,
       required this.userId,
       this.biography = "",
-      this.profilepicture =
-          "https://firebasestorage.googleapis.com/v0/b/sucial-ff03d.appspot.com/o/user%2Fprofile%2FprofilePic%2Fnopp.png?alt=media&token=eaebea99-fc2d-4ede-893d-070e2d2595b0",
+      this.profilepicture = "default",
       required this.fullName,
       this.subscribedTopics = const <dynamic>[],
       this.isPrivate = false,
