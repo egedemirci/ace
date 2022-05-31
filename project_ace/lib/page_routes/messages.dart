@@ -6,9 +6,12 @@ import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/search.dart';
+import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/message_services.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/chat_room.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/chat_room_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
@@ -29,6 +32,7 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   List<Message> allMessages = [];
   MessageService messageService = MessageService();
+  UserServices userService = UserServices();
 
   @override
   Widget build(BuildContext context) {
@@ -169,6 +173,53 @@ class _MessageScreenState extends State<MessageScreen> {
                                 .toList()
                                 .reversed))));
               }
-            }));
+            }),
+        floatingActionButton: FutureBuilder<DocumentSnapshot>(
+          future: userService.usersRef.doc(user.uid).get(),
+          builder: (BuildContext context,
+              AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Container();
+            }
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData &&
+                snapshot.data != null &&
+                snapshot.data!.data() != null) {
+              MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
+                  Map<String, dynamic>.identity()) as Map<String, dynamic>);
+              if (myUser.isDisabled == false) {
+                return StreamBuilder<QuerySnapshot>(
+                    stream:
+                    userService.usersRef.snapshots().asBroadcastStream(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                      if (!querySnapshot.hasData) {
+                        return Container();
+                      } else {
+                        List<dynamic> userList = querySnapshot.data!.docs
+                            .where((QueryDocumentSnapshot<Object?> element) {
+                          return ((myUser.following
+                              .contains(element["userId"])) &&
+                              !element["isDisabled"]);
+                        })
+                            .map((data) => (data["userId"]))
+                            .toList();
+
+                        return FloatingActionButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                  UserListView(userIdList: userList, title: "New Chat", isNewChat: true, analytics: widget.analytics,)));
+                            },
+                        child: const Icon(Icons.add),);
+                      }
+                    });
+              } else {
+                return Container();
+              }
+            }
+            return Container();
+          },
+        )
+    );
   }
 }

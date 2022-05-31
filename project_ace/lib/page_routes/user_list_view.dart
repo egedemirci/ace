@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/user_services.dart';
@@ -10,10 +11,12 @@ import 'package:project_ace/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class UserListView extends StatefulWidget {
-  final List<String> userIdList;
+  final List<dynamic> userIdList;
   final String title;
+  final bool isNewChat;
+  final FirebaseAnalytics analytics;
 
-  const UserListView({Key? key, required this.userIdList, required this.title}) : super(key: key);
+  const UserListView({Key? key, required this.userIdList, required this.title, required this.isNewChat, required this.analytics}) : super(key: key);
 
   @override
   State<UserListView> createState() => _UserListViewState();
@@ -70,11 +73,12 @@ class _UserListViewState extends State<UserListView> {
                           .map(
                               (myUser) =>
                               UserCard(
-                                  user: MyUser.fromJson(myUser),
+                                  user: MyUser.fromJson(myUser.data() as Map<String, dynamic>),
+                                isNewChat: widget.isNewChat,
+                                analytics: widget.analytics,
                               )
                       )
                           .toList()
-                          .reversed,
                       ),
                     ),
                   ),
