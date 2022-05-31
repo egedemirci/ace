@@ -47,6 +47,7 @@ class _UserListViewState extends State<UserListView> {
         ),
         elevation: 0,
         backgroundColor: AppColors.profileScreenBackgroundColor,
+        foregroundColor: AppColors.profileScreenTextColor,
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: userService.usersRef.snapshots().asBroadcastStream(),

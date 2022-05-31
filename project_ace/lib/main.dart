@@ -111,9 +111,6 @@ class _AceBaseState extends State<AceBase> {
                 Login.routeName: (context) => Login(
                       analytics: analytics,
                     ),
-                ProfileView.routeName: (context) => ProfileView(
-                      analytics: analytics,
-                    ),
                 AddPost.routeName: (context) => AddPost(
                       analytics: analytics,
                     ),
