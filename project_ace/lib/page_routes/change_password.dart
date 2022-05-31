@@ -207,12 +207,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                       }
                     }
                   }
-                  _formKey.currentState!.save();
                   if (oldPassword.text == pass.text) {
                     oldPassword.clear();
                     pass.clear();
                     _showDialog("Try Again", "New Password is the same!");
                   }
+                  _formKey.currentState!.save();
+
                   if (isSuccess) {
                     oldPassword.clear();
                     pass.clear();
