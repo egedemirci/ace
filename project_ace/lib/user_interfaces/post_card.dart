@@ -113,31 +113,35 @@ class _PostCardState extends State<PostCard> {
                           ]),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // TODO: Add the correct text style here
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      widget.post.text,
-                      maxLines: 3,
-                      style: postText,
-                      overflow: TextOverflow.ellipsis,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0,0,0,4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // TODO: Add the correct text style here
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.post.text,
+                        maxLines: 3,
+                        style: postText,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Center(
               child: widget.post.assetUrl != "default"
-                  ? ClipRect(
-                      child: Image.network(
+                  ? ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.network(
                         widget.post.assetUrl,
                         width: double.infinity,
                         height: 200,
-                        fit: BoxFit.fitHeight,
+                        fit: BoxFit.cover,
                       ),
                     )
                   : Container(),
