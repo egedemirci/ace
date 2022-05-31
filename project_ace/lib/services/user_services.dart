@@ -116,22 +116,22 @@ class UserServices {
 
   Future<String> getUsername(String userId) async {
     var docRef = await usersRef.doc(userId).get();
-    var obj = docRef.data() as Map<String, dynamic>;
-    var username = obj["username"];
+    var coll = docRef.data() as Map<String, dynamic>;
+    var username = coll["username"];
     return username;
   }
 
-  Future<bool> doesFollow(String userId, String otherUserId) async {
+  Future<bool> isUserFollow(String userId, String otherUserId) async {
     var docRef = await usersRef.doc(userId).get();
-    var obj = docRef.data() as Map<String, dynamic>;
-    var following = obj["following"];
+    var coll = docRef.data() as Map<String, dynamic>;
+    var following = coll["following"];
     return following.contains(otherUserId);
   }
 
   Future<bool> hasFollower(String userId, String otherUserId) async {
     var docRef = await usersRef.doc(otherUserId).get();
-    var obj = docRef.data() as Map<String, dynamic>;
-    var following = obj["followers"];
+    var coll = docRef.data() as Map<String, dynamic>;
+    var following = coll["followers"];
     return following.contains(userId);
   }
 
@@ -151,8 +151,51 @@ class UserServices {
 
   getBio(String userId) async {
     var docRef = await usersRef.doc(userId).get();
-    var obj = docRef.data() as Map<String, dynamic>;
-    var bio = obj["biography"];
+    var coll = docRef.data() as Map<String, dynamic>;
+    var bio = coll["biography"];
     return bio;
+  }
+  userFollow(String userToBeFollow, String mainUserId, bool isPrivate) async
+  {
+    if(isPrivate == true) {
+      usersRef.doc(userToBeFollow).update(
+          {
+            "requests": FieldValue.arrayUnion([mainUserId]),
+          }
+      );
+    }
+    else{
+      usersRef.doc(mainUserId).update(
+          {
+            "following": FieldValue.arrayUnion([userToBeFollow]),
+          }
+      );
+      usersRef.doc(userToBeFollow).update(
+          {
+            "followers": FieldValue.arrayUnion([mainUserId]),
+          }
+      );
+    }
+  }
+  unfollow(String userToBeFollow, String mainUserId) async
+  {
+      usersRef.doc(mainUserId).update(
+          {
+            "following": FieldValue.arrayRemove([userToBeFollow]),
+          }
+      );
+      usersRef.doc(userToBeFollow).update(
+          {
+            "followers": FieldValue.arrayRemove([mainUserId]),
+          }
+      );
+  }
+  removeRequest(String userToBeFollow, String mainUserId) async
+  {
+    usersRef.doc(userToBeFollow).update(
+        {
+          "requests": FieldValue.arrayRemove([mainUserId]),
+        }
+    );
   }
 }
