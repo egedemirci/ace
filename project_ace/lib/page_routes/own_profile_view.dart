@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/bookmarks.dart';
 import 'package:project_ace/page_routes/feed.dart';
+import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/search.dart';
@@ -53,8 +54,18 @@ class _OwnProfileViewState extends State<OwnProfileView> {
     getUserName();
   }
 
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (context as Element).visitChildren(rebuild);
+  }
+
   @override
   Widget build(BuildContext context) {
+    //rebuildAllChildren(context);
     setCurrentScreen(
         widget.analytics, "Own Profile View", "own_profile_view.dart");
     final user = Provider.of<User?>(context);
@@ -130,7 +141,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                           color: AppColors.bottomNavigationBarIconOutlineColor,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, Search.routeName);
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              FirestoreSearch.routeName, (route) => false);
                         }),
                     const Spacer(),
                     IconButton(
@@ -214,21 +226,22 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   onTap: () => showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
-                                      backgroundColor: AppColors.signUpScreenBackgroundColor,
+                                      backgroundColor:
+                                          AppColors.signUpScreenBackgroundColor,
                                       content: Stack(
                                         alignment: Alignment.center,
                                         children: <Widget>[
                                           Image.network(
                                             myUser.profilepicture,
                                             width: screenWidth(context) * 0.97,
-                                            height: screenHeight(context) * 0.46,
+                                            height:
+                                                screenHeight(context) * 0.46,
                                             fit: BoxFit.cover,
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-
                                 ),
                               ),
                               Column(
@@ -250,8 +263,15 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                      UserListView(userIdList: myUser.followers, title: "Followers", isNewChat: false, analytics: widget.analytics,)));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UserListView(
+                                                userIdList: myUser.followers,
+                                                title: "Followers",
+                                                isNewChat: false,
+                                                analytics: widget.analytics,
+                                              )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -273,8 +293,15 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                      UserListView(userIdList: myUser.following, title: "Following", isNewChat: false, analytics: widget.analytics,)));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UserListView(
+                                                userIdList: myUser.following,
+                                                title: "Following",
+                                                isNewChat: false,
+                                                analytics: widget.analytics,
+                                              )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,

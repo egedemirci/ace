@@ -272,4 +272,11 @@ final writeSomething = GoogleFonts.montserrat(
   letterSpacing: -0.7,
 );
 
+final searchResults = GoogleFonts.montserrat(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+  letterSpacing: -0.7,
+);
+
 //If you use header here, you can take one of the headers from other views.

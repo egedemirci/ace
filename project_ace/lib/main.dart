@@ -10,6 +10,7 @@ import 'package:project_ace/page_routes/delete_account.dart';
 import 'package:project_ace/page_routes/edit_bio.dart';
 import 'package:project_ace/page_routes/edit_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
+import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/notifications.dart';
@@ -129,7 +130,7 @@ class _AceBaseState extends State<AceBase> {
                 Feed.routeName: (context) => Feed(
                       analytics: analytics,
                     ),
-                Search.routeName: (context) => Search(
+                FirestoreSearch.routeName: (context) => FirestoreSearch(
                       analytics: analytics,
                     ),
                 MessageScreen.routeName: (context) => MessageScreen(

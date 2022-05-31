@@ -351,6 +351,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.16"
+  firestore_search:
+    dependency: "direct main"
+    description:
+      name: firestore_search
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.9"
   fixnum:
     dependency: transitive
     description:
@@ -415,6 +422,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
+  get:
+    dependency: transitive
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.6.5"
   glob:
     dependency: transitive
     description:

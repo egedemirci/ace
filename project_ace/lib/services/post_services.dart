@@ -43,7 +43,7 @@ class PostService {
     String downloadURL = await uploadTask.ref.getDownloadURL();
     return downloadURL;
   }
-//Map<String, dynamic> post
+
   deletePost(String userId, Map<String, dynamic> post) async {
     usersRef.doc(userId).update({
       "posts": FieldValue.arrayRemove([post])
@@ -73,8 +73,6 @@ class PostService {
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
     }
-
-
     var docRefPost = await postsRef.doc(otherUserId + postId).get();
     if (!docRefPost["likes"].contains(userId)) {
       postsRef.doc(otherUserId + postId).update({

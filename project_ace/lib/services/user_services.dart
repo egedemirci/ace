@@ -141,9 +141,27 @@ class UserServices {
   }
 
   Future<void> addBookmark(String userId, Post post) async {
-    usersRef.doc(userId).update({
-      'bookmarks': FieldValue.arrayUnion([post.toJson()])
-    });
+    var docRef = await usersRef.doc(userId).get();
+    var bookmarks = (docRef.data() as Map<String, dynamic>)["bookmarks"];
+    bool isInBookmarks = false;
+    if (bookmarks.length == 0) {
+      bookmarks = bookmarks + [post.toJson()];
+    } else {
+      var theBookmark = bookmarks[0];
+      for (var bookmark in bookmarks) {
+        if (bookmark["postId"] == post.postId) {
+          isInBookmarks = true;
+          theBookmark = bookmark;
+          break;
+        }
+      }
+      if (isInBookmarks) {
+        bookmarks.remove(theBookmark);
+      } else {
+        bookmarks = bookmarks + [post.toJson()];
+      }
+    }
+    usersRef.doc(userId).update({"bookmarks": bookmarks});
   }
 
   editBio(String userId, String editedBio) async {

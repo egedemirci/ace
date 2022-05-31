@@ -24,7 +24,6 @@ class BookMarks extends StatefulWidget {
 }
 
 class _BookMarksState extends State<BookMarks> {
-  List<Post> posts = [];
   UserServices userService = UserServices();
   PostService postService = PostService();
 
@@ -73,20 +72,7 @@ class _BookMarksState extends State<BookMarks> {
                       if (!querySnapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
                       } else {
-                        List<dynamic> postsList = querySnapshot.data!.docs
-                            .where((QueryDocumentSnapshot<Object?> element) {
-                              return ((myUser.following
-                                      .contains(element["userId"])) &&
-                                  !element["isDisabled"]);
-                            })
-                            .map((data) => (data["bookmarks"]))
-                            .toList();
-                        List<dynamic> bookmarks = [];
-                        for (int j = 0; j < postsList.length; j++) {
-                          for (int k = 0; k < postsList[j].length; k++) {
-                            bookmarks += [postsList[j][k]];
-                          }
-                        }
+                        List<dynamic> bookmarks = List.from(myUser.bookmarks);
                         bookmarks.sort(
                             (a, b) => a["createdAt"].compareTo(b["createdAt"]));
                         return SingleChildScrollView(
