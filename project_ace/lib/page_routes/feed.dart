@@ -164,6 +164,8 @@ class _FeedState extends State<Feed> {
                               followingPosts += [postsList[j][k]];
                             }
                           }
+                          followingPosts.sort((a, b) =>
+                              a["createdAt"].compareTo(b["createdAt"]));
                           return SingleChildScrollView(
                             child: Center(
                               child: Padding(
