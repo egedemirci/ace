@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/chat.dart';
+import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/services/message_services.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -23,7 +24,7 @@ class UserCard extends StatelessWidget {
     if(!isNewChat) {
       return InkWell(
           onTap: () {
-            //TODO navigate to profileview
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(userId: user.userId, analytics: analytics)));
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -76,7 +77,7 @@ class UserCard extends StatelessWidget {
             width: screenWidth(context) * 0.65,
             child: InkWell(
               onTap: () {
-               //TODO navigate to profile view
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(userId: user.userId, analytics: analytics)));
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
