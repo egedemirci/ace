@@ -8,7 +8,6 @@ import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
-import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
@@ -182,387 +181,406 @@ class _OwnProfileViewState extends State<OwnProfileView> {
             ),
           ),
           backgroundColor: AppColors.profileScreenBackgroundColor,
-          body: FutureBuilder<DocumentSnapshot>(
-            future: userService.usersRef.doc(user.uid).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return const Center(child: Text("Oops, something went wrong"));
-              }
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData &&
-                  snapshot.data != null &&
-                  snapshot.data!.data() != null) {
-                MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
-                    Map<String, dynamic>.identity()) as Map<String, dynamic>);
-                return SingleChildScrollView(
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: InkWell(
-                                  child: CircleAvatar(
-                                    backgroundColor:
-                                        AppColors.welcomeScreenBackgroundColor,
-                                    radius: screenWidth(context) * 0.14,
-                                    backgroundImage:
-                                        NetworkImage(myUser.profilepicture),
-                                    /*
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        myUser.profilepicture,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                    */
-                                  ),
-                                  onTap: () => showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      backgroundColor:
-                                          AppColors.signUpScreenBackgroundColor,
-                                      content: Stack(
-                                        alignment: Alignment.center,
-                                        children: <Widget>[
-                                          Image.network(
-                                            myUser.profilepicture,
-                                            width: screenWidth(context) * 0.97,
-                                            height:
-                                                screenHeight(context) * 0.46,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 24, 0, 0),
-                                    child: Text(
-                                      myUser.posts.length.toString(),
-                                      style: postsFollowersFollowingsCounts,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Posts',
-                                    style: postsFollowersFollowings,
-                                  )
-                                ],
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => UserListView(
-                                                userIdList: myUser.followers,
-                                                title: "Followers",
-                                                isNewChat: false,
-                                                analytics: widget.analytics,
-                                              )));
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 24, 0, 0),
-                                      child: Text(
-                                        myUser.followers.length.toString(),
-                                        style: postsFollowersFollowingsCounts,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Followers',
-                                      style: postsFollowersFollowings,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => UserListView(
-                                                userIdList: myUser.following,
-                                                title: "Following",
-                                                isNewChat: false,
-                                                analytics: widget.analytics,
-                                              )));
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 24, 0, 0),
-                                      child: Text(
-                                        myUser.following.length.toString(),
-                                        style: postsFollowersFollowingsCounts,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Following',
-                                      style: postsFollowersFollowings,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  // TODO: Show topics list.
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 24, 0, 0),
-                                      child: Text(
-                                        myUser.subscribedTopics.length
-                                            .toString(),
-                                        style: postsFollowersFollowingsCounts,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Topics',
-                                      style: postsFollowersFollowings,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 16, 16, 3),
-                            child: Row(
+          body: StreamBuilder<QuerySnapshot>(
+                  stream:
+                  userService.usersRef.snapshots().asBroadcastStream(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                    if (!querySnapshot.hasData) {
+                      return const Center(
+                          child: CircularProgressIndicator());
+                    } else {
+                      List<dynamic> userList = querySnapshot.data!.docs
+                          .where(
+                              (QueryDocumentSnapshot<Object?> element) {
+                            return element["userId"] == user.uid;
+                          }
+                      ).toList();
+
+                      MyUser myUser = MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
+
+                      List<dynamic> postsList = querySnapshot.data!.docs
+                          .where((QueryDocumentSnapshot<Object?> element) {
+                        return (element["userId"] == myUser.userId);
+                      })
+                          .map((data) => (data["posts"]))
+                          .toList();
+                      List<dynamic> followingPosts = [];
+                      for (int j = 0; j < postsList.length; j++) {
+                        for (int k = 0; k < postsList[j].length; k++) {
+                          followingPosts += [postsList[j][k]];
+                        }
+                      }
+                      followingPosts.sort((a, b) =>
+                          a["createdAt"].compareTo(b["createdAt"]));
+
+                      return SingleChildScrollView(
+                        child: SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
                               children: [
-                                Container(
-                                  constraints: BoxConstraints(
-                                      maxWidth: screenWidth(context) * 0.85),
-                                  child: Text(
-                                    myUser.fullName,
-                                    style: smallNameUnderProfile,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: InkWell(
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                          AppColors.welcomeScreenBackgroundColor,
+                                          radius: screenWidth(context) * 0.14,
+                                          backgroundImage:
+                                          NetworkImage(myUser.profilepicture),
+                                          /*
+                                child: ClipOval(
+                                  child: Image.network(
+                                    myUser.profilepicture,
+                                    fit: BoxFit.fitHeight,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 16, 0),
-                            child: Row(
-                              children: [
-                                Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: screenWidth(context) * 0.85),
-                                    child: Text(
-                                      myUser.biography,
-                                      style: biography,
-                                    ))
-                              ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: AppColors
-                                                .profileSettingButtonFillColor,
-                                          ),
-                                          width: screenWidth(context) * 0.8,
-                                          height: screenHeight(context) * 0.075,
-                                          child: TextButton.icon(
-                                            onPressed: () {
-                                              Navigator.pushNamed(context,
-                                                  ProfileSettings.routeName);
-                                            },
-                                            icon: const Icon(
-                                              Icons.settings,
-                                              color: AppColors
-                                                  .profileSettingsButtonIconColor,
-                                            ),
-                                            label: FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              child: Text(
-                                                "Profile Settings",
-                                                style:
-                                                    profileViewProfileSettingsButton,
-                                              ),
+                                */
+                                        ),
+                                        onTap: () => showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            backgroundColor:
+                                            AppColors.signUpScreenBackgroundColor,
+                                            content: Stack(
+                                              alignment: Alignment.center,
+                                              children: <Widget>[
+                                                Image.network(
+                                                  myUser.profilepicture,
+                                                  width: screenWidth(context) * 0.97,
+                                                  height:
+                                                  screenHeight(context) * 0.46,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
+                                      ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                          child: Text(
+                                            myUser.posts.length.toString(),
+                                            style: postsFollowersFollowingsCounts,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Posts',
+                                          style: postsFollowersFollowings,
+                                        )
                                       ],
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.profileImageTextPostViewButton,
-                            ),
-                            width: double.infinity,
-                            height: screenHeight(context) * 0.06,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () {},
-                                    style: OutlinedButton.styleFrom(
-                                        elevation: 0, side: BorderSide.none),
-                                    child: const Icon(
-                                      Icons.list_outlined,
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => UserListView(
+                                                  userIdList: myUser.followers,
+                                                  title: "Followers",
+                                                  isNewChat: false,
+                                                  analytics: widget.analytics,
+                                                )));
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 24, 0, 0),
+                                            child: Text(
+                                              myUser.followers.length.toString(),
+                                              style: postsFollowersFollowingsCounts,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Followers',
+                                            style: postsFollowersFollowings,
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-                                  child: VerticalDivider(
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
-                                      thickness: 2,
-                                      width: 10),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: OutlinedButton(
-                                    onPressed: () {},
-                                    style: OutlinedButton.styleFrom(
-                                        elevation: 0, side: BorderSide.none),
-                                    child: const Icon(
-                                      Icons.text_fields,
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => UserListView(
+                                                  userIdList: myUser.following,
+                                                  title: "Following",
+                                                  isNewChat: false,
+                                                  analytics: widget.analytics,
+                                                )));
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 24, 0, 0),
+                                            child: Text(
+                                              myUser.following.length.toString(),
+                                              style: postsFollowersFollowingsCounts,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Following',
+                                            style: postsFollowersFollowings,
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-                                  child: VerticalDivider(
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
-                                      thickness: 2,
-                                      width: 10),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: OutlinedButton(
-                                    onPressed: () {},
-                                    style: OutlinedButton.styleFrom(
-                                        elevation: 0, side: BorderSide.none),
-                                    child: const Icon(
-                                      Icons.photo_outlined,
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
+                                    InkWell(
+                                      onTap: () {
+                                        // TODO: Show topics list.
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 24, 0, 0),
+                                            child: Text(
+                                              myUser.subscribedTopics.length
+                                                  .toString(),
+                                              style: postsFollowersFollowingsCounts,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Topics',
+                                            style: postsFollowersFollowings,
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-                                  child: VerticalDivider(
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
-                                      thickness: 2,
-                                      width: 10),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, BookMarks.routeName);
-                                    },
-                                    style: OutlinedButton.styleFrom(
-                                        elevation: 0, side: BorderSide.none),
-                                    child: const Icon(
-                                      Icons.bookmark,
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
+                                    const SizedBox(
+                                      width: 8,
                                     ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20, 16, 16, 3),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        constraints: BoxConstraints(
+                                            maxWidth: screenWidth(context) * 0.85),
+                                        child: Text(
+                                          myUser.fullName,
+                                          style: smallNameUnderProfile,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20, 0, 16, 0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          constraints: BoxConstraints(
+                                              maxWidth: screenWidth(context) * 0.85),
+                                          child: Text(
+                                            myUser.biography,
+                                            style: biography,
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(16),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10),
+                                                  color: AppColors
+                                                      .profileSettingButtonFillColor,
+                                                ),
+                                                width: screenWidth(context) * 0.8,
+                                                height: screenHeight(context) * 0.075,
+                                                child: TextButton.icon(
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(context,
+                                                        ProfileSettings.routeName);
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.settings,
+                                                    color: AppColors
+                                                        .profileSettingsButtonIconColor,
+                                                  ),
+                                                  label: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Text(
+                                                      "Profile Settings",
+                                                      style:
+                                                      profileViewProfileSettingsButton,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.profileImageTextPostViewButton,
+                                  ),
+                                  width: double.infinity,
+                                  height: screenHeight(context) * 0.06,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {},
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.list_outlined,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {},
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.text_fields,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {},
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.photo_outlined,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, BookMarks.routeName);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.bookmark,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight(context) * 0.0115,
+                                ),
+                                Column(
+                                  children: List.from(
+                                    followingPosts
+                                        .map((post) => PostCard(
+                                        post: Post.fromJson(post),
+                                        isMyPost: true,
+                                        deletePost: () {
+                                          setState(() {
+                                            postService.deletePost(
+                                                user.uid, post);
+                                          });
+                                        },
+                                        incrementLike: () {
+                                          setState(() {
+                                            postService.likePost(user.uid,
+                                                myUser.userId, post["postId"]);
+                                          });
+                                        },
+                                        incrementComment: () {
+                                          // TODO: Comments View
+                                        },
+                                        incrementDislike: () {
+                                          setState(() {
+                                            postService.dislikePost(user.uid,
+                                                myUser.userId, post["postId"]);
+                                          });
+                                        },
+                                        reShare: () {
+                                          //TODO: Implement re-share
+                                        }))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: screenHeight(context) * 0.0115,
-                          ),
-                          Column(
-                            children: List.from(
-                              myUser.posts
-                                  .map((post) => PostCard(
-                                      post: Post.fromJson(post),
-                                      isMyPost: true,
-                                      deletePost: () {
-                                        setState(() {
-                                          postService.deletePost(
-                                              user.uid, post);
-                                        });
-                                      },
-                                      incrementLike: () {
-                                        setState(() {
-                                          postService.likePost(user.uid,
-                                              myUser.userId, post["postId"]);
-                                        });
-                                      },
-                                      incrementComment: () {
-                                        // TODO: Comments View
-                                      },
-                                      incrementDislike: () {
-                                        setState(() {
-                                          postService.dislikePost(user.uid,
-                                              myUser.userId, post["postId"]);
-                                        });
-                                      },
-                                      reShare: () {
-                                        //TODO: Implement re-share
-                                      }))
-                                  .toList()
-                                  .reversed,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-          ));
+                        ),
+                      );
+                    }
+                  })
+                  );
+            }
     }
   }
-}

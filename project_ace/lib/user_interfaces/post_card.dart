@@ -232,7 +232,7 @@ class _PostCardState extends State<PostCard> {
                         widget.post.assetUrl
                     ),
                     looping: false,
-                    autoplay: true,
+                    autoplay: false,
                   )) : ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: Image.network(

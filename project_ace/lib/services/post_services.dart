@@ -53,10 +53,20 @@ class PostService {
 
 
   deletePost(String userId, Map<String, dynamic> post) async {
-    usersRef.doc(userId).update({
-      "posts": FieldValue.arrayRemove([post])
+    var docRef = await usersRef.doc(userId).get();
+    var posts = (docRef.data() as Map<String, dynamic>)["posts"];
+    var thePost = posts[0];
+    int i = 0;
+    for (; i < posts.length; i++) {
+      if (post["postId"] == posts[i]["postId"]) {
+        thePost = posts[i];
+        break;
+      }
+    }
+    await usersRef.doc(userId).update({
+      "posts": FieldValue.arrayRemove([thePost])
     });
-    postsRef.doc(userId + post["postId"].toString()).delete();
+    await postsRef.doc(userId + post["postId"].toString()).delete();
     //posts.doc(userId + post["postId"].toString()).delete();
   }
 
@@ -108,7 +118,7 @@ class PostService {
       thePost["dislikes"] = thePost["dislikes"] + [userId];
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
-      //TODO       await UserServices().pushNotifications(userId, otherUserId, "dislikedPost");
+      //TODO await UserServices().pushNotifications(userId, otherUserId, "dislikedPost");
     } else {
       thePost["dislikes"].remove(userId);
       posts[i] = thePost;

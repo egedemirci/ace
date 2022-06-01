@@ -7,7 +7,6 @@ import 'package:project_ace/page_routes/bookmarks.dart';
 import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
-import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
@@ -18,10 +17,8 @@ import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
-import 'package:project_ace/page_routes/login.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
@@ -37,7 +34,6 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  final AuthServices _auth = AuthServices();
 
   String userName = " ";
   UserServices userService = UserServices();
@@ -398,7 +394,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             label: FittedBox(
                                               fit: BoxFit.scaleDown,
                                               child: myUser.followers
-                                                      .contains(user!.uid)
+                                                      .contains(user.uid)
                                                   ? Text(
                                                       "Unfollow",
                                                       style:
@@ -413,13 +409,13 @@ class _ProfileViewState extends State<ProfileView> {
                                             onPressed: () {
                                               setState(() {
                                                 if (myUser.followers
-                                                    .contains(user!.uid)) {
+                                                    .contains(user.uid)) {
                                                   userService.unfollow(
-                                                      widget.userId, user!.uid);
+                                                      widget.userId, user.uid);
                                                 } else {
                                                   userService.userFollow(
                                                       widget.userId,
-                                                      user!.uid,
+                                                      user.uid,
                                                       myUser.isPrivate);
                                                 }
                                               });
@@ -440,14 +436,14 @@ class _ProfileViewState extends State<ProfileView> {
                                           child: TextButton.icon(
                                             onPressed: () {
                                               messageService.createMessage(
-                                                  user!.uid, myUser.userId);
+                                                  user.uid, myUser.userId);
                                               String chatId =
-                                                  myUser.userId + user!.uid;
-                                              if (user!.uid.compareTo(
+                                                  myUser.userId + user.uid;
+                                              if (user.uid.compareTo(
                                                       myUser.userId) <
                                                   0) {
                                                 chatId =
-                                                    user!.uid + myUser.userId;
+                                                    user.uid + myUser.userId;
                                               }
                                               Navigator.pop(context);
                                               Navigator.push(
@@ -823,7 +819,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           height: screenHeight(context) * 0.064,
                                           child: TextButton.icon(
                                             icon: myUser.requests
-                                                    .contains(user!.uid)
+                                                    .contains(user.uid)
                                                 ? const Icon(
                                                     Icons.remove_circle,
                                                     color: AppColors
@@ -837,7 +833,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             label: FittedBox(
                                               fit: BoxFit.scaleDown,
                                               child: myUser.requests
-                                                      .contains(user!.uid)
+                                                      .contains(user.uid)
                                                   ? Text(
                                                       "Remove Request",
                                                       style:
@@ -852,13 +848,13 @@ class _ProfileViewState extends State<ProfileView> {
                                             onPressed: () {
                                               setState(() {
                                                 if (myUser.requests
-                                                    .contains(user!.uid)) {
+                                                    .contains(user.uid)) {
                                                   userService.removeRequest(
-                                                      widget.userId, user!.uid);
+                                                      widget.userId, user.uid);
                                                 } else {
                                                   userService.userFollow(
                                                       widget.userId,
-                                                      user!.uid,
+                                                      user.uid,
                                                       myUser.isPrivate);
                                                 }
                                               });
@@ -879,14 +875,14 @@ class _ProfileViewState extends State<ProfileView> {
                                           child: TextButton.icon(
                                             onPressed: () {
                                               messageService.createMessage(
-                                                  user!.uid, myUser.userId);
+                                                  user.uid, myUser.userId);
                                               String chatId =
-                                                  myUser.userId + user!.uid;
-                                              if (user!.uid.compareTo(
+                                                  myUser.userId + user.uid;
+                                              if (user.uid.compareTo(
                                                       myUser.userId) <
                                                   0) {
                                                 chatId =
-                                                    user!.uid + myUser.userId;
+                                                    user.uid + myUser.userId;
                                               }
                                               Navigator.pop(context);
                                               Navigator.push(
@@ -934,9 +930,9 @@ class _ProfileViewState extends State<ProfileView> {
                               Container(
                                   color: AppColors.profileScreenBackgroundColor,
                                   child: Column(
-                                    children: [
+                                    children: const [
                                       Padding(
-                                        padding: const EdgeInsets.fromLTRB(
+                                        padding: EdgeInsets.fromLTRB(
                                             0, 32, 0, 32),
                                         child: Icon(Icons.lock, size: 35),
                                       ),
