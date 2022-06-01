@@ -14,9 +14,13 @@ import 'package:project_ace/services/report_services.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/menu_item.dart';
 import 'package:project_ace/templates/post.dart';
+import 'package:project_ace/templates/video_items.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
+
 import 'package:provider/provider.dart';
 
 class PostCard extends StatefulWidget {
@@ -137,6 +141,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+
     // TODO: Extend the implementation of Screen Sizes
     return Card(
       shape: const RoundedRectangleBorder(
@@ -217,15 +222,27 @@ class _PostCardState extends State<PostCard> {
             ),
             Center(
               child: widget.post.assetUrl != "default"
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(15.0),
-                      child: Image.network(
-                        widget.post.assetUrl,
-                        width: screenWidth(context) * 0.9708737864,
-                        height: screenHeight(context) * 0.4602991945,
-                        fit: BoxFit.cover,
-                      ),
-                    )
+                  ? (widget.post.mediaType == "video" ?
+                  Container(
+                      width: screenWidth(context) * 0.9708737864,
+                      height: screenHeight(context) * 0.4602991945,
+                      child:
+                      VideoItems(
+                    videoPlayerController: VideoPlayerController.network(
+                        widget.post.assetUrl
+                    ),
+                    looping: false,
+                    autoplay: true,
+                  )) : ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.network(
+                  widget.post.assetUrl,
+                  width: screenWidth(context) * 0.9708737864,
+                  height: screenHeight(context) * 0.4602991945,
+                  fit: BoxFit.cover,
+                ),
+              )
+              )
                   : Container(),
             ),
             const SizedBox(

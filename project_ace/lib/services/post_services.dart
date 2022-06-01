@@ -44,6 +44,14 @@ class PostService {
     return downloadURL;
   }
 
+  Future<String> uploadPostVideo(User? user, File file, String postId) async {
+    var storageRef = storage.ref().child("posts/${user!.uid}/$postId");
+    var uploadTask = await storageRef.putFile(file);
+    String downloadURL = await uploadTask.ref.getDownloadURL();
+    return downloadURL;
+  }
+
+
   deletePost(String userId, Map<String, dynamic> post) async {
     usersRef.doc(userId).update({
       "posts": FieldValue.arrayRemove([post])

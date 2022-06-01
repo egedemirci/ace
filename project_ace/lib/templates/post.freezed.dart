@@ -24,6 +24,7 @@ mixin _$Post {
   String get userId => throw _privateConstructorUsedError;
   String get assetUrl => throw _privateConstructorUsedError;
   String get urlAvatar => throw _privateConstructorUsedError;
+  String get mediaType => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $PostCopyWith<$Res> {
       String userId,
       String assetUrl,
       String urlAvatar,
+      String mediaType,
       String text,
       DateTime createdAt,
       String username,
@@ -75,6 +77,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? userId = freezed,
     Object? assetUrl = freezed,
     Object? urlAvatar = freezed,
+    Object? mediaType = freezed,
     Object? text = freezed,
     Object? createdAt = freezed,
     Object? username = freezed,
@@ -102,6 +105,10 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
       urlAvatar: urlAvatar == freezed
           ? _value.urlAvatar
           : urlAvatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      mediaType: mediaType == freezed
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
               as String,
       text: text == freezed
           ? _value.text
@@ -157,6 +164,7 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String userId,
       String assetUrl,
       String urlAvatar,
+      String mediaType,
       String text,
       DateTime createdAt,
       String username,
@@ -184,6 +192,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? assetUrl = freezed,
     Object? urlAvatar = freezed,
+    Object? mediaType = freezed,
     Object? text = freezed,
     Object? createdAt = freezed,
     Object? username = freezed,
@@ -211,6 +220,10 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
       urlAvatar: urlAvatar == freezed
           ? _value.urlAvatar
           : urlAvatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      mediaType: mediaType == freezed
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
               as String,
       text: text == freezed
           ? _value.text
@@ -255,6 +268,7 @@ class _$_Post implements _Post {
       required this.userId,
       this.assetUrl = "default",
       this.urlAvatar = "default",
+      this.mediaType = "default",
       required this.text,
       required this.createdAt,
       required this.username,
@@ -278,6 +292,9 @@ class _$_Post implements _Post {
   @override
   @JsonKey()
   final String urlAvatar;
+  @override
+  @JsonKey()
+  final String mediaType;
   @override
   final String text;
   @override
@@ -307,7 +324,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(postId: $postId, userId: $userId, assetUrl: $assetUrl, urlAvatar: $urlAvatar, text: $text, createdAt: $createdAt, username: $username, fullName: $fullName, comments: $comments, likes: $likes, dislikes: $dislikes, isShared: $isShared, fromWho: $fromWho, topic: $topic)';
+    return 'Post(postId: $postId, userId: $userId, assetUrl: $assetUrl, urlAvatar: $urlAvatar, mediaType: $mediaType, text: $text, createdAt: $createdAt, username: $username, fullName: $fullName, comments: $comments, likes: $likes, dislikes: $dislikes, isShared: $isShared, fromWho: $fromWho, topic: $topic)';
   }
 
   @override
@@ -319,6 +336,7 @@ class _$_Post implements _Post {
             const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.assetUrl, assetUrl) &&
             const DeepCollectionEquality().equals(other.urlAvatar, urlAvatar) &&
+            const DeepCollectionEquality().equals(other.mediaType, mediaType) &&
             const DeepCollectionEquality().equals(other.text, text) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.username, username) &&
@@ -339,6 +357,7 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(assetUrl),
       const DeepCollectionEquality().hash(urlAvatar),
+      const DeepCollectionEquality().hash(mediaType),
       const DeepCollectionEquality().hash(text),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(username),
@@ -367,6 +386,7 @@ abstract class _Post implements Post {
       required final String userId,
       final String assetUrl,
       final String urlAvatar,
+      final String mediaType,
       required final String text,
       required final DateTime createdAt,
       required final String username,
@@ -388,6 +408,8 @@ abstract class _Post implements Post {
   String get assetUrl => throw _privateConstructorUsedError;
   @override
   String get urlAvatar => throw _privateConstructorUsedError;
+  @override
+  String get mediaType => throw _privateConstructorUsedError;
   @override
   String get text => throw _privateConstructorUsedError;
   @override

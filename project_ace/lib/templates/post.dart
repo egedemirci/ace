@@ -10,7 +10,9 @@ class Post with _$Post {
   required String userId,
   @Default("default") String assetUrl,
   @Default("default") String urlAvatar,
-  required String text,
+    @Default("default") String mediaType,
+
+    required String text,
   required DateTime createdAt,
   required String username,
   required String fullName,

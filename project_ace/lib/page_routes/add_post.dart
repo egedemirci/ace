@@ -214,7 +214,10 @@ class _AddPostState extends State<AddPost> {
                             ),
                           ))
                         else if (_video != null)
-                          const Center()
+                          const Center(
+                            child:Text("Your video is ready to upload!")
+                          )
+
                         else
                           Container(),
                         SizedBox(
@@ -226,11 +229,21 @@ class _AddPostState extends State<AddPost> {
                             OutlinedButton(
                               onPressed: () async {
                                 String url = "default";
+                                String media = "default";
                                 if (_image != null) {
                                   url = await postService.uploadPostPicture(
                                       currentUser,
                                       _image!,
                                       (myUser.posts.length + 1).toString());
+                                  media = "photo";
+                                }
+                                if (_video != null) {
+                                  url = await postService.uploadPostVideo(
+                                      currentUser,
+                                      _video!,
+                                      (myUser.posts.length + 1).toString());
+                                  media = "video";
+
                                 }
                                 Post userPost = Post(
                                     assetUrl: url,
@@ -242,6 +255,7 @@ class _AddPostState extends State<AddPost> {
                                     comments: [],
                                     likes: [],
                                     dislikes: [],
+                                    mediaType: media,
                                     createdAt: DateTime.now(),
                                     username: myUser.username,
                                     fullName: myUser.fullName,
