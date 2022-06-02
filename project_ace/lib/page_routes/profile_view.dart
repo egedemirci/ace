@@ -3,7 +3,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
-import 'package:project_ace/page_routes/bookmarks.dart';
 import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
@@ -27,14 +26,13 @@ class ProfileView extends StatefulWidget {
 
   final FirebaseAnalytics analytics;
   final String userId;
-  static const String routeName = '/own_profile_view';
+  static const String routeName = '/profile_view';
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
-
   String userName = " ";
   UserServices userService = UserServices();
   PostService postService = PostService();
@@ -48,8 +46,8 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   void initState() {
-    super.initState();
     getUserName();
+    super.initState();
   }
 
   @override
@@ -61,6 +59,7 @@ class _ProfileViewState extends State<ProfileView> {
 
     return Scaffold(
         appBar: AppBar(
+          toolbarHeight: screenHeight(context) * 0.08,
           foregroundColor: AppColors.profileScreenTextColor,
           title: Row(
             children: [
@@ -70,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
                   fit: BoxFit.scaleDown,
                   child: Text(
                     userName,
-                    style: profileViewHeader,
+                    style: messageHeader,
                   ),
                 ),
               ),
@@ -159,23 +158,19 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
         body: StreamBuilder<QuerySnapshot>(
-          stream:
-          userService.usersRef.snapshots().asBroadcastStream(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
-                if (!querySnapshot.hasData) {
-                  return const Center(
-                      child: CircularProgressIndicator());
-                }
-            else {
-                  List<dynamic> userList = querySnapshot.data!.docs
-                      .where(
-                          (QueryDocumentSnapshot<Object?> element) {
-                        return element["userId"] == widget.userId;
-                      }
-                  ).toList();
+          stream: userService.usersRef.snapshots().asBroadcastStream(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> querySnapshot) {
+            if (!querySnapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              List<dynamic> userList = querySnapshot.data!.docs
+                  .where((QueryDocumentSnapshot<Object?> element) {
+                return element["userId"] == widget.userId;
+              }).toList();
 
-                  MyUser myUser = MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
+              MyUser myUser =
+                  MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
               if (myUser.isPrivate == false ||
                   myUser.followers.contains(user!.uid)) {
                 return SingleChildScrollView(
@@ -197,14 +192,6 @@ class _ProfileViewState extends State<ProfileView> {
                                     radius: screenWidth(context) * 0.14,
                                     backgroundImage:
                                         NetworkImage(myUser.profilepicture),
-                                    /*
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        myUser.profilepicture,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                    */
                                   ),
                                   onTap: () => showDialog(
                                     context: context,
@@ -547,7 +534,6 @@ class _ProfileViewState extends State<ProfileView> {
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
@@ -558,32 +544,36 @@ class _ProfileViewState extends State<ProfileView> {
                             children: List.from(
                               myUser.posts
                                   .map((post) => PostCard(
-                                      post: Post.fromJson(post),
-                                      isMyPost: false,
-                                      deletePost: () {
-                                        setState(() {
-                                          postService.deletePost(
-                                              widget.userId, post);
-                                        });
-                                      },
-                                      incrementLike: () {
-                                        setState(() {
-                                          postService.likePost(widget.userId,
-                                              myUser.userId, post["postId"]);
-                                        });
-                                      },
-                                      incrementComment: () {
-                                        // TODO: Comments View
-                                      },
-                                      incrementDislike: () {
-                                        setState(() {
-                                          postService.dislikePost(widget.userId,
-                                              myUser.userId, post["postId"]);
-                                        });
-                                      },
-                                      reShare: () {
-                                        //TODO: Implement re-share
-                                      }, myUserId: user.uid,))
+                                        post: Post.fromJson(post),
+                                        isMyPost: false,
+                                        deletePost: () {
+                                          setState(() {
+                                            postService.deletePost(
+                                                widget.userId, post);
+                                          });
+                                        },
+                                        incrementLike: () {
+                                          setState(() {
+                                            postService.likePost(widget.userId,
+                                                myUser.userId, post["postId"]);
+                                          });
+                                        },
+                                        incrementComment: () {
+                                          // TODO: Comments View
+                                        },
+                                        incrementDislike: () {
+                                          setState(() {
+                                            postService.dislikePost(
+                                                widget.userId,
+                                                myUser.userId,
+                                                post["postId"]);
+                                          });
+                                        },
+                                        reShare: () {
+                                          //TODO: Implement re-share
+                                        },
+                                        myUserId: user.uid,
+                                      ))
                                   .toList()
                                   .reversed,
                             ),
@@ -613,14 +603,6 @@ class _ProfileViewState extends State<ProfileView> {
                                     radius: screenWidth(context) * 0.14,
                                     backgroundImage:
                                         NetworkImage(myUser.profilepicture),
-                                    /*
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        myUser.profilepicture,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                    */
                                   ),
                                   onTap: () => showDialog(
                                     context: context,
@@ -914,8 +896,8 @@ class _ProfileViewState extends State<ProfileView> {
                                   child: Column(
                                     children: const [
                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            0, 32, 0, 32),
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 32, 0, 32),
                                         child: Icon(Icons.lock, size: 35),
                                       ),
                                       Text(

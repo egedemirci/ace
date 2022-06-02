@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/chat_room.dart';
-import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 
 class ChatRoomCard extends StatefulWidget {
-  const ChatRoomCard({Key? key,
-    required this.myChatRoom,
-    required this.otherUserId,
-  required this.analytics}) : super(key: key);
+  const ChatRoomCard(
+      {Key? key,
+      required this.myChatRoom,
+      required this.otherUserId,
+      required this.analytics})
+      : super(key: key);
 
   final ChatRoom myChatRoom;
   final String otherUserId;
@@ -30,13 +31,14 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: userService.usersRef.doc(widget.otherUserId).get(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
-              return Container();
-            }
-          else{
-            MyUser otherUser = MyUser.fromJson(((snapshot.data!.data() ?? Map<String,dynamic>.identity()) as Map<String,dynamic>));
-            return  Card(
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return Container();
+          } else {
+            MyUser otherUser = MyUser.fromJson(((snapshot.data!.data() ??
+                Map<String, dynamic>.identity()) as Map<String, dynamic>));
+            return Card(
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                       top: Radius.zero, bottom: Radius.circular(0))),
@@ -46,21 +48,25 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(chatId: widget.myChatRoom.chatRoomId, otherUserId: widget.otherUserId, analytics: widget.analytics,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                    chatId: widget.myChatRoom.chatRoomId,
+                                    otherUserId: widget.otherUserId,
+                                    analytics: widget.analytics,
+                                  )));
                     },
                     child: Row(
-                      //crossAxisAlignment: CrossAxisAlignment.start,
-                      //mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        //photo
                         CircleAvatar(
                           foregroundColor: AppColors.notificationIconColor,
-                          backgroundColor: AppColors.profileScreenBackgroundColor,
+                          backgroundColor:
+                              AppColors.profileScreenBackgroundColor,
                           radius: screenWidth(context) * 0.10,
-                          backgroundImage: NetworkImage(otherUser.profilepicture),
-                          //child: ClipOval(child: Image.network(otherUser.profilepicture)),
+                          backgroundImage:
+                              NetworkImage(otherUser.profilepicture),
                         ),
-                        //text ve name
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -84,8 +90,8 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
                             ),
                             Container(
                               margin: const EdgeInsets.fromLTRB(8, 0, 0, 15),
-                              constraints:
-                              BoxConstraints(maxWidth: screenWidth(context) * 0.65),
+                              constraints: BoxConstraints(
+                                  maxWidth: screenWidth(context) * 0.65),
                               child: Column(
                                 children: [
                                   Text(
@@ -100,10 +106,13 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
                       ],
                     ),
                   ),
-                  const Divider(
-                    thickness: 1.0,
-                    height: 1,
-                    color: AppColors.notificationIconColor,
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Divider(
+                      thickness: 1.0,
+                      height: 1,
+                      color: AppColors.notificationIconColor,
+                    ),
                   ),
                 ],
               ),
@@ -112,4 +121,3 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
         });
   }
 }
-

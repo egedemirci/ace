@@ -33,12 +33,14 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
     return Scaffold(
         bottomNavigationBar: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
+          child: SizedBox(
+            height: 78, //screenHeight(context) * 0.25,
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
                     tooltip: "Messages",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
@@ -47,21 +49,22 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, MessageScreen.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Search",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, FirestoreSearch.routeName, (route) => false);
-                    }),
-                const Spacer(),
-                IconButton(
+                    onPressed: () {},
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Home",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
@@ -71,9 +74,11 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, Feed.routeName, (route) => false);
-                    }),
-                const Spacer(),
-                IconButton(
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Add Post",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
@@ -82,9 +87,11 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, AddPost.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Profile",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
@@ -94,15 +101,17 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, OwnProfileView.routeName, (route) => false);
-                    }),
-              ],
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
         backgroundColor: AppColors.searchScreenBackground,
         body: FirestoreSearchScaffold(
           searchIconColor: AppColors.profileScreenTextColor,
-          showSearchIcon: true,
           appBarTitle: "Search",
           backButtonColor: AppColors.profileScreenTextColor,
           searchBodyBackgroundColor: AppColors.searchScreenBackground,
@@ -112,7 +121,8 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
           searchBy: 'usernameLower',
           scaffoldBody: Container(
               color: AppColors.searchScreenBackground,
-              child: const Center(child: Text("Hi"))),
+              child: const Center(
+                  child: Text("Relevant topics will be shown here."))),
           dataListFromSnapshot: SearchResults().dataListFromSnapshot,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -127,8 +137,8 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                   itemCount: dataList.length,
                   itemBuilder: (context, index) {
                     final SearchResults data = dataList[index];
-                    return InkWell(
-                      onTap: () {
+                    return OutlinedButton(
+                      onPressed: () {
                         if (data.userId! == user.uid) {
                           Navigator.pushNamedAndRemoveUntil(context,
                               OwnProfileView.routeName, (route) => false);

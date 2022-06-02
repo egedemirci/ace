@@ -40,15 +40,6 @@ class UserServices {
     usersRef.doc(userId).delete();
   }
 
-  /*Future deleteUserr(User user,String email, String password) async{
-    String uid = user.uid;
-    var result = await user.reauthenticateWithCredential(
-        EmailAuthProvider.credential(email: email, password: password));
-    await result.user!.delete();
-    UserServices usersService = UserServices();
-    usersService.deleteUser(uid);
-  }*/
-
   Future<void> disableUser(String userId) async {
     await usersRef.doc(userId).update({'isDisabled': true});
     var docRef = await usersRef.doc(userId).get();
@@ -180,61 +171,70 @@ class UserServices {
     var bio = coll["biography"];
     return bio;
   }
-  userFollow(String userToBeFollow, String mainUserId, bool isPrivate) async
-  {
-    if(isPrivate == true) {
-      usersRef.doc(userToBeFollow).update(
-          {
-            "requests": FieldValue.arrayUnion([mainUserId]),
-          }
-      );
-    }
-    else{
-      usersRef.doc(mainUserId).update(
-          {
-            "following": FieldValue.arrayUnion([userToBeFollow]),
-          }
-      );
-      usersRef.doc(userToBeFollow).update(
-          {
-            "followers": FieldValue.arrayUnion([mainUserId]),
-          }
-      );
+
+  userFollow(String userToBeFollow, String mainUserId, bool isPrivate) async {
+    if (isPrivate == true) {
+      usersRef.doc(userToBeFollow).update({
+        "requests": FieldValue.arrayUnion([mainUserId]),
+      });
+    } else {
+      usersRef.doc(mainUserId).update({
+        "following": FieldValue.arrayUnion([userToBeFollow]),
+      });
+      usersRef.doc(userToBeFollow).update({
+        "followers": FieldValue.arrayUnion([mainUserId]),
+      });
     }
   }
-  unfollow(String userToBeFollow, String mainUserId) async
-  {
-      usersRef.doc(mainUserId).update(
-          {
-            "following": FieldValue.arrayRemove([userToBeFollow]),
-          }
-      );
-      usersRef.doc(userToBeFollow).update(
-          {
-            "followers": FieldValue.arrayRemove([mainUserId]),
-          }
-      );
+
+  unfollow(String userToBeFollow, String mainUserId) async {
+    usersRef.doc(mainUserId).update({
+      "following": FieldValue.arrayRemove([userToBeFollow]),
+    });
+    usersRef.doc(userToBeFollow).update({
+      "followers": FieldValue.arrayRemove([mainUserId]),
+    });
   }
-  removeRequest(String userToBeFollow, String mainUserId) async
-  {
-    usersRef.doc(userToBeFollow).update(
-        {
-          "requests": FieldValue.arrayRemove([mainUserId]),
-        }
-    );
+
+  removeRequest(String userToBeFollow, String mainUserId) async {
+    usersRef.doc(userToBeFollow).update({
+      "requests": FieldValue.arrayRemove([mainUserId]),
+    });
   }
-  pushNotifications(String crrUserId, String otherUserId, String type) async
-  {
-    usersRef.doc(otherUserId).update(
-        {
-          "notifications": FieldValue.arrayUnion([
-            AppNotification(
+
+  pushNotifications(String crrUserId, String otherUserId, String type) async {
+    usersRef.doc(otherUserId).update({
+      "notifications": FieldValue.arrayUnion([
+        AppNotification(
                 notifType: type,
                 subjectId: crrUserId,
-                createdAt: DateTime.now()).toJson()
-          ]),
-          "isThereNewNotif": true
-        }
-    );
+                createdAt: DateTime.now())
+            .toJson()
+      ]),
+      "isThereNewNotif": true
+    });
+  }
+
+  getRecommendations(String userId) async {
+    var docRef = await usersRef.doc(userId).get();
+    var following = await (docRef.data() as Map<String, dynamic>)["following"];
+    int i = 0, j = 0;
+    List<dynamic> recommendations = [];
+    for (i = 0; i < following.length; i++) {
+      var followedByFollowing =
+          await (docRef.data() as Map<String, dynamic>)["following"];
+      recommendations.add(followedByFollowing);
+    }
+    recommendations = recommendations.toSet().toList();
+    for (; j < recommendations.length; j++) {
+      if (following.contains(recommendations[j])) {
+        recommendations.remove(recommendations[j]);
+      }
+    }
+    return recommendations;
+  }
+
+  updateLocation(String userId, double lat, double lon) async {
+    usersRef.doc(userId).update({"geoLocation": GeoPoint(lat, lon)});
   }
 }

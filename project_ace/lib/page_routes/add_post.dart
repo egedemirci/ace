@@ -20,8 +20,8 @@ import 'package:provider/provider.dart';
 class AddPost extends StatefulWidget {
   const AddPost({Key? key, required this.analytics}) : super(key: key);
 
-  static const String routeName = "/addPost";
   final FirebaseAnalytics analytics;
+  static const String routeName = "/addPost";
 
   @override
   State<AddPost> createState() => _AddPostState();
@@ -94,12 +94,17 @@ class _AddPostState extends State<AddPost> {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                      Navigator.pop(context);
-                    }),
-                toolbarHeight: screenHeight(context) * 0.09,
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: screenHeight(context) * 0.025,
+                  ),
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    Navigator.pop(context);
+                  },
+                  splashRadius: screenHeight(context) * 0.03,
+                ),
+                toolbarHeight: screenHeight(context) * 0.08,
                 elevation: 0,
                 centerTitle: true,
                 foregroundColor: AppColors.welcomeScreenBackgroundColor,
@@ -109,7 +114,7 @@ class _AddPostState extends State<AddPost> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       "Add New Post",
-                      style: addPostTitle,
+                      style: messageHeader,
                     ),
                   ),
                 ),
@@ -133,9 +138,9 @@ class _AddPostState extends State<AddPost> {
                             constraints: BoxConstraints(
                                 maxHeight: screenHeight(context) * 0.4),
                             margin: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(50),
+                                Radius.circular(screenHeight(context) * 0.058),
                               ),
                               color: AppColors.sharePostFillColor,
                             ),
@@ -143,7 +148,7 @@ class _AddPostState extends State<AddPost> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                               child: TextField(
-                                minLines: 15,
+                                minLines: 1,
                                 maxLines: 15,
                                 onTap: () async {
                                   await Future.delayed(
@@ -169,9 +174,9 @@ class _AddPostState extends State<AddPost> {
                             constraints: BoxConstraints(
                                 maxHeight: screenHeight(context) * 0.4),
                             margin: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(50),
+                                Radius.circular(screenHeight(context) * 0.058),
                               ),
                               color: AppColors.sharePostFillColor,
                             ),
@@ -205,19 +210,18 @@ class _AddPostState extends State<AddPost> {
                         if (_image != null)
                           Center(
                               child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(
+                                screenHeight(context) * 0.017),
                             child: Image.file(
                               _image!,
-                              width: screenWidth(context) * 0.9708737864,
-                              height: screenHeight(context) * 0.4602991945,
+                              width: screenWidth(context) * 0.97,
+                              height: screenHeight(context) * 0.46,
                               fit: BoxFit.cover,
                             ),
                           ))
                         else if (_video != null)
                           const Center(
-                            child:Text("Your video is ready to upload!")
-                          )
-
+                              child: Text("Your video is ready to upload!"))
                         else
                           Container(),
                         SizedBox(
@@ -243,13 +247,12 @@ class _AddPostState extends State<AddPost> {
                                       _video!,
                                       (myUser.posts.length + 1).toString());
                                   media = "video";
-
                                 }
                                 Post userPost = Post(
                                     assetUrl: url,
                                     urlAvatar: myUser.profilepicture,
-                                    postId:
-                                      myUser.userId+(myUser.posts.length + 1).toString(),
+                                    postId: myUser.userId +
+                                        (myUser.posts.length + 1).toString(),
                                     userId: currentUser.uid,
                                     text: postText,
                                     comments: [],
@@ -270,7 +273,8 @@ class _AddPostState extends State<AddPost> {
                                   topic = "";
                                 });
                                 Navigator.pop(context);
-                                Navigator.pushNamedAndRemoveUntil(context, OwnProfileView.routeName, (route) => false);
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    OwnProfileView.routeName, (route) => false);
                               },
                               style: OutlinedButton.styleFrom(
                                 fixedSize: Size(screenWidth(context) * 0.5,
@@ -279,7 +283,8 @@ class _AddPostState extends State<AddPost> {
                                 backgroundColor: AppColors.sharePostColor,
                                 side: BorderSide.none,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
+                                    borderRadius: BorderRadius.circular(
+                                        screenHeight(context) * 0.0345)),
                               ),
                               child: Text(
                                 "Ace!",
@@ -308,34 +313,42 @@ class _AddPostState extends State<AddPost> {
                       children: [
                         const Spacer(),
                         IconButton(
-                            onPressed: () async {
+                          onPressed: () async {
+                            if (_image == null) {
                               await pickImage();
-                            },
-                            // TODO: Screen Sizes
-                            icon: const Icon(
-                              Icons.camera_alt_rounded,
-                              size: 30,
-                            )),
+                            } else {
+                              _image = null;
+                            }
+                          },
+                          // TODO: Screen Sizes
+                          icon: Icon(
+                            Icons.camera_alt_rounded,
+                            size: screenHeight(context) * 0.0345,
+                          ),
+                          splashRadius: screenHeight(context) * 0.035,
+                        ),
                         const Spacer(),
                         SizedBox(
                           width: screenWidth(context) * 0.097,
                           height: screenHeight(context) * 0.046,
-                          child: const VerticalDivider(
+                          child: VerticalDivider(
                             width: 0,
-                            thickness: 3,
+                            thickness: screenHeight(context) * 0.0035,
                             color: AppColors.postTextColor,
                           ),
                         ),
                         const Spacer(),
                         IconButton(
-                            onPressed: () async {
-                              await pickVideo();
-                            },
-                            // TODO: Screen Sizes
-                            icon: const Icon(
-                              Icons.video_collection,
-                              size: 30,
-                            )),
+                          onPressed: () async {
+                            await pickVideo();
+                          },
+                          // TODO: Screen Sizes
+                          icon: Icon(
+                            Icons.video_collection,
+                            size: screenHeight(context) * 0.0345,
+                          ),
+                          splashRadius: screenHeight(context) * 0.035,
+                        ),
                         const Spacer(),
                       ],
                     ),

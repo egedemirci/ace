@@ -4,7 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/screen_arguments.dart';
+import 'package:project_ace/templates/screen_arguments.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/user_services.dart';
@@ -14,15 +14,10 @@ import 'package:project_ace/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class EditPostView extends StatefulWidget {
-  EditPostView({Key? key,  required this.analytics}) : super(key: key);
+  const EditPostView({Key? key, required this.analytics}) : super(key: key);
 
   final FirebaseAnalytics analytics;
-
   static const routeName = "/edit_post";
-
-  String? text;
-
-
 
   @override
   State<EditPostView> createState() => _EditPostViewState();
@@ -32,7 +27,7 @@ class _EditPostViewState extends State<EditPostView> {
   final _formKey = GlobalKey<FormState>();
   final ScrollController scrollController = ScrollController();
   final _controller = TextEditingController();
-  String bio = "";
+  String editedPost = "";
   UserServices userService = UserServices();
   PostService postService = PostService();
 
@@ -51,10 +46,10 @@ class _EditPostViewState extends State<EditPostView> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -69,10 +64,10 @@ class _EditPostViewState extends State<EditPostView> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -88,12 +83,7 @@ class _EditPostViewState extends State<EditPostView> {
 
   @override
   Widget build(BuildContext context) {
-
-    //final Object? rcvdData = ModalRoute.of(context)?.settings.arguments;
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-   //print(args.id);
-
-        //ModalRoute.of(context).settings.arguments;
     setCurrentScreen(widget.analytics, "Edit Post View", "edit_post.dart");
     final user = Provider.of<User?>(context);
     setUserId(widget.analytics, user!.uid);
@@ -102,11 +92,16 @@ class _EditPostViewState extends State<EditPostView> {
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-            }),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: screenHeight(context) * 0.034,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.pop(context);
+          },
+          splashRadius: screenHeight(context) * 0.035,
+        ),
         toolbarHeight: screenHeight(context) * 0.092,
         elevation: 0,
         centerTitle: true,
@@ -117,7 +112,7 @@ class _EditPostViewState extends State<EditPostView> {
             fit: BoxFit.scaleDown,
             child: Text(
               "Edit Your Post",
-              style: addPostTitle,
+              style: messageHeader,
             ),
           ),
         ),
@@ -139,9 +134,9 @@ class _EditPostViewState extends State<EditPostView> {
                           constraints: BoxConstraints(
                               maxHeight: screenHeight(context) * 0.4),
                           margin: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
-                              Radius.circular(50),
+                              Radius.circular(screenHeight(context) * 0.0575),
                             ),
                             color: AppColors.userNameColor,
                           ),
@@ -149,7 +144,7 @@ class _EditPostViewState extends State<EditPostView> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                             child: TextField(
-                              minLines: 15,
+                              minLines: 1,
                               maxLines: 15,
                               onTap: () async {
                                 await Future.delayed(
@@ -166,17 +161,15 @@ class _EditPostViewState extends State<EditPostView> {
                                 hintStyle: writeSomething,
                               ),
                               onChanged: (value) => setState(() {
-                                bio = value;
+                                editedPost = value;
                               }),
                             ),
                           )),
                       SizedBox(height: screenHeight(context) * 0.023),
                       OutlinedButton(
                         onPressed: () async {
-
-                          await postService.editPost(user.uid, args.id, bio);
-                          //await postService.editPost(user.uid, widget.p, text)
-                          //await userService.editBio(user.uid, bio);
+                          await postService.editPost(
+                              user.uid, args.id, editedPost);
                           await _showDialog("Success!",
                               "Your post has been changed successfully.");
                           Navigator.of(context).pop();
@@ -188,7 +181,8 @@ class _EditPostViewState extends State<EditPostView> {
                           backgroundColor: AppColors.sharePostColor,
                           side: BorderSide.none,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
+                              borderRadius: BorderRadius.circular(
+                                  screenHeight(context) * 0.0575)),
                         ),
                         child: Text(
                           "Save your edited post!",

@@ -16,7 +16,13 @@ class UserListView extends StatefulWidget {
   final bool isNewChat;
   final FirebaseAnalytics analytics;
 
-  const UserListView({Key? key, required this.userIdList, required this.title, required this.isNewChat, required this.analytics}) : super(key: key);
+  const UserListView(
+      {Key? key,
+      required this.userIdList,
+      required this.title,
+      required this.isNewChat,
+      required this.analytics})
+      : super(key: key);
 
   @override
   State<UserListView> createState() => _UserListViewState();
@@ -41,7 +47,7 @@ class _UserListViewState extends State<UserListView> {
             fit: BoxFit.scaleDown,
             child: Text(
               widget.title,
-              style: feedHeader,
+              style: messageHeader,
             ),
           ),
         ),
@@ -51,43 +57,35 @@ class _UserListViewState extends State<UserListView> {
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: userService.usersRef.snapshots().asBroadcastStream(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot){
-            if(!querySnapshot.hasData){
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> querySnapshot) {
+            if (!querySnapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
-            }
-            else{
+            } else {
               List<dynamic> userList = querySnapshot.data!.docs
-                  .where(
-                      (QueryDocumentSnapshot<Object?> element) {
-                    return ((widget.userIdList.contains(
-                        element["userId"])) &&
-                        !element["isDisabled"]);
-                  }
-              ).toList();
-
+                  .where((QueryDocumentSnapshot<Object?> element) {
+                return ((widget.userIdList.contains(element["userId"])) &&
+                    !element["isDisabled"]);
+              }).toList();
               return SingleChildScrollView(
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Column(
                       children: List.from(userList
-                          .map(
-                              (myUser) =>
-                              UserCard(
-                                  user: MyUser.fromJson(myUser.data() as Map<String, dynamic>),
+                          .map((myUser) => UserCard(
+                                user: MyUser.fromJson(
+                                    myUser.data() as Map<String, dynamic>),
                                 isNewChat: widget.isNewChat,
                                 analytics: widget.analytics,
-                              )
-                      )
-                          .toList()
-                      ),
+                              ))
+                          .toList()),
                     ),
                   ),
                 ),
               );
             }
-          }
-      ),
+          }),
     );
   }
 }

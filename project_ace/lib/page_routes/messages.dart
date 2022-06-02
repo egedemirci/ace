@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
+import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
-import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/message_services.dart';
@@ -51,70 +51,92 @@ class _MessageScreenState extends State<MessageScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                      tooltip: "Messages",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.email,
-                        color: AppColors.bottomNavigationBarIconOutlineColor,
-                      ),
-                      onPressed: () {}),
+                    tooltip: "Messages",
+                    iconSize: screenWidth(context) * 0.08,
+                    icon: const Icon(
+                      Icons.email,
+                      color: AppColors.bottomNavigationBarIconOutlineColor,
+                    ),
+                    onPressed: () {},
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
                   const Spacer(),
                   IconButton(
-                      tooltip: "Search",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.search,
-                        color: AppColors.bottomNavigationBarIconOutlineColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, Search.routeName);
-                      }),
+                    tooltip: "Search",
+                    iconSize: screenWidth(context) * 0.08,
+                    icon: const Icon(
+                      Icons.search,
+                      color: AppColors.bottomNavigationBarIconOutlineColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, FirestoreSearch.routeName, (route) => false);
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
                   const Spacer(),
                   IconButton(
-                      tooltip: "Home",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.home,
-                        color: AppColors.bottomNavigationBarIconOutlineColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, Feed.routeName, (route) => false);
-                      }),
+                    tooltip: "Home",
+                    iconSize: screenWidth(context) * 0.08,
+                    icon: const Icon(
+                      Icons.home,
+                      color: AppColors.bottomNavigationBarIconOutlineColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Feed.routeName, (route) => false);
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
                   const Spacer(),
                   IconButton(
-                      tooltip: "Add Post",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.add_circle_outline,
-                        color: AppColors.bottomNavigationBarIconOutlineColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, AddPost.routeName);
-                      }),
+                    tooltip: "Add Post",
+                    iconSize: screenWidth(context) * 0.08,
+                    icon: const Icon(
+                      Icons.add_circle_outline,
+                      color: AppColors.bottomNavigationBarIconOutlineColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, AddPost.routeName);
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
                   const Spacer(),
                   IconButton(
-                      tooltip: "Profile",
-                      iconSize: screenWidth(context) * 0.08,
-                      icon: const Icon(
-                        Icons.person_outline,
-                        color: AppColors.bottomNavigationBarIconOutlineColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context,
-                            OwnProfileView.routeName, (route) => false);
-                      }),
+                    tooltip: "Profile",
+                    iconSize: screenWidth(context) * 0.08,
+                    icon: const Icon(
+                      Icons.person_outline,
+                      color: AppColors.bottomNavigationBarIconOutlineColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, OwnProfileView.routeName, (route) => false);
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
                 ],
               ),
             ),
           ),
         ),
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: screenHeight(context) * 0.025,
+            ),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            },
+            splashRadius: screenHeight(context) * 0.03,
+          ),
+          toolbarHeight: screenHeight(context) * 0.08,
           elevation: 0,
-          foregroundColor: AppColors.profileScreenTextColor,
-          backgroundColor: AppColors.profileScreenBackgroundColor,
+          centerTitle: true,
+          foregroundColor: AppColors.welcomeScreenBackgroundColor,
           title: Row(
             children: [
               const Spacer(),
@@ -133,14 +155,16 @@ class _MessageScreenState extends State<MessageScreen> {
                 onPressed: () {
                   Navigator.pushNamed(context, '/notifications');
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.notifications_active,
                   color: AppColors.bottomNavigationBarBackgroundColor,
+                  size: screenHeight(context) * 0.03,
                 ),
+                splashRadius: screenHeight(context) * 0.032,
               ),
             ],
           ),
-          centerTitle: true,
+          backgroundColor: AppColors.profileScreenBackgroundColor,
         ),
         body: StreamBuilder(
             stream: messageService.chatRoomReference
@@ -176,8 +200,8 @@ class _MessageScreenState extends State<MessageScreen> {
             }),
         floatingActionButton: FutureBuilder<DocumentSnapshot>(
           future: userService.usersRef.doc(user.uid).get(),
-          builder: (BuildContext context,
-              AsyncSnapshot<DocumentSnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.hasError) {
               return Container();
             }
@@ -190,7 +214,7 @@ class _MessageScreenState extends State<MessageScreen> {
               if (myUser.isDisabled == false) {
                 return StreamBuilder<QuerySnapshot>(
                     stream:
-                    userService.usersRef.snapshots().asBroadcastStream(),
+                        userService.usersRef.snapshots().asBroadcastStream(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> querySnapshot) {
                       if (!querySnapshot.hasData) {
@@ -198,19 +222,29 @@ class _MessageScreenState extends State<MessageScreen> {
                       } else {
                         List<dynamic> userList = querySnapshot.data!.docs
                             .where((QueryDocumentSnapshot<Object?> element) {
-                          return ((myUser.following
-                              .contains(element["userId"])) &&
-                              !element["isDisabled"]);
-                        })
+                              return ((myUser.following
+                                      .contains(element["userId"])) &&
+                                  !element["isDisabled"]);
+                            })
                             .map((data) => (data["userId"]))
                             .toList();
 
                         return FloatingActionButton(
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                  UserListView(userIdList: userList, title: "New Chat", isNewChat: true, analytics: widget.analytics,)));
-                            },
-                        child: const Icon(Icons.add),);
+                          backgroundColor:
+                              AppColors.welcomeScreenBackgroundColor,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserListView(
+                                          userIdList: userList,
+                                          title: "New Chat",
+                                          isNewChat: true,
+                                          analytics: widget.analytics,
+                                        )));
+                          },
+                          child: const Icon(Icons.add),
+                        );
                       }
                     });
               } else {
@@ -219,7 +253,6 @@ class _MessageScreenState extends State<MessageScreen> {
             }
             return Container();
           },
-        )
-    );
+        ));
   }
 }

@@ -33,8 +33,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   File? _image;
   bool isPrivate = false;
 
-  onChangedSwitch(bool newVal, String userId){
-    setState((){
+  onChangedSwitch(bool newVal, String userId) {
+    setState(() {
       isPrivate = newVal;
       _userServices.updatePrivacy(userId, isPrivate);
     });
@@ -62,7 +62,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   Future getUserPrivacy() async {
     final upp =
-    await UserServices().getPrivacy(FirebaseAuth.instance.currentUser!.uid);
+        await UserServices().getPrivacy(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       isPrivate = upp;
     });
@@ -70,8 +70,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   void initState() {
-    super.initState();
     getUserPrivacy();
+    super.initState();
   }
 
   @override
@@ -86,20 +86,32 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         widget.analytics, "Profile Settings View", "profile_settings.dart");
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: AppColors.profileScreenTextColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: screenHeight(context) * 0.025,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.pop(context);
+          },
+          splashRadius: screenHeight(context) * 0.03,
+        ),
+        centerTitle: true,
         title: SizedBox(
           width: screenWidth(context) * 0.6,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Profile Settings',
-              style: profileSettingsHeader,
+              "Profile Settings",
+              style: messageHeader,
             ),
           ),
         ),
+        foregroundColor: AppColors.welcomeScreenBackgroundColor,
+        elevation: 0,
         backgroundColor: AppColors.profileScreenBackgroundColor,
-        centerTitle: true,
-        elevation: 0.0,
+        toolbarHeight: screenHeight(context) * 0.08,
       ),
       backgroundColor: AppColors.profileScreenBackgroundColor,
       body: SafeArea(
@@ -120,15 +132,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                  'Account Privacy',
-                  style: profileSettingsChangeButton,
-                ),
-
+                      'Account Privacy:  ${isPrivate ? "Private" : "Public"}',
+                      style: profileSettingsChangeButton,
+                    ),
                     CupertinoSwitch(
-                        value: isPrivate,
-                        onChanged: (newPrivacy) {
-                          onChangedSwitch(newPrivacy, user.uid);
-                        },
+                      value: isPrivate,
+                      onChanged: (newPrivacy) {
+                        onChangedSwitch(newPrivacy, user.uid);
+                      },
                     )
                   ],
                 ),

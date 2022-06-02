@@ -92,7 +92,7 @@ class _SearchState extends State<Search> {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.095,
+        height: screenHeight(context) * 0.025,
         child: BottomAppBar(
           color: AppColors.welcomeScreenBackgroundColor,
           child: Padding(

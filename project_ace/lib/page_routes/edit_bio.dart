@@ -89,12 +89,17 @@ class _EditBioViewState extends State<EditBioView> {
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-            }),
-        toolbarHeight: screenHeight(context) * 0.092,
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: screenHeight(context) * 0.025,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.pop(context);
+          },
+          splashRadius: screenHeight(context) * 0.03,
+        ),
+        toolbarHeight: screenHeight(context) * 0.08,
         elevation: 0,
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,
@@ -104,7 +109,7 @@ class _EditBioViewState extends State<EditBioView> {
             fit: BoxFit.scaleDown,
             child: Text(
               "Edit Your Bio",
-              style: addPostTitle,
+              style: messageHeader,
             ),
           ),
         ),
@@ -126,9 +131,9 @@ class _EditBioViewState extends State<EditBioView> {
                           constraints: BoxConstraints(
                               maxHeight: screenHeight(context) * 0.4),
                           margin: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
-                              Radius.circular(50),
+                              Radius.circular(screenHeight(context) * 0.057),
                             ),
                             color: AppColors.userNameColor,
                           ),
@@ -136,7 +141,7 @@ class _EditBioViewState extends State<EditBioView> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                             child: TextField(
-                              minLines: 15,
+                              minLines: 1,
                               maxLines: 15,
                               onTap: () async {
                                 await Future.delayed(
@@ -172,7 +177,8 @@ class _EditBioViewState extends State<EditBioView> {
                           backgroundColor: AppColors.sharePostColor,
                           side: BorderSide.none,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
+                              borderRadius: BorderRadius.circular(
+                                  screenHeight(context) * 0.0345)),
                         ),
                         child: Text(
                           "Save your bio",

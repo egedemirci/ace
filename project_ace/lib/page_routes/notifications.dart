@@ -34,53 +34,60 @@ class _NotificationScreenState extends State<NotificationScreen> {
     setCurrentScreen(
         widget.analytics, "Notifications View", "notifications.dart");
     return Scaffold(
-      backgroundColor: AppColors.profileScreenBackgroundColor,
-      appBar: AppBar(
-        foregroundColor: AppColors.welcomeScreenBackgroundColor,
-        elevation: 0,
-        title: SizedBox(
-          width: screenWidth(context) * 0.6,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              "Notifications",
-              style: notificationsHeader,
+        backgroundColor: AppColors.profileScreenBackgroundColor,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: screenHeight(context) * 0.025,
+            ),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            },
+            splashRadius: screenHeight(context) * 0.03,
+          ),
+          centerTitle: true,
+          title: SizedBox(
+            width: screenWidth(context) * 0.6,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                "Notifications",
+                style: messageHeader,
+              ),
             ),
           ),
+          foregroundColor: AppColors.welcomeScreenBackgroundColor,
+          elevation: 0,
+          backgroundColor: AppColors.profileScreenBackgroundColor,
+          toolbarHeight: screenHeight(context) * 0.08,
         ),
-        centerTitle: true,
-        backgroundColor: AppColors.profileScreenBackgroundColor,
-      ),
-      body: FutureBuilder<DocumentSnapshot>(
-          future: userService.usersRef.doc(user.uid).get(),
-          builder: (BuildContext context,
-              AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Oops, something went wrong"));
-            }
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData &&
-                snapshot.data != null &&
-                snapshot.data!.data() != null) {
-              MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
-                  Map<String, dynamic>.identity()) as Map<String, dynamic>);
-              return SingleChildScrollView(
-                child: SafeArea(
-                  child: Column(
-                      children: myUser.notifications
-                          .map((myNotif) =>
-                          NotificationsCard(
-                              myNotification: AppNotification.fromJson(
-                                  myNotif)))
-                          .toList()),
-                ),
-              );
-            }
-            return const CircularProgressIndicator();
-          }
-      )
-      
-      
-    );
+        body: FutureBuilder<DocumentSnapshot>(
+            future: userService.usersRef.doc(user.uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return const Center(child: Text("Oops, something went wrong"));
+              }
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData &&
+                  snapshot.data != null &&
+                  snapshot.data!.data() != null) {
+                MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
+                    Map<String, dynamic>.identity()) as Map<String, dynamic>);
+                return SingleChildScrollView(
+                  child: SafeArea(
+                    child: Column(
+                        children: myUser.notifications
+                            .map((myNotif) => NotificationsCard(
+                                myNotification:
+                                    AppNotification.fromJson(myNotif)))
+                            .toList()),
+                  ),
+                );
+              }
+              return const CircularProgressIndicator();
+            }));
   }
 }

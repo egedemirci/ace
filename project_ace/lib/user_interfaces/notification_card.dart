@@ -19,7 +19,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
   UserServices userService = UserServices();
   Future getUserName() async {
     final uname =
-    await userService.getUsername(widget.myNotification.subjectId);
+        await userService.getUsername(widget.myNotification.subjectId);
     setState(() {
       userName = "@$uname";
     });
@@ -27,8 +27,8 @@ class _NotificationsCardState extends State<NotificationsCard> {
 
   @override
   void initState() {
-    super.initState();
     getUserName();
+    super.initState();
   }
 
   @override
@@ -55,23 +55,24 @@ class _NotificationsCardState extends State<NotificationsCard> {
                       foregroundColor: AppColors.notificationIconColor,
                       backgroundColor: AppColors.profileScreenBackgroundColor,
                       radius: 30,
-                      child: ClipOval(child: Icon(
-                        Icons.person_add_alt_1_rounded,
-                        size: 50.0,
-                      ),
+                      child: ClipOval(
+                        child: Icon(
+                          Icons.person_add_alt_1_rounded,
+                          size: 50.0,
+                        ),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Text(
-                     userName,
+                      userName,
                       style: notificationText,
                     ),
                   ),
                   Container(
                     constraints:
-                    BoxConstraints(maxWidth: screenWidth(context) * 0.65),
+                        BoxConstraints(maxWidth: screenWidth(context) * 0.65),
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
@@ -104,7 +105,6 @@ class _NotificationsCardState extends State<NotificationsCard> {
                         style: acceptAndReject,
                       ),
                     ),
-
                     const SizedBox(
                       width: 15,
                     ),
@@ -127,8 +127,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
           ),
         ),
       );
-    }
-    else if (widget.myNotification.notifType == "followedYou") {
+    } else if (widget.myNotification.notifType == "followedYou") {
       return Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -150,10 +149,11 @@ class _NotificationsCardState extends State<NotificationsCard> {
                       foregroundColor: AppColors.notificationIconColor,
                       backgroundColor: AppColors.profileScreenBackgroundColor,
                       radius: 30,
-                      child: ClipOval(child: Icon(
-                        Icons.person_add_alt_1_rounded,
-                        size: 50.0,
-                      ),
+                      child: ClipOval(
+                        child: Icon(
+                          Icons.person_add_alt_1_rounded,
+                          size: 50.0,
+                        ),
                       ),
                     ),
                   ),
@@ -166,7 +166,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                   ),
                   Container(
                     constraints:
-                    BoxConstraints(maxWidth: screenWidth(context) * 0.65),
+                        BoxConstraints(maxWidth: screenWidth(context) * 0.65),
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
@@ -188,11 +188,9 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     SizedBox(
                       width: 80,
                     ),
-
                     SizedBox(
                       width: 15,
                     ),
-
                   ],
                 ),
               ),
@@ -204,8 +202,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
           ),
         ),
       );
-    }
-    else if (widget.myNotification.notifType == "likedPost") {
+    } else if (widget.myNotification.notifType == "likedPost") {
       return Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -227,10 +224,11 @@ class _NotificationsCardState extends State<NotificationsCard> {
                       foregroundColor: AppColors.notificationIconColor,
                       backgroundColor: AppColors.profileScreenBackgroundColor,
                       radius: 30,
-                      child: ClipOval(child: Icon(
-                        Icons.favorite,
-                        size: 50.0,
-                      ),
+                      child: ClipOval(
+                        child: Icon(
+                          Icons.favorite,
+                          size: 50.0,
+                        ),
                       ),
                     ),
                   ),
@@ -243,7 +241,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                   ),
                   Container(
                     constraints:
-                    BoxConstraints(maxWidth: screenWidth(context) * 0.65),
+                        BoxConstraints(maxWidth: screenWidth(context) * 0.65),
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
@@ -265,11 +263,9 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     SizedBox(
                       width: 80,
                     ),
-
                     SizedBox(
                       width: 15,
                     ),
-
                   ],
                 ),
               ),
@@ -281,8 +277,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
           ),
         ),
       );
-    }
-    else if (widget.myNotification.notifType=="commentedToPost"){
+    } else if (widget.myNotification.notifType == "commentedToPost") {
       return Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -304,10 +299,11 @@ class _NotificationsCardState extends State<NotificationsCard> {
                       foregroundColor: AppColors.notificationIconColor,
                       backgroundColor: AppColors.profileScreenBackgroundColor,
                       radius: 30,
-                      child: ClipOval(child: Icon(
-                        Icons.comment_outlined,
-                        size: 50.0,
-                      ),
+                      child: ClipOval(
+                        child: Icon(
+                          Icons.comment_outlined,
+                          size: 50.0,
+                        ),
                       ),
                     ),
                   ),
@@ -320,7 +316,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                   ),
                   Container(
                     constraints:
-                    BoxConstraints(maxWidth: screenWidth(context) * 0.65),
+                        BoxConstraints(maxWidth: screenWidth(context) * 0.65),
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
@@ -342,11 +338,9 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     SizedBox(
                       width: 80,
                     ),
-
                     SizedBox(
                       width: 15,
                     ),
-
                   ],
                 ),
               ),
@@ -358,8 +352,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
           ),
         ),
       );
-    }
-    else  {
+    } else {
       return Container();
     }
     /*

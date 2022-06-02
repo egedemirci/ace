@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/message_services.dart';
 import 'package:project_ace/services/user_services.dart';
-import 'package:project_ace/templates/chat_room.dart';
 import 'package:project_ace/templates/message.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/chat_card.dart';
@@ -37,19 +36,17 @@ class _ChatPageState extends State<ChatPage> {
 
   String message = '';
   String otherUsername = " ";
-  String otherUserpp= " ";
+  String otherUserpp = " ";
 
   Future getUserName() async {
-    final uname =
-    await userService.getUsername(widget.otherUserId);
+    final uname = await userService.getUsername(widget.otherUserId);
     setState(() {
       otherUsername = "@$uname";
     });
   }
 
   Future getUserPP() async {
-    final upp =
-    await userService.getUserPp(widget.otherUserId);
+    final upp = await userService.getUserPp(widget.otherUserId);
     setState(() {
       otherUserpp = upp;
     });
@@ -57,9 +54,9 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    super.initState();
     getUserName();
     getUserPP();
+    super.initState();
   }
 
   sendMessage(chatId, text, senderUsername, senderAvatar) {
@@ -76,51 +73,52 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: TextField(
-              //onTap: () async {
-               // await Future.delayed(const Duration(milliseconds: 500));
-               // _scrollDown();
-             // },
-              controller: _controller,
-              textCapitalization: TextCapitalization.sentences,
-              autocorrect: true,
-              enableSuggestions: true,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                labelText: 'Type your message',
-                labelStyle: writeSomething,
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 0),
-                  gapPadding: 10,
-                  borderRadius: BorderRadius.circular(25),
+                controller: _controller,
+                textCapitalization: TextCapitalization.sentences,
+                autocorrect: true,
+                enableSuggestions: true,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  labelText: 'Type your message',
+                  labelStyle: writeSomething,
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0),
+                    gapPadding: screenHeight(context) * 0.0115,
+                    borderRadius:
+                        BorderRadius.circular(screenHeight(context) * 0.028),
+                  ),
                 ),
-              ),
-              onChanged: (value) {setState((){
-                message = value;
-              });}
-            ),
+                onChanged: (value) {
+                  setState(() {
+                    message = value;
+                  });
+                }),
           ),
           SizedBox(width: screenWidth(context) * 0.048),
           IconButton(
               onPressed: message.trim().isEmpty
                   ? null
                   : () {
-                sendMessage(chatId, message, senderUsername, senderAvatar);
-                message = "";
-              },
+                      sendMessage(
+                          chatId, message, senderUsername, senderAvatar);
+                      message = "";
+                    },
               icon: Container(
                   padding: const EdgeInsets.fromLTRB(6, 4, 8, 8),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.blue,
                   ),
-                  child: const Icon(Icons.send, color: Colors.white))),
+                  // TODO: Icon sizes
+                  child: const Icon(
+                    Icons.send, color: Colors.white,
+                    // size: screenHeight(context) * ,
+                  ))),
         ],
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,36 +128,43 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                Navigator.pop(context);
-              }),
-          foregroundColor: AppColors.profileScreenTextColor,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: screenHeight(context) * 0.025,
+            ),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            },
+            splashRadius: screenHeight(context) * 0.03,
+          ),
+          toolbarHeight: screenHeight(context) * 0.08,
+          elevation: 0,
+          centerTitle: true,
+          foregroundColor: AppColors.welcomeScreenBackgroundColor,
           title: Row(
             children: [
               SizedBox(
                   width: screenWidth(context) * 0.60,
                   child: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(otherUsername,
-                          style: userNameChatHeader))),
+                      child: Text(otherUsername, style: userNameChatHeader))),
               const Spacer(),
+              // TODO: Implement sizes for IconButton
               IconButton(
                 onPressed: () {
-                  FocusScope.of(context).unfocus();
                   Navigator.pushNamed(context, '/notifications');
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.notifications_active,
                   color: AppColors.bottomNavigationBarBackgroundColor,
+                  size: screenHeight(context) * 0.03,
                 ),
-              )
+                splashRadius: screenHeight(context) * 0.032,
+              ),
             ],
           ),
-          centerTitle: true,
           backgroundColor: AppColors.profileScreenBackgroundColor,
-          elevation: 0.0,
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
         body: StreamBuilder(
@@ -170,55 +175,53 @@ class _ChatPageState extends State<ChatPage> {
             if (snapshot.hasError) {
               return const Center(child: Text("Oops, something went wrong"));
             }
-            if(snapshot.hasData && snapshot.data != null && snapshot.data!.data() != null){
-              List<dynamic> messages = (snapshot.data!.data() as Map<String, dynamic>)["texts"];
-                return FutureBuilder<DocumentSnapshot>(
-                    future: userService.usersRef.doc(user.uid).get(),
-                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> querySnapshot){
-                      if(!querySnapshot.hasData){
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      else {
-                        MyUser myUser = MyUser.fromJson(
-                            (querySnapshot.data!.data() ??
-                                Map<String, dynamic>.identity()) as Map<
-                                String,
-                                dynamic>);
-                        if (myUser.isDisabled == true) {
-                          return const Center(
-                              child: Text("Your account is not active."));
-                        }
-                        else {
-                          String prevUserName = "";
-                          return Column(
-                            children: [
-                              Expanded(
-                                child: ListView.builder(
-                                  reverse: true,
-                                  keyboardDismissBehavior:
-                                  ScrollViewKeyboardDismissBehavior.onDrag,
-                                  physics: const BouncingScrollPhysics(),
-                                  padding: const EdgeInsets.all(20),
-                                  itemCount: messages.length,
-                                  itemBuilder: (BuildContext context,
-                                      int index) {
-                                    Message message = Message.fromJson(
-                                        messages.reversed.toList()[index]);
-
-                                    final bool isMe = message.senderUsername ==
-                                        myUser.username;
-                                    final bool isSameUser = prevUserName ==
-                                        message.senderUsername;
-
-                                    prevUserName = message.senderUsername;
-                                    return ChatCard(
+            if (snapshot.hasData &&
+                snapshot.data != null &&
+                snapshot.data!.data() != null) {
+              List<dynamic> messages =
+                  (snapshot.data!.data() as Map<String, dynamic>)["texts"];
+              return FutureBuilder<DocumentSnapshot>(
+                  future: userService.usersRef.doc(user.uid).get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> querySnapshot) {
+                    if (!querySnapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      MyUser myUser = MyUser.fromJson(
+                          (querySnapshot.data!.data() ??
+                                  Map<String, dynamic>.identity())
+                              as Map<String, dynamic>);
+                      if (myUser.isDisabled == true) {
+                        return const Center(
+                            child: Text("Your account is not active."));
+                      } else {
+                        String prevUserName = "";
+                        return Column(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
+                                reverse: true,
+                                keyboardDismissBehavior:
+                                    ScrollViewKeyboardDismissBehavior.onDrag,
+                                physics: const BouncingScrollPhysics(),
+                                padding: const EdgeInsets.all(20),
+                                itemCount: messages.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Message message = Message.fromJson(
+                                      messages.reversed.toList()[index]);
+                                  final bool isMe =
+                                      message.senderUsername == myUser.username;
+                                  final bool isSameUser =
+                                      prevUserName == message.senderUsername;
+                                  prevUserName = message.senderUsername;
+                                  return ChatCard(
                                       urlAvatar: otherUserpp,
-                                        message: message,
-                                        isMe: isMe,
-                                        isSameUser: isSameUser);
-                                  },
-                                ),
+                                      message: message,
+                                      isMe: isMe,
+                                      isSameUser: isSameUser);
+                                },
                               ),
+                            ),
                             _sendMessageArea(widget.chatId, myUser.username,
                                 myUser.profilepicture)
                           ],

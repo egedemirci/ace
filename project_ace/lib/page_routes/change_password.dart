@@ -15,7 +15,6 @@ class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key, required this.analytics}) : super(key: key);
 
   final FirebaseAnalytics analytics;
-
   static const String routeName = "/changePassword";
 
   @override
@@ -85,12 +84,17 @@ class _ChangePasswordState extends State<ChangePassword> {
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-            }),
-        toolbarHeight: screenHeight(context) * 0.092,
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: screenHeight(context) * 0.025,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.pop(context);
+          },
+          splashRadius: screenHeight(context) * 0.03,
+        ),
+        toolbarHeight: screenHeight(context) * 0.08,
         elevation: 0,
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,
@@ -100,7 +104,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             fit: BoxFit.scaleDown,
             child: Text(
               "Change Your Password",
-              style: addPostTitle,
+              style: messageHeader,
             ),
           ),
         ),
@@ -130,7 +134,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -156,7 +159,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -178,7 +180,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 return 'Password is too short!';
                               }
                             }
-                            return null;
+                            return "Password is null!";
                           },
                         ),
                       ),
@@ -189,9 +191,8 @@ class _ChangePasswordState extends State<ChangePassword> {
               SizedBox(height: screenHeight(context) * 0.024),
               ElevatedButton(
                 onPressed: () async {
-                  bool tryAgain = false;
                   bool isSuccess = false;
-                  bool process= true;
+                  bool process = true;
                   if (oldPassword.text == "") {
                     _showDialog("Try Again", "Old Password cannot be empty!");
                   }
@@ -202,22 +203,18 @@ class _ChangePasswordState extends State<ChangePassword> {
                           oldPassword.text, pass.text);
                       if (!isSuccess) {
                         process = false;
-                        tryAgain = true;
                         oldPassword.clear();
                         pass.clear();
                         _showDialog("Try Again", "Old Password is wrong!");
                       }
                     }
                   }
-
                   _formKey.currentState!.save();
-
                   if (oldPassword.text == pass.text && process) {
                     oldPassword.clear();
                     pass.clear();
                     _showDialog("Try Again", "New Password is the same!");
                   }
-
                   if (isSuccess) {
                     oldPassword.clear();
                     pass.clear();
@@ -229,7 +226,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                 style: ElevatedButton.styleFrom(
                     primary: AppColors.metaGoogleConnectButtonColor,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
+                        borderRadius: BorderRadius.circular(
+                            screenHeight(context) * 0.0115))),
                 child: Text(
                   'Change password',
                   style: profileSettingsChangeButton,

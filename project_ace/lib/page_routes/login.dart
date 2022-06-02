@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/page_routes/signup.dart';
@@ -32,6 +33,13 @@ class _LoginState extends State<Login> {
   final AuthServices _auth = AuthServices();
 
   Future<dynamic> loginUser() async {
+    await _showDialog(
+        "Location Service Access", "We would like to know where you are at!");
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (!(permission == LocationPermission.deniedForever) ||
+        !(permission == LocationPermission.denied)) {
+      await _showDialog("Success", "Thank you for sharing your location!");
+    }
     dynamic result = await _auth.signInWithEmailPassword(_email, _password);
     if (result is String) {
       _showDialog("Login Error", result);
@@ -86,11 +94,6 @@ class _LoginState extends State<Login> {
             );
           }
         });
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -151,6 +154,7 @@ class _LoginState extends State<Login> {
                                 return 'Please enter a valid email address!';
                               }
                             }
+                            return 'null';
                           },
                           onSaved: (value) {
                             _email = value ?? "";
@@ -189,6 +193,7 @@ class _LoginState extends State<Login> {
                                 return 'Password is too short!';
                               }
                             }
+                            return "The value is null!";
                           },
                           onSaved: (value) {
                             _password = value ?? "";

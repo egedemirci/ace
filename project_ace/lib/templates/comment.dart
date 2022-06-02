@@ -1,12 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'comment.g.dart';
 part 'comment.freezed.dart';
 
 @Freezed()
-
-class Comment with _$Comment{
+class Comment with _$Comment {
   const factory Comment({
     required String commentId,
     required String text,
@@ -15,5 +13,6 @@ class Comment with _$Comment{
     required DateTime createdAt,
   }) = _Comment;
 
-  factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
+  factory Comment.fromJson(Map<String, dynamic> json) =>
+      _$CommentFromJson(json);
 }

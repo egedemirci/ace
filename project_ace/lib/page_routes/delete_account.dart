@@ -78,18 +78,26 @@ class _DeleteAccountState extends State<DeleteAccount> {
     setCurrentScreen(
         widget.analytics, "Delete Account View", "delete_account.dart");
     final user = Provider.of<User?>(context);
-    setUserId(widget.analytics, user!.uid);
+    if (user == null) {
+      return Login(analytics: widget.analytics);
+    }
+    setUserId(widget.analytics, user.uid);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-            }),
-        toolbarHeight: screenHeight(context) * 0.092,
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: screenHeight(context) * 0.025,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.pop(context);
+          },
+          splashRadius: screenHeight(context) * 0.03,
+        ),
+        toolbarHeight: screenHeight(context) * 0.08,
         elevation: 0,
         centerTitle: true,
         foregroundColor: AppColors.welcomeScreenBackgroundColor,
@@ -99,7 +107,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
             fit: BoxFit.scaleDown,
             child: Text(
               "Delete Your Account",
-              style: addPostTitle,
+              style: messageHeader,
             ),
           ),
         ),
@@ -128,7 +136,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
                           enableSuggestions: false,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -154,7 +161,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            border: InputBorder.none,
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -191,7 +197,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
                   backgroundColor: AppColors.sharePostColor,
                   side: BorderSide.none,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(
+                          screenHeight(context) * 0.0345)),
                 ),
                 child: Text(
                   "Confirm delete",

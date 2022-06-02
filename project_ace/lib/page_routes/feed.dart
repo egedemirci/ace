@@ -3,10 +3,10 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
+import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
-import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/user_services.dart';
@@ -53,10 +53,11 @@ class _FeedState extends State<Feed> {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   "Feed",
-                  style: feedHeader,
+                  style: messageHeader,
                 ),
               ),
             ),
+            toolbarHeight: screenHeight(context) * 0.08,
             elevation: 0,
             backgroundColor: AppColors.profileScreenBackgroundColor,
           ),
@@ -70,58 +71,70 @@ class _FeedState extends State<Feed> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                        tooltip: "Messages",
-                        iconSize: screenWidth(context) * 0.08,
-                        icon: const Icon(
-                          Icons.email,
-                          color: AppColors.bottomNavigationBarIconOutlineColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, MessageScreen.routeName);
-                        }),
+                      tooltip: "Messages",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.email,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, MessageScreen.routeName);
+                      },
+                      splashRadius: screenWidth(context) * 0.07,
+                    ),
                     const Spacer(),
                     IconButton(
-                        tooltip: "Search",
-                        iconSize: screenWidth(context) * 0.08,
-                        icon: const Icon(
-                          Icons.search,
-                          color: AppColors.bottomNavigationBarIconOutlineColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, Search.routeName);
-                        }),
+                      tooltip: "Search",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.search,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            FirestoreSearch.routeName, (route) => false);
+                      },
+                      splashRadius: screenWidth(context) * 0.07,
+                    ),
                     const Spacer(),
                     IconButton(
-                        tooltip: "Home",
-                        iconSize: screenWidth(context) * 0.08,
-                        icon: const Icon(
-                          Icons.home,
-                          color: AppColors.bottomNavigationBarIconOutlineColor,
-                        ),
-                        onPressed: () {}),
+                      tooltip: "Home",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.home,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
+                      ),
+                      onPressed: () {},
+                      splashRadius: screenWidth(context) * 0.07,
+                    ),
                     const Spacer(),
                     IconButton(
-                        tooltip: "Add Post",
-                        iconSize: screenWidth(context) * 0.08,
-                        icon: const Icon(
-                          Icons.add_circle_outline,
-                          color: AppColors.bottomNavigationBarIconOutlineColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, AddPost.routeName);
-                        }),
+                      tooltip: "Add Post",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.add_circle_outline,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, AddPost.routeName);
+                      },
+                      splashRadius: screenWidth(context) * 0.07,
+                    ),
                     const Spacer(),
+                    // TODO: Implement sizes for IconButton
                     IconButton(
-                        tooltip: "Profile",
-                        iconSize: screenWidth(context) * 0.08,
-                        icon: const Icon(
-                          Icons.person_outline,
-                          color: AppColors.bottomNavigationBarIconOutlineColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              OwnProfileView.routeName, (route) => false);
-                        }),
+                      tooltip: "Profile",
+                      iconSize: screenWidth(context) * 0.08,
+                      icon: const Icon(
+                        Icons.person_outline,
+                        color: AppColors.bottomNavigationBarIconOutlineColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            OwnProfileView.routeName, (route) => false);
+                      },
+                      splashRadius: screenWidth(context) * 0.07,
+                    ),
                   ],
                 ),
               ),
@@ -174,32 +187,34 @@ class _FeedState extends State<Feed> {
                                   children: List.from(
                                     followingPosts
                                         .map((post) => PostCard(
-                                            post: Post.fromJson(post),
-                                            isMyPost: false,
-                                            deletePost: () {
-                                              setState(() {
-                                                postService.deletePost(
-                                                    user.uid, post);
-                                              });
-                                            },
-                                            incrementLike: () {
-                                              postService.likePost(
-                                                  myUser.userId,
-                                                  post["userId"],
-                                                  post["postId"]);
-                                            },
-                                            incrementComment: () {
-                                              // TODO: COMMENT VIEW
-                                            },
-                                            incrementDislike: () {
-                                              postService.dislikePost(
-                                                  myUser.userId,
-                                                  post["userId"],
-                                                  post["postId"]);
-                                            },
-                                            reShare: () {
-                                              // TODO: Re-share
-                                            }, myUserId: user.uid,))
+                                              post: Post.fromJson(post),
+                                              isMyPost: false,
+                                              deletePost: () {
+                                                setState(() {
+                                                  postService.deletePost(
+                                                      user.uid, post);
+                                                });
+                                              },
+                                              incrementLike: () {
+                                                postService.likePost(
+                                                    myUser.userId,
+                                                    post["userId"],
+                                                    post["postId"]);
+                                              },
+                                              incrementComment: () {
+                                                // TODO: COMMENT VIEW
+                                              },
+                                              incrementDislike: () {
+                                                postService.dislikePost(
+                                                    myUser.userId,
+                                                    post["userId"],
+                                                    post["postId"]);
+                                              },
+                                              reShare: () {
+                                                // TODO: Re-share
+                                              },
+                                              myUserId: user.uid,
+                                            ))
                                         .toList()
                                         .reversed,
                                   ),

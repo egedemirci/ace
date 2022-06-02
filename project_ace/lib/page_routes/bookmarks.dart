@@ -35,6 +35,18 @@ class _BookMarksState extends State<BookMarks> {
     return Scaffold(
         backgroundColor: AppColors.profileScreenBackgroundColor,
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: screenHeight(context) * 0.025,
+            ),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            },
+            splashRadius: screenHeight(context) * 0.03,
+          ),
+          toolbarHeight: screenHeight(context) * 0.08,
           centerTitle: true,
           title: SizedBox(
             width: screenWidth(context) * 0.6,
@@ -42,7 +54,7 @@ class _BookMarksState extends State<BookMarks> {
               fit: BoxFit.scaleDown,
               child: Text(
                 "Bookmarks",
-                style: feedHeader,
+                style: messageHeader,
               ),
             ),
           ),
@@ -74,12 +86,16 @@ class _BookMarksState extends State<BookMarks> {
                       } else {
                         List<dynamic> bookmarks = querySnapshot.data!.docs
                             .where((QueryDocumentSnapshot<Object?> element) {
-                          return (myUser.bookmarks
-                              .contains(element["postId"]));
+                          return (myUser.bookmarks.contains(element["postId"]));
                         }).toList();
-
-                        bookmarks.sort((a, b) =>
-                            a["createdAt"].compareTo(b["createdAt"]));
+                        bookmarks.sort(
+                            (a, b) => a["createdAt"].compareTo(b["createdAt"]));
+                        if (bookmarks.isEmpty) {
+                          // TODO: Edit Text styles
+                          return const Center(
+                            child: Text("You have no bookmarks."),
+                          );
+                        }
                         return SingleChildScrollView(
                           child: Center(
                             child: Padding(
@@ -88,28 +104,35 @@ class _BookMarksState extends State<BookMarks> {
                                 children: List.from(
                                   bookmarks
                                       .map((post) => PostCard(
-                                          post: Post.fromJson(post.data() as Map<String, dynamic>),
-                                          isMyPost: false,
-                                          deletePost: () {
-                                            setState(() {
-                                              postService.deletePost(
-                                                  user.uid, post);
-                                            });
-                                          },
-                                          incrementLike: () {
-                                            postService.likePost(myUser.userId,
-                                                post["userId"], post["postId"]);
-                                          },
-                                          incrementComment: () {
-                                            // TODO: COMMENT VIEW
-                                          },
-                                          incrementDislike: () {
-                                            postService.dislikePost(myUser.userId,
-                                                post["userId"], post["postId"]);
-                                          },
-                                          reShare: () {
-                                            // TODO: Re-share
-                                          }, myUserId: user.uid,))
+                                            post: Post.fromJson(post.data()
+                                                as Map<String, dynamic>),
+                                            isMyPost: false,
+                                            deletePost: () {
+                                              setState(() {
+                                                postService.deletePost(
+                                                    user.uid, post);
+                                              });
+                                            },
+                                            incrementLike: () {
+                                              postService.likePost(
+                                                  myUser.userId,
+                                                  post["userId"],
+                                                  post["postId"]);
+                                            },
+                                            incrementComment: () {
+                                              // TODO: COMMENT VIEW
+                                            },
+                                            incrementDislike: () {
+                                              postService.dislikePost(
+                                                  myUser.userId,
+                                                  post["userId"],
+                                                  post["postId"]);
+                                            },
+                                            reShare: () {
+                                              // TODO: Re-share
+                                            },
+                                            myUserId: user.uid,
+                                          ))
                                       .toList()
                                       .reversed,
                                 ),
@@ -125,7 +148,6 @@ class _BookMarksState extends State<BookMarks> {
             }
             return const Center(child: CircularProgressIndicator());
           },
-        )
-    );
+        ));
   }
 }
