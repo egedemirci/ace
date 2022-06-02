@@ -568,7 +568,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         },
                                         reShare: () {
                                           //TODO: Implement re-share
-                                        }))
+                                        }, myUserId: user.uid,))
                                         .toList()
                                         .reversed,
                                   ),

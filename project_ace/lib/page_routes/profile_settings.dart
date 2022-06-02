@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_ace/page_routes/change_password.dart';
@@ -30,6 +31,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   final ImagePicker _picker = ImagePicker();
   final UserServices _userServices = UserServices();
   File? _image;
+  bool isPrivate = false;
+
+  onChangedSwitch(bool newVal, String userId){
+    setState((){
+      isPrivate = newVal;
+      _userServices.updatePrivacy(userId, isPrivate);
+    });
+  }
 
   Future pickImage() async {
     try {
@@ -51,8 +60,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     }
   }
 
+  Future getUserPrivacy() async {
+    final upp =
+    await UserServices().getPrivacy(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      isPrivate = upp;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserPrivacy();
+  }
+
   @override
   Widget build(BuildContext context) {
+    const radius = Radius.circular(10);
     final user = Provider.of<User?>(context);
     if (user == null) {
       return Login(analytics: widget.analytics);
@@ -85,6 +109,31 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(radius),
+                  color: AppColors.metaGoogleConnectButtonColor,
+                ),
+                height: 54.0,
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                  'Account Privacy',
+                  style: profileSettingsChangeButton,
+                ),
+
+                    CupertinoSwitch(
+                        value: isPrivate,
+                        onChanged: (newPrivacy) {
+                          onChangedSwitch(newPrivacy, user.uid);
+                        },
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: screenHeight(context) * 0.018),
               SizedBox(
                 height: screenHeight(context) * 0.062,
                 child: ElevatedButton(

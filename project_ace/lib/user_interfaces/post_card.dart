@@ -31,6 +31,7 @@ class PostCard extends StatefulWidget {
   final VoidCallback incrementDislike;
   final VoidCallback reShare;
   final bool isMyPost;
+  final String myUserId;
 
   const PostCard({
     Key? key,
@@ -41,6 +42,7 @@ class PostCard extends StatefulWidget {
     required this.incrementDislike,
     required this.reShare,
     required this.isMyPost,
+    required this.myUserId,
   }) : super(key: key);
 
   @override
@@ -52,6 +54,7 @@ class _PostCardState extends State<PostCard> {
   final ReportService _reportService = ReportService();
   final UserServices _userServices = UserServices();
   final PostService _postService = PostService();
+  String userProfilePicture = "default";
 
   PopupMenuItem<PostMenuItem> buildItem(PostMenuItem item) => PopupMenuItem(
         value: item,
@@ -115,13 +118,13 @@ class _PostCardState extends State<PostCard> {
   void onSelected(BuildContext context, PostMenuItem item) async {
     switch (item) {
       case PostMenuItems.reportPost:
-        await _reportService.reportPost(widget.post.postId, widget.post.userId);
+        await _reportService.reportPost(widget.myUserId, widget.post.postId, widget.post.userId, widget.post.username);
         _showDialog("Reported!",
             "You successfully reported ${widget.post.username}'s post!");
         break;
       case PostMenuItems.bookmarkPost:
         await _userServices.addBookmark(
-            FirebaseAuth.instance.currentUser!.uid, widget.post);
+            FirebaseAuth.instance.currentUser!.uid, widget.post.postId);
         break;
       case PostMenuItems.reSharePost:
         break; // TODO: Implement here
@@ -137,6 +140,20 @@ class _PostCardState extends State<PostCard> {
             arguments: ScreenArguments(widget.post.postId));
         break;
     }
+  }
+
+  Future getUserPP() async {
+    final upp =
+    await UserServices().getUserPp(widget.post.userId);
+    setState(() {
+      userProfilePicture = upp;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserPP();
   }
 
   @override
@@ -163,8 +180,8 @@ class _PostCardState extends State<PostCard> {
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
-                    backgroundImage: (widget.post.urlAvatar != "default")
-                        ? NetworkImage(widget.post.urlAvatar)
+                    backgroundImage: (userProfilePicture != "default")
+                        ? NetworkImage(userProfilePicture)
                         : const NetworkImage(
                             "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                   ),

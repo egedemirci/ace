@@ -66,15 +66,20 @@ class _BookMarksState extends State<BookMarks> {
               if (myUser.isDisabled == false) {
                 return StreamBuilder<QuerySnapshot>(
                     stream:
-                        userService.usersRef.snapshots().asBroadcastStream(),
+                        postService.postsRef.snapshots().asBroadcastStream(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> querySnapshot) {
                       if (!querySnapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
                       } else {
-                        List<dynamic> bookmarks = List.from(myUser.bookmarks);
-                        bookmarks.sort(
-                            (a, b) => a["createdAt"].compareTo(b["createdAt"]));
+                        List<dynamic> bookmarks = querySnapshot.data!.docs
+                            .where((QueryDocumentSnapshot<Object?> element) {
+                          return (myUser.bookmarks
+                              .contains(element["postId"]));
+                        }).toList();
+
+                        bookmarks.sort((a, b) =>
+                            a["createdAt"].compareTo(b["createdAt"]));
                         return SingleChildScrollView(
                           child: Center(
                             child: Padding(
@@ -83,7 +88,7 @@ class _BookMarksState extends State<BookMarks> {
                                 children: List.from(
                                   bookmarks
                                       .map((post) => PostCard(
-                                          post: Post.fromJson(post),
+                                          post: Post.fromJson(post.data() as Map<String, dynamic>),
                                           isMyPost: false,
                                           deletePost: () {
                                             setState(() {
@@ -92,19 +97,19 @@ class _BookMarksState extends State<BookMarks> {
                                             });
                                           },
                                           incrementLike: () {
-                                            postService.likePost(user.uid,
-                                                myUser.userId, post["postId"]);
+                                            postService.likePost(myUser.userId,
+                                                post["userId"], post["postId"]);
                                           },
                                           incrementComment: () {
                                             // TODO: COMMENT VIEW
                                           },
                                           incrementDislike: () {
-                                            postService.dislikePost(user.uid,
-                                                myUser.userId, post["postId"]);
+                                            postService.dislikePost(myUser.userId,
+                                                post["userId"], post["postId"]);
                                           },
                                           reShare: () {
                                             // TODO: Re-share
-                                          }))
+                                          }, myUserId: user.uid,))
                                       .toList()
                                       .reversed,
                                 ),
@@ -120,6 +125,7 @@ class _BookMarksState extends State<BookMarks> {
             }
             return const Center(child: CircularProgressIndicator());
           },
-        ));
+        )
+    );
   }
 }

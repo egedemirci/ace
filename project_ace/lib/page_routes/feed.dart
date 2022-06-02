@@ -199,7 +199,7 @@ class _FeedState extends State<Feed> {
                                             },
                                             reShare: () {
                                               // TODO: Re-share
-                                            }))
+                                            }, myUserId: user.uid,))
                                         .toList()
                                         .reversed,
                                   ),

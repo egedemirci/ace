@@ -17,7 +17,7 @@ class PostService {
       'posts': FieldValue.arrayUnion([post.toJson()]),
       'postCount': FieldValue.increment(1),
     });
-    postsRef.doc(userId + post.postId).set(post.toJson());
+    postsRef.doc(post.postId).set(post.toJson());
   }
 
   Future<void> editPost(String userId, String postId, String text) async {
@@ -34,7 +34,7 @@ class PostService {
     thePost["text"] = text;
     posts[i] = thePost;
     usersRef.doc(userId).update({'posts': posts});
-    postsRef.doc(userId + postId).update({'text': text});
+    postsRef.doc(postId).update({'text': text});
   }
 
   Future<String> uploadPostPicture(User? user, File file, String postId) async {
@@ -66,7 +66,7 @@ class PostService {
     await usersRef.doc(userId).update({
       "posts": FieldValue.arrayRemove([thePost])
     });
-    await postsRef.doc(userId + post["postId"].toString()).delete();
+    await postsRef.doc(post["postId"].toString()).delete();
     //posts.doc(userId + post["postId"].toString()).delete();
   }
 
@@ -91,13 +91,13 @@ class PostService {
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
     }
-    var docRefPost = await postsRef.doc(otherUserId + postId).get();
+    var docRefPost = await postsRef.doc(postId).get();
     if (!docRefPost["likes"].contains(userId)) {
-      postsRef.doc(otherUserId + postId).update({
+      postsRef.doc(postId).update({
         "likes": FieldValue.arrayUnion([userId])
       });
     } else {
-      postsRef.doc(otherUserId + postId).update({
+      postsRef.doc(postId).update({
         "likes": FieldValue.arrayRemove([userId])
       });
     }
@@ -124,14 +124,14 @@ class PostService {
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
     }
-    var docRefPost = await postsRef.doc(otherUserId + postId).get();
+    var docRefPost = await postsRef.doc(postId).get();
 
     if (!docRefPost["dislikes"].contains(userId)) {
-      postsRef.doc(otherUserId + postId).update({
+      postsRef.doc(postId).update({
         "dislikes": FieldValue.arrayUnion([userId])
       });
     } else {
-      postsRef.doc(otherUserId + postId).update({
+      postsRef.doc(postId).update({
         "dislikes": FieldValue.arrayRemove([userId])
       });
     }
@@ -155,7 +155,7 @@ class PostService {
         ];
     posts[i] = thePost;
     usersRef.doc(otherUserId).update({"posts": posts});
-    postsRef.doc(otherUserId + postId).update({
+    postsRef.doc(postId).update({
       "comments": FieldValue.arrayUnion([
         {"senderId": userId, "context": context}
       ])

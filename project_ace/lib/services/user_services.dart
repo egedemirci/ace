@@ -19,8 +19,7 @@ class UserServices {
       'usernameLower': username.toLowerCase(),
       'userId': userId,
       'biography': '',
-      'profilepicture':
-          'https://firebasestorage.googleapis.com/v0/b/sucial-ff03d.appspot.com/o/user%2Fprofile%2FprofilePic%2Fnopp.png?alt=media&token=eaebea99-fc2d-4ede-893d-070e2d2595b0',
+      'profilepicture': 'https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg',
       'fullName': fullName,
       'isSignupDone': false,
       'followers': [],
@@ -140,25 +139,32 @@ class UserServices {
     usersRef.doc(userId).update({"isPrivate": isPrivate});
   }
 
-  Future<void> addBookmark(String userId, Post post) async {
+  Future<bool> getPrivacy(String userId) async {
+    var docRef = await usersRef.doc(userId).get();
+    var coll = docRef.data() as Map<String, dynamic>;
+    bool privacy = coll["isPrivate"];
+    return privacy;
+  }
+
+  Future<void> addBookmark(String userId, String postId) async {
     var docRef = await usersRef.doc(userId).get();
     var bookmarks = (docRef.data() as Map<String, dynamic>)["bookmarks"];
     bool isInBookmarks = false;
     if (bookmarks.length == 0) {
-      bookmarks = bookmarks + [post.toJson()];
+      bookmarks = bookmarks + [postId];
     } else {
       var theBookmark = bookmarks[0];
-      for (var bookmark in bookmarks) {
-        if (bookmark["postId"] == post.postId) {
+      for (var pid in bookmarks) {
+        if (pid == postId) {
           isInBookmarks = true;
-          theBookmark = bookmark;
+          theBookmark = pid;
           break;
         }
       }
       if (isInBookmarks) {
         bookmarks.remove(theBookmark);
       } else {
-        bookmarks = bookmarks + [post.toJson()];
+        bookmarks = bookmarks + [postId];
       }
     }
     usersRef.doc(userId).update({"bookmarks": bookmarks});

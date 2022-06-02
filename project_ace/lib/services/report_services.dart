@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_ace/services/email_service.dart';
 
 class ReportService{
   final CollectionReference userReports = FirebaseFirestore.instance.collection('userReports');
@@ -14,13 +15,15 @@ class ReportService{
         }
     );
   }
-  Future<void> reportPost(String reportedPostId, String reporterUserId) async{
+  Future<void> reportPost(String reporterUserId, String reportedPostId, String reportedUserId, String reportedUsername) async{
     postReports.add(
         {
-          'reportedPostId': reportedPostId,
           'reporterUserId': reporterUserId,
-
+          'reportedPostId': reportedPostId,
+          'reportedUserId': reportedUserId,
+          'reportedUsername': reportedUsername,
         }
     );
+    sendEmail(reporterUserId: reporterUserId, reportedUserId: reportedUserId, reportedUsername: reportedUsername, reportedPostId: reportedPostId);
   }
 }

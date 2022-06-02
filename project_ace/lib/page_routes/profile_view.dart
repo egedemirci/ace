@@ -158,19 +158,24 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
-        body: FutureBuilder<DocumentSnapshot>(
-          future: userService.usersRef.doc(widget.userId).get(),
+        body: StreamBuilder<QuerySnapshot>(
+          stream:
+          userService.usersRef.snapshots().asBroadcastStream(),
           builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Oops, something went wrong"));
-            }
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData &&
-                snapshot.data != null &&
-                snapshot.data!.data() != null) {
-              MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
-                  Map<String, dynamic>.identity()) as Map<String, dynamic>);
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                if (!querySnapshot.hasData) {
+                  return const Center(
+                      child: CircularProgressIndicator());
+                }
+            else {
+                  List<dynamic> userList = querySnapshot.data!.docs
+                      .where(
+                          (QueryDocumentSnapshot<Object?> element) {
+                        return element["userId"] == widget.userId;
+                      }
+                  ).toList();
+
+                  MyUser myUser = MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
               if (myUser.isPrivate == false ||
                   myUser.followers.contains(user!.uid)) {
                 return SingleChildScrollView(
@@ -542,30 +547,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     ),
                                   ),
                                 ),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-                                  child: VerticalDivider(
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
-                                      thickness: 2,
-                                      width: 10),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, BookMarks.routeName);
-                                    },
-                                    style: OutlinedButton.styleFrom(
-                                        elevation: 0, side: BorderSide.none),
-                                    child: const Icon(
-                                      Icons.bookmark,
-                                      color: AppColors
-                                          .welcomeScreenBackgroundColor,
-                                    ),
-                                  ),
-                                ),
+
                               ],
                             ),
                           ),
@@ -577,7 +559,7 @@ class _ProfileViewState extends State<ProfileView> {
                               myUser.posts
                                   .map((post) => PostCard(
                                       post: Post.fromJson(post),
-                                      isMyPost: true,
+                                      isMyPost: false,
                                       deletePost: () {
                                         setState(() {
                                           postService.deletePost(
@@ -601,7 +583,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       },
                                       reShare: () {
                                         //TODO: Implement re-share
-                                      }))
+                                      }, myUserId: user.uid,))
                                   .toList()
                                   .reversed,
                             ),
@@ -949,7 +931,6 @@ class _ProfileViewState extends State<ProfileView> {
                 );
               }
             }
-            return const Center(child: CircularProgressIndicator());
           },
         ));
   }

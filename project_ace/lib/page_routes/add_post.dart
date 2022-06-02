@@ -249,7 +249,7 @@ class _AddPostState extends State<AddPost> {
                                     assetUrl: url,
                                     urlAvatar: myUser.profilepicture,
                                     postId:
-                                        (myUser.posts.length + 1).toString(),
+                                      myUser.userId+(myUser.posts.length + 1).toString(),
                                     userId: currentUser.uid,
                                     text: postText,
                                     comments: [],
