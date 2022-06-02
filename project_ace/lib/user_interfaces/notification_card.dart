@@ -79,7 +79,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
-                        "wants to follow you!",
+                        " wants to follow you!",
                         maxLines: 3,
                         style: notificationText,
                         overflow: TextOverflow.ellipsis,
@@ -100,6 +100,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     OutlinedButton(
                       onPressed: () {
                         userService.userFollow(user!.uid, widget.myNotification.subjectId, false);
+                        userService.removeRequest(user.uid, widget.myNotification.subjectId);
                       },
                       style: OutlinedButton.styleFrom(
                           primary: AppColors.profileSettingsButtonTextColor,
@@ -177,7 +178,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
-                        "started to follow you!",
+                        " started to follow you!",
                         maxLines: 3,
                         style: notificationText,
                         overflow: TextOverflow.ellipsis,
@@ -252,7 +253,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
-                        "liked your post!",
+                        " liked your post!",
                         maxLines: 3,
                         style: notificationText,
                         overflow: TextOverflow.ellipsis,
@@ -327,7 +328,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
                     child: Column(children: [
                       Text(
-                        "commented your post!",
+                        " commented your post!",
                         maxLines: 3,
                         style: notificationText,
                         overflow: TextOverflow.ellipsis,
