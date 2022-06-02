@@ -119,9 +119,6 @@ class _BookMarksState extends State<BookMarks> {
                                                   post["userId"],
                                                   post["postId"]);
                                             },
-                                            incrementComment: () {
-                                              // TODO: COMMENT VIEW
-                                            },
                                             incrementDislike: () {
                                               postService.dislikePost(
                                                   myUser.userId,
@@ -131,7 +128,7 @@ class _BookMarksState extends State<BookMarks> {
                                             reShare: () {
                                               // TODO: Re-share
                                             },
-                                            myUserId: user.uid,
+                                            myUserId: user.uid, analytics: widget.analytics,
                                           ))
                                       .toList()
                                       .reversed,
@@ -141,13 +138,14 @@ class _BookMarksState extends State<BookMarks> {
                           ),
                         );
                       }
-                    });
+                    }
+                    );
               } else {
                 return const Center(child: Text("Your account is not active."));
               }
             }
-            return const Center(child: CircularProgressIndicator());
           },
-        ));
+        )
+    );
   }
 }

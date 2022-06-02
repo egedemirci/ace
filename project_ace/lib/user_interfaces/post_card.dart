@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_ace/page_routes/comment_view.dart';
 import 'package:project_ace/page_routes/edit_post.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/auth_services.dart';
@@ -23,22 +25,22 @@ class PostCard extends StatefulWidget {
   final Post post;
   final VoidCallback deletePost;
   final VoidCallback incrementLike;
-  final VoidCallback incrementComment;
   final VoidCallback incrementDislike;
   final VoidCallback reShare;
   final bool isMyPost;
   final String myUserId;
+  final FirebaseAnalytics analytics;
 
   const PostCard({
     Key? key,
     required this.post,
     required this.deletePost,
     required this.incrementLike,
-    required this.incrementComment,
     required this.incrementDislike,
     required this.reShare,
     required this.isMyPost,
     required this.myUserId,
+    required this.analytics,
   }) : super(key: key);
 
   @override
@@ -292,7 +294,15 @@ class _PostCardState extends State<PostCard> {
                   padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
                   child: IconButton(
                     icon: const Icon(Icons.comment),
-                    onPressed: widget.incrementComment,
+                    onPressed: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CommentView(
+                                postId: widget.post.postId,
+                                analytics: widget.analytics,
+                              )));
+                    },
                     iconSize: 20,
                     splashRadius: 20,
                   ),

@@ -240,9 +240,6 @@ class _FeedState extends State<Feed> {
                                                     post["userId"],
                                                     post["postId"]);
                                               },
-                                              incrementComment: () {
-                                                // TODO: COMMENT VIEW
-                                              },
                                               incrementDislike: () {
                                                 postService.dislikePost(
                                                     myUser.userId,
@@ -252,7 +249,7 @@ class _FeedState extends State<Feed> {
                                               reShare: () {
                                                 // TODO: Re-share
                                               },
-                                              myUserId: user.uid,
+                                              myUserId: user.uid, analytics: widget.analytics,
                                             ))
                                         .toList()
                                         .reversed,

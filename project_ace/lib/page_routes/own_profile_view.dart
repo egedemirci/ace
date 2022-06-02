@@ -669,9 +669,6 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                                 myUser.userId, post["postId"]);
                                           });
                                         },
-                                        incrementComment: () {
-                                          // TODO: Comments View
-                                        },
                                         incrementDislike: () {
                                           setState(() {
                                             postService.dislikePost(user.uid,
@@ -681,7 +678,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         reShare: () {
                                           //TODO: Implement re-share
                                         },
-                                        myUserId: user.uid,
+                                        myUserId: user.uid, analytics: widget.analytics,
                                       ))
                                   .toList()
                                   .reversed,

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project_ace/services/user_services.dart';
+import 'package:project_ace/templates/comment.dart';
 import 'package:project_ace/templates/post.dart';
 
 class PostService {
@@ -137,7 +138,7 @@ class PostService {
   }
 
   Future<void> sendCommendTo(
-      String userId, String otherUserId, String postId, String context) async {
+      String userId, String otherUserId, String postId, Comment comment) async {
     var docRef = await usersRef.doc(otherUserId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     var thePost = posts[0];
@@ -150,13 +151,13 @@ class PostService {
     }
     thePost["comments"] = thePost["comments"] +
         [
-          {"senderId": userId, "context": context}
+          comment.toJson()
         ];
     posts[i] = thePost;
     usersRef.doc(otherUserId).update({"posts": posts});
     postsRef.doc(postId).update({
       "comments": FieldValue.arrayUnion([
-        {"senderId": userId, "context": context}
+        comment.toJson()
       ])
     });
     UserServices().pushNotifications(userId, otherUserId, "commentedToPost");

@@ -20,10 +20,8 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Comment {
-  String get commentId => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
-  String get urlAvatar => throw _privateConstructorUsedError;
-  String get username => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,12 +33,7 @@ mixin _$Comment {
 abstract class $CommentCopyWith<$Res> {
   factory $CommentCopyWith(Comment value, $Res Function(Comment) then) =
       _$CommentCopyWithImpl<$Res>;
-  $Res call(
-      {String commentId,
-      String text,
-      String urlAvatar,
-      String username,
-      DateTime createdAt});
+  $Res call({String text, String userId, DateTime createdAt});
 }
 
 /// @nodoc
@@ -53,28 +46,18 @@ class _$CommentCopyWithImpl<$Res> implements $CommentCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? commentId = freezed,
     Object? text = freezed,
-    Object? urlAvatar = freezed,
-    Object? username = freezed,
+    Object? userId = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      commentId: commentId == freezed
-          ? _value.commentId
-          : commentId // ignore: cast_nullable_to_non_nullable
-              as String,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      urlAvatar: urlAvatar == freezed
-          ? _value.urlAvatar
-          : urlAvatar // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: username == freezed
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      userId: userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -90,12 +73,7 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
           _$_Comment value, $Res Function(_$_Comment) then) =
       __$$_CommentCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String commentId,
-      String text,
-      String urlAvatar,
-      String username,
-      DateTime createdAt});
+  $Res call({String text, String userId, DateTime createdAt});
 }
 
 /// @nodoc
@@ -109,28 +87,18 @@ class __$$_CommentCopyWithImpl<$Res> extends _$CommentCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? commentId = freezed,
     Object? text = freezed,
-    Object? urlAvatar = freezed,
-    Object? username = freezed,
+    Object? userId = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$_Comment(
-      commentId: commentId == freezed
-          ? _value.commentId
-          : commentId // ignore: cast_nullable_to_non_nullable
-              as String,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      urlAvatar: urlAvatar == freezed
-          ? _value.urlAvatar
-          : urlAvatar // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: username == freezed
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      userId: userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -144,30 +112,21 @@ class __$$_CommentCopyWithImpl<$Res> extends _$CommentCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Comment implements _Comment {
   const _$_Comment(
-      {required this.commentId,
-      required this.text,
-      this.urlAvatar = "default",
-      required this.username,
-      required this.createdAt});
+      {required this.text, required this.userId, required this.createdAt});
 
   factory _$_Comment.fromJson(Map<String, dynamic> json) =>
       _$$_CommentFromJson(json);
 
   @override
-  final String commentId;
-  @override
   final String text;
   @override
-  @JsonKey()
-  final String urlAvatar;
-  @override
-  final String username;
+  final String userId;
   @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Comment(commentId: $commentId, text: $text, urlAvatar: $urlAvatar, username: $username, createdAt: $createdAt)';
+    return 'Comment(text: $text, userId: $userId, createdAt: $createdAt)';
   }
 
   @override
@@ -175,10 +134,8 @@ class _$_Comment implements _Comment {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Comment &&
-            const DeepCollectionEquality().equals(other.commentId, commentId) &&
             const DeepCollectionEquality().equals(other.text, text) &&
-            const DeepCollectionEquality().equals(other.urlAvatar, urlAvatar) &&
-            const DeepCollectionEquality().equals(other.username, username) &&
+            const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt));
   }
 
@@ -186,10 +143,8 @@ class _$_Comment implements _Comment {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(commentId),
       const DeepCollectionEquality().hash(text),
-      const DeepCollectionEquality().hash(urlAvatar),
-      const DeepCollectionEquality().hash(username),
+      const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(createdAt));
 
   @JsonKey(ignore: true)
@@ -205,22 +160,16 @@ class _$_Comment implements _Comment {
 
 abstract class _Comment implements Comment {
   const factory _Comment(
-      {required final String commentId,
-      required final String text,
-      final String urlAvatar,
-      required final String username,
+      {required final String text,
+      required final String userId,
       required final DateTime createdAt}) = _$_Comment;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$_Comment.fromJson;
 
   @override
-  String get commentId => throw _privateConstructorUsedError;
-  @override
   String get text => throw _privateConstructorUsedError;
   @override
-  String get urlAvatar => throw _privateConstructorUsedError;
-  @override
-  String get username => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   @override
   DateTime get createdAt => throw _privateConstructorUsedError;
   @override

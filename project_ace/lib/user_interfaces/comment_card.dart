@@ -1,12 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/comment.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 
-class CommentCard extends StatelessWidget {
+class CommentCard extends StatefulWidget {
   const CommentCard({Key? key, required this.comment}) : super(key: key);
-
   final Comment comment;
+
+  @override
+  State<CommentCard> createState() => _CommentCardState();
+}
+
+class _CommentCardState extends State<CommentCard> {
+  UserServices userService = UserServices();
+  String otherUsername = " ";
+  String otherUserpp = " ";
+
+  Future getUserName() async {
+    final uname = await userService.getUsername(widget.comment.userId);
+    setState(() {
+      otherUsername = "@$uname";
+    });
+  }
+
+  Future getUserPP() async {
+    final upp = await userService.getUserPp(widget.comment.userId);
+    setState(() {
+      otherUserpp = upp;
+    });
+  }
+
+  @override
+  void initState() {
+    getUserName();
+    getUserPP();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +62,14 @@ class CommentCard extends StatelessWidget {
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
 
-                      backgroundImage: (comment.urlAvatar != "default") ? NetworkImage(comment.urlAvatar): const NetworkImage( "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
+                      backgroundImage: (otherUserpp != "default") ? NetworkImage(otherUserpp): const NetworkImage( "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                   ),
                 ),
                 const SizedBox(width: 6),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                   child: Text(
-                    "@${comment.username}",
+                    otherUsername,
                     style: postCardUserName,
                   ),
                 ),
@@ -53,7 +83,7 @@ class CommentCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      comment.text,
+                      widget.comment.text,
                       maxLines: 3,
                       style: postText,
                       overflow: TextOverflow.ellipsis,
@@ -62,31 +92,16 @@ class CommentCard extends StatelessWidget {
                 ),
               ],
             ),
-            Center(
-              child: comment.urlAvatar != "default"
-                  ? ClipRect(
-                      child: Image.network(
-                        comment.urlAvatar,
-                        width: double.infinity,
-                        height: 200,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )
-                  : Container(),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             Row(
               children: [
                 Padding(
                     padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
-                    child: Text(comment.createdAt
+                    child: Text(widget.comment.createdAt
                         .toLocal()
                         .toString()
                         .substring(
                             0,
-                            comment.createdAt.toLocal().toString().length -
+                            widget.comment.createdAt.toLocal().toString().length -
                                 7))),
               ],
             ),
