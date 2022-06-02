@@ -177,6 +177,7 @@ class UserServices {
       usersRef.doc(userToBeFollow).update({
         "requests": FieldValue.arrayUnion([mainUserId]),
       });
+      pushNotifications(mainUserId, userToBeFollow, "followRequest");
     } else {
       usersRef.doc(mainUserId).update({
         "following": FieldValue.arrayUnion([userToBeFollow]),
@@ -184,6 +185,7 @@ class UserServices {
       usersRef.doc(userToBeFollow).update({
         "followers": FieldValue.arrayUnion([mainUserId]),
       });
+      pushNotifications(userToBeFollow, mainUserId, "followedYou");
     }
   }
 
@@ -197,10 +199,23 @@ class UserServices {
   }
 
   removeRequest(String userToBeFollow, String mainUserId) async {
+    var docRef = await usersRef.doc(userToBeFollow).get();
+    var notifications = (docRef.data() as Map<String, dynamic>)["notifications"];
+    var theNotif = notifications[0];
+    int i = 0;
+    for (; i < notifications.length; i++) {
+      if ((notifications[i]["notifType"] == "followRequest") && (notifications[i]["subjectId"] == mainUserId)) {
+        theNotif = notifications[i];
+        break;
+      }
+    }
     usersRef.doc(userToBeFollow).update({
       "requests": FieldValue.arrayRemove([mainUserId]),
+      "notifications": FieldValue.arrayRemove([theNotif])
     });
   }
+
+
 
   pushNotifications(String crrUserId, String otherUserId, String type) async {
     usersRef.doc(otherUserId).update({

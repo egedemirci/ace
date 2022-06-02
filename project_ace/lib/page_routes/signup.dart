@@ -152,7 +152,6 @@ class _SignUpState extends State<SignUp> {
                             return 'Please enter a valid email address!';
                           }
                         }
-                        return "The value is null!";
                       },
                       onSaved: (value) {
                         _email = value ?? "";
@@ -188,7 +187,6 @@ class _SignUpState extends State<SignUp> {
                             return 'Username is too short!';
                           }
                         }
-                        return "The value is null!";
                       },
                       onSaved: (value) {
                         _userName = value ?? "";
@@ -224,7 +222,6 @@ class _SignUpState extends State<SignUp> {
                             return 'Password is too short!';
                           }
                         }
-                        return "The value is null!";
                       },
                       onSaved: (value) {
                         _password = value ?? "";
@@ -293,7 +290,6 @@ class _SignUpState extends State<SignUp> {
                             return 'The name you entered is too long!';
                           }
                         }
-                        return "The value is null!";
                       },
                       onSaved: (value) {
                         _fullName = value ?? "";

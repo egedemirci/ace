@@ -62,19 +62,19 @@ class _BookMarksState extends State<BookMarks> {
           elevation: 0,
           backgroundColor: AppColors.profileScreenBackgroundColor,
         ),
-        body: FutureBuilder<DocumentSnapshot>(
-          future: userService.usersRef.doc(user.uid).get(),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: userService.usersRef.snapshots().asBroadcastStream(),
           builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Oops, something went wrong"));
-            }
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData &&
-                snapshot.data != null &&
-                snapshot.data!.data() != null) {
-              MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
-                  Map<String, dynamic>.identity()) as Map<String, dynamic>);
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+           else {
+                  List<dynamic> userList = snapshot.data!.docs
+                      .where((QueryDocumentSnapshot<Object?> element) {
+                    return element["userId"] == user.uid;
+                  }).toList();
+                  MyUser myUser = MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
               if (myUser.isDisabled == false) {
                 return StreamBuilder<QuerySnapshot>(
                     stream:

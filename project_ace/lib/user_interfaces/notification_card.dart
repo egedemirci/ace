@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/notif.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
+import 'package:provider/provider.dart';
 
 class NotificationsCard extends StatefulWidget {
   final AppNotification myNotification;
@@ -33,6 +35,7 @@ class _NotificationsCardState extends State<NotificationsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
     if (widget.myNotification.notifType == "followRequest") {
       return Card(
         shape: const RoundedRectangleBorder(
@@ -95,7 +98,9 @@ class _NotificationsCardState extends State<NotificationsCard> {
                       width: 80,
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        userService.userFollow(user!.uid, widget.myNotification.subjectId, false);
+                      },
                       style: OutlinedButton.styleFrom(
                           primary: AppColors.profileSettingsButtonTextColor,
                           backgroundColor: AppColors.decisionButtonColor,
@@ -109,7 +114,9 @@ class _NotificationsCardState extends State<NotificationsCard> {
                       width: 15,
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        userService.removeRequest(user!.uid, widget.myNotification.subjectId);
+                      },
                       style: OutlinedButton.styleFrom(
                           primary: AppColors.profileSettingsButtonTextColor,
                           backgroundColor: AppColors.decisionButtonColor,

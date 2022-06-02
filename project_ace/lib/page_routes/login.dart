@@ -154,7 +154,6 @@ class _LoginState extends State<Login> {
                                 return 'Please enter a valid email address!';
                               }
                             }
-                            return 'null';
                           },
                           onSaved: (value) {
                             _email = value ?? "";
@@ -193,7 +192,6 @@ class _LoginState extends State<Login> {
                                 return 'Password is too short!';
                               }
                             }
-                            return "The value is null!";
                           },
                           onSaved: (value) {
                             _password = value ?? "";

@@ -63,23 +63,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
           backgroundColor: AppColors.profileScreenBackgroundColor,
           toolbarHeight: screenHeight(context) * 0.08,
         ),
-        body: FutureBuilder<DocumentSnapshot>(
-            future: userService.usersRef.doc(user.uid).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return const Center(child: Text("Oops, something went wrong"));
+        body: StreamBuilder<QuerySnapshot>(
+            stream: userService.usersRef.snapshots().asBroadcastStream(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
               }
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData &&
-                  snapshot.data != null &&
-                  snapshot.data!.data() != null) {
-                MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
-                    Map<String, dynamic>.identity()) as Map<String, dynamic>);
+              else {
+                List<dynamic> userList = snapshot.data!.docs
+                    .where((QueryDocumentSnapshot<Object?> element) {
+                  return element["userId"] == user.uid;
+                }).toList();
+                MyUser myUser = MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
                 return SingleChildScrollView(
                   child: SafeArea(
                     child: Column(
-                        children: myUser.notifications
+                        children: myUser.notifications.reversed
                             .map((myNotif) => NotificationsCard(
                                 myNotification:
                                     AppNotification.fromJson(myNotif)))

@@ -554,8 +554,8 @@ class _ProfileViewState extends State<ProfileView> {
                                         },
                                         incrementLike: () {
                                           setState(() {
-                                            postService.likePost(widget.userId,
-                                                myUser.userId, post["postId"]);
+                                            postService.likePost(user.uid,
+                                                widget.userId, post["postId"]);
                                           });
                                         },
                                         incrementComment: () {
@@ -564,7 +564,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         incrementDislike: () {
                                           setState(() {
                                             postService.dislikePost(
-                                                widget.userId,
+                                                user.uid,
                                                 myUser.userId,
                                                 post["postId"]);
                                           });
