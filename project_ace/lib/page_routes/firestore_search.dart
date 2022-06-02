@@ -8,7 +8,9 @@ import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/searchResults.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -25,6 +27,14 @@ class FirestoreSearch extends StatefulWidget {
 }
 
 class _FirestoreSearchState extends State<FirestoreSearch> {
+  UserServices userServices = UserServices();
+  List<dynamic>? recommendations;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
@@ -133,11 +143,14 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                 );
               }
               return ListView.builder(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(4),
                   itemCount: dataList.length,
                   itemBuilder: (context, index) {
                     final SearchResults data = dataList[index];
                     return OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        elevation: 0,
+                      ),
                       onPressed: () {
                         if (data.userId! == user.uid) {
                           Navigator.pushNamedAndRemoveUntil(context,
@@ -154,7 +167,7 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(4),
                             child: CircleAvatar(
                               radius: screenHeight(context) * 0.05,
                               backgroundImage: NetworkImage(data.avatarURL !=
@@ -171,7 +184,7 @@ class _FirestoreSearchState extends State<FirestoreSearch> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(4),
                             child: Text(
                               "${data.username}",
                               style: searchResults,

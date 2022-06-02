@@ -7,6 +7,7 @@ import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/templates/topic.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/topic_cards.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';

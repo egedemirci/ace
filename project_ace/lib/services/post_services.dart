@@ -51,7 +51,6 @@ class PostService {
     return downloadURL;
   }
 
-
   deletePost(String userId, Map<String, dynamic> post) async {
     var docRef = await usersRef.doc(userId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
@@ -161,7 +160,6 @@ class PostService {
       ])
     });
     UserServices().pushNotifications(userId, otherUserId, "commentedToPost");
-
   }
 
   Future<void> disablePost(String postId) async {

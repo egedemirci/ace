@@ -40,6 +40,17 @@ class _UserListViewState extends State<UserListView> {
     return Scaffold(
       backgroundColor: AppColors.profileScreenBackgroundColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: screenHeight(context) * 0.025,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.pop(context);
+          },
+          splashRadius: screenHeight(context) * 0.03,
+        ),
         centerTitle: true,
         title: SizedBox(
           width: screenWidth(context) * 0.6,
@@ -54,6 +65,7 @@ class _UserListViewState extends State<UserListView> {
         elevation: 0,
         backgroundColor: AppColors.profileScreenBackgroundColor,
         foregroundColor: AppColors.profileScreenTextColor,
+        toolbarHeight: screenHeight(context) * 0.08,
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: userService.usersRef.snapshots().asBroadcastStream(),

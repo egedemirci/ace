@@ -19,7 +19,8 @@ class UserServices {
       'usernameLower': username.toLowerCase(),
       'userId': userId,
       'biography': '',
-      'profilepicture': 'https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg',
+      'profilepicture':
+          'https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg',
       'fullName': fullName,
       'isSignupDone': false,
       'followers': [],
@@ -200,11 +201,13 @@ class UserServices {
 
   removeRequest(String userToBeFollow, String mainUserId) async {
     var docRef = await usersRef.doc(userToBeFollow).get();
-    var notifications = (docRef.data() as Map<String, dynamic>)["notifications"];
+    var notifications =
+        (docRef.data() as Map<String, dynamic>)["notifications"];
     var theNotif = notifications[0];
     int i = 0;
     for (; i < notifications.length; i++) {
-      if ((notifications[i]["notifType"] == "followRequest") && (notifications[i]["subjectId"] == mainUserId)) {
+      if ((notifications[i]["notifType"] == "followRequest") &&
+          (notifications[i]["subjectId"] == mainUserId)) {
         theNotif = notifications[i];
         break;
       }
@@ -214,8 +217,6 @@ class UserServices {
       "notifications": FieldValue.arrayRemove([theNotif])
     });
   }
-
-
 
   pushNotifications(String crrUserId, String otherUserId, String type) async {
     usersRef.doc(otherUserId).update({
@@ -232,18 +233,18 @@ class UserServices {
 
   getRecommendations(String userId) async {
     var docRef = await usersRef.doc(userId).get();
-    var following = await (docRef.data() as Map<String, dynamic>)["following"];
-    int i = 0, j = 0;
+    var followings = await (docRef.data() as Map<String, dynamic>)["following"];
     List<dynamic> recommendations = [];
-    for (i = 0; i < following.length; i++) {
-      var followedByFollowing =
-          await (docRef.data() as Map<String, dynamic>)["following"];
-      recommendations.add(followedByFollowing);
-    }
-    recommendations = recommendations.toSet().toList();
-    for (; j < recommendations.length; j++) {
-      if (following.contains(recommendations[j])) {
-        recommendations.remove(recommendations[j]);
+    for (var following in followings) {
+      var doc = await usersRef.doc(following).get();
+      var followingsFollowing =
+          await (doc.data() as Map<String, dynamic>)["following"];
+      for (var temp in followingsFollowing) {
+        if (!followings.contains(temp) &&
+            !recommendations.contains(temp) &&
+            temp != userId) {
+          recommendations.add(temp);
+        }
       }
     }
     return recommendations;

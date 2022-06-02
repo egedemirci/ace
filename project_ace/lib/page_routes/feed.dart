@@ -7,6 +7,7 @@ import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/user_services.dart';
@@ -33,6 +34,19 @@ class _FeedState extends State<Feed> {
   UserServices userService = UserServices();
   PostService postService = PostService();
 
+  List<dynamic> recommendations = [];
+
+  getRecommendations() async {
+    final list = await userService
+        .getRecommendations(FirebaseAuth.instance.currentUser!.uid);
+    recommendations = list;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     setCurrentScreen(widget.analytics, "Feed View", "feed.dart");
@@ -57,6 +71,31 @@ class _FeedState extends State<Feed> {
                 ),
               ),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: IconButton(
+                  onPressed: () async {
+                    await getRecommendations();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserListView(
+                                  userIdList: recommendations,
+                                  title: "Recommendations",
+                                  isNewChat: false,
+                                  analytics: widget.analytics,
+                                )));
+                  },
+                  icon: Icon(
+                    Icons.person_add_alt,
+                    size: screenWidth(context) * 0.06,
+                    color: AppColors.welcomeScreenBackgroundColor,
+                  ),
+                  splashRadius: screenWidth(context) * 0.055,
+                ),
+              )
+            ],
             toolbarHeight: screenHeight(context) * 0.08,
             elevation: 0,
             backgroundColor: AppColors.profileScreenBackgroundColor,
