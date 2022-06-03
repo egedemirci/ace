@@ -15,7 +15,7 @@ class CommentCard extends StatefulWidget {
 class _CommentCardState extends State<CommentCard> {
   UserServices userService = UserServices();
   String otherUsername = " ";
-  String otherUserpp = " ";
+  String otherUserpp = "default";
 
   Future getUserName() async {
     final uname = await userService.getUsername(widget.comment.userId);
