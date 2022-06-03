@@ -33,15 +33,25 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  String userName = " ";
   UserServices userService = UserServices();
-  PostService postService = PostService();
+  PostServices postService = PostServices();
   MessageService messageService = MessageService();
+  String userName = " ";
+  int postType = 0;
+
   Future getUserName() async {
     final uname = await userService.getUsername(widget.userId);
     setState(() {
       userName = "@$uname";
     });
+  }
+
+  changePostType(int i) {
+    if (postType != i) {
+      setState(() {
+        postType = i;
+      });
+    }
   }
 
   @override
@@ -52,15 +62,12 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
     setCurrentScreen(
         widget.analytics, "Own Profile View", "own_profile_view.dart");
-    final user = Provider.of<User?>(context);
     setUserId(widget.analytics, widget.userId);
-
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: screenHeight(context) * 0.08,
-          foregroundColor: AppColors.profileScreenTextColor,
           title: Row(
             children: [
               SizedBox(
@@ -85,9 +92,11 @@ class _ProfileViewState extends State<ProfileView> {
               )
             ],
           ),
-          centerTitle: true,
-          backgroundColor: AppColors.profileScreenBackgroundColor,
           elevation: 0.0,
+          centerTitle: true,
+          toolbarHeight: screenHeight(context) * 0.08,
+          foregroundColor: AppColors.profileScreenTextColor,
+          backgroundColor: AppColors.profileScreenBackgroundColor,
         ),
         bottomNavigationBar: SizedBox(
           height: screenHeight(context) * 0.095,
@@ -168,11 +177,34 @@ class _ProfileViewState extends State<ProfileView> {
                   .where((QueryDocumentSnapshot<Object?> element) {
                 return element["userId"] == widget.userId;
               }).toList();
-
-              MyUser myUser =
+              MyUser otherUser =
                   MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
-              if (myUser.isPrivate == false ||
-                  myUser.followers.contains(user!.uid)) {
+              if (otherUser.isPrivate == false ||
+                  otherUser.followers.contains(user!.uid)) {
+                List<dynamic> postsList = querySnapshot.data!.docs
+                    .where((QueryDocumentSnapshot<Object?> element) {
+                      return (element["userId"] == otherUser.userId);
+                    })
+                    .map((data) => (data["posts"]))
+                    .toList();
+                List<dynamic> otherUserPosts = [];
+                for (int j = 0; j < postsList.length; j++) {
+                  for (int k = 0; k < postsList[j].length; k++) {
+                    if (postType == 0) {
+                      otherUserPosts += [postsList[j][k]];
+                    } else if (postType == 1) {
+                      if (postsList[j][k]["assetUrl"] == "default") {
+                        otherUserPosts += [postsList[j][k]];
+                      }
+                    } else {
+                      if (postsList[j][k]["assetUrl"] != "default") {
+                        otherUserPosts += [postsList[j][k]];
+                      }
+                    }
+                  }
+                }
+                otherUserPosts
+                    .sort((a, b) => a["createdAt"].compareTo(b["createdAt"]));
                 return SingleChildScrollView(
                   child: SafeArea(
                     child: Padding(
@@ -191,7 +223,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         AppColors.welcomeScreenBackgroundColor,
                                     radius: screenWidth(context) * 0.14,
                                     backgroundImage:
-                                        NetworkImage(myUser.profilepicture),
+                                        NetworkImage(otherUser.profilepicture),
                                   ),
                                   onTap: () => showDialog(
                                     context: context,
@@ -202,7 +234,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         alignment: Alignment.center,
                                         children: <Widget>[
                                           Image.network(
-                                            myUser.profilepicture,
+                                            otherUser.profilepicture,
                                             width: screenWidth(context) * 0.97,
                                             height:
                                                 screenHeight(context) * 0.46,
@@ -221,7 +253,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     padding:
                                         const EdgeInsets.fromLTRB(0, 24, 0, 0),
                                     child: Text(
-                                      myUser.posts.length.toString(),
+                                      otherUser.posts.length.toString(),
                                       style: postsFollowersFollowingsCounts,
                                     ),
                                   ),
@@ -237,7 +269,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => UserListView(
-                                                userIdList: myUser.followers,
+                                                userIdList: otherUser.followers,
                                                 title: "Followers",
                                                 isNewChat: false,
                                                 analytics: widget.analytics,
@@ -250,7 +282,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 24, 0, 0),
                                       child: Text(
-                                        myUser.followers.length.toString(),
+                                        otherUser.followers.length.toString(),
                                         style: postsFollowersFollowingsCounts,
                                       ),
                                     ),
@@ -267,7 +299,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => UserListView(
-                                                userIdList: myUser.following,
+                                                userIdList: otherUser.following,
                                                 title: "Following",
                                                 isNewChat: false,
                                                 analytics: widget.analytics,
@@ -280,7 +312,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 24, 0, 0),
                                       child: Text(
-                                        myUser.following.length.toString(),
+                                        otherUser.following.length.toString(),
                                         style: postsFollowersFollowingsCounts,
                                       ),
                                     ),
@@ -302,7 +334,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 24, 0, 0),
                                       child: Text(
-                                        myUser.subscribedTopics.length
+                                        otherUser.subscribedTopics.length
                                             .toString(),
                                         style: postsFollowersFollowingsCounts,
                                       ),
@@ -327,7 +359,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   constraints: BoxConstraints(
                                       maxWidth: screenWidth(context) * 0.85),
                                   child: Text(
-                                    myUser.fullName,
+                                    otherUser.fullName,
                                     style: smallNameUnderProfile,
                                   ),
                                 ),
@@ -342,7 +374,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     constraints: BoxConstraints(
                                         maxWidth: screenWidth(context) * 0.85),
                                     child: Text(
-                                      myUser.biography,
+                                      otherUser.biography,
                                       style: biography,
                                     ))
                               ],
@@ -371,7 +403,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           width: screenWidth(context) * 0.40,
                                           height: screenHeight(context) * 0.064,
                                           child: TextButton.icon(
-                                            icon: myUser.followers
+                                            icon: otherUser.followers
                                                     .contains(user!.uid)
                                                 ? const Icon(
                                                     Icons.remove_circle,
@@ -385,7 +417,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                   ),
                                             label: FittedBox(
                                               fit: BoxFit.scaleDown,
-                                              child: myUser.followers
+                                              child: otherUser.followers
                                                       .contains(user.uid)
                                                   ? Text(
                                                       "Unfollow",
@@ -400,7 +432,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             ),
                                             onPressed: () {
                                               setState(() {
-                                                if (myUser.followers
+                                                if (otherUser.followers
                                                     .contains(user.uid)) {
                                                   userService.unfollow(
                                                       widget.userId, user.uid);
@@ -408,7 +440,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                   userService.userFollow(
                                                       widget.userId,
                                                       user.uid,
-                                                      myUser.isPrivate);
+                                                      otherUser.isPrivate);
                                                 }
                                               });
                                             },
@@ -428,14 +460,14 @@ class _ProfileViewState extends State<ProfileView> {
                                           child: TextButton.icon(
                                             onPressed: () {
                                               messageService.createMessage(
-                                                  user.uid, myUser.userId);
+                                                  user.uid, otherUser.userId);
                                               String chatId =
-                                                  myUser.userId + user.uid;
+                                                  otherUser.userId + user.uid;
                                               if (user.uid.compareTo(
-                                                      myUser.userId) <
+                                                      otherUser.userId) <
                                                   0) {
                                                 chatId =
-                                                    user.uid + myUser.userId;
+                                                    user.uid + otherUser.userId;
                                               }
                                               Navigator.pop(context);
                                               Navigator.push(
@@ -445,7 +477,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                           ChatPage(
                                                               chatId: chatId,
                                                               otherUserId:
-                                                                  myUser.userId,
+                                                                  otherUser
+                                                                      .userId,
                                                               analytics: widget
                                                                   .analytics)));
                                             },
@@ -482,7 +515,9 @@ class _ProfileViewState extends State<ProfileView> {
                               children: [
                                 Expanded(
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      changePostType(0);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
@@ -503,7 +538,9 @@ class _ProfileViewState extends State<ProfileView> {
                                 Expanded(
                                   flex: 1,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      changePostType(1);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
@@ -524,7 +561,9 @@ class _ProfileViewState extends State<ProfileView> {
                                 Expanded(
                                   flex: 1,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      changePostType(2);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
@@ -542,7 +581,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           Column(
                             children: List.from(
-                              myUser.posts
+                              otherUserPosts
                                   .map((post) => PostCard(
                                         post: Post.fromJson(post),
                                         isMyPost: false,
@@ -562,14 +601,15 @@ class _ProfileViewState extends State<ProfileView> {
                                           setState(() {
                                             postService.dislikePost(
                                                 user.uid,
-                                                myUser.userId,
+                                                otherUser.userId,
                                                 post["postId"]);
                                           });
                                         },
                                         reShare: () {
                                           //TODO: Implement re-share
                                         },
-                                        myUserId: user.uid, analytics: widget.analytics,
+                                        myUserId: user.uid,
+                                        analytics: widget.analytics,
                                       ))
                                   .toList()
                                   .reversed,
@@ -599,7 +639,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         AppColors.welcomeScreenBackgroundColor,
                                     radius: screenWidth(context) * 0.14,
                                     backgroundImage:
-                                        NetworkImage(myUser.profilepicture),
+                                        NetworkImage(otherUser.profilepicture),
                                   ),
                                   onTap: () => showDialog(
                                     context: context,
@@ -610,7 +650,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         alignment: Alignment.center,
                                         children: <Widget>[
                                           Image.network(
-                                            myUser.profilepicture,
+                                            otherUser.profilepicture,
                                             width: screenWidth(context) * 0.97,
                                             height:
                                                 screenHeight(context) * 0.46,
@@ -629,7 +669,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     padding:
                                         const EdgeInsets.fromLTRB(0, 24, 0, 0),
                                     child: Text(
-                                      myUser.posts.length.toString(),
+                                      otherUser.posts.length.toString(),
                                       style: postsFollowersFollowingsCounts,
                                     ),
                                   ),
@@ -645,7 +685,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => UserListView(
-                                                userIdList: myUser.followers,
+                                                userIdList: otherUser.followers,
                                                 title: "Followers",
                                                 isNewChat: false,
                                                 analytics: widget.analytics,
@@ -658,7 +698,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 24, 0, 0),
                                       child: Text(
-                                        myUser.followers.length.toString(),
+                                        otherUser.followers.length.toString(),
                                         style: postsFollowersFollowingsCounts,
                                       ),
                                     ),
@@ -675,7 +715,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => UserListView(
-                                                userIdList: myUser.following,
+                                                userIdList: otherUser.following,
                                                 title: "Following",
                                                 isNewChat: false,
                                                 analytics: widget.analytics,
@@ -688,7 +728,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 24, 0, 0),
                                       child: Text(
-                                        myUser.following.length.toString(),
+                                        otherUser.following.length.toString(),
                                         style: postsFollowersFollowingsCounts,
                                       ),
                                     ),
@@ -710,7 +750,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 24, 0, 0),
                                       child: Text(
-                                        myUser.subscribedTopics.length
+                                        otherUser.subscribedTopics.length
                                             .toString(),
                                         style: postsFollowersFollowingsCounts,
                                       ),
@@ -735,7 +775,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   constraints: BoxConstraints(
                                       maxWidth: screenWidth(context) * 0.85),
                                   child: Text(
-                                    myUser.fullName,
+                                    otherUser.fullName,
                                     style: smallNameUnderProfile,
                                   ),
                                 ),
@@ -750,7 +790,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     constraints: BoxConstraints(
                                         maxWidth: screenWidth(context) * 0.85),
                                     child: Text(
-                                      myUser.biography,
+                                      otherUser.biography,
                                       style: biography,
                                     ))
                               ],
@@ -779,7 +819,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           width: screenWidth(context) * 0.40,
                                           height: screenHeight(context) * 0.064,
                                           child: TextButton.icon(
-                                            icon: myUser.requests
+                                            icon: otherUser.requests
                                                     .contains(user.uid)
                                                 ? const Icon(
                                                     Icons.remove_circle,
@@ -793,7 +833,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                   ),
                                             label: FittedBox(
                                               fit: BoxFit.scaleDown,
-                                              child: myUser.requests
+                                              child: otherUser.requests
                                                       .contains(user.uid)
                                                   ? Text(
                                                       "Remove Request",
@@ -808,7 +848,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             ),
                                             onPressed: () {
                                               setState(() {
-                                                if (myUser.requests
+                                                if (otherUser.requests
                                                     .contains(user.uid)) {
                                                   userService.removeRequest(
                                                       widget.userId, user.uid);
@@ -816,7 +856,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                   userService.userFollow(
                                                       widget.userId,
                                                       user.uid,
-                                                      myUser.isPrivate);
+                                                      otherUser.isPrivate);
                                                 }
                                               });
                                             },
@@ -836,14 +876,14 @@ class _ProfileViewState extends State<ProfileView> {
                                           child: TextButton.icon(
                                             onPressed: () {
                                               messageService.createMessage(
-                                                  user.uid, myUser.userId);
+                                                  user.uid, otherUser.userId);
                                               String chatId =
-                                                  myUser.userId + user.uid;
+                                                  otherUser.userId + user.uid;
                                               if (user.uid.compareTo(
-                                                      myUser.userId) <
+                                                      otherUser.userId) <
                                                   0) {
                                                 chatId =
-                                                    user.uid + myUser.userId;
+                                                    user.uid + otherUser.userId;
                                               }
                                               Navigator.pop(context);
                                               Navigator.push(
@@ -853,7 +893,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                           ChatPage(
                                                               chatId: chatId,
                                                               otherUserId:
-                                                                  myUser.userId,
+                                                                  otherUser
+                                                                      .userId,
                                                               analytics: widget
                                                                   .analytics)));
                                             },

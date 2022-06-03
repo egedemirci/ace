@@ -227,39 +227,6 @@ class _SignUpState extends State<SignUp> {
                         _password = value ?? "";
                       },
                     ),
-                    /*const SizedBox(height: 20),
-                    TextFormField(
-                      autocorrect: false,
-                      keyboardType: TextInputType.text,
-                      enableSuggestions: false,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: AppColors.signUpFormBackgroundColor,
-                        labelStyle: const TextStyle(
-                            color: AppColors.signUpFormTextColor),
-                        label: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Text(
-                              "re-enter password",
-                            ),
-                          ],
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave re-enter password empty!';
-                          }
-                          if (value != _password) {
-                            return 'Password fields do not match up!';
-                          }
-                        }
-                      },
-                      onSaved: (value) {},
-                    ),
-                     */
                     const SizedBox(height: 20),
                     TextFormField(
                       autocorrect: false,

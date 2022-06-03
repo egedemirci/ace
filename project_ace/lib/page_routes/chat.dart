@@ -35,28 +35,21 @@ class _ChatPageState extends State<ChatPage> {
   UserServices userService = UserServices();
 
   String message = '';
-  String otherUsername = " ";
-  String otherUserpp = " ";
+  String otherUsername = "";
+  String otherUserPP = "";
 
-  Future getUserName() async {
+  Future getOtherUserName() async {
     final uname = await userService.getUsername(widget.otherUserId);
     setState(() {
       otherUsername = "@$uname";
     });
   }
 
-  Future getUserPP() async {
+  Future getOtherUserPP() async {
     final upp = await userService.getUserPp(widget.otherUserId);
     setState(() {
-      otherUserpp = upp;
+      otherUserPP = upp;
     });
-  }
-
-  @override
-  void initState() {
-    getUserName();
-    getUserPP();
-    super.initState();
   }
 
   sendMessage(chatId, text, senderUsername, senderAvatar) {
@@ -68,7 +61,9 @@ class _ChatPageState extends State<ChatPage> {
     return Container(
       color: AppColors.profileScreenBackgroundColor,
       height: screenHeight(context) * 0.110,
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: EdgeInsets.only(
+          left: screenWidth(context) * 0.0194,
+          right: screenWidth(context) * 0.0194),
       child: Row(
         children: [
           Expanded(
@@ -121,9 +116,16 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   @override
+  void initState() {
+    getOtherUserName();
+    getOtherUserPP();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Chat View", "chat.dart");
     final user = Provider.of<User?>(context);
+    setCurrentScreen(widget.analytics, "Chat View", "chat.dart");
     setUserId(widget.analytics, user!.uid);
     return Scaffold(
         appBar: AppBar(
@@ -138,10 +140,6 @@ class _ChatPageState extends State<ChatPage> {
             },
             splashRadius: screenHeight(context) * 0.03,
           ),
-          toolbarHeight: screenHeight(context) * 0.08,
-          elevation: 0,
-          centerTitle: true,
-          foregroundColor: AppColors.welcomeScreenBackgroundColor,
           title: Row(
             children: [
               SizedBox(
@@ -150,7 +148,6 @@ class _ChatPageState extends State<ChatPage> {
                       fit: BoxFit.scaleDown,
                       child: Text(otherUsername, style: userNameChatHeader))),
               const Spacer(),
-              // TODO: Implement sizes for IconButton
               IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/notifications');
@@ -164,6 +161,10 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ],
           ),
+          elevation: 0,
+          centerTitle: true,
+          toolbarHeight: screenHeight(context) * 0.08,
+          foregroundColor: AppColors.welcomeScreenBackgroundColor,
           backgroundColor: AppColors.profileScreenBackgroundColor,
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -204,7 +205,8 @@ class _ChatPageState extends State<ChatPage> {
                                 keyboardDismissBehavior:
                                     ScrollViewKeyboardDismissBehavior.onDrag,
                                 physics: const BouncingScrollPhysics(),
-                                padding: const EdgeInsets.all(20),
+                                padding: EdgeInsets.all(
+                                    screenHeight(context) * 0.023),
                                 itemCount: messages.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   Message message = Message.fromJson(
@@ -215,7 +217,7 @@ class _ChatPageState extends State<ChatPage> {
                                       prevUserName == message.senderUsername;
                                   prevUserName = message.senderUsername;
                                   return ChatCard(
-                                      urlAvatar: otherUserpp,
+                                      urlAvatar: otherUserPP,
                                       message: message,
                                       isMe: isMe,
                                       isSameUser: isSameUser);

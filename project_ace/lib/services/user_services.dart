@@ -22,9 +22,8 @@ class UserServices {
       'profilepicture':
           'https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg',
       'fullName': fullName,
-      'isSignupDone': false,
       'followers': [],
-      'subscribedTopic': [],
+      'subscribedTopics': [],
       'following': [],
       'posts': [],
       'requests': [],
@@ -32,7 +31,6 @@ class UserServices {
       'notifications': [],
       'isThereNewNotif': false,
       'isDisabled': false,
-      'postCount': 0,
       'bookmarks': []
     });
   }
@@ -46,7 +44,7 @@ class UserServices {
     var docRef = await usersRef.doc(userId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     int i = 0;
-    PostService postService = PostService();
+    PostServices postService = PostServices();
     for (; i < posts.length; i++) {
       posts[i]["isDisabled"] = true;
       postService.disablePost(userId + posts[i]['postId'].toString());
@@ -54,7 +52,6 @@ class UserServices {
     usersRef.doc(userId).update({'posts': posts});
   }
 
-  //Profile Picture Change
   Future getUserPp(String userId) async {
     var crrGet = await usersRef.doc(userId).get();
     return crrGet.get("profilepicture");
@@ -91,7 +88,7 @@ class UserServices {
     var docRef = await usersRef.doc(userId).get();
     var posts = (docRef.data() as Map<String, dynamic>)["posts"];
     int i = 0;
-    PostService postService = PostService();
+    PostServices postService = PostServices();
     for (; i < posts.length; i++) {
       posts[i]["isDisabled"] = false;
       postService.enablePost(userId + posts[i]['postId'].toString());

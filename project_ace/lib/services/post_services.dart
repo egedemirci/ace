@@ -7,7 +7,7 @@ import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/comment.dart';
 import 'package:project_ace/templates/post.dart';
 
-class PostService {
+class PostServices {
   final CollectionReference postsRef =
       FirebaseFirestore.instance.collection('Posts');
   final CollectionReference usersRef = UserServices().usersRef;
@@ -15,8 +15,7 @@ class PostService {
 
   createPost(String userId, Post post) async {
     usersRef.doc(userId).update({
-      'posts': FieldValue.arrayUnion([post.toJson()]),
-      'postCount': FieldValue.increment(1),
+      'posts': FieldValue.arrayUnion([post.toJson()])
     });
     postsRef.doc(post.postId).set(post.toJson());
   }
@@ -67,7 +66,6 @@ class PostService {
       "posts": FieldValue.arrayRemove([thePost])
     });
     await postsRef.doc(post["postId"].toString()).delete();
-    //posts.doc(userId + post["postId"].toString()).delete();
   }
 
   likePost(String userId, String otherUserId, String postId) async {
@@ -114,18 +112,17 @@ class PostService {
         break;
       }
     }
+    // TODO: await UserServices().pushNotifications(userId, otherUserId, "dislikedPost");
     if (!thePost["dislikes"].contains(userId)) {
       thePost["dislikes"] = thePost["dislikes"] + [userId];
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
-      //TODO await UserServices().pushNotifications(userId, otherUserId, "dislikedPost");
     } else {
       thePost["dislikes"].remove(userId);
       posts[i] = thePost;
       usersRef.doc(otherUserId).update({"posts": posts});
     }
     var docRefPost = await postsRef.doc(postId).get();
-
     if (!docRefPost["dislikes"].contains(userId)) {
       postsRef.doc(postId).update({
         "dislikes": FieldValue.arrayUnion([userId])
@@ -149,16 +146,11 @@ class PostService {
         break;
       }
     }
-    thePost["comments"] = thePost["comments"] +
-        [
-          comment.toJson()
-        ];
+    thePost["comments"] = thePost["comments"] + [comment.toJson()];
     posts[i] = thePost;
     usersRef.doc(otherUserId).update({"posts": posts});
     postsRef.doc(postId).update({
-      "comments": FieldValue.arrayUnion([
-        comment.toJson()
-      ])
+      "comments": FieldValue.arrayUnion([comment.toJson()])
     });
     UserServices().pushNotifications(userId, otherUserId, "commentedToPost");
   }
@@ -169,5 +161,32 @@ class PostService {
 
   Future<void> enablePost(String postId) async {
     postsRef.doc(postId).update({'isDisabled': false});
+  }
+
+  reSharePost(String userId, Post post) async {
+    var docRef = await usersRef.doc(userId).get();
+    var posts = (docRef.data() as Map<String, dynamic>)["posts"];
+    var thePost = posts[0];
+    bool isReshared = false;
+    int i = 0;
+    for (; i < posts.length; i++) {
+      if (posts["postId"] == posts[i]["postId"]) {
+        thePost = posts[i];
+        isReshared = true;
+        print("here 1");
+        break;
+      }
+    }
+    if (isReshared) {
+      print("here 2");
+      await usersRef.doc(userId).update({
+        "posts": FieldValue.arrayRemove([thePost])
+      });
+    } else {
+      print("here 3");
+      await usersRef.doc(userId).update({
+        'posts': FieldValue.arrayUnion([post.toJson()])
+      });
+    }
   }
 }

@@ -29,7 +29,7 @@ class _EditPostViewState extends State<EditPostView> {
   final _controller = TextEditingController();
   String editedPost = "";
   UserServices userService = UserServices();
-  PostService postService = PostService();
+  PostServices postService = PostServices();
 
   void _scrollDown() {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);

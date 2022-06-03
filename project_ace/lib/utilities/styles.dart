@@ -279,4 +279,18 @@ final searchResults = GoogleFonts.montserrat(
   letterSpacing: -0.7,
 );
 
+final bookmarksScreenNoBookmarks = GoogleFonts.montserrat(
+  color: AppColors.welcomeScreenBackgroundColor,
+  fontWeight: FontWeight.normal,
+  fontSize: 16,
+  letterSpacing: -0.7,
+);
+
+final welcomeScreenText = GoogleFonts.montserrat(
+  color: AppColors.welcomeScreenBackgroundColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 32,
+  letterSpacing: -0.7,
+);
+
 //If you use header here, you can take one of the headers from other views.

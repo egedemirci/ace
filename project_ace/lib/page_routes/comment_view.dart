@@ -32,7 +32,7 @@ class CommentView extends StatefulWidget {
 class _CommentViewState extends State<CommentView> {
   final _controller = TextEditingController();
   UserServices userService = UserServices();
-  PostService postService = PostService();
+  PostServices postService = PostServices();
   String comment = "";
 
   @override

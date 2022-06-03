@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
@@ -75,8 +76,11 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = Provider.of<User?>(context);
-    setUserId(widget.analytics, currentUser!.uid);
+    final user = Provider.of<User?>(context);
+    if (user == null) {
+      return Login(analytics: widget.analytics);
+    }
+    setUserId(widget.analytics, user.uid);
     setCurrentScreen(
         widget.analytics, "Change Password View", "change_password.dart");
     return Scaffold(
@@ -94,10 +98,6 @@ class _ChangePasswordState extends State<ChangePassword> {
           },
           splashRadius: screenHeight(context) * 0.03,
         ),
-        toolbarHeight: screenHeight(context) * 0.08,
-        elevation: 0,
-        centerTitle: true,
-        foregroundColor: AppColors.welcomeScreenBackgroundColor,
         title: SizedBox(
           width: screenWidth(context) * 0.65,
           child: FittedBox(
@@ -108,6 +108,10 @@ class _ChangePasswordState extends State<ChangePassword> {
             ),
           ),
         ),
+        elevation: 0,
+        centerTitle: true,
+        toolbarHeight: screenHeight(context) * 0.08,
+        foregroundColor: AppColors.welcomeScreenBackgroundColor,
         backgroundColor: AppColors.profileScreenBackgroundColor,
       ),
       body: SafeArea(
@@ -115,8 +119,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: screenHeight(context) * 0.048),
-              SizedBox(height: screenHeight(context) * 0.048),
+              SizedBox(height: screenHeight(context) * 0.096),
               SizedBox(
                 width: screenWidth(context) * 0.75,
                 child: Form(
@@ -180,7 +183,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 return 'Password is too short!';
                               }
                             }
-                            return "Password is null!";
                           },
                         ),
                       ),
@@ -218,9 +220,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   if (isSuccess) {
                     oldPassword.clear();
                     pass.clear();
-                    await _showDialog(
-                        "Success", "Password has changed successfully!");
-                    Navigator.of(context).pop();
+                    await _showDialog("Success",
+                        "Your password has changed successfully!\nYou will now be signed out.");
+                    _auth.signOutUser();
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -230,7 +232,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             screenHeight(context) * 0.0115))),
                 child: Text(
                   'Change password',
-                  style: profileSettingsChangeButton,
+                  style: aceButton,
                 ),
               ),
               const Spacer(),

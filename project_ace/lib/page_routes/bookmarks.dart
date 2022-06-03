@@ -24,13 +24,13 @@ class BookMarks extends StatefulWidget {
 }
 
 class _BookMarksState extends State<BookMarks> {
-  UserServices userService = UserServices();
-  PostService postService = PostService();
+  UserServices userServices = UserServices();
+  PostServices postServices = PostServices();
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Bookmarks View", "bookmarks.dart");
     final user = Provider.of<User?>(context);
+    setCurrentScreen(widget.analytics, "Bookmarks View", "bookmarks.dart");
     setUserId(widget.analytics, user!.uid);
     return Scaffold(
         backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -46,8 +46,6 @@ class _BookMarksState extends State<BookMarks> {
             },
             splashRadius: screenHeight(context) * 0.03,
           ),
-          toolbarHeight: screenHeight(context) * 0.08,
-          centerTitle: true,
           title: SizedBox(
             width: screenWidth(context) * 0.6,
             child: FittedBox(
@@ -58,27 +56,29 @@ class _BookMarksState extends State<BookMarks> {
               ),
             ),
           ),
-          foregroundColor: AppColors.welcomeScreenBackgroundColor,
           elevation: 0,
+          centerTitle: true,
+          toolbarHeight: screenHeight(context) * 0.08,
+          foregroundColor: AppColors.welcomeScreenBackgroundColor,
           backgroundColor: AppColors.profileScreenBackgroundColor,
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: userService.usersRef.snapshots().asBroadcastStream(),
+          stream: userServices.usersRef.snapshots().asBroadcastStream(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-           else {
-                  List<dynamic> userList = snapshot.data!.docs
-                      .where((QueryDocumentSnapshot<Object?> element) {
-                    return element["userId"] == user.uid;
-                  }).toList();
-                  MyUser myUser = MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              List<dynamic> userList = snapshot.data!.docs
+                  .where((QueryDocumentSnapshot<Object?> element) {
+                return element["userId"] == user.uid;
+              }).toList();
+              MyUser myUser =
+                  MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
               if (myUser.isDisabled == false) {
                 return StreamBuilder<QuerySnapshot>(
                     stream:
-                        postService.postsRef.snapshots().asBroadcastStream(),
+                        postServices.postsRef.snapshots().asBroadcastStream(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> querySnapshot) {
                       if (!querySnapshot.hasData) {
@@ -91,9 +91,11 @@ class _BookMarksState extends State<BookMarks> {
                         bookmarks.sort(
                             (a, b) => a["createdAt"].compareTo(b["createdAt"]));
                         if (bookmarks.isEmpty) {
-                          // TODO: Edit Text styles
-                          return const Center(
-                            child: Text("You have no bookmarks."),
+                          return Center(
+                            child: Text(
+                              "You have no bookmarks.",
+                              style: bookmarksScreenNoBookmarks,
+                            ),
                           );
                         }
                         return SingleChildScrollView(
@@ -109,18 +111,18 @@ class _BookMarksState extends State<BookMarks> {
                                             isMyPost: false,
                                             deletePost: () {
                                               setState(() {
-                                                postService.deletePost(
+                                                postServices.deletePost(
                                                     user.uid, post);
                                               });
                                             },
                                             incrementLike: () {
-                                              postService.likePost(
+                                              postServices.likePost(
                                                   myUser.userId,
                                                   post["userId"],
                                                   post["postId"]);
                                             },
                                             incrementDislike: () {
-                                              postService.dislikePost(
+                                              postServices.dislikePost(
                                                   myUser.userId,
                                                   post["userId"],
                                                   post["postId"]);
@@ -128,7 +130,8 @@ class _BookMarksState extends State<BookMarks> {
                                             reShare: () {
                                               // TODO: Re-share
                                             },
-                                            myUserId: user.uid, analytics: widget.analytics,
+                                            myUserId: user.uid,
+                                            analytics: widget.analytics,
                                           ))
                                       .toList()
                                       .reversed,
@@ -138,14 +141,12 @@ class _BookMarksState extends State<BookMarks> {
                           ),
                         );
                       }
-                    }
-                    );
+                    });
               } else {
                 return const Center(child: Text("Your account is not active."));
               }
             }
           },
-        )
-    );
+        ));
   }
 }

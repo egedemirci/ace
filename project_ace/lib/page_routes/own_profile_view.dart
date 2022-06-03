@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/bookmarks.dart';
 import 'package:project_ace/page_routes/feed.dart';
@@ -36,20 +35,20 @@ class OwnProfileView extends StatefulWidget {
 }
 
 class _OwnProfileViewState extends State<OwnProfileView> {
-  final AuthServices _auth = AuthServices();
-
+  AuthServices auth = AuthServices();
+  UserServices userServices = UserServices();
+  PostServices postServices = PostServices();
   String userName = " ";
-  PermissionStatus? _permissionStatus;
-  UserServices userService = UserServices();
-  PostService postService = PostService();
+  int postType = 0;
+
+  /*
   final location = Location();
   LocationData? _locData;
   bool? _serviceEnabled;
   bool _loading = false;
   StreamSubscription<LocationData>? _locDataStream;
+  PermissionStatus? _permissionStatus;
   String? _error;
-
-  /*
   Future _checkPermissions() async {
     final PermissionStatus status = await location.hasPermission();
     setState(() {
@@ -141,16 +140,10 @@ class _OwnProfileViewState extends State<OwnProfileView> {
 
   Future getUserName() async {
     final uname =
-        await userService.getUsername(FirebaseAuth.instance.currentUser!.uid);
+        await userServices.getUsername(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       userName = "@$uname";
     });
-  }
-
-  @override
-  void initState() {
-    getUserName();
-    super.initState();
   }
 
   void rebuildAllChildren(BuildContext context) {
@@ -160,6 +153,20 @@ class _OwnProfileViewState extends State<OwnProfileView> {
     }
 
     (context as Element).visitChildren(rebuild);
+  }
+
+  @override
+  void initState() {
+    getUserName();
+    super.initState();
+  }
+
+  changePostType(int i) {
+    if (postType != i) {
+      setState(() {
+        postType = i;
+      });
+    }
   }
 
   @override
@@ -175,11 +182,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
       setUserId(widget.analytics, user.uid);
       return Scaffold(
         appBar: AppBar(
-          toolbarHeight: screenHeight(context) * 0.08,
-          foregroundColor: AppColors.profileScreenTextColor,
           title: Row(
             children: [
-              // TODO: Screen Sizes
               IconButton(
                 icon: Icon(
                   Icons.logout,
@@ -187,7 +191,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                 ),
                 splashRadius: screenWidth(context) * 0.06,
                 onPressed: () async {
-                  await _auth.signOutUser();
+                  await auth.signOutUser();
                 },
               ),
               const Spacer(),
@@ -202,7 +206,6 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                 ),
               ),
               const Spacer(),
-              // TODO: Screen Sizes
               IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/notifications');
@@ -216,9 +219,11 @@ class _OwnProfileViewState extends State<OwnProfileView> {
               ),
             ],
           ),
-          centerTitle: true,
-          backgroundColor: AppColors.profileScreenBackgroundColor,
           elevation: 0.0,
+          centerTitle: true,
+          toolbarHeight: screenHeight(context) * 0.08,
+          backgroundColor: AppColors.profileScreenBackgroundColor,
+          foregroundColor: AppColors.profileScreenTextColor,
         ),
         bottomNavigationBar: SizedBox(
           height: screenHeight(context) * 0.095,
@@ -300,7 +305,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
         body: StreamBuilder<QuerySnapshot>(
-            stream: userService.usersRef.snapshots().asBroadcastStream(),
+            stream: userServices.usersRef.snapshots().asBroadcastStream(),
             builder: (BuildContext context,
                 AsyncSnapshot<QuerySnapshot> querySnapshot) {
               if (!querySnapshot.hasData) {
@@ -318,13 +323,23 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                     })
                     .map((data) => (data["posts"]))
                     .toList();
-                List<dynamic> followingPosts = [];
+                List<dynamic> myPosts = [];
                 for (int j = 0; j < postsList.length; j++) {
                   for (int k = 0; k < postsList[j].length; k++) {
-                    followingPosts += [postsList[j][k]];
+                    if (postType == 0) {
+                      myPosts += [postsList[j][k]];
+                    } else if (postType == 1) {
+                      if (postsList[j][k]["assetUrl"] == "default") {
+                        myPosts += [postsList[j][k]];
+                      }
+                    } else {
+                      if (postsList[j][k]["assetUrl"] != "default") {
+                        myPosts += [postsList[j][k]];
+                      }
+                    }
                   }
                 }
-                followingPosts
+                myPosts
                     .sort((a, b) => a["createdAt"].compareTo(b["createdAt"]));
                 return SingleChildScrollView(
                   child: SafeArea(
@@ -569,7 +584,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               children: [
                                 Expanded(
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      changePostType(0);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
@@ -590,7 +607,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 Expanded(
                                   flex: 1,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      changePostType(1);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
@@ -611,7 +630,9 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 Expanded(
                                   flex: 1,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      changePostType(2);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         elevation: 0, side: BorderSide.none),
                                     child: const Icon(
@@ -653,32 +674,33 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                           ),
                           Column(
                             children: List.from(
-                              followingPosts
+                              myPosts
                                   .map((post) => PostCard(
                                         post: Post.fromJson(post),
                                         isMyPost: true,
                                         deletePost: () {
                                           setState(() {
-                                            postService.deletePost(
+                                            postServices.deletePost(
                                                 user.uid, post);
                                           });
                                         },
                                         incrementLike: () {
                                           setState(() {
-                                            postService.likePost(user.uid,
+                                            postServices.likePost(user.uid,
                                                 myUser.userId, post["postId"]);
                                           });
                                         },
                                         incrementDislike: () {
                                           setState(() {
-                                            postService.dislikePost(user.uid,
+                                            postServices.dislikePost(user.uid,
                                                 myUser.userId, post["postId"]);
                                           });
                                         },
                                         reShare: () {
                                           //TODO: Implement re-share
                                         },
-                                        myUserId: user.uid, analytics: widget.analytics,
+                                        myUserId: user.uid,
+                                        analytics: widget.analytics,
                                       ))
                                   .toList()
                                   .reversed,

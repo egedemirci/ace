@@ -32,7 +32,7 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   List<Post> posts = [];
   UserServices userService = UserServices();
-  PostService postService = PostService();
+  PostServices postService = PostServices();
 
   List<dynamic> recommendations = [];
 

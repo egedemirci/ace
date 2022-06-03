@@ -31,42 +31,33 @@ class _AddPostState extends State<AddPost> {
   final _controller = TextEditingController();
   final _controllerUrl = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  PostService postService = PostService();
-  String postText = '';
-  String topic = '';
   UserServices userServices = UserServices();
-
-  void sendPost() async {
-    setState(() {
-      FocusScope.of(context).unfocus();
-      _controller.clear();
-    });
-  }
+  PostServices postServices = PostServices();
+  String postText = '';
+  String postTopic = '';
+  final ImagePicker _picker = ImagePicker();
+  File? _image;
+  File? _video;
 
   void _scrollDown() {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
   }
 
-  final ImagePicker _picker = ImagePicker();
-  File? _image;
-  File? _video;
-
   Future pickImage() async {
     try {
       final image = await _picker.pickImage(source: ImageSource.gallery);
-      final imageTemporary = File(image!.path);
+      final imageTemp = File(image!.path);
       setState(() {
-        _image = imageTemporary;
+        _image = imageTemp;
       });
     } catch (e) {
       FirebaseCrashlytics.instance.log(e.toString());
     }
   }
 
-  // TODO : Add the correct video player
   Future pickVideo() async {
     try {
-      final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
+      final video = await _picker.pickVideo(source: ImageSource.gallery);
       final videoTemp = File(video!.path);
       setState(() {
         _video = videoTemp;
@@ -200,7 +191,7 @@ class _AddPostState extends State<AddPost> {
                                   hintStyle: writeSomething,
                                 ),
                                 onChanged: (value) => setState(() {
-                                  topic = value;
+                                  postTopic = value;
                                 }),
                               ),
                             )),
@@ -235,14 +226,14 @@ class _AddPostState extends State<AddPost> {
                                 String url = "default";
                                 String media = "default";
                                 if (_image != null) {
-                                  url = await postService.uploadPostPicture(
+                                  url = await postServices.uploadPostPicture(
                                       currentUser,
                                       _image!,
                                       (myUser.posts.length + 1).toString());
                                   media = "photo";
                                 }
                                 if (_video != null) {
-                                  url = await postService.uploadPostVideo(
+                                  url = await postServices.uploadPostVideo(
                                       currentUser,
                                       _video!,
                                       (myUser.posts.length + 1).toString());
@@ -262,16 +253,18 @@ class _AddPostState extends State<AddPost> {
                                     createdAt: DateTime.now(),
                                     username: myUser.username,
                                     fullName: myUser.fullName,
-                                    topic: topic);
-                                postService.createPost(
+                                    topic: postTopic,
+                                    fromWho: myUser.userId);
+                                postServices.createPost(
                                     currentUser.uid, userPost);
                                 setState(() {
                                   FocusScope.of(context).unfocus();
                                   _controller.clear();
                                   _controllerUrl.clear();
                                   postText = "";
-                                  topic = "";
+                                  postTopic = "";
                                 });
+                                if (!mounted) return;
                                 Navigator.pop(context);
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     OwnProfileView.routeName, (route) => false);
@@ -317,10 +310,11 @@ class _AddPostState extends State<AddPost> {
                             if (_image == null) {
                               await pickImage();
                             } else {
-                              _image = null;
+                              setState(() {
+                                _image = null;
+                              });
                             }
                           },
-                          // TODO: Screen Sizes
                           icon: Icon(
                             Icons.camera_alt_rounded,
                             size: screenHeight(context) * 0.0345,
@@ -340,9 +334,14 @@ class _AddPostState extends State<AddPost> {
                         const Spacer(),
                         IconButton(
                           onPressed: () async {
-                            await pickVideo();
+                            if (_video == null) {
+                              await pickVideo();
+                            } else {
+                              setState(() {
+                                _video = null;
+                              });
+                            }
                           },
-                          // TODO: Screen Sizes
                           icon: Icon(
                             Icons.video_collection,
                             size: screenHeight(context) * 0.0345,

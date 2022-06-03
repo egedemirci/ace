@@ -2,6 +2,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
+import 'package:project_ace/utilities/styles.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key, required this.analytics}) : super(key: key);
@@ -18,13 +20,15 @@ class WelcomePage extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               ClipRect(
                 child: Image(
-                    image: NetworkImage('https://i.hizliresim.com/bxfjezq.png'),
-                    width: 200,
-                    height: 200),
-              )
+                    image: const NetworkImage(
+                        'https://i.hizliresim.com/bxfjezq.png'),
+                    width: screenWidth(context) * 0.5,
+                    height: screenHeight(context) * 0.25),
+              ),
+              Text("Welcome to Ace!", style: welcomeScreenText)
             ],
           ),
         ),

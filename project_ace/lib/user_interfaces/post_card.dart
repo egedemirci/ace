@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:project_ace/page_routes/comment_view.dart';
 import 'package:project_ace/page_routes/edit_post.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
-import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/report_services.dart';
 import 'package:project_ace/services/user_services.dart';
@@ -48,11 +46,11 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  final AuthServices _auth = AuthServices();
   final ReportService _reportService = ReportService();
   final UserServices _userServices = UserServices();
-  final PostService _postService = PostService();
+  final PostServices _postService = PostServices();
   String userProfilePicture = "default";
+  String userNameForReShare = "";
 
   PopupMenuItem<PostMenuItem> buildItem(PostMenuItem item) => PopupMenuItem(
         value: item,
@@ -126,7 +124,26 @@ class _PostCardState extends State<PostCard> {
             FirebaseAuth.instance.currentUser!.uid, widget.post.postId);
         break;
       case PostMenuItems.reSharePost:
-        break; // TODO: Implement here
+        Post sharedPost = Post(
+          postId: widget.post.postId,
+          userId: widget.post.userId,
+          assetUrl: widget.post.assetUrl,
+          urlAvatar: widget.post.urlAvatar,
+          mediaType: widget.post.mediaType,
+          text: widget.post.text,
+          createdAt: widget.post.createdAt,
+          username: widget.post.username,
+          fullName: widget.post.fullName,
+          comments: widget.post.comments,
+          likes: widget.post.likes,
+          dislikes: widget.post.dislikes,
+          isShared: true,
+          fromWho: widget.post.fromWho,
+          topic: widget.post.topic,
+        );
+        await _postService.createPost(
+            FirebaseAuth.instance.currentUser!.uid, sharedPost);
+        break;
       case PostMenuItems.deletePost:
         await _postService.deletePost(
             FirebaseAuth.instance.currentUser!.uid, widget.post.toJson());
@@ -149,9 +166,18 @@ class _PostCardState extends State<PostCard> {
     });
   }
 
+  getUserName() async {
+    final uname =
+        await _userServices.getUsername(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      userNameForReShare = '@$uname';
+    });
+  }
+
   @override
   void initState() {
     getUserPP();
+    getUserName();
     super.initState();
   }
 
@@ -165,10 +191,24 @@ class _PostCardState extends State<PostCard> {
       color: AppColors.profileScreenBackgroundColor,
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (widget.post.isShared == true)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.repeat),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Text("Re-shared by $userNameForReShare"),
+                    ),
+                  ],
+                ),
+              ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,7 +243,8 @@ class _PostCardState extends State<PostCard> {
                 PopupMenuButton<PostMenuItem>(
                     splashRadius: screenWidth(context) * 0.045,
                     onSelected: (item) => onSelected(context, item),
-                    itemBuilder: (context) => (widget.isMyPost == true)
+                    itemBuilder: (context) => (widget.isMyPost == true &&
+                            widget.post.fromWho == widget.myUserId)
                         ? [
                             ...PostMenuItems.userPostList
                                 .map(buildItem)
@@ -239,7 +280,7 @@ class _PostCardState extends State<PostCard> {
             Center(
               child: widget.post.assetUrl != "default"
                   ? (widget.post.mediaType == "video"
-                      ? Container(
+                      ? SizedBox(
                           width: screenWidth(context) * 0.97,
                           height: screenHeight(context) * 0.46,
                           child: VideoItems(
@@ -294,14 +335,14 @@ class _PostCardState extends State<PostCard> {
                   padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
                   child: IconButton(
                     icon: const Icon(Icons.comment),
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => CommentView(
-                                postId: widget.post.postId,
-                                analytics: widget.analytics,
-                              )));
+                                    postId: widget.post.postId,
+                                    analytics: widget.analytics,
+                                  )));
                     },
                     iconSize: 20,
                     splashRadius: 20,
