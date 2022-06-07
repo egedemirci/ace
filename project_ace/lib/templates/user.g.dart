@@ -13,7 +13,8 @@ _$_MyUser _$$_MyUserFromJson(Map<String, dynamic> json) => _$_MyUser(
       biography: json['biography'] as String? ?? "",
       profilepicture: json['profilepicture'] as String? ?? "default",
       fullName: json['fullName'] as String,
-      subscribedTopics: json['subscribedTopics'] ?? const <dynamic>[],
+      subscribedTopics:
+          json['subscribedTopics'] as List<dynamic>? ?? const <dynamic>[],
       isPrivate: json['isPrivate'] as bool? ?? false,
       followers: json['followers'] as List<dynamic>? ?? const <dynamic>[],
       following: json['following'] as List<dynamic>? ?? const <dynamic>[],

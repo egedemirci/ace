@@ -6,11 +6,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/comment.dart';
 import 'package:project_ace/templates/post.dart';
+import 'package:project_ace/templates/topic.dart';
 
 class PostServices {
   final CollectionReference postsRef =
       FirebaseFirestore.instance.collection('Posts');
   final CollectionReference usersRef = UserServices().usersRef;
+  final CollectionReference topicsRef = FirebaseFirestore.instance.collection('Topics');
   final FirebaseStorage storage = FirebaseStorage.instance;
 
   createPost(String userId, Post post) async {
@@ -18,6 +20,20 @@ class PostServices {
       'posts': FieldValue.arrayUnion([post.toJson()])
     });
     postsRef.doc(post.postId).set(post.toJson());
+    if(post.topic.isNotEmpty) {
+      var docRef = await topicsRef.doc(post.topic).get();
+      if (docRef.data() != null) {
+        topicsRef.doc(post.topic).update({
+          "postIdList": FieldValue.arrayUnion([post.postId])
+        });
+      }
+      else{
+        Topic myTopic = Topic(text: post.topic, postIdList: [post.postId]);
+        topicsRef.doc(post.topic).set(
+          myTopic.toJson()
+        );
+      }
+    }
   }
 
   Future<void> editPost(String userId, String postId, String text) async {
@@ -170,23 +186,35 @@ class PostServices {
     bool isReshared = false;
     int i = 0;
     for (; i < posts.length; i++) {
-      if (posts["postId"] == posts[i]["postId"]) {
+      if (post.postId == posts[i]["postId"]) {
         thePost = posts[i];
         isReshared = true;
-        print("here 1");
         break;
       }
     }
+
+    Post newPost = Post(
+        postId: userId + (posts.length +1).toString(),
+        userId: userId,
+        assetUrl: post.assetUrl,
+        text: post.text,
+        mediaType: post.mediaType,
+        createdAt: DateTime.now(),
+        username: post.username,
+        topic: post.topic,
+        urlAvatar: post.urlAvatar,
+        fullName: post.fullName,
+        fromWho: post.userId,
+        isShared: true);
     if (isReshared) {
-      print("here 2");
       await usersRef.doc(userId).update({
         "posts": FieldValue.arrayRemove([thePost])
       });
     } else {
-      print("here 3");
       await usersRef.doc(userId).update({
-        'posts': FieldValue.arrayUnion([post.toJson()])
+        'posts': FieldValue.arrayUnion([newPost.toJson()])
       });
+      await postsRef.doc(newPost.postId).set(newPost.toJson());
     }
   }
 }

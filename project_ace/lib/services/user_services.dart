@@ -257,4 +257,13 @@ class UserServices {
   updateLocation(String userId, double lat, double lon) async {
     usersRef.doc(userId).update({"geoLocation": GeoPoint(lat, lon)});
   }
+
+  Future<bool> isUsernameExist(String username) async {
+    final QuerySnapshot users= await usersRef
+        .where('username', isEqualTo: username)
+        .limit(1)
+        .get();
+    final List<DocumentSnapshot> documents = users.docs;
+    return documents.length == 1;
+  }
 }

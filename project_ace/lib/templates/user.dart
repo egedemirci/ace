@@ -12,7 +12,7 @@ class MyUser with _$MyUser{
     @Default("") String biography,
     @Default("default") String profilepicture,
     required String fullName,
-    @Default(<dynamic>[]) subscribedTopics,
+    @Default(<dynamic>[]) List<dynamic> subscribedTopics,
     @Default(false) bool isPrivate,
     @Default(<dynamic>[]) List<dynamic> followers,
     @Default(<dynamic>[]) List<dynamic> following,

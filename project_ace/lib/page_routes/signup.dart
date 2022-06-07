@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
@@ -273,11 +274,18 @@ class _SignUpState extends State<SignUp> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                await registerUser();
-                await _showDialog("Sign Up Success",
-                    "You have successfully signed up.\nYou will now be directed to your profile page");
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Login.routeName, (route) => false);
+                bool isUsernameExist = await UserServices().isUsernameExist(_userName);
+                if(isUsernameExist){
+                  await _showDialog('Form Error',
+                      "This username already in use, try another one");
+                }
+                else {
+                  await registerUser();
+                  await _showDialog("Sign Up Success",
+                      "You have successfully signed up.\nYou will now be directed to your profile page");
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, Login.routeName, (route) => false);
+                }
               } else {
                 await _showDialog('Form Error',
                     "You could not register with the current information. Try again!");

@@ -124,25 +124,8 @@ class _PostCardState extends State<PostCard> {
             FirebaseAuth.instance.currentUser!.uid, widget.post.postId);
         break;
       case PostMenuItems.reSharePost:
-        Post sharedPost = Post(
-          postId: widget.post.postId,
-          userId: widget.post.userId,
-          assetUrl: widget.post.assetUrl,
-          urlAvatar: widget.post.urlAvatar,
-          mediaType: widget.post.mediaType,
-          text: widget.post.text,
-          createdAt: widget.post.createdAt,
-          username: widget.post.username,
-          fullName: widget.post.fullName,
-          comments: widget.post.comments,
-          likes: widget.post.likes,
-          dislikes: widget.post.dislikes,
-          isShared: true,
-          fromWho: widget.post.fromWho,
-          topic: widget.post.topic,
-        );
-        await _postService.createPost(
-            FirebaseAuth.instance.currentUser!.uid, sharedPost);
+        await _postService.reSharePost(
+            FirebaseAuth.instance.currentUser!.uid, widget.post);
         break;
       case PostMenuItems.deletePost:
         await _postService.deletePost(
@@ -160,15 +143,23 @@ class _PostCardState extends State<PostCard> {
   }
 
   Future getUserPP() async {
-    final upp = await UserServices().getUserPp(widget.post.userId);
-    setState(() {
-      userProfilePicture = upp;
-    });
+    if(widget.post.isShared){
+      final upp = await UserServices().getUserPp(widget.post.fromWho);
+      setState(() {
+        userProfilePicture = upp;
+      });
+    }
+    else {
+      final upp = await UserServices().getUserPp(widget.post.userId);
+      setState(() {
+        userProfilePicture = upp;
+      });
+    }
   }
 
   getUserName() async {
     final uname =
-        await _userServices.getUsername(FirebaseAuth.instance.currentUser!.uid);
+        await _userServices.getUsername(widget.post.userId);
     setState(() {
       userNameForReShare = '@$uname';
     });
@@ -244,7 +235,7 @@ class _PostCardState extends State<PostCard> {
                     splashRadius: screenWidth(context) * 0.045,
                     onSelected: (item) => onSelected(context, item),
                     itemBuilder: (context) => (widget.isMyPost == true &&
-                            widget.post.fromWho == widget.myUserId)
+                            widget.post.fromWho != widget.myUserId)
                         ? [
                             ...PostMenuItems.userPostList
                                 .map(buildItem)
@@ -259,21 +250,37 @@ class _PostCardState extends State<PostCard> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // TODO: Add the correct text style here
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // TODO: Add the correct text style here
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                          child: Text(
+                            widget.post.text,
+                            maxLines: 3,
+                            style: postText,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                  if (widget.post.topic.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8,0, 8, 0),
                       child: Text(
-                        widget.post.text,
-                        maxLines: 3,
-                        style: postText,
+                        '#${widget.post.topic}',
+                        style: topicText,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ),
+                    )
+
                 ],
               ),
             ),

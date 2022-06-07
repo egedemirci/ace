@@ -243,6 +243,13 @@ final postText = GoogleFonts.montserrat(
   letterSpacing: -0.7,
 );
 
+final topicText = GoogleFonts.montserrat(
+  color: AppColors.topicColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 18,
+  letterSpacing: -0.7,
+);
+
 // Chat
 final userNameChatHeader = GoogleFonts.montserrat(
   color: AppColors.chatHeader,

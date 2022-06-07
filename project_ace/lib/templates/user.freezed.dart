@@ -26,7 +26,7 @@ mixin _$MyUser {
   String get biography => throw _privateConstructorUsedError;
   String get profilepicture => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
-  dynamic get subscribedTopics => throw _privateConstructorUsedError;
+  List<dynamic> get subscribedTopics => throw _privateConstructorUsedError;
   bool get isPrivate => throw _privateConstructorUsedError;
   List<dynamic> get followers => throw _privateConstructorUsedError;
   List<dynamic> get following => throw _privateConstructorUsedError;
@@ -53,7 +53,7 @@ abstract class $MyUserCopyWith<$Res> {
       String biography,
       String profilepicture,
       String fullName,
-      dynamic subscribedTopics,
+      List<dynamic> subscribedTopics,
       bool isPrivate,
       List<dynamic> followers,
       List<dynamic> following,
@@ -120,7 +120,7 @@ class _$MyUserCopyWithImpl<$Res> implements $MyUserCopyWith<$Res> {
       subscribedTopics: subscribedTopics == freezed
           ? _value.subscribedTopics
           : subscribedTopics // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as List<dynamic>,
       isPrivate: isPrivate == freezed
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
@@ -173,7 +173,7 @@ abstract class _$$_MyUserCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       String biography,
       String profilepicture,
       String fullName,
-      dynamic subscribedTopics,
+      List<dynamic> subscribedTopics,
       bool isPrivate,
       List<dynamic> followers,
       List<dynamic> following,
@@ -239,8 +239,9 @@ class __$$_MyUserCopyWithImpl<$Res> extends _$MyUserCopyWithImpl<$Res>
           : fullName // ignore: cast_nullable_to_non_nullable
               as String,
       subscribedTopics: subscribedTopics == freezed
-          ? _value.subscribedTopics
-          : subscribedTopics,
+          ? _value._subscribedTopics
+          : subscribedTopics // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       isPrivate: isPrivate == freezed
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
@@ -291,7 +292,7 @@ class _$_MyUser implements _MyUser {
       this.biography = "",
       this.profilepicture = "default",
       required this.fullName,
-      this.subscribedTopics = const <dynamic>[],
+      final List<dynamic> subscribedTopics = const <dynamic>[],
       this.isPrivate = false,
       final List<dynamic> followers = const <dynamic>[],
       final List<dynamic> following = const <dynamic>[],
@@ -301,7 +302,8 @@ class _$_MyUser implements _MyUser {
       this.isDisabled = false,
       this.isThereNewNotif = false,
       final List<dynamic> posts = const <dynamic>[]})
-      : _followers = followers,
+      : _subscribedTopics = subscribedTopics,
+        _followers = followers,
         _following = following,
         _requests = requests,
         _notifications = notifications,
@@ -325,9 +327,14 @@ class _$_MyUser implements _MyUser {
   final String profilepicture;
   @override
   final String fullName;
+  final List<dynamic> _subscribedTopics;
   @override
   @JsonKey()
-  final dynamic subscribedTopics;
+  List<dynamic> get subscribedTopics {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_subscribedTopics);
+  }
+
   @override
   @JsonKey()
   final bool isPrivate;
@@ -404,7 +411,7 @@ class _$_MyUser implements _MyUser {
                 .equals(other.profilepicture, profilepicture) &&
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
             const DeepCollectionEquality()
-                .equals(other.subscribedTopics, subscribedTopics) &&
+                .equals(other._subscribedTopics, _subscribedTopics) &&
             const DeepCollectionEquality().equals(other.isPrivate, isPrivate) &&
             const DeepCollectionEquality()
                 .equals(other._followers, _followers) &&
@@ -432,7 +439,7 @@ class _$_MyUser implements _MyUser {
       const DeepCollectionEquality().hash(biography),
       const DeepCollectionEquality().hash(profilepicture),
       const DeepCollectionEquality().hash(fullName),
-      const DeepCollectionEquality().hash(subscribedTopics),
+      const DeepCollectionEquality().hash(_subscribedTopics),
       const DeepCollectionEquality().hash(isPrivate),
       const DeepCollectionEquality().hash(_followers),
       const DeepCollectionEquality().hash(_following),
@@ -462,7 +469,7 @@ abstract class _MyUser implements MyUser {
       final String biography,
       final String profilepicture,
       required final String fullName,
-      final dynamic subscribedTopics,
+      final List<dynamic> subscribedTopics,
       final bool isPrivate,
       final List<dynamic> followers,
       final List<dynamic> following,
@@ -488,7 +495,7 @@ abstract class _MyUser implements MyUser {
   @override
   String get fullName => throw _privateConstructorUsedError;
   @override
-  dynamic get subscribedTopics => throw _privateConstructorUsedError;
+  List<dynamic> get subscribedTopics => throw _privateConstructorUsedError;
   @override
   bool get isPrivate => throw _privateConstructorUsedError;
   @override

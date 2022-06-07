@@ -1,5 +1,15 @@
-class Topic {
-  String text;
-  String area;
-  Topic({required this.text, required this.area});
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'topic.g.dart';
+part 'topic.freezed.dart';
+
+@Freezed()
+
+class Topic with _$Topic{
+  const factory Topic({
+    required String text,
+    @Default(<dynamic>[]) List<dynamic> postIdList,
+  }) = _Topic;
+
+  factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
 }
