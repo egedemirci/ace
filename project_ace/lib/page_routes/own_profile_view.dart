@@ -10,6 +10,7 @@ import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
@@ -255,8 +256,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, FirestoreSearch.routeName, (route) => false);
+                      Navigator.pushNamed(
+                          context, Search.routeName);
                     },
                     splashRadius: screenWidth(context) * 0.07,
                   ),
