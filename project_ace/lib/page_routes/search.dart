@@ -37,7 +37,7 @@ class _SearchState extends State<Search> {
   final _controller = TextEditingController();
   UserServices userServices = UserServices();
   PostServices postServices = PostServices();
-  String query = " ";
+  String query = "";
 
   int currentSearchLoc = 0;
 
@@ -168,34 +168,40 @@ class _SearchState extends State<Search> {
             ),
           ),
         ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: currentSearchLoc != 2 ? StreamBuilder<QuerySnapshot>(
           stream: userServices.usersRef.snapshots().asBroadcastStream(),
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot> querySnapshot) {
             if (!querySnapshot.hasData) {
               return const CircularProgressIndicator();
             } else {
-              List<dynamic> userList = querySnapshot.data!.docs
-                  .where((QueryDocumentSnapshot<Object?> element) {
-                return (element['isDisabled'] == false && element["username"].toString().toLowerCase().contains(query.toLowerCase())) ;
-              }).toList();
-
-              List<dynamic> postsList = querySnapshot.data!.docs
-                  .where((QueryDocumentSnapshot<Object?> element) {
-                return (!element["isDisabled"]);
-              })
-                  .map((data) => (data["posts"]))
-                  .toList();
+              List<dynamic> userList = [];
               List<dynamic> followingPosts = [];
-              for (int j = 0; j < postsList.length; j++) {
-                for (int k = 0; k < postsList[j].length; k++) {
-                  if(postsList[j][k]['text'].toString().toLowerCase().contains(query)) {
-                    followingPosts += [postsList[j][k]];
+              if(query.trim().isNotEmpty){
+                userList = querySnapshot.data!.docs
+                    .where((QueryDocumentSnapshot<Object?> element) {
+                  return (element['isDisabled'] == false && element["username"].toString().toLowerCase().contains(query.toLowerCase())) ;
+                }).toList();
+
+                List<dynamic> postsList = querySnapshot.data!.docs
+                    .where((QueryDocumentSnapshot<Object?> element) {
+                  return (!element["isDisabled"]);
+                })
+                    .map((data) => (data["posts"]))
+                    .toList();
+                followingPosts = [];
+                for (int j = 0; j < postsList.length; j++) {
+                  for (int k = 0; k < postsList[j].length; k++) {
+                    if(postsList[j][k]['text'].toString().toLowerCase().contains(query)) {
+                      followingPosts += [postsList[j][k]];
+                    }
                   }
                 }
+                followingPosts.sort((a, b) =>
+                    a["createdAt"].compareTo(b["createdAt"]));
               }
-              followingPosts.sort((a, b) =>
-                  a["createdAt"].compareTo(b["createdAt"]));
+
+
 
               if(currentSearchLoc == 0){
                 return SingleChildScrollView(
@@ -278,6 +284,9 @@ class _SearchState extends State<Search> {
                                       ),
                                     ],
                                   ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight(context) * 0.0115,
                                 ),
                                 Column(
                                   children: List.from(
@@ -375,6 +384,9 @@ class _SearchState extends State<Search> {
                                       ),
                                     ],
                                   ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight(context) * 0.0115,
                                 ),
                                 Column(
                                   children: List.from(
@@ -509,7 +521,117 @@ class _SearchState extends State<Search> {
 
 
             }
-          }),
+          }) : StreamBuilder<QuerySnapshot>(
+          stream: postServices.topicsRef.snapshots().asBroadcastStream(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> querySnapshot) {
+            if (!querySnapshot.hasData) {
+              return const CircularProgressIndicator();
+            } else {
+              List<dynamic> topicList = [];
+              List<dynamic> followingPosts = [];
+              if(query.trim().isNotEmpty){
+                topicList = querySnapshot.data!.docs.where((QueryDocumentSnapshot<Object?> element) {
+                  return (element["text"].toString().toLowerCase().contains(query.toLowerCase())) ;
+                }).toList();
+              }
+                return SingleChildScrollView(
+                    child: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                              children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.profileImageTextPostViewButton,
+                                  ),
+                                  width: double.infinity,
+                                  height: screenHeight(context) * 0.06,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(0);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.people_alt_outlined,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(1);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.text_fields,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(2);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.tag,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: screenHeight(context) * 0.0115,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight(context) * 0.0115,
+                                ),
+                                Column(
+                                  children: List.from(
+                                    topicList
+                                        .map((topic) => TopicCard(topic: Topic.fromJson(topic.data() as Map<String, dynamic>)))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                )
+                              ]),
+                        )));
+            }
+          })
+
     );
   }
 }
