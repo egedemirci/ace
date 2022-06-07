@@ -240,7 +240,9 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await _auth.signInWithFacebook();
+                        },
                         style: OutlinedButton.styleFrom(
                             backgroundColor: AppColors
                                 .loginPageMetaGoogleOptionBackgroundColor,

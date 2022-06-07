@@ -3,10 +3,10 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
-import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
@@ -130,8 +130,7 @@ class _FeedState extends State<Feed> {
                         color: AppColors.bottomNavigationBarIconOutlineColor,
                       ),
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context,
-                            FirestoreSearch.routeName, (route) => false);
+                        Navigator.pushNamed(context, Search.routeName);
                       },
                       splashRadius: screenWidth(context) * 0.07,
                     ),
@@ -249,7 +248,8 @@ class _FeedState extends State<Feed> {
                                               reShare: () {
                                                 // TODO: Re-share
                                               },
-                                              myUserId: user.uid, analytics: widget.analytics,
+                                              myUserId: user.uid,
+                                              analytics: widget.analytics,
                                             ))
                                         .toList()
                                         .reversed,

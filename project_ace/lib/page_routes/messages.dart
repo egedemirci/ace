@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
-import 'package:project_ace/page_routes/firestore_search.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/message_services.dart';
@@ -69,8 +69,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, FirestoreSearch.routeName, (route) => false);
+                      Navigator.pushNamed(context, Search.routeName);
                     },
                     splashRadius: screenWidth(context) * 0.07,
                   ),

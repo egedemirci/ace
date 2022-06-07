@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/templates/notif.dart';
-import 'package:project_ace/templates/post.dart';
 
 class UserServices {
   final CollectionReference usersRef =
@@ -110,20 +109,6 @@ class UserServices {
     return username;
   }
 
-  Future<bool> isUserFollow(String userId, String otherUserId) async {
-    var docRef = await usersRef.doc(userId).get();
-    var coll = docRef.data() as Map<String, dynamic>;
-    var following = coll["following"];
-    return following.contains(otherUserId);
-  }
-
-  Future<bool> hasFollower(String userId, String otherUserId) async {
-    var docRef = await usersRef.doc(otherUserId).get();
-    var coll = docRef.data() as Map<String, dynamic>;
-    var following = coll["followers"];
-    return following.contains(userId);
-  }
-
   updatePrivacy(String userId, bool isPrivate) async {
     usersRef.doc(userId).update({"isPrivate": isPrivate});
   }
@@ -134,13 +119,13 @@ class UserServices {
     bool privacy = coll["isPrivate"];
     return privacy;
   }
+
   Future<bool> getDisabled(String userId) async {
     var docRef = await usersRef.doc(userId).get();
     var coll = docRef.data() as Map<String, dynamic>;
     bool isDisabled = coll["isDisabled"];
     return isDisabled;
   }
-
 
   Future<void> addBookmark(String userId, String postId) async {
     var docRef = await usersRef.doc(userId).get();
@@ -259,10 +244,8 @@ class UserServices {
   }
 
   Future<bool> isUsernameExist(String username) async {
-    final QuerySnapshot users= await usersRef
-        .where('username', isEqualTo: username)
-        .limit(1)
-        .get();
+    final QuerySnapshot users =
+        await usersRef.where('username', isEqualTo: username).limit(1).get();
     final List<DocumentSnapshot> documents = users.docs;
     return documents.length == 1;
   }

@@ -69,13 +69,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
-              }
-              else {
+              } else {
                 List<dynamic> userList = snapshot.data!.docs
                     .where((QueryDocumentSnapshot<Object?> element) {
                   return element["userId"] == user.uid;
                 }).toList();
-                MyUser myUser = MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
+                MyUser myUser =
+                    MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
                 return SingleChildScrollView(
                   child: SafeArea(
                     child: Column(
@@ -87,7 +87,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 );
               }
-              return const CircularProgressIndicator();
             }));
   }
 }
