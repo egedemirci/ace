@@ -12,7 +12,6 @@ import 'package:project_ace/page_routes/edit_bio.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/user_services.dart';
-import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -277,14 +276,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       var prefs = await SharedPreferences.getInstance();
                       prefs.setBool("disable", false);
                       _showDialog("Success", "You successfully enabled your account!");
-                      setState(() {});
+                      setState(() {
+                        isDisabled = false;
+                      });
                     }
                     else {
                       await _userServices.disableUser(user.uid);
                       var prefs = await SharedPreferences.getInstance();
                       prefs.setBool("disable", true);
                       _showDialog("Success", "You successfully disabled your account!");
-                      setState(() {});
+                      setState(() {
+                        isDisabled = true;
+                      });
                     }
                   },
                   style: ElevatedButton.styleFrom(
