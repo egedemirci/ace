@@ -134,6 +134,13 @@ class UserServices {
     bool privacy = coll["isPrivate"];
     return privacy;
   }
+  Future<bool> getDisabled(String userId) async {
+    var docRef = await usersRef.doc(userId).get();
+    var coll = docRef.data() as Map<String, dynamic>;
+    bool isDisabled = coll["isDisabled"];
+    return isDisabled;
+  }
+
 
   Future<void> addBookmark(String userId, String postId) async {
     var docRef = await usersRef.doc(userId).get();

@@ -12,10 +12,12 @@ import 'package:project_ace/page_routes/edit_bio.dart';
 import 'package:project_ace/page_routes/login.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/user_services.dart';
+import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({Key? key, required this.analytics}) : super(key: key);
@@ -32,11 +34,27 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   final UserServices _userServices = UserServices();
   File? _image;
   bool isPrivate = false;
+  bool isDisabled =  false;
+  bool sharedisDisabled=false;
 
   onChangedSwitch(bool newVal, String userId) {
     setState(() {
       isPrivate = newVal;
       _userServices.updatePrivacy(userId, isPrivate);
+    });
+  }
+
+  onChangedDisableAccount(bool newVal, String userId) async{
+    setState(() {
+      if(newVal == true) {
+        _userServices.enableUser(userId);
+        isDisabled= newVal;
+      }
+      else {
+         _userServices.disableUser(userId);
+        isDisabled=newVal;
+      }
+
     });
   }
 
@@ -68,8 +86,63 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
+  Future getUserDisabled() async {
+    final f = await UserServices().getDisabled(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      isDisabled =f;
+    });
+  }
+  Future<void> _showDialog(String title, String message) async {
+    bool isAndroid = Platform.isAndroid;
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if (isAndroid) {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(message),
+                    ],
+                  )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          } else {
+            return CupertinoAlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(message),
+                    ],
+                  )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          }
+        });
+  }
+
+
+
   @override
   void initState() {
+    getUserDisabled();
     getUserPrivacy();
     super.initState();
   }
@@ -193,21 +266,65 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
               ),
+
               SizedBox(height: screenHeight(context) * 0.018),
               SizedBox(
                 height: screenHeight(context) * 0.062,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed:() async {
+                    if (isDisabled) {
+                      await _userServices.enableUser(user.uid);
+                      var prefs = await SharedPreferences.getInstance();
+                      prefs.setBool("disable", false);
+                      _showDialog("Success", "You successfully enabled your account!");
+                      setState(() {});
+                    }
+                    else {
+                      await _userServices.disableUser(user.uid);
+                      var prefs = await SharedPreferences.getInstance();
+                      prefs.setBool("disable", true);
+                      _showDialog("Success", "You successfully disabled your account!");
+                      setState(() {});
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
-                      primary: AppColors.deactivateAccountButtonFillColor,
+                      primary: isDisabled ? AppColors.messagesFromUserFillColor : AppColors.deactivateAccountButtonFillColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: Text(
-                    'Deactivate account',
+                    isDisabled ?
+                    'Enable Account' : 'Disable Account',
                     style: profileSettingsDeactivateAndDelete,
                   ),
                 ),
               ),
+              //DEACTIVATE WITH SWITCH
+              /*
+              SizedBox(height: screenHeight(context) * 0.018),
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(radius),
+                  color: AppColors.metaGoogleConnectButtonColor,
+                ),
+                height: 54.0,
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Deactive Account:  ${isDisabled ? "Disable" : "Enable"}',
+                      style: profileSettingsChangeButton,
+                    ),
+                    CupertinoSwitch(
+                      value: isDisabled,
+                      onChanged: (newDisable) {
+                        onChangedDisableAccount(newDisable, user.uid);
+                      },
+                    )
+                  ],
+                ),
+              ),
+              */
               SizedBox(height: screenHeight(context) * 0.018),
               SizedBox(
                 height: screenHeight(context) * 0.062,
