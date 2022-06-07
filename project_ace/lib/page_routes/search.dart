@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +6,16 @@ import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/post_services.dart';
+import 'package:project_ace/services/user_services.dart';
+import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/templates/topic.dart';
 import 'package:project_ace/templates/user.dart';
+import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/user_interfaces/topic_cards.dart';
+import 'package:project_ace/user_interfaces/user_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -25,11 +32,20 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<Topic> topics = [
-  ];
 
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
+  UserServices userServices = UserServices();
+  PostServices postServices = PostServices();
+  String query = "";
+
+  int currentSearchLoc = 0;
+
+  changeCurrentSearchLoc(int i) {
+    setState(() {
+      currentSearchLoc = i;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,51 +68,38 @@ class _SearchState extends State<Search> {
               child: TextFormField(
                 key: _formKey,
                 controller: _controller,
+                onChanged: (value) {
+                  setState(() {
+                    query = value;
+                  });
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   labelStyle: searchFormText,
-                  prefixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                    },
-                  ),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
                       _controller.clear();
                     },
+                    splashRadius: 1,
                   ),
                   hintText: 'Search',
                 ),
               ),
             ),
-          )),
-      backgroundColor: AppColors.searchScreenBackground,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: topics
-                  .map((myTopic) => TopicCard(
-                        topic: myTopic,
-                      ))
-                  .toList(),
-            ),
-          ),
-        ),
+          )
       ),
+      backgroundColor: AppColors.searchScreenBackground,
       bottomNavigationBar: SizedBox(
-        height: screenHeight(context) * 0.025,
-        child: BottomAppBar(
-          color: AppColors.welcomeScreenBackgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
+          height: screenHeight(context) * 0.095,
+          child: BottomAppBar(
+            color: AppColors.welcomeScreenBackgroundColor,
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
                     tooltip: "Messages",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
@@ -104,20 +107,26 @@ class _SearchState extends State<Search> {
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
                       Navigator.pushNamed(context, MessageScreen.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Search",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.search,
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
-                    onPressed: () {}),
-                const Spacer(),
-                IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, Search.routeName);
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Home",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
@@ -127,9 +136,11 @@ class _SearchState extends State<Search> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, Feed.routeName, (route) => false);
-                    }),
-                const Spacer(),
-                IconButton(
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Add Post",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
@@ -137,26 +148,490 @@ class _SearchState extends State<Search> {
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
                       Navigator.pushNamed(context, AddPost.routeName);
-                    }),
-                const Spacer(),
-                IconButton(
+                    },
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                  const Spacer(),
+                  IconButton(
                     tooltip: "Profile",
                     iconSize: screenWidth(context) * 0.08,
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, OwnProfileView.routeName, (route) => false);
-                    }),
-              ],
+                    onPressed: () {},
+                    splashRadius: screenWidth(context) * 0.07,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
+      body: currentSearchLoc != 2 ? StreamBuilder<QuerySnapshot>(
+          stream: userServices.usersRef.snapshots().asBroadcastStream(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> querySnapshot) {
+            if (!querySnapshot.hasData) {
+              return const CircularProgressIndicator();
+            } else {
+              List<dynamic> userList = [];
+              List<dynamic> followingPosts = [];
+              if(query.trim().isNotEmpty){
+                userList = querySnapshot.data!.docs
+                    .where((QueryDocumentSnapshot<Object?> element) {
+                  return (element['isDisabled'] == false && element["username"].toString().toLowerCase().contains(query.toLowerCase())) ;
+                }).toList();
+
+                List<dynamic> postsList = querySnapshot.data!.docs
+                    .where((QueryDocumentSnapshot<Object?> element) {
+                  return (!element["isDisabled"]);
+                })
+                    .map((data) => (data["posts"]))
+                    .toList();
+                followingPosts = [];
+                for (int j = 0; j < postsList.length; j++) {
+                  for (int k = 0; k < postsList[j].length; k++) {
+                    if(postsList[j][k]['text'].toString().toLowerCase().contains(query)) {
+                      followingPosts += [postsList[j][k]];
+                    }
+                  }
+                }
+                followingPosts.sort((a, b) =>
+                    a["createdAt"].compareTo(b["createdAt"]));
+              }
+
+
+
+              if(currentSearchLoc == 0){
+                return SingleChildScrollView(
+                    child: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                              children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.profileImageTextPostViewButton,
+                                  ),
+                                  width: double.infinity,
+                                  height: screenHeight(context) * 0.06,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(0);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.people_alt_outlined,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(1);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.text_fields,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(2);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.tag,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: screenHeight(context) * 0.0115,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight(context) * 0.0115,
+                                ),
+                                Column(
+                                  children: List.from(
+                                    userList
+                                        .map((user) => UserCard(
+                                      user: MyUser.fromJson(user.data() as Map<String, dynamic>),
+                                      isNewChat: false,
+                                      analytics: widget.analytics,
+                                    ))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                )
+                              ]),
+                        )));
+              }
+              if(currentSearchLoc == 1){
+                return SingleChildScrollView(
+                    child: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                              children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.profileImageTextPostViewButton,
+                                  ),
+                                  width: double.infinity,
+                                  height: screenHeight(context) * 0.06,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(0);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.people_alt_outlined,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(1);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.text_fields,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(2);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.tag,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: screenHeight(context) * 0.0115,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight(context) * 0.0115,
+                                ),
+                                Column(
+                                  children: List.from(
+                                    followingPosts
+                                        .map((post) => PostCard(
+                                      post: Post.fromJson(post),
+                                      isMyPost: false,
+                                      deletePost: () {
+
+                                      },
+                                      incrementLike: () {
+                                        postServices.likePost(
+                                            user.uid,
+                                            post["userId"],
+                                            post["postId"]);
+                                      },
+                                      incrementDislike: () {
+                                        postServices.dislikePost(
+                                            user.uid,
+                                            post["userId"],
+                                            post["postId"]);
+                                      },
+                                      reShare: () {
+                                        // TODO: Re-share
+                                      },
+                                      myUserId: user.uid, analytics: widget.analytics,
+                                    ))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                )
+                              ]),
+                        )));
+              }
+              else{
+                return SingleChildScrollView(
+                    child: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                              children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.profileImageTextPostViewButton,
+                                  ),
+                                  width: double.infinity,
+                                  height: screenHeight(context) * 0.06,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(0);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.people_alt_outlined,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(1);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.text_fields,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(2);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.tag,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: screenHeight(context) * 0.0115,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: List.from(
+                                    userList
+                                        .map((user) => UserCard(
+                                      user: MyUser.fromJson(user.data() as Map<String, dynamic>),
+                                      isNewChat: false,
+                                      analytics: widget.analytics,
+                                    ))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                )
+                              ]),
+                        )));
+              }
+
+
+            }
+          }) : StreamBuilder<QuerySnapshot>(
+          stream: postServices.topicsRef.snapshots().asBroadcastStream(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> querySnapshot) {
+            if (!querySnapshot.hasData) {
+              return const CircularProgressIndicator();
+            } else {
+              List<dynamic> topicList = [];
+              List<dynamic> followingPosts = [];
+              if(query.trim().isNotEmpty){
+                topicList = querySnapshot.data!.docs.where((QueryDocumentSnapshot<Object?> element) {
+                  return (element["text"].toString().toLowerCase().contains(query.toLowerCase())) ;
+                }).toList();
+              }
+                return SingleChildScrollView(
+                    child: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                              children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.profileImageTextPostViewButton,
+                                  ),
+                                  width: double.infinity,
+                                  height: screenHeight(context) * 0.06,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(0);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.people_alt_outlined,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(1);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.text_fields,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                        child: VerticalDivider(
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                            thickness: 2,
+                                            width: 10),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            changeCurrentSearchLoc(2);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 0, side: BorderSide.none),
+                                          child: const Icon(
+                                            Icons.tag,
+                                            color: AppColors
+                                                .welcomeScreenBackgroundColor,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: screenHeight(context) * 0.0115,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: screenHeight(context) * 0.0115,
+                                ),
+                                Column(
+                                  children: List.from(
+                                    topicList
+                                        .map((topic) => TopicCard(topic: Topic.fromJson(topic.data() as Map<String, dynamic>)))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                )
+                              ]),
+                        )));
+            }
+          })
+
     );
   }
 }

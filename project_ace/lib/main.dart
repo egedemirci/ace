@@ -16,6 +16,7 @@ import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/notifications.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
+import 'package:project_ace/page_routes/search.dart';
 import 'package:project_ace/page_routes/signup.dart';
 import 'package:project_ace/page_routes/walkthrough.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -140,7 +141,7 @@ class _AceBaseState extends State<AceBase> {
                 Feed.routeName: (context) => Feed(
                       analytics: analytics,
                     ),
-                FirestoreSearch.routeName: (context) => FirestoreSearch(
+                Search.routeName: (context) => Search(
                       analytics: analytics,
                     ),
                 MessageScreen.routeName: (context) => MessageScreen(
