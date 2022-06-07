@@ -300,4 +300,11 @@ final welcomeScreenText = GoogleFonts.montserrat(
   letterSpacing: -0.7,
 );
 
+final postLocation = GoogleFonts.montserrat(
+  color: AppColors.userNameColor,
+  fontWeight: FontWeight.normal,
+  fontSize: 16,
+  letterSpacing: -0.7,
+);
+
 //If you use header here, you can take one of the headers from other views.

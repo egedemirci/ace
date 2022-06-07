@@ -22,6 +22,7 @@ _$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
       isShared: json['isShared'] as bool? ?? false,
       fromWho: json['fromWho'] as String? ?? "",
       topic: json['topic'] as String? ?? "",
+      location: json['location'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
@@ -40,4 +41,5 @@ Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
       'isShared': instance.isShared,
       'fromWho': instance.fromWho,
       'topic': instance.topic,
+      'location': instance.location,
     };

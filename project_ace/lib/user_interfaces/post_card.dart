@@ -230,6 +230,7 @@ class _PostCardState extends State<PostCard> {
                     style: postCardUserName,
                   ),
                 ),
+                const SizedBox(width: 10),
                 const Spacer(),
                 PopupMenuButton<PostMenuItem>(
                     splashRadius: screenWidth(context) * 0.045,
@@ -271,7 +272,8 @@ class _PostCardState extends State<PostCard> {
 
                     ],
                   ),
-                  if (widget.post.topic.isNotEmpty)
+                  Row(
+                  children: [if (widget.post.topic.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8,0, 8, 0),
                       child: Text(
@@ -279,8 +281,21 @@ class _PostCardState extends State<PostCard> {
                         style: topicText,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    )
-
+                    ),
+                    const Spacer(),
+                    if (widget.post.location.isNotEmpty) const Icon(Icons.location_on_outlined,
+                    size: 20,
+                    color: AppColors.profileSettingButtonFillColor,),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(2, 3, 0, 0),
+                      child: Text(
+                        widget.post.location,
+                        style: postLocation,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ]
+                  )
                 ],
               ),
             ),

@@ -50,6 +50,7 @@ class _AddPostState extends State<AddPost> {
   bool? _serviceEnabled;
   bool _loading = false;
   String? _error;
+  String city = "";
   bool isLocationShared = false;
 
   void _scrollDown() {
@@ -231,6 +232,12 @@ class _AddPostState extends State<AddPost> {
                         SizedBox(
                           height: screenHeight(context) * 0.023,
                         ),
+                        if (isLocationShared) Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: Text("Your location is: $city", style: const TextStyle(
+                            fontSize: 16,
+                          ),),
+                        ),
                         if (_image != null)
                           Center(
                               child: ClipRRect(
@@ -252,7 +259,7 @@ class _AddPostState extends State<AddPost> {
                           height: screenHeight(context) * 0.023,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             OutlinedButton(
                               onPressed: () async {
@@ -287,7 +294,8 @@ class _AddPostState extends State<AddPost> {
                                     username: myUser.username,
                                     fullName: myUser.fullName,
                                     topic: postTopic,
-                                    fromWho: myUser.userId);
+                                    fromWho: myUser.userId,
+                                location: city.isNotEmpty ? city : "");
                                 postServices.createPost(
                                     currentUser.uid, userPost);
                                 setState(() {
@@ -335,35 +343,21 @@ class _AddPostState extends State<AddPost> {
                                 if (isLocationShared) {
                                   setState(() {
                                     _locData = null;
+                                    isLocationShared = false;
+                                    city = "";
                                   });
                                 } else {
                                   await _getLocation();
-
                                   final g = GeoCity(lt: _locData!.latitude!, lg: _locData!.longitude!);
-                                  print( _locData!.latitude!);
-                                  print(_locData!.longitude!);
                                   String place = await g.getPlace() as String;
-                                  //Istanbul coordinates
-                                  //41.0053215,
-                                  //29.0121795
-                                  print(place);
-                                  //const _apiKey = 'AIzaSyDM03Z_LKlVYygAzE9H21Ik5B3w6wwn-pA';
-                                  //final LocatitonGeocoder geocoder = LocatitonGeocoder(_apiKey);
-                                  //final address = await geocoder
-                                    //  .findAddressesFromCoordinates(Coordinates(_locData!.latitude!, _locData!.latitude!));
-                                  //print("asdasd ${address.first.addressLine}");
-                                  //print(address.toString());
-                                  // GeoData data = await Geocoder2.getDataFromCoordinates(
-                                  //   latitude: _locData!.latitude!,
-                                  // longitude: _locData!.longitude!,
-                                  //googleMapApiKey: "AIzaSyDoyPll-UC2JkUf5aU3TGtTNWa1kKamLdo");
-                                  //final addresses = await Geocoder2.local.findAddressesFromCoordinates(Coordinates(_locData!.latitude, _locData!.longitude));
-                                  // final first = addresses.first;
-                                  //print("${first.featureName} : ${first.addressLine}");
+                                  setState(() {
+                                    city = place;
+                                    isLocationShared = true;
+                                  });
                                 }
                               },
                               child: Text(
-                                "Share your Location",
+                                "Add Location",
                                 style: aceButton,
                               ),
                             ),

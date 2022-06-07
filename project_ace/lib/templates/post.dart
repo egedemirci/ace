@@ -21,6 +21,7 @@ class Post with _$Post {
     @Default(false) bool isShared,
     @Default("") String fromWho,
     @Default("") String topic,
+    @Default("") String location,
   }) = _Post;
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 }

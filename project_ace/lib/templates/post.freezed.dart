@@ -35,6 +35,7 @@ mixin _$Post {
   bool get isShared => throw _privateConstructorUsedError;
   String get fromWho => throw _privateConstructorUsedError;
   String get topic => throw _privateConstructorUsedError;
+  String get location => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +61,8 @@ abstract class $PostCopyWith<$Res> {
       dynamic dislikes,
       bool isShared,
       String fromWho,
-      String topic});
+      String topic,
+      String location});
 }
 
 /// @nodoc
@@ -88,6 +90,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? isShared = freezed,
     Object? fromWho = freezed,
     Object? topic = freezed,
+    Object? location = freezed,
   }) {
     return _then(_value.copyWith(
       postId: postId == freezed
@@ -150,6 +153,10 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
               as String,
+      location: location == freezed
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -174,7 +181,8 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       dynamic dislikes,
       bool isShared,
       String fromWho,
-      String topic});
+      String topic,
+      String location});
 }
 
 /// @nodoc
@@ -203,6 +211,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? isShared = freezed,
     Object? fromWho = freezed,
     Object? topic = freezed,
+    Object? location = freezed,
   }) {
     return _then(_$_Post(
       postId: postId == freezed
@@ -256,6 +265,10 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
               as String,
+      location: location == freezed
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -278,7 +291,8 @@ class _$_Post implements _Post {
       this.dislikes = const <dynamic>[],
       this.isShared = false,
       this.fromWho = "",
-      this.topic = ""});
+      this.topic = "",
+      this.location = ""});
 
   factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
 
@@ -321,10 +335,13 @@ class _$_Post implements _Post {
   @override
   @JsonKey()
   final String topic;
+  @override
+  @JsonKey()
+  final String location;
 
   @override
   String toString() {
-    return 'Post(postId: $postId, userId: $userId, assetUrl: $assetUrl, urlAvatar: $urlAvatar, mediaType: $mediaType, text: $text, createdAt: $createdAt, username: $username, fullName: $fullName, comments: $comments, likes: $likes, dislikes: $dislikes, isShared: $isShared, fromWho: $fromWho, topic: $topic)';
+    return 'Post(postId: $postId, userId: $userId, assetUrl: $assetUrl, urlAvatar: $urlAvatar, mediaType: $mediaType, text: $text, createdAt: $createdAt, username: $username, fullName: $fullName, comments: $comments, likes: $likes, dislikes: $dislikes, isShared: $isShared, fromWho: $fromWho, topic: $topic, location: $location)';
   }
 
   @override
@@ -346,7 +363,8 @@ class _$_Post implements _Post {
             const DeepCollectionEquality().equals(other.dislikes, dislikes) &&
             const DeepCollectionEquality().equals(other.isShared, isShared) &&
             const DeepCollectionEquality().equals(other.fromWho, fromWho) &&
-            const DeepCollectionEquality().equals(other.topic, topic));
+            const DeepCollectionEquality().equals(other.topic, topic) &&
+            const DeepCollectionEquality().equals(other.location, location));
   }
 
   @JsonKey(ignore: true)
@@ -367,7 +385,8 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(dislikes),
       const DeepCollectionEquality().hash(isShared),
       const DeepCollectionEquality().hash(fromWho),
-      const DeepCollectionEquality().hash(topic));
+      const DeepCollectionEquality().hash(topic),
+      const DeepCollectionEquality().hash(location));
 
   @JsonKey(ignore: true)
   @override
@@ -396,7 +415,8 @@ abstract class _Post implements Post {
       final dynamic dislikes,
       final bool isShared,
       final String fromWho,
-      final String topic}) = _$_Post;
+      final String topic,
+      final String location}) = _$_Post;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
@@ -430,6 +450,8 @@ abstract class _Post implements Post {
   String get fromWho => throw _privateConstructorUsedError;
   @override
   String get topic => throw _privateConstructorUsedError;
+  @override
+  String get location => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_PostCopyWith<_$_Post> get copyWith => throw _privateConstructorUsedError;
