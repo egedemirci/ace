@@ -35,7 +35,7 @@ class AuthServices {
     }
   }
 
-  Future<UserCredential> signInWithFacebook() async {
+  Future signInWithFacebook() async {
     // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
@@ -44,7 +44,27 @@ class AuthServices {
         FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
-    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    UserCredential result =
+    await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    User? user = result.user;
+    DocumentSnapshot ds = await _userServices.usersRef.doc(user!.uid).get();
+    if (!ds.exists) {
+      int idx = user.email!.indexOf('@');
+      String username = user.email!.substring(0, idx);
+      Random random = Random();
+      while (true) {
+        bool doesExist = await _userServices.doesUsernameExist(username);
+        if (!doesExist) {
+          break;
+        } else {
+          int randomNumber = random.nextInt(10);
+          username += randomNumber.toString();
+        }
+      }
+      _userServices.addUser(
+          username, user.displayName ?? "unknown", user.uid);
+    }
+    return _userFromFirebase(user);
   }
 
   Future<dynamic> registerWithEmailPassword(
