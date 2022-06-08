@@ -225,14 +225,36 @@ final notificationText = GoogleFonts.montserrat(
 final postCardUserRealName = GoogleFonts.montserrat(
   color: AppColors.profileScreenTextColor,
   fontWeight: FontWeight.bold,
-  fontSize: 12,
+  fontSize: 14,
+  letterSpacing: -0.7,
+);
+
+final location = GoogleFonts.montserrat(
+  color: AppColors.userNameColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
+  letterSpacing: -0.7,
+);
+
+
+final reshare = GoogleFonts.montserrat(
+  color: AppColors.userNameColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
   letterSpacing: -0.7,
 );
 
 final postCardUserName = GoogleFonts.montserrat(
   color: AppColors.userNameColor,
-  fontWeight: FontWeight.w400,
-  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
+  letterSpacing: -0.7,
+);
+
+final bottomPost = GoogleFonts.montserrat(
+  color: AppColors.bottomPost,
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
   letterSpacing: -0.7,
 );
 

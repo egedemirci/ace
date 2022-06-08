@@ -192,10 +192,12 @@ class _PostCardState extends State<PostCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Icon(Icons.repeat),
+                    const Icon(Icons.repeat, color: AppColors.reshareColor,
+                    size:15),
                     Padding(
                       padding: const EdgeInsets.all(4),
-                      child: Text("Re-shared by $userNameForReShare"),
+                      child: Text("Re-shared by $userNameForReShare",
+                      style: reshare),
                     ),
                   ],
                 ),
@@ -216,7 +218,7 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(2, 10, 1, 0),
                   child: Text(
                     widget.post.fullName,
                     style: postCardUserRealName,
@@ -224,7 +226,7 @@ class _PostCardState extends State<PostCard> {
                 ),
                 const SizedBox(width: 6),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Text(
                     "@${widget.post.username}",
                     style: postCardUserName,
@@ -281,13 +283,13 @@ class _PostCardState extends State<PostCard> {
                     ),
                     const Spacer(),
                     if (widget.post.location.isNotEmpty) const Icon(Icons.location_on_outlined,
-                    size: 16,
+                    size: 14,
                     color: AppColors.profileSettingButtonFillColor,),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(2, 3, 0, 0),
                       child: Text(
                         widget.post.location,
-                        style: postLocation,
+                        style: location,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -326,20 +328,22 @@ class _PostCardState extends State<PostCard> {
             Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.thumb_up_alt_outlined),
+                  icon: const Icon(Icons.thumb_up_alt_outlined,
+                      color: AppColors.reshareColor),
                   onPressed: widget.incrementLike,
                   iconSize: 20,
                   splashRadius: 20,
                 ),
                 Text(
                   widget.post.likes.length.toString(),
-                  style: const TextStyle(fontSize: 14),
+                  style:bottomPost
                 ),
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
                   child: IconButton(
-                    icon: const Icon(Icons.thumb_down_alt_outlined),
+                    icon: const Icon(Icons.thumb_down_alt_outlined,
+                    color: AppColors.reshareColor),
                     onPressed: widget.incrementDislike,
                     iconSize: 20,
                     splashRadius: 20,
@@ -347,13 +351,14 @@ class _PostCardState extends State<PostCard> {
                 ),
                 Text(
                   widget.post.dislikes.length.toString(),
-                  style: const TextStyle(fontSize: 14),
+                  style: bottomPost,
                 ),
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
                   child: IconButton(
-                    icon: const Icon(Icons.comment),
+                    icon: const Icon(Icons.comment,
+                    color: AppColors.reshareColor),
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -369,13 +374,14 @@ class _PostCardState extends State<PostCard> {
                 ),
                 Text(
                   widget.post.comments.length.toString(),
-                  style: const TextStyle(fontSize: 14),
+                  style:bottomPost,
                 ),
                 const Spacer(),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
                     child: Text(DateFormat('kk:mm - yyyy-MM-dd')
-                        .format(widget.post.createdAt))),
+                        .format(widget.post.createdAt),
+                    style: bottomPost),),
               ],
             ),
             const SizedBox(
