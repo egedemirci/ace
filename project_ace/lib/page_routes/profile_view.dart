@@ -1,16 +1,22 @@
+
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/add_post.dart';
 import 'package:project_ace/page_routes/chat.dart';
 import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/search.dart';
+import 'package:project_ace/page_routes/topics_list_view.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/message_services.dart';
 import 'package:project_ace/services/post_services.dart';
+import 'package:project_ace/services/report_services.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/post.dart';
 import 'package:project_ace/templates/user.dart';
@@ -60,6 +66,52 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
   }
 
+  Future<void> _showDialog(String title, String message) async {
+    bool isAndroid = Platform.isAndroid;
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if (isAndroid) {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(message),
+                    ],
+                  )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          } else {
+            return CupertinoAlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(message),
+                    ],
+                  )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
@@ -82,11 +134,13 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/notifications');
+                onPressed: () async{
+                  await ReportService().reportUser(widget.userId, user!.uid, userName);
+                  _showDialog("Reported!",
+                      "You successfully reported this user");
                 },
                 icon: const Icon(
-                  Icons.notifications_active,
+                  Icons.report,
                   color: AppColors.bottomNavigationBarBackgroundColor,
                 ),
               )
@@ -325,7 +379,12 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  // TODO: Show topics list.
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TopicListView(
+                                            topicList: otherUser.subscribedTopics, analytics: widget.analytics,
+                                          )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -606,7 +665,6 @@ class _ProfileViewState extends State<ProfileView> {
                                           });
                                         },
                                         reShare: () {
-                                          //TODO: Implement re-share
                                         },
                                         myUserId: user.uid,
                                         analytics: widget.analytics,
@@ -741,7 +799,12 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  // TODO: Show topics list.
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TopicListView(
+                                            topicList: otherUser.subscribedTopics, analytics: widget.analytics,
+                                          )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,

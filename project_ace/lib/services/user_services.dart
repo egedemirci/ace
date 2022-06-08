@@ -223,6 +223,7 @@ class UserServices {
   getRecommendations(String userId) async {
     var docRef = await usersRef.doc(userId).get();
     var followings = await (docRef.data() as Map<String, dynamic>)["following"];
+    var topics = await (docRef.data() as Map<String, dynamic>)["subscribedTopics"];
     List<dynamic> recommendations = [];
     for (var following in followings) {
       var doc = await usersRef.doc(following).get();
@@ -236,6 +237,12 @@ class UserServices {
         }
       }
     }
+
+    recommendations = recommendations..shuffle();
+    if(recommendations.length >= 10){
+      recommendations = recommendations.sublist(0, 10);
+      return recommendations;
+    }
     return recommendations;
   }
 
@@ -248,5 +255,20 @@ class UserServices {
         await usersRef.where('username', isEqualTo: username).limit(1).get();
     final List<DocumentSnapshot> documents = users.docs;
     return documents.length == 1;
+  }
+
+  subscribeTopic(String topic, String userId) async {
+    var docRef = await usersRef.doc(userId).get();
+    var topics = (docRef.data() as Map<String, dynamic>)["subscribedTopics"];
+    if(topics.contains(topic)){
+      usersRef.doc(userId).update({
+        "subscribedTopics": FieldValue.arrayRemove([topic])
+      });
+    }
+    else{
+      usersRef.doc(userId).update({
+        "subscribedTopics": FieldValue.arrayUnion([topic])
+      });
+    }
   }
 }

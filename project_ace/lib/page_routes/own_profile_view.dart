@@ -10,11 +10,13 @@ import 'package:project_ace/page_routes/feed.dart';
 import 'package:project_ace/page_routes/messages.dart';
 import 'package:project_ace/page_routes/profile_settings.dart';
 import 'package:project_ace/page_routes/search.dart';
+import 'package:project_ace/page_routes/topics_list_view.dart';
 import 'package:project_ace/page_routes/user_list_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/post.dart';
+import 'package:project_ace/templates/topic.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -173,6 +175,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
   Widget build(BuildContext context) {
     setCurrentScreen(
         widget.analytics, "Own Profile View", "own_profile_view.dart");
+
     final user = Provider.of<User?>(context);
     if (user == null) {
       return Login(
@@ -466,7 +469,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  // TODO: Show topics list.
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TopicListView(
+                                            topicList: myUser.subscribedTopics, analytics: widget.analytics,
+                                          )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,

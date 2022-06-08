@@ -209,7 +209,7 @@ class _SearchState extends State<Search> {
                     }).toList();
                     List<dynamic> postsList = querySnapshot.data!.docs
                         .where((QueryDocumentSnapshot<Object?> element) {
-                          return (!element["isDisabled"]);
+                          return (!element["isDisabled"] && element["userId"] != user.uid);
                         })
                         .map((data) => (data["posts"]))
                         .toList();
@@ -354,14 +354,16 @@ class _SearchState extends State<Search> {
                                   topicList
                                       .map((topic) => TopicCard(
                                           topic: Topic.fromJson(topic.data()
-                                              as Map<String, dynamic>)))
+                                              as Map<String, dynamic>), userId: user.uid, analytics: widget.analytics, isSearch: true,))
                                       .toList()
                                       .reversed,
                                 ),
-                              ))
-                  ]),
-                )));
-              }
-            }));
+                    )),
+                              ]),
+                        )));
+    }
+               })
+
+    );
   }
 }

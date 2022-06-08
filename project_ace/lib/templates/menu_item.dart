@@ -18,6 +18,7 @@ class PostMenuItems {
       PostMenuItem(text: "Bookmark this post", icon: Icons.bookmark_border);
   static const deletePost =
       PostMenuItem(text: "Delete this post", icon: Icons.delete);
+  static const List<PostMenuItem> resharedPostList = [deletePost];
   static const List<PostMenuItem> userPostList = [editPost, deletePost];
   static const List<PostMenuItem> otherUsersPostList = [
     reSharePost,

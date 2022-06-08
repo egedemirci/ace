@@ -235,18 +235,15 @@ class _PostCardState extends State<PostCard> {
                 PopupMenuButton<PostMenuItem>(
                     splashRadius: screenWidth(context) * 0.045,
                     onSelected: (item) => onSelected(context, item),
-                    itemBuilder: (context) => (widget.isMyPost == true &&
-                            widget.post.fromWho != widget.myUserId)
-                        ? [
-                            ...PostMenuItems.userPostList
-                                .map(buildItem)
-                                .toList(),
-                          ]
-                        : [
-                            ...PostMenuItems.otherUsersPostList
-                                .map(buildItem)
-                                .toList(),
-                          ]),
+                    itemBuilder: (context) => (widget.post.isShared && widget.post.userId == widget.myUserId ?
+                      [...PostMenuItems.resharedPostList.map(buildItem).toList(),]
+                        : (  widget.isMyPost ?
+                        [...PostMenuItems.userPostList.map(buildItem).toList()] :
+                            [...PostMenuItems.otherUsersPostList.map(buildItem).toList(),]
+                        )
+                 )
+
+                  ),
               ],
             ),
             Padding(

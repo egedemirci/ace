@@ -201,6 +201,13 @@ class _FeedState extends State<Feed> {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else {
+                          List<dynamic> allPosts = querySnapshot.data!.docs
+                              .where((QueryDocumentSnapshot<Object?> element) {
+                            return (!element["isDisabled"] && (!element["isPrivate"] && element["userId"] != user.uid));
+                          })
+                              .map((data) => (data["posts"]))
+                              .toList();
+                          
                           List<dynamic> postsList = querySnapshot.data!.docs
                               .where((QueryDocumentSnapshot<Object?> element) {
                                 return ((myUser.following
@@ -213,6 +220,13 @@ class _FeedState extends State<Feed> {
                           for (int j = 0; j < postsList.length; j++) {
                             for (int k = 0; k < postsList[j].length; k++) {
                               followingPosts += [postsList[j][k]];
+                            }
+                          }
+                          for (int j = 0; j < allPosts.length; j++) {
+                            for (int k = 0; k < allPosts[j].length; k++) {
+                              if(myUser.subscribedTopics.contains(allPosts[j][k]['topic'])) {
+                                followingPosts += [allPosts[j][k]];
+                              }
                             }
                           }
                           followingPosts.sort((a, b) =>

@@ -61,7 +61,7 @@ class AuthServices {
           username += randomNumber.toString();
         }
       }
-      _userServices.addUser(
+      await _userServices.addUser(
           username, user.displayName ?? "unknown", user.uid);
     }
     return _userFromFirebase(user);
