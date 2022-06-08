@@ -28,6 +28,8 @@ class AppColors {
   static const Color profileIconColor = Color(0xFF003049);
   static const Color profileSettingButtonFillColor = Color(0xFF88A0B1);
   static const Color profileImageTextPostViewButton = Color(0xFFCDE8F4);
+  static const Color addPostColor = Color(0xFFCDE8F4);
+
   static const Color profileSettingsButtonTextColor = Colors.white;
   static const Color profileSettingsButtonIconColor = Color(0xFFB9D3DF);
   static const Color profileScreenBackgroundColor = Color(0xFFF7FDFF);
@@ -38,7 +40,7 @@ class AppColors {
   static const Color postTextColor = Color(0xFF003049);
   static const Color userFullNameColor = Color(0xFF003049);
   static const Color userNameColor = Color(0xFF8CB7CD);
-  static const Color topicColor = Color(0xFF0000FF);
+  static const Color topicColor = Color(0xFF306F8E);
   // Create Post
   static const Color sharePostColor = Color(0xFF659ABB);
   static const Color sendAceColor = Color(0xFFF7FDFF);

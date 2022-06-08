@@ -281,7 +281,7 @@ class _PostCardState extends State<PostCard> {
                     ),
                     const Spacer(),
                     if (widget.post.location.isNotEmpty) const Icon(Icons.location_on_outlined,
-                    size: 20,
+                    size: 16,
                     color: AppColors.profileSettingButtonFillColor,),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(2, 3, 0, 0),

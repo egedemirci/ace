@@ -103,12 +103,14 @@ class _ChatPageState extends State<ChatPage> {
                   padding: const EdgeInsets.fromLTRB(6, 4, 8, 8),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.blue,
+                    color: AppColors.postTextColor,
                   ),
                   // TODO: Icon sizes
-                  child: const Icon(
-                    Icons.send, color: Colors.white,
-                    // size: screenHeight(context) * ,
+                  child: Center(
+                    child: const Icon(
+                      Icons.send,size:20, color: Colors.white,
+                      // size: screenHeight(context) * ,
+                    ),
                   ))),
         ],
       ),

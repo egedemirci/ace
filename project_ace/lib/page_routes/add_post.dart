@@ -167,7 +167,7 @@ class _AddPostState extends State<AddPost> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(screenHeight(context) * 0.058),
                               ),
-                              color: AppColors.sharePostFillColor,
+                              color: AppColors.addPostColor,
                             ),
                             width: screenWidth(context) * 0.9,
                             child: Padding(
@@ -203,7 +203,7 @@ class _AddPostState extends State<AddPost> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(screenHeight(context) * 0.058),
                               ),
-                              color: AppColors.sharePostFillColor,
+                              color: AppColors.addPostColor,
                             ),
                             width: screenWidth(context) * 0.9,
                             child: Padding(
@@ -311,7 +311,7 @@ class _AddPostState extends State<AddPost> {
                                     OwnProfileView.routeName, (route) => false);
                               },
                               style: OutlinedButton.styleFrom(
-                                fixedSize: Size(screenWidth(context) * 0.5,
+                                fixedSize: Size(screenWidth(context) * 0.4,
                                     screenHeight(context) * 0.07),
                                 elevation: 0,
                                 backgroundColor: AppColors.sharePostColor,
@@ -320,9 +320,12 @@ class _AddPostState extends State<AddPost> {
                                     borderRadius: BorderRadius.circular(
                                         screenHeight(context) * 0.0345)),
                               ),
-                              child: Text(
-                                "Ace!",
-                                style: aceButton,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  "Ace!",
+                                  style: aceButton,
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -330,7 +333,7 @@ class _AddPostState extends State<AddPost> {
                             ),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                fixedSize: Size(screenWidth(context) * 0.5,
+                                fixedSize: Size(screenWidth(context) * 0.4,
                                     screenHeight(context) * 0.07),
                                 elevation: 0,
                                 backgroundColor: AppColors.sharePostColor,
@@ -356,9 +359,12 @@ class _AddPostState extends State<AddPost> {
                                   });
                                 }
                               },
-                              child: Text(
-                                "Add Location",
-                                style: aceButton,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  "Add Location",
+                                  style: aceButton,
+                                ),
                               ),
                             ),
                           ],
@@ -369,7 +375,7 @@ class _AddPostState extends State<AddPost> {
                 ),
               ),
               bottomNavigationBar: BottomAppBar(
-                color: AppColors.sharePostFillColor,
+                color: AppColors.addPostColor,
                 elevation: 0,
                 child: SizedBox(
                   width: screenWidth(context) * 0.048,

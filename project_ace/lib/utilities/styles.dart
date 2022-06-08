@@ -303,7 +303,7 @@ final welcomeScreenText = GoogleFonts.montserrat(
 final postLocation = GoogleFonts.montserrat(
   color: AppColors.userNameColor,
   fontWeight: FontWeight.normal,
-  fontSize: 16,
+  fontSize: 12,
   letterSpacing: -0.7,
 );
 
