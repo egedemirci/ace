@@ -1,10 +1,10 @@
 import 'dart:io';
-
+// İpek was here <3
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project_ace/services/post_services.dart';
-import 'package:project_ace/templates/notif.dart';
+import 'package:project_ace/templates/notifications.dart';
 
 class UserServices {
   final CollectionReference usersRef =
@@ -51,7 +51,7 @@ class UserServices {
     usersRef.doc(userId).update({'posts': posts});
   }
 
-  Future getUserPp(String userId) async {
+  Future getUserProfilePicture(String userId) async {
     var crrGet = await usersRef.doc(userId).get();
     return crrGet.get("profilepicture");
   }
@@ -155,13 +155,6 @@ class UserServices {
     await usersRef.doc(userId).update({"biography": editedBio});
   }
 
-  getBio(String userId) async {
-    var docRef = await usersRef.doc(userId).get();
-    var coll = docRef.data() as Map<String, dynamic>;
-    var bio = coll["biography"];
-    return bio;
-  }
-
   userFollow(String userToBeFollow, String mainUserId, bool isPrivate) async {
     if (isPrivate == true) {
       usersRef.doc(userToBeFollow).update({
@@ -223,7 +216,8 @@ class UserServices {
   getRecommendations(String userId) async {
     var docRef = await usersRef.doc(userId).get();
     var followings = await (docRef.data() as Map<String, dynamic>)["following"];
-    var topics = await (docRef.data() as Map<String, dynamic>)["subscribedTopics"];
+    var topics =
+        await (docRef.data() as Map<String, dynamic>)["subscribedTopics"];
     List<dynamic> recommendations = [];
     for (var following in followings) {
       var doc = await usersRef.doc(following).get();
@@ -237,17 +231,12 @@ class UserServices {
         }
       }
     }
-
     recommendations = recommendations..shuffle();
-    if(recommendations.length >= 10){
+    if (recommendations.length >= 10) {
       recommendations = recommendations.sublist(0, 10);
       return recommendations;
     }
     return recommendations;
-  }
-
-  updateLocation(String userId, double lat, double lon) async {
-    usersRef.doc(userId).update({"geoLocation": GeoPoint(lat, lon)});
   }
 
   Future<bool> isUsernameExist(String username) async {
@@ -260,12 +249,11 @@ class UserServices {
   subscribeTopic(String topic, String userId) async {
     var docRef = await usersRef.doc(userId).get();
     var topics = (docRef.data() as Map<String, dynamic>)["subscribedTopics"];
-    if(topics.contains(topic)){
+    if (topics.contains(topic)) {
       usersRef.doc(userId).update({
         "subscribedTopics": FieldValue.arrayRemove([topic])
       });
-    }
-    else{
+    } else {
       usersRef.doc(userId).update({
         "subscribedTopics": FieldValue.arrayUnion([topic])
       });

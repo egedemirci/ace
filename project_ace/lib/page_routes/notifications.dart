@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/user_services.dart';
-import "package:project_ace/templates/notif.dart";
+import "package:project_ace/templates/notifications.dart";
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/notification_card.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -24,7 +24,6 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  // TODO: Extend the implementation of Screen Sizes
   UserServices userService = UserServices();
 
   @override
@@ -80,9 +79,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   child: SafeArea(
                     child: Column(
                         children: myUser.notifications.reversed
-                            .map((myNotif) => NotificationsCard(
+                            .map((newNotification) => NotificationsCard(
                                 myNotification:
-                                    AppNotification.fromJson(myNotif)))
+                                    AppNotification.fromJson(newNotification)))
                             .toList()),
                   ),
                 );

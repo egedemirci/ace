@@ -78,8 +78,8 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
                                     otherUser.fullName,
                                     style: messageUserRealName,
                                   ),
-                                  const SizedBox(
-                                    width: 5,
+                                  SizedBox(
+                                    width: screenWidth(context) * 0.015,
                                   ),
                                   Text(
                                     otherUser.username,
@@ -106,11 +106,11 @@ class _ChatRoomCardState extends State<ChatRoomCard> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
                     child: Divider(
                       thickness: 1.0,
-                      height: 1,
+                      height: screenHeight(context) * 0.00115,
                       color: AppColors.notificationIconColor,
                     ),
                   ),

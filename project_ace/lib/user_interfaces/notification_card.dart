@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/user_services.dart';
-import 'package:project_ace/templates/notif.dart';
+import 'package:project_ace/templates/notifications.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/styles.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
@@ -99,8 +99,10 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     ),
                     OutlinedButton(
                       onPressed: () {
-                        userService.userFollow(user!.uid, widget.myNotification.subjectId, false);
-                        userService.removeRequest(user.uid, widget.myNotification.subjectId);
+                        userService.userFollow(
+                            user!.uid, widget.myNotification.subjectId, false);
+                        userService.removeRequest(
+                            user.uid, widget.myNotification.subjectId);
                       },
                       style: OutlinedButton.styleFrom(
                           primary: AppColors.profileSettingsButtonTextColor,
@@ -116,7 +118,8 @@ class _NotificationsCardState extends State<NotificationsCard> {
                     ),
                     OutlinedButton(
                       onPressed: () {
-                        userService.removeRequest(user!.uid, widget.myNotification.subjectId);
+                        userService.removeRequest(
+                            user!.uid, widget.myNotification.subjectId);
                       },
                       style: OutlinedButton.styleFrom(
                           primary: AppColors.profileSettingsButtonTextColor,

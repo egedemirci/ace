@@ -46,7 +46,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future getOtherUserPP() async {
-    final upp = await userService.getUserPp(widget.otherUserId);
+    final upp = await userService.getUserProfilePicture(widget.otherUserId);
     setState(() {
       otherUserPP = upp;
     });
@@ -105,11 +105,11 @@ class _ChatPageState extends State<ChatPage> {
                     shape: BoxShape.circle,
                     color: AppColors.postTextColor,
                   ),
-                  // TODO: Icon sizes
                   child: Center(
-                    child: const Icon(
-                      Icons.send,size:20, color: Colors.white,
-                      // size: screenHeight(context) * ,
+                    child: Icon(
+                      Icons.send,
+                      size: screenHeight(context) * 0.023,
+                      color: Colors.white,
                     ),
                   ))),
         ],

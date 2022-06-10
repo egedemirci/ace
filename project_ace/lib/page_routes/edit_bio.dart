@@ -81,8 +81,8 @@ class _EditBioViewState extends State<EditBioView> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(widget.analytics, "Edit Bio View", "edit_bio.dart");
     final user = Provider.of<User?>(context);
+    setCurrentScreen(widget.analytics, "Edit Bio View", "edit_bio.dart");
     setUserId(widget.analytics, user!.uid);
     return Scaffold(
       resizeToAvoidBottomInset: false,

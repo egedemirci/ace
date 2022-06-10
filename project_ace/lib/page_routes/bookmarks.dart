@@ -127,9 +127,6 @@ class _BookMarksState extends State<BookMarks> {
                                                   post["userId"],
                                                   post["postId"]);
                                             },
-                                            reShare: () {
-                                              // TODO: Re-share
-                                            },
                                             myUserId: user.uid,
                                             analytics: widget.analytics,
                                           ))

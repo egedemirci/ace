@@ -23,6 +23,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final AuthServices _auth = AuthServices();
+  UserServices userServices = UserServices();
   final _formKey = GlobalKey<FormState>();
   String _email = '', _password = '', _fullName = "", _userName = "";
 
@@ -117,7 +118,7 @@ class _SignUpState extends State<SignUp> {
           const Spacer(),
           Center(
             child: SizedBox(
-              width: screenWidth(context) - 80, // TODO: Correct this
+              width: screenWidth(context) * (1 - 0.194),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -274,12 +275,12 @@ class _SignUpState extends State<SignUp> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                bool isUsernameExist = await UserServices().isUsernameExist(_userName);
-                if(isUsernameExist){
+                bool isUsernameExist =
+                    await userServices.isUsernameExist(_userName);
+                if (isUsernameExist) {
                   await _showDialog('Form Error',
                       "This username already in use, try another one");
-                }
-                else {
+                } else {
                   await registerUser();
                   await _showDialog("Sign Up Success",
                       "You have successfully signed up.\nYou will now be directed to your profile page");
@@ -293,7 +294,6 @@ class _SignUpState extends State<SignUp> {
             },
             style: OutlinedButton.styleFrom(
               backgroundColor: AppColors.signUpButtonBackgroundColor,
-              // TODO: Extend the implementation of Screen Sizes
               fixedSize: Size(
                   screenWidth(context) * 0.3, screenHeight(context) * 0.046),
             ),

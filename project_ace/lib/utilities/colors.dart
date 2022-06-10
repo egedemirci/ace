@@ -15,7 +15,6 @@ class AppColors {
   // Sign Up
   static const Color signUpScreenBackgroundColor = Color(0xFFCDE8F4);
   static const Color searchScreenBackground = Color(0xFFF7FDFF);
-
   static const Color signUpTextColor = Color(0xFF003049);
   static const Color signUpButtonBackgroundColor = Color(0xFF003049);
   static const Color signUpButtonTextColor = Color(0xFFFBBC05);
@@ -24,14 +23,11 @@ class AppColors {
   // Shared Among Views
   static const Color bottomNavigationBarFillColor = Color(0xFF003049);
   static const Color bottomNavigationBarIconOutlineColor = Color(0xFFCDE8F4);
-  //
   static const Color profileIconColor = Color(0xFF003049);
   static const Color profileSettingButtonFillColor = Color(0xFF88A0B1);
   static const Color reshareColor = Color(0xFF5C7384);
-
   static const Color profileImageTextPostViewButton = Color(0xFFCDE8F4);
   static const Color addPostColor = Color(0xFFCDE8F4);
-
   static const Color profileSettingsButtonTextColor = Colors.white;
   static const Color profileSettingsButtonIconColor = Color(0xFFB9D3DF);
   static const Color profileScreenBackgroundColor = Color(0xFFF7FDFF);
@@ -55,7 +51,6 @@ class AppColors {
   static const Color bottomNavigationBarBackgroundColor = Color(0xFF001E31);
   static const Color messagesFromUserFillColor = Color(0xFF34A853);
   static const Color messagesToUserFillColor = Color(0xFFCDE8F4);
-
   static const Color metaGoogleConnectButtonColor = Color(0xFFCDE8F4);
   static const Color deleteAccountButtonFillColor = Color(0xFF780000);
   static const Color deactivateAccountButtonFillColor = Color(0xFFFB8500);
@@ -64,5 +59,4 @@ class AppColors {
   static const Color decisionButtonColor = Color(0xFF88A0B1);
   static const Color notificationIconColor =
       Color(0xFF003049); // shapes, appbar,text color as well.
-
 }

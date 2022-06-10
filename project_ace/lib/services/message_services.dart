@@ -8,7 +8,6 @@ class MessageService {
 
   createMessage(String currentId, String otherId) async {
     String bigger = otherId + currentId;
-
     if (currentId.compareTo(otherId) < 0) {
       bigger = currentId + otherId;
     }
@@ -21,7 +20,6 @@ class MessageService {
     }
   }
 
-  // Send Message
   Future<void> sendMessage(String chatId, String message, String senderUsername,
       String senderAvatar) async {
     await chatRoomReference.doc(chatId).update({

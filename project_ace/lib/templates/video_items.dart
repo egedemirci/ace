@@ -7,7 +7,7 @@ class VideoItems extends StatefulWidget {
   final bool looping;
   final bool autoplay;
 
-  VideoItems({
+  const VideoItems({
     required this.videoPlayerController,
     required this.looping,
     required this.autoplay,
@@ -33,7 +33,7 @@ class _VideoItemsState extends State<VideoItems> {
         return Center(
           child: Text(
             errorMessage,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         );
       },

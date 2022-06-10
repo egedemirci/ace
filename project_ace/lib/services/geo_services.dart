@@ -2,39 +2,100 @@ import 'package:geolocator/geolocator.dart';
 import 'package:project_ace/services/user_services.dart';
 
 class LocationServices {
-  UserServices userServices = UserServices();
-
-  determinePosition(String userId) async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      return Future.error('Location services are disabled.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    Position pos = await Geolocator.getCurrentPosition();
-    userServices.updateLocation(userId, pos.latitude, pos.longitude);
+/*
+  final location = Location();
+  LocationData? _locData;
+  bool? _serviceEnabled;
+  bool _loading = false;
+  StreamSubscription<LocationData>? _locDataStream;
+  PermissionStatus? _permissionStatus;
+  String? _error;
+  Future _checkPermissions() async {
+    final PermissionStatus status = await location.hasPermission();
+    setState(() {
+      _permissionStatus = status;
+    });
   }
+
+  Future _requestPermissions() async {
+    if (_permissionStatus != PermissionStatus.granted) {
+      final PermissionStatus status = await location.requestPermission();
+      setState(() {
+        _permissionStatus = status;
+      });
+    }
+  }
+
+  Future _checkService() async {
+    final bool service = await location.serviceEnabled();
+    setState(() {
+      _serviceEnabled = service;
+    });
+  }
+
+  Future _requestService() async {
+    if (_serviceEnabled == true) {
+      return;
+    }
+    final bool serviceRequest = await location.requestService();
+    setState(() {
+      _serviceEnabled = serviceRequest;
+    });
+  }
+
+  Future _getLocation() async {
+    setState(() {
+      _error = null;
+      _loading = true;
+    });
+    try {
+      final LocationData locResults = await location.getLocation();
+      setState(() {
+        _locData = locResults;
+        _loading = false;
+      });
+    } on PlatformException catch (e) {
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
+  }
+
+  Future _listenLocation() async {
+    _locDataStream = location.onLocationChanged.handleError((dynamic e) {
+      if (e is PlatformException) {
+        setState(() {
+          _error = e.toString();
+        });
+      }
+      _locDataStream?.cancel();
+      setState(() {
+        _locDataStream = null;
+      });
+    }).listen((LocationData current) {
+      setState(() {
+        _error = null;
+        _locData = current;
+      });
+    });
+    setState(() {});
+  }
+
+  Future _stopListen() async {
+    _locDataStream?.cancel();
+    setState(() {
+      _locDataStream = null;
+    });
+  }
+
+  @override
+  void dispose() {
+    _locDataStream?.cancel();
+    setState(() {
+      _locDataStream = null;
+    });
+    super.dispose();
+  }
+   */
 }

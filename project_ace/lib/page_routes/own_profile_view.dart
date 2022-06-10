@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +14,6 @@ import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/post_services.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/post.dart';
-import 'package:project_ace/templates/topic.dart';
 import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/post_card.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -43,103 +40,6 @@ class _OwnProfileViewState extends State<OwnProfileView> {
   String userName = " ";
   int postType = 0;
 
-  /*
-  final location = Location();
-  LocationData? _locData;
-  bool? _serviceEnabled;
-  bool _loading = false;
-  StreamSubscription<LocationData>? _locDataStream;
-  PermissionStatus? _permissionStatus;
-  String? _error;
-  Future _checkPermissions() async {
-    final PermissionStatus status = await location.hasPermission();
-    setState(() {
-      _permissionStatus = status;
-    });
-  }
-
-  Future _requestPermissions() async {
-    if (_permissionStatus != PermissionStatus.granted) {
-      final PermissionStatus status = await location.requestPermission();
-      setState(() {
-        _permissionStatus = status;
-      });
-    }
-  }
-
-  Future _checkService() async {
-    final bool service = await location.serviceEnabled();
-    setState(() {
-      _serviceEnabled = service;
-    });
-  }
-
-  Future _requestService() async {
-    if (_serviceEnabled == true) {
-      return;
-    }
-    final bool serviceRequest = await location.requestService();
-    setState(() {
-      _serviceEnabled = serviceRequest;
-    });
-  }
-
-  Future _getLocation() async {
-    setState(() {
-      _error = null;
-      _loading = true;
-    });
-    try {
-      final LocationData locResults = await location.getLocation();
-      setState(() {
-        _locData = locResults;
-        _loading = false;
-      });
-    } on PlatformException catch (e) {
-      setState(() {
-        _error = e.toString();
-        _loading = false;
-      });
-    }
-  }
-
-  Future _listenLocation() async {
-    _locDataStream = location.onLocationChanged.handleError((dynamic e) {
-      if (e is PlatformException) {
-        setState(() {
-          _error = e.toString();
-        });
-      }
-      _locDataStream?.cancel();
-      setState(() {
-        _locDataStream = null;
-      });
-    }).listen((LocationData current) {
-      setState(() {
-        _error = null;
-        _locData = current;
-      });
-    });
-    setState(() {});
-  }
-
-  Future _stopListen() async {
-    _locDataStream?.cancel();
-    setState(() {
-      _locDataStream = null;
-    });
-  }
-
-  @override
-  void dispose() {
-    _locDataStream?.cancel();
-    setState(() {
-      _locDataStream = null;
-    });
-    super.dispose();
-  }
-   */
-
   changePostType(int i) {
     if (postType != i) {
       setState(() {
@@ -152,7 +52,6 @@ class _OwnProfileViewState extends State<OwnProfileView> {
   Widget build(BuildContext context) {
     setCurrentScreen(
         widget.analytics, "Own Profile View", "own_profile_view.dart");
-
     final user = Provider.of<User?>(context);
     if (user == null) {
       return Login(
@@ -162,15 +61,13 @@ class _OwnProfileViewState extends State<OwnProfileView> {
       setUserId(widget.analytics, user.uid);
       return StreamBuilder<DocumentSnapshot>(
           stream: userServices.usersRef.doc(user.uid).snapshots(),
-          builder: (BuildContext context,
-              AsyncSnapshot<DocumentSnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.hasData &&
                 snapshot.data != null &&
                 snapshot.data!.data() != null) {
-              MyUser myUser = MyUser.fromJson(
-                  (snapshot.data!.data() ??
-                      Map<String, dynamic>.identity())
-                  as Map<String, dynamic>);
+              MyUser myUser = MyUser.fromJson((snapshot.data!.data() ??
+                  Map<String, dynamic>.identity()) as Map<String, dynamic>);
               List<dynamic> postsList = snapshot.data!.get("posts").toList();
               List<dynamic> myPosts = [];
               for (int j = 0; j < postsList.length; j++) {
@@ -186,8 +83,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                   }
                 }
               }
-              myPosts
-                  .sort((a, b) => a["createdAt"].compareTo(b["createdAt"]));
+              myPosts.sort((a, b) => a["createdAt"].compareTo(b["createdAt"]));
               return Scaffold(
                   appBar: AppBar(
                     title: Row(
@@ -247,10 +143,12 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               iconSize: screenWidth(context) * 0.08,
                               icon: const Icon(
                                 Icons.email,
-                                color: AppColors.bottomNavigationBarIconOutlineColor,
+                                color: AppColors
+                                    .bottomNavigationBarIconOutlineColor,
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, MessageScreen.routeName);
+                                Navigator.pushNamed(
+                                    context, MessageScreen.routeName);
                               },
                               splashRadius: screenWidth(context) * 0.07,
                             ),
@@ -260,7 +158,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               iconSize: screenWidth(context) * 0.08,
                               icon: const Icon(
                                 Icons.search,
-                                color: AppColors.bottomNavigationBarIconOutlineColor,
+                                color: AppColors
+                                    .bottomNavigationBarIconOutlineColor,
                               ),
                               onPressed: () {
                                 Navigator.pushNamed(context, Search.routeName);
@@ -273,7 +172,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               iconSize: screenWidth(context) * 0.08,
                               icon: const Icon(
                                 Icons.home,
-                                color: AppColors.bottomNavigationBarIconOutlineColor,
+                                color: AppColors
+                                    .bottomNavigationBarIconOutlineColor,
                               ),
                               onPressed: () {
                                 Navigator.pushNamedAndRemoveUntil(
@@ -287,7 +187,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               iconSize: screenWidth(context) * 0.08,
                               icon: const Icon(
                                 Icons.add_circle_outline,
-                                color: AppColors.bottomNavigationBarIconOutlineColor,
+                                color: AppColors
+                                    .bottomNavigationBarIconOutlineColor,
                               ),
                               onPressed: () {
                                 Navigator.pushNamed(context, AddPost.routeName);
@@ -300,7 +201,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               iconSize: screenWidth(context) * 0.08,
                               icon: const Icon(
                                 Icons.person_outline,
-                                color: AppColors.bottomNavigationBarIconOutlineColor,
+                                color: AppColors
+                                    .bottomNavigationBarIconOutlineColor,
                               ),
                               onPressed: () {},
                               splashRadius: screenWidth(context) * 0.07,
@@ -322,28 +224,30 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                   child: InkWell(
                                     child: CircleAvatar(
-                                      backgroundColor:
-                                      AppColors.welcomeScreenBackgroundColor,
+                                      backgroundColor: AppColors
+                                          .welcomeScreenBackgroundColor,
                                       radius: screenWidth(context) * 0.14,
                                       backgroundImage:
-                                      NetworkImage(myUser.profilepicture),
+                                          NetworkImage(myUser.profilepicture),
                                     ),
                                     onTap: () => showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        backgroundColor:
-                                        AppColors.signUpScreenBackgroundColor,
+                                        backgroundColor: AppColors
+                                            .signUpScreenBackgroundColor,
                                         content: Stack(
                                           alignment: Alignment.center,
                                           children: <Widget>[
                                             Image.network(
                                               myUser.profilepicture,
-                                              width: screenWidth(context) * 0.97,
+                                              width:
+                                                  screenWidth(context) * 0.97,
                                               height:
-                                              screenHeight(context) * 0.46,
+                                                  screenHeight(context) * 0.46,
                                               fit: BoxFit.cover,
                                             ),
                                           ],
@@ -356,8 +260,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.fromLTRB(2, 15, 2, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          2, 15, 2, 0),
                                       child: Text(
                                         myUser.posts.length.toString(),
                                         style: postsFollowersFollowingsCounts,
@@ -377,11 +281,11 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => UserListView(
-                                              userIdList: myUser.followers,
-                                              title: "Followers",
-                                              isNewChat: false,
-                                              analytics: widget.analytics,
-                                            )));
+                                                  userIdList: myUser.followers,
+                                                  title: "Followers",
+                                                  isNewChat: false,
+                                                  analytics: widget.analytics,
+                                                )));
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -409,11 +313,11 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => UserListView(
-                                              userIdList: myUser.following,
-                                              title: "Following",
-                                              isNewChat: false,
-                                              analytics: widget.analytics,
-                                            )));
+                                                  userIdList: myUser.following,
+                                                  title: "Following",
+                                                  isNewChat: false,
+                                                  analytics: widget.analytics,
+                                                )));
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -441,8 +345,10 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => TopicListView(
-                                              topicList: myUser.subscribedTopics, analytics: widget.analytics,
-                                            )));
+                                                  topicList:
+                                                      myUser.subscribedTopics,
+                                                  analytics: widget.analytics,
+                                                )));
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -491,7 +397,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                 children: [
                                   Container(
                                       constraints: BoxConstraints(
-                                          maxWidth: screenWidth(context) * 0.85),
+                                          maxWidth:
+                                              screenWidth(context) * 0.85),
                                       child: Text(
                                         myUser.biography,
                                         style: biography,
@@ -508,19 +415,20 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                       padding: const EdgeInsets.all(16),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(10),
+                                                  BorderRadius.circular(10),
                                               color: AppColors
                                                   .profileSettingButtonFillColor,
                                             ),
                                             width: screenWidth(context) * 0.8,
-                                            height: screenHeight(context) * 0.075,
+                                            height:
+                                                screenHeight(context) * 0.075,
                                             child: TextButton.icon(
                                               onPressed: () {
                                                 Navigator.pushNamed(context,
@@ -536,7 +444,7 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                                 child: Text(
                                                   "Profile Settings",
                                                   style:
-                                                  profileViewProfileSettingsButton,
+                                                      profileViewProfileSettingsButton,
                                                 ),
                                               ),
                                             ),
@@ -555,7 +463,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                               width: double.infinity,
                               height: screenHeight(context) * 0.06,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Expanded(
                                     child: OutlinedButton(
@@ -647,46 +556,53 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                             SizedBox(
                               height: screenHeight(context) * 0.0115,
                             ),
-                            Column(
-                              children: List.from(
-                                myPosts
-                                    .map((post) => PostCard(
-                                  post: Post.fromJson(post),
-                                  isMyPost: true,
-                                  deletePost: () {
-                                    setState(() {
-                                      postServices.deletePost(
-                                          user.uid, post);
-                                    });
-                                  },
-                                  incrementLike: () {
-                                    setState(() {
-                                      postServices.likePost(user.uid,
-                                          myUser.userId, post["postId"]);
-                                    });
-                                  },
-                                  incrementDislike: () {
-                                    setState(() {
-                                      postServices.dislikePost(user.uid,
-                                          myUser.userId, post["postId"]);
-                                    });
-                                  },
-                                  reShare: () {
-                                    //TODO: Implement re-share
-                                  },
-                                  myUserId: user.uid,
-                                  analytics: widget.analytics,
-                                ))
-                                    .toList()
-                                    .reversed,
-                              ),
-                            )
+                            myPosts.isEmpty
+                                ? const Padding(
+                                    padding: EdgeInsets.only(top: 80),
+                                    child: Center(
+                                      child: Text("You have no posts."),
+                                    ),
+                                  )
+                                : Column(
+                                    children: List.from(
+                                      myPosts
+                                          .map((post) => PostCard(
+                                                post: Post.fromJson(post),
+                                                isMyPost: true,
+                                                deletePost: () {
+                                                  setState(() {
+                                                    postServices.deletePost(
+                                                        user.uid, post);
+                                                  });
+                                                },
+                                                incrementLike: () {
+                                                  setState(() {
+                                                    postServices.likePost(
+                                                        user.uid,
+                                                        myUser.userId,
+                                                        post["postId"]);
+                                                  });
+                                                },
+                                                incrementDislike: () {
+                                                  setState(() {
+                                                    postServices.dislikePost(
+                                                        user.uid,
+                                                        myUser.userId,
+                                                        post["postId"]);
+                                                  });
+                                                },
+                                                myUserId: user.uid,
+                                                analytics: widget.analytics,
+                                              ))
+                                          .toList()
+                                          .reversed,
+                                    ),
+                                  )
                           ],
                         ),
                       ),
                     ),
-                  )
-              );
+                  ));
             } else {
               return const Center(child: CircularProgressIndicator());
             }

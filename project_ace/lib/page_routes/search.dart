@@ -36,7 +36,6 @@ class _SearchState extends State<Search> {
   UserServices userServices = UserServices();
   PostServices postServices = PostServices();
   String query = "";
-
   int currentSearchLoc = 0;
 
   changeCurrentSearchLoc(int i) {
@@ -209,7 +208,8 @@ class _SearchState extends State<Search> {
                     }).toList();
                     List<dynamic> postsList = querySnapshot.data!.docs
                         .where((QueryDocumentSnapshot<Object?> element) {
-                          return (!element["isDisabled"] && element["userId"] != user.uid);
+                          return (!element["isDisabled"] &&
+                              element["userId"] != user.uid);
                         })
                         .map((data) => (data["posts"]))
                         .toList();
@@ -339,9 +339,6 @@ class _SearchState extends State<Search> {
                                                   post["userId"],
                                                   post["postId"]);
                                             },
-                                            reShare: () {
-                                              // TODO: Re-share
-                                            },
                                             myUserId: user.uid,
                                             analytics: widget.analytics,
                                           ))
@@ -353,17 +350,19 @@ class _SearchState extends State<Search> {
                                 children: List.from(
                                   topicList
                                       .map((topic) => TopicCard(
-                                          topic: Topic.fromJson(topic.data()
-                                              as Map<String, dynamic>), userId: user.uid, analytics: widget.analytics, isSearch: true,))
+                                            topic: Topic.fromJson(topic.data()
+                                                as Map<String, dynamic>),
+                                            userId: user.uid,
+                                            analytics: widget.analytics,
+                                            isSearch: true,
+                                          ))
                                       .toList()
                                       .reversed,
                                 ),
-                    )),
-                              ]),
-                        )));
-    }
-               })
-
-    );
+                              )),
+                  ]),
+                )));
+              }
+            }));
   }
 }

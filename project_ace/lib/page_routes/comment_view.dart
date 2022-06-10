@@ -64,7 +64,6 @@ class _CommentViewState extends State<CommentView> {
                         "Comments",
                         style: feedHeader,
                       ))),
-              // TODO: Implement sizes for IconButton
             ],
           ),
           backgroundColor: AppColors.profileScreenBackgroundColor,
@@ -150,10 +149,10 @@ class _CommentViewState extends State<CommentView> {
                                   shape: BoxShape.circle,
                                   color: Colors.blue,
                                 ),
-                                // TODO: Icon sizes
-                                child: const Icon(
-                                  Icons.send, color: Colors.white,
-                                  // size: screenHeight(context) * ,
+                                child: Icon(
+                                  Icons.send,
+                                  size: screenHeight(context) * 0.023,
+                                  color: Colors.white,
                                 ))),
                       ],
                     ),

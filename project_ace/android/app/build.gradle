@@ -50,7 +50,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.project_ace"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/comment.dart';
 import 'package:project_ace/utilities/colors.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
 
 class CommentCard extends StatefulWidget {
@@ -25,7 +26,7 @@ class _CommentCardState extends State<CommentCard> {
   }
 
   Future getUserPP() async {
-    final upp = await userService.getUserPp(widget.comment.userId);
+    final upp = await userService.getUserProfilePicture(widget.comment.userId);
     setState(() {
       otherUserpp = upp;
     });
@@ -40,7 +41,6 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement screen sizes
     return Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -61,13 +61,15 @@ class _CommentCardState extends State<CommentCard> {
                   child: CircleAvatar(
                     backgroundColor: AppColors.welcomeScreenBackgroundColor,
                     radius: 20,
-
-                      backgroundImage: (otherUserpp != "default") ? NetworkImage(otherUserpp): const NetworkImage( "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
+                    backgroundImage: (otherUserpp != "default")
+                        ? NetworkImage(otherUserpp)
+                        : const NetworkImage(
+                            "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                   ),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: screenWidth(context) * 0.015),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                  padding: const EdgeInsets.only(top: 2),
                   child: Text(
                     otherUsername,
                     style: postCardUserName,
@@ -78,7 +80,6 @@ class _CommentCardState extends State<CommentCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // TODO: Add the correct text style here
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -101,7 +102,10 @@ class _CommentCardState extends State<CommentCard> {
                         .toString()
                         .substring(
                             0,
-                            widget.comment.createdAt.toLocal().toString().length -
+                            widget.comment.createdAt
+                                    .toLocal()
+                                    .toString()
+                                    .length -
                                 7))),
               ],
             ),

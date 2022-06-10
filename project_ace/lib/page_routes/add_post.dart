@@ -5,8 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:project_ace/page_routes/own_profile_view.dart';
@@ -45,13 +47,58 @@ class _AddPostState extends State<AddPost> {
 
   final Location location = Location();
   LocationData? _locData;
-  PermissionStatus? _permissionStatus;
-  StreamSubscription<LocationData>? _locSubscription;
-  bool? _serviceEnabled;
-  bool _loading = false;
-  String? _error;
+  PermissionStatus? permissionStatus;
+  bool? serviceEnabled;
+  bool loading = false;
+  String? error;
   String city = "";
   bool isLocationShared = false;
+
+  Future<void> _showDialog(String title, String message) async {
+    bool isAndroid = Platform.isAndroid;
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if (isAndroid) {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                children: [
+                  Text(message),
+                ],
+              )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          } else {
+            return CupertinoAlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                  child: ListBody(
+                children: [
+                  Text(message),
+                ],
+              )),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          }
+        });
+  }
 
   void _scrollDown() {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
@@ -82,39 +129,57 @@ class _AddPostState extends State<AddPost> {
   }
 
   Future<void> _getLocation() async {
-    setState(() {
-      _error = null;
-      _loading = true;
-    });
-    try {
-      final LocationData _locResult = await location.getLocation();
+    bool permissionGranted = false;
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.unableToDetermine) {
+      LocationPermission permission = await Geolocator.requestPermission();
+      if (!(permission == LocationPermission.deniedForever) ||
+          !(permission == LocationPermission.denied)) {
+        await _showDialog("Success", "Thank you for sharing your location!");
+        permissionGranted = true;
+      }
+    } else if (permission == PermissionStatus.granted ||
+        permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      permissionGranted = true;
+    }
+    if (permissionGranted) {
       setState(() {
-        _locData = _locResult;
-        _loading = false;
+        error = null;
+        loading = true;
       });
-    } on PlatformException catch (e) {
-      setState(() {
-        _error = e.toString();
-        _loading = false;
-      });
+      try {
+        final LocationData locResult = await location.getLocation();
+        setState(() {
+          _locData = locResult;
+          loading = false;
+        });
+      } on PlatformException catch (e) {
+        setState(() {
+          error = e.toString();
+          loading = false;
+        });
+      }
+    } else {
+      await _showDialog("Location Services Denied",
+          "From your settings, enable location services for this app to share your location.");
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final currentUser = Provider.of<User?>(context);
+    final user = Provider.of<User?>(context);
     setCurrentScreen(widget.analytics, "Add Post View", "add_post.dart");
-    setUserId(widget.analytics, currentUser!.uid);
+    setUserId(widget.analytics, user!.uid);
     return FutureBuilder(
-        future: userServices.usersRef.doc(currentUser.uid).get(),
+        future: userServices.usersRef.doc(user.uid).get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           } else {
             MyUser myUser =
-            MyUser.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+                MyUser.fromJson(snapshot.data!.data() as Map<String, dynamic>);
             return Scaffold(
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
@@ -151,7 +216,7 @@ class _AddPostState extends State<AddPost> {
                   physics: const BouncingScrollPhysics(),
                   controller: scrollController,
                   keyboardDismissBehavior:
-                  ScrollViewKeyboardDismissBehavior.onDrag,
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -182,7 +247,7 @@ class _AddPostState extends State<AddPost> {
                                 },
                                 controller: _controller,
                                 textCapitalization:
-                                TextCapitalization.sentences,
+                                    TextCapitalization.sentences,
                                 autocorrect: true,
                                 enableSuggestions: true,
                                 decoration: InputDecoration(
@@ -216,7 +281,7 @@ class _AddPostState extends State<AddPost> {
                                 },
                                 controller: _controllerUrl,
                                 textCapitalization:
-                                TextCapitalization.sentences,
+                                    TextCapitalization.sentences,
                                 autocorrect: true,
                                 enableSuggestions: true,
                                 decoration: InputDecoration(
@@ -232,24 +297,28 @@ class _AddPostState extends State<AddPost> {
                         SizedBox(
                           height: screenHeight(context) * 0.023,
                         ),
-                        if (isLocationShared) Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: Text("Your location is: $city", style: const TextStyle(
-                            fontSize: 16,
-                          ),),
-                        ),
+                        if (isLocationShared)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Text(
+                              "Your location is: $city",
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         if (_image != null)
                           Center(
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    screenHeight(context) * 0.017),
-                                child: Image.file(
-                                  _image!,
-                                  width: screenWidth(context) * 0.97,
-                                  height: screenHeight(context) * 0.46,
-                                  fit: BoxFit.cover,
-                                ),
-                              ))
+                            borderRadius: BorderRadius.circular(
+                                screenHeight(context) * 0.017),
+                            child: Image.file(
+                              _image!,
+                              width: screenWidth(context) * 0.97,
+                              height: screenHeight(context) * 0.46,
+                              fit: BoxFit.cover,
+                            ),
+                          ))
                         else if (_video != null)
                           const Center(
                               child: Text("Your video is ready to upload!"))
@@ -267,14 +336,14 @@ class _AddPostState extends State<AddPost> {
                                 String media = "default";
                                 if (_image != null) {
                                   url = await postServices.uploadPostPicture(
-                                      currentUser,
+                                      user,
                                       _image!,
                                       (myUser.posts.length + 1).toString());
                                   media = "photo";
                                 }
                                 if (_video != null) {
                                   url = await postServices.uploadPostVideo(
-                                      currentUser,
+                                      user,
                                       _video!,
                                       (myUser.posts.length + 1).toString());
                                   media = "video";
@@ -284,7 +353,7 @@ class _AddPostState extends State<AddPost> {
                                     urlAvatar: myUser.profilepicture,
                                     postId: myUser.userId +
                                         (myUser.posts.length + 1).toString(),
-                                    userId: currentUser.uid,
+                                    userId: user.uid,
                                     text: postText,
                                     comments: [],
                                     likes: [],
@@ -295,9 +364,8 @@ class _AddPostState extends State<AddPost> {
                                     fullName: myUser.fullName,
                                     topic: postTopic,
                                     fromWho: myUser.userId,
-                                location: city.isNotEmpty ? city : "");
-                                postServices.createPost(
-                                    currentUser.uid, userPost);
+                                    location: city.isNotEmpty ? city : "");
+                                postServices.createPost(user.uid, userPost);
                                 setState(() {
                                   FocusScope.of(context).unfocus();
                                   _controller.clear();
@@ -351,7 +419,9 @@ class _AddPostState extends State<AddPost> {
                                   });
                                 } else {
                                   await _getLocation();
-                                  final g = GeoCity(lt: _locData!.latitude!, lg: _locData!.longitude!);
+                                  final g = GeoCity(
+                                      lt: _locData!.latitude!,
+                                      lg: _locData!.longitude!);
                                   String place = await g.getPlace() as String;
                                   setState(() {
                                     city = place;

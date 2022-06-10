@@ -12,7 +12,8 @@ class PostServices {
   final CollectionReference postsRef =
       FirebaseFirestore.instance.collection('Posts');
   final CollectionReference usersRef = UserServices().usersRef;
-  final CollectionReference topicsRef = FirebaseFirestore.instance.collection('Topics');
+  final CollectionReference topicsRef =
+      FirebaseFirestore.instance.collection('Topics');
   final FirebaseStorage storage = FirebaseStorage.instance;
 
   createPost(String userId, Post post) async {
@@ -20,18 +21,15 @@ class PostServices {
       'posts': FieldValue.arrayUnion([post.toJson()])
     });
     postsRef.doc(post.postId).set(post.toJson());
-    if(post.topic.isNotEmpty) {
+    if (post.topic.isNotEmpty) {
       var docRef = await topicsRef.doc(post.topic).get();
       if (docRef.data() != null) {
         topicsRef.doc(post.topic).update({
           "postIdList": FieldValue.arrayUnion([post.postId])
         });
-      }
-      else{
+      } else {
         Topic myTopic = Topic(text: post.topic, postIdList: [post.postId]);
-        topicsRef.doc(post.topic).set(
-          myTopic.toJson()
-        );
+        topicsRef.doc(post.topic).set(myTopic.toJson());
       }
     }
   }
@@ -128,7 +126,6 @@ class PostServices {
         break;
       }
     }
-    // TODO: await UserServices().pushNotifications(userId, otherUserId, "dislikedPost");
     if (!thePost["dislikes"].contains(userId)) {
       thePost["dislikes"] = thePost["dislikes"] + [userId];
       posts[i] = thePost;
@@ -192,9 +189,8 @@ class PostServices {
         break;
       }
     }
-
     Post newPost = Post(
-        postId: userId + (posts.length +1).toString(),
+        postId: userId + (posts.length + 1).toString(),
         userId: userId,
         assetUrl: post.assetUrl,
         text: post.text,

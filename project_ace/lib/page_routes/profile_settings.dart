@@ -33,8 +33,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   final UserServices _userServices = UserServices();
   File? _image;
   bool isPrivate = false;
-  bool isDisabled =  false;
-  bool sharedisDisabled=false;
+  bool isDisabled = false;
+  bool sharedIsDisabled = false;
 
   onChangedSwitch(bool newVal, String userId) {
     setState(() {
@@ -43,17 +43,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-  onChangedDisableAccount(bool newVal, String userId) async{
+  onChangedDisableAccount(bool newVal, String userId) async {
     setState(() {
-      if(newVal == true) {
+      if (newVal == true) {
         _userServices.enableUser(userId);
-        isDisabled= newVal;
+        isDisabled = newVal;
+      } else {
+        _userServices.disableUser(userId);
+        isDisabled = newVal;
       }
-      else {
-         _userServices.disableUser(userId);
-        isDisabled=newVal;
-      }
-
     });
   }
 
@@ -86,11 +84,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   Future getUserDisabled() async {
-    final f = await UserServices().getDisabled(FirebaseAuth.instance.currentUser!.uid);
+    final f = await UserServices()
+        .getDisabled(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
-      isDisabled =f;
+      isDisabled = f;
     });
   }
+
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
     return showDialog(
@@ -102,10 +102,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -120,10 +120,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -136,8 +136,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           }
         });
   }
-
-
 
   @override
   void initState() {
@@ -270,33 +268,35 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               SizedBox(
                 height: screenHeight(context) * 0.062,
                 child: ElevatedButton(
-                  onPressed:() async {
+                  onPressed: () async {
                     if (isDisabled) {
                       await _userServices.enableUser(user.uid);
                       var prefs = await SharedPreferences.getInstance();
                       prefs.setBool("disable", false);
-                      _showDialog("Success", "You successfully enabled your account!");
+                      _showDialog(
+                          "Success", "You successfully enabled your account!");
                       setState(() {
                         isDisabled = false;
                       });
-                    }
-                    else {
+                    } else {
                       await _userServices.disableUser(user.uid);
                       var prefs = await SharedPreferences.getInstance();
                       prefs.setBool("disable", true);
-                      _showDialog("Success", "You successfully disabled your account!");
+                      _showDialog(
+                          "Success", "You successfully disabled your account!");
                       setState(() {
                         isDisabled = true;
                       });
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: isDisabled ? AppColors.messagesFromUserFillColor : AppColors.deactivateAccountButtonFillColor,
+                      primary: isDisabled
+                          ? AppColors.messagesFromUserFillColor
+                          : AppColors.deactivateAccountButtonFillColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: Text(
-                    isDisabled ?
-                    'Enable Account' : 'Disable Account',
+                    isDisabled ? 'Enable Account' : 'Disable Account',
                     style: profileSettingsDeactivateAndDelete,
                   ),
                 ),

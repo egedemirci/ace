@@ -24,7 +24,6 @@ class PostCard extends StatefulWidget {
   final VoidCallback deletePost;
   final VoidCallback incrementLike;
   final VoidCallback incrementDislike;
-  final VoidCallback reShare;
   final bool isMyPost;
   final String myUserId;
   final FirebaseAnalytics analytics;
@@ -35,7 +34,6 @@ class PostCard extends StatefulWidget {
     required this.deletePost,
     required this.incrementLike,
     required this.incrementDislike,
-    required this.reShare,
     required this.isMyPost,
     required this.myUserId,
     required this.analytics,
@@ -143,14 +141,14 @@ class _PostCardState extends State<PostCard> {
   }
 
   Future getUserPP() async {
-    if(widget.post.isShared){
-      final upp = await UserServices().getUserPp(widget.post.fromWho);
+    if (widget.post.isShared) {
+      final upp =
+          await _userServices.getUserProfilePicture(widget.post.fromWho);
       setState(() {
         userProfilePicture = upp;
       });
-    }
-    else {
-      final upp = await UserServices().getUserPp(widget.post.userId);
+    } else {
+      final upp = await _userServices.getUserProfilePicture(widget.post.userId);
       setState(() {
         userProfilePicture = upp;
       });
@@ -158,8 +156,7 @@ class _PostCardState extends State<PostCard> {
   }
 
   getUserName() async {
-    final uname =
-        await _userServices.getUsername(widget.post.userId);
+    final uname = await _userServices.getUsername(widget.post.userId);
     setState(() {
       userNameForReShare = '@$uname';
     });
@@ -174,7 +171,6 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Extend the implementation of Screen Sizes
     return Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -192,12 +188,13 @@ class _PostCardState extends State<PostCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Icon(Icons.repeat, color: AppColors.reshareColor,
-                    size:15),
+                    Icon(Icons.repeat,
+                        color: AppColors.reshareColor,
+                        size: screenWidth(context) * 0.039),
                     Padding(
                       padding: const EdgeInsets.all(4),
                       child: Text("Re-shared by $userNameForReShare",
-                      style: reshare),
+                          style: reshare),
                     ),
                   ],
                 ),
@@ -224,39 +221,47 @@ class _PostCardState extends State<PostCard> {
                     style: postCardUserRealName,
                   ),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: screenWidth(context) * 0.015),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     "@${widget.post.username}",
                     style: postCardUserName,
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: screenWidth(context) * 0.015),
                 const Spacer(),
                 PopupMenuButton<PostMenuItem>(
                     splashRadius: screenWidth(context) * 0.045,
                     onSelected: (item) => onSelected(context, item),
-                    itemBuilder: (context) => (widget.post.isShared && widget.post.userId == widget.myUserId ?
-                      [...PostMenuItems.resharedPostList.map(buildItem).toList(),]
-                        : (  widget.isMyPost ?
-                        [...PostMenuItems.userPostList.map(buildItem).toList()] :
-                            [...PostMenuItems.otherUsersPostList.map(buildItem).toList(),]
-                        )
-                 )
-
-                  ),
+                    itemBuilder: (context) => (widget.post.isShared &&
+                            widget.post.userId == widget.myUserId
+                        ? [
+                            ...PostMenuItems.resharedPostList
+                                .map(buildItem)
+                                .toList(),
+                          ]
+                        : (widget.isMyPost
+                            ? [
+                                ...PostMenuItems.userPostList
+                                    .map(buildItem)
+                                    .toList()
+                              ]
+                            : [
+                                ...PostMenuItems.otherUsersPostList
+                                    .map(buildItem)
+                                    .toList(),
+                              ]))),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+              padding: const EdgeInsets.only(bottom: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // TODO: Add the correct text style here
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -268,23 +273,25 @@ class _PostCardState extends State<PostCard> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
-                  Row(
-                  children: [if (widget.post.topic.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8,0, 8, 0),
-                      child: Text(
-                        '#${widget.post.topic}',
-                        style: topicText,
-                        overflow: TextOverflow.ellipsis,
+                  Row(children: [
+                    if (widget.post.topic.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: Text(
+                          '#${widget.post.topic}',
+                          style: topicText,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
                     const Spacer(),
-                    if (widget.post.location.isNotEmpty) const Icon(Icons.location_on_outlined,
-                    size: 14,
-                    color: AppColors.profileSettingButtonFillColor,),
+                    if (widget.post.location.isNotEmpty)
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: screenWidth(context) * 0.034,
+                        color: AppColors.profileSettingButtonFillColor,
+                      ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(2, 3, 0, 0),
                       child: Text(
@@ -292,9 +299,8 @@ class _PostCardState extends State<PostCard> {
                         style: location,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                  ]
-                  )
+                    SizedBox(width: screenWidth(context) * 0.024),
+                  ])
                 ],
               ),
             ),
@@ -322,8 +328,8 @@ class _PostCardState extends State<PostCard> {
                         ))
                   : Container(),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: screenHeight(context) * 0.012,
             ),
             Row(
               children: [
@@ -331,22 +337,19 @@ class _PostCardState extends State<PostCard> {
                   icon: const Icon(Icons.thumb_up_alt_outlined,
                       color: AppColors.reshareColor),
                   onPressed: widget.incrementLike,
-                  iconSize: 20,
-                  splashRadius: 20,
+                  iconSize: screenHeight(context) * 0.023,
+                  splashRadius: screenHeight(context) * 0.024,
                 ),
-                Text(
-                  widget.post.likes.length.toString(),
-                  style:bottomPost
-                ),
+                Text(widget.post.likes.length.toString(), style: bottomPost),
                 const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
+                  padding: const EdgeInsets.only(left: 2),
                   child: IconButton(
                     icon: const Icon(Icons.thumb_down_alt_outlined,
-                    color: AppColors.reshareColor),
+                        color: AppColors.reshareColor),
                     onPressed: widget.incrementDislike,
-                    iconSize: 20,
-                    splashRadius: 20,
+                    iconSize: screenHeight(context) * 0.023,
+                    splashRadius: screenHeight(context) * 0.024,
                   ),
                 ),
                 Text(
@@ -355,10 +358,10 @@ class _PostCardState extends State<PostCard> {
                 ),
                 const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
+                  padding: const EdgeInsets.only(left: 2),
                   child: IconButton(
                     icon: const Icon(Icons.comment,
-                    color: AppColors.reshareColor),
+                        color: AppColors.reshareColor),
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -368,28 +371,30 @@ class _PostCardState extends State<PostCard> {
                                     analytics: widget.analytics,
                                   )));
                     },
-                    iconSize: 20,
-                    splashRadius: 20,
+                    iconSize: screenHeight(context) * 0.023,
+                    splashRadius: screenHeight(context) * 0.024,
                   ),
                 ),
                 Text(
                   widget.post.comments.length.toString(),
-                  style:bottomPost,
+                  style: bottomPost,
                 ),
                 const Spacer(),
                 Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 0, 0, 0),
-                    child: Text(DateFormat('kk:mm - yyyy-MM-dd')
-                        .format(widget.post.createdAt),
-                    style: bottomPost),),
+                  padding: const EdgeInsets.only(left: 2),
+                  child: Text(
+                      DateFormat('kk:mm - yyyy-MM-dd')
+                          .format(widget.post.createdAt),
+                      style: bottomPost),
+                ),
               ],
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: screenHeight(context) * 0.012,
             ),
-            const Divider(
-                height: 10,
-                thickness: 0.5,
+            Divider(
+                height: screenHeight(context) * 0.012,
+                thickness: screenHeight(context) * 0.000575,
                 color: AppColors.welcomeScreenBackgroundColor),
           ],
         ),

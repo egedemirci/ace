@@ -84,8 +84,8 @@ class _EditPostViewState extends State<EditPostView> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    setCurrentScreen(widget.analytics, "Edit Post View", "edit_post.dart");
     final user = Provider.of<User?>(context);
+    setCurrentScreen(widget.analytics, "Edit Post View", "edit_post.dart");
     setUserId(widget.analytics, user!.uid);
     return Scaffold(
       resizeToAvoidBottomInset: false,

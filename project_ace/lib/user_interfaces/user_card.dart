@@ -44,27 +44,27 @@ class UserCard extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                 child: CircleAvatar(
                   backgroundColor: AppColors.welcomeScreenBackgroundColor,
-                  radius: 32,
+                  radius: screenWidth(context) * 0.078,
                   backgroundImage: (user.profilepicture != "default")
                       ? NetworkImage(user.profilepicture)
                       : const NetworkImage(
                           "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: screenWidth(context) * 0.039),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 14, 0, 0),
+                    padding: const EdgeInsets.only(top: 14),
                     child: Text(
                       user.fullName,
                       style: postCardUserRealName,
                     ),
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: screenWidth(context) * 0.015),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                    padding: const EdgeInsets.only(top: 2),
                     child: Text(
                       "@${user.username}",
                       style: postCardUserName,
@@ -99,27 +99,27 @@ class UserCard extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                       child: CircleAvatar(
                         backgroundColor: AppColors.welcomeScreenBackgroundColor,
-                        radius: 32,
+                        radius: screenWidth(context) * 0.078,
                         backgroundImage: (user.profilepicture != "default")
                             ? NetworkImage(user.profilepicture)
                             : const NetworkImage(
                                 "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg"),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: screenWidth(context) * 0.039),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 14, 0, 0),
+                          padding: const EdgeInsets.only(top: 14),
                           child: Text(
                             user.fullName,
                             style: postCardUserRealName,
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: screenWidth(context) * 0.015),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                          padding: const EdgeInsets.only(top: 2),
                           child: Text(
                             "@${user.username}",
                             style: postCardUserName,

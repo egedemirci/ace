@@ -30,10 +30,8 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  List<Post> posts = [];
   UserServices userService = UserServices();
   PostServices postService = PostServices();
-
   List<dynamic> recommendations = [];
 
   getRecommendations() async {
@@ -159,7 +157,6 @@ class _FeedState extends State<Feed> {
                       splashRadius: screenWidth(context) * 0.07,
                     ),
                     const Spacer(),
-                    // TODO: Implement sizes for IconButton
                     IconButton(
                       tooltip: "Profile",
                       iconSize: screenWidth(context) * 0.08,
@@ -203,11 +200,13 @@ class _FeedState extends State<Feed> {
                         } else {
                           List<dynamic> allPosts = querySnapshot.data!.docs
                               .where((QueryDocumentSnapshot<Object?> element) {
-                            return (!element["isDisabled"] && (!element["isPrivate"] && element["userId"] != user.uid));
-                          })
+                                return (!element["isDisabled"] &&
+                                    (!element["isPrivate"] &&
+                                        element["userId"] != user.uid));
+                              })
                               .map((data) => (data["posts"]))
                               .toList();
-                          
+
                           List<dynamic> postsList = querySnapshot.data!.docs
                               .where((QueryDocumentSnapshot<Object?> element) {
                                 return ((myUser.following
@@ -224,7 +223,8 @@ class _FeedState extends State<Feed> {
                           }
                           for (int j = 0; j < allPosts.length; j++) {
                             for (int k = 0; k < allPosts[j].length; k++) {
-                              if(myUser.subscribedTopics.contains(allPosts[j][k]['topic'])) {
+                              if (myUser.subscribedTopics
+                                  .contains(allPosts[j][k]['topic'])) {
                                 followingPosts += [allPosts[j][k]];
                               }
                             }
@@ -258,9 +258,6 @@ class _FeedState extends State<Feed> {
                                                     myUser.userId,
                                                     post["userId"],
                                                     post["postId"]);
-                                              },
-                                              reShare: () {
-                                                // TODO: Re-share
                                               },
                                               myUserId: user.uid,
                                               analytics: widget.analytics,

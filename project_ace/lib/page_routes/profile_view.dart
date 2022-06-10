@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,6 +41,7 @@ class _ProfileViewState extends State<ProfileView> {
   UserServices userService = UserServices();
   PostServices postService = PostServices();
   MessageService messageService = MessageService();
+  ReportService reportService = ReportService();
   String userName = " ";
   int postType = 0;
 
@@ -77,10 +77,10 @@ class _ProfileViewState extends State<ProfileView> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -95,10 +95,10 @@ class _ProfileViewState extends State<ProfileView> {
               title: Text(title),
               content: SingleChildScrollView(
                   child: ListBody(
-                    children: [
-                      Text(message),
-                    ],
-                  )),
+                children: [
+                  Text(message),
+                ],
+              )),
               actions: [
                 TextButton(
                   child: const Text("OK"),
@@ -115,8 +115,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
-    setCurrentScreen(
-        widget.analytics, "Own Profile View", "own_profile_view.dart");
+    setCurrentScreen(widget.analytics, "Profile View", "profile_view.dart");
     setUserId(widget.analytics, widget.userId);
     return Scaffold(
         appBar: AppBar(
@@ -134,10 +133,11 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () async{
-                  await ReportService().reportUser(widget.userId, user!.uid, userName);
-                  _showDialog("Reported!",
-                      "You successfully reported this user");
+                onPressed: () async {
+                  await reportService.reportUser(
+                      widget.userId, user!.uid, userName);
+                  _showDialog(
+                      "Reported!", "You successfully reported this user");
                 },
                 icon: const Icon(
                   Icons.report,
@@ -383,8 +383,10 @@ class _ProfileViewState extends State<ProfileView> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => TopicListView(
-                                            topicList: otherUser.subscribedTopics, analytics: widget.analytics,
-                                          )));
+                                                topicList:
+                                                    otherUser.subscribedTopics,
+                                                analytics: widget.analytics,
+                                              )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -638,41 +640,48 @@ class _ProfileViewState extends State<ProfileView> {
                           SizedBox(
                             height: screenHeight(context) * 0.0115,
                           ),
-                          Column(
-                            children: List.from(
-                              otherUserPosts
-                                  .map((post) => PostCard(
-                                        post: Post.fromJson(post),
-                                        isMyPost: false,
-                                        deletePost: () {
-                                          setState(() {
-                                            postService.deletePost(
-                                                widget.userId, post);
-                                          });
-                                        },
-                                        incrementLike: () {
-                                          setState(() {
-                                            postService.likePost(user.uid,
-                                                widget.userId, post["postId"]);
-                                          });
-                                        },
-                                        incrementDislike: () {
-                                          setState(() {
-                                            postService.dislikePost(
-                                                user.uid,
-                                                otherUser.userId,
-                                                post["postId"]);
-                                          });
-                                        },
-                                        reShare: () {
-                                        },
-                                        myUserId: user.uid,
-                                        analytics: widget.analytics,
-                                      ))
-                                  .toList()
-                                  .reversed,
-                            ),
-                          )
+                          otherUserPosts.isEmpty
+                              ? const Padding(
+                                  padding: EdgeInsets.only(top: 80),
+                                  child: Center(
+                                    child: Text("This user has no posts."),
+                                  ),
+                                )
+                              : Column(
+                                  children: List.from(
+                                    otherUserPosts
+                                        .map((post) => PostCard(
+                                              post: Post.fromJson(post),
+                                              isMyPost: false,
+                                              deletePost: () {
+                                                setState(() {
+                                                  postService.deletePost(
+                                                      widget.userId, post);
+                                                });
+                                              },
+                                              incrementLike: () {
+                                                setState(() {
+                                                  postService.likePost(
+                                                      user.uid,
+                                                      widget.userId,
+                                                      post["postId"]);
+                                                });
+                                              },
+                                              incrementDislike: () {
+                                                setState(() {
+                                                  postService.dislikePost(
+                                                      user.uid,
+                                                      otherUser.userId,
+                                                      post["postId"]);
+                                                });
+                                              },
+                                              myUserId: user.uid,
+                                              analytics: widget.analytics,
+                                            ))
+                                        .toList()
+                                        .reversed,
+                                  ),
+                                )
                         ],
                       ),
                     ),
@@ -803,8 +812,10 @@ class _ProfileViewState extends State<ProfileView> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => TopicListView(
-                                            topicList: otherUser.subscribedTopics, analytics: widget.analytics,
-                                          )));
+                                                topicList:
+                                                    otherUser.subscribedTopics,
+                                                analytics: widget.analytics,
+                                              )));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,

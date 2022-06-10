@@ -75,12 +75,12 @@ class _DeleteAccountState extends State<DeleteAccount> {
 
   @override
   Widget build(BuildContext context) {
-    setCurrentScreen(
-        widget.analytics, "Delete Account View", "delete_account.dart");
     final user = Provider.of<User?>(context);
     if (user == null) {
       return Login(analytics: widget.analytics);
     }
+    setCurrentScreen(
+        widget.analytics, "Delete Account View", "delete_account.dart");
     setUserId(widget.analytics, user.uid);
     return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -3,11 +3,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/services/post_services.dart';
-import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/templates/topic.dart';
-import 'package:project_ace/templates/user.dart';
 import 'package:project_ace/user_interfaces/topic_cards.dart';
-import 'package:project_ace/user_interfaces/user_card.dart';
 import 'package:project_ace/utilities/colors.dart';
 import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:project_ace/utilities/styles.dart';
@@ -18,9 +15,7 @@ class TopicListView extends StatefulWidget {
   final FirebaseAnalytics analytics;
 
   const TopicListView(
-      {Key? key,
-        required this.topicList,
-        required this.analytics})
+      {Key? key, required this.topicList, required this.analytics})
       : super(key: key);
 
   @override
@@ -81,10 +76,12 @@ class _TopicListViewState extends State<TopicListView> {
                     child: Column(
                       children: List.from(topicList
                           .map((topic) => TopicCard(
-                        topic: Topic.fromJson(
-                            topic.data() as Map<String, dynamic>),
-                        isSearch: false, analytics: widget.analytics, userId: user!.uid,
-                      ))
+                                topic: Topic.fromJson(
+                                    topic.data() as Map<String, dynamic>),
+                                isSearch: false,
+                                analytics: widget.analytics,
+                                userId: user!.uid,
+                              ))
                           .toList()),
                     ),
                   ),
