@@ -121,36 +121,21 @@ class _MessageScreenState extends State<MessageScreen> {
           ),
         ),
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: screenHeight(context) * 0.025,
-            ),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-            },
-            splashRadius: screenHeight(context) * 0.03,
-          ),
-          toolbarHeight: screenHeight(context) * 0.08,
-          elevation: 0,
           centerTitle: true,
-          foregroundColor: AppColors.welcomeScreenBackgroundColor,
-          title: Row(
-            children: [
-              const Spacer(),
-              SizedBox(
-                width: screenWidth(context) * 0.6,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    "Messages",
-                    style: messageHeader,
-                  ),
-                ),
+          title: SizedBox(
+            width: screenWidth(context) * 0.6,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                "Messages",
+                style: messageHeader,
               ),
-              const Spacer(),
-              IconButton(
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/notifications');
                 },
@@ -161,8 +146,10 @@ class _MessageScreenState extends State<MessageScreen> {
                 ),
                 splashRadius: screenHeight(context) * 0.032,
               ),
-            ],
-          ),
+            )
+          ],
+          toolbarHeight: screenHeight(context) * 0.08,
+          elevation: 0,
           backgroundColor: AppColors.profileScreenBackgroundColor,
         ),
         body: StreamBuilder(

@@ -51,17 +51,6 @@ class _SearchState extends State<Search> {
     setUserId(widget.analytics, user!.uid);
     return Scaffold(
         appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                size: screenHeight(context) * 0.025,
-              ),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                Navigator.pop(context);
-              },
-              splashRadius: screenHeight(context) * 0.03,
-            ),
             elevation: 0,
             toolbarHeight: screenHeight(context) * 0.08,
             backgroundColor: AppColors.searchScreenBackground,
@@ -140,7 +129,10 @@ class _SearchState extends State<Search> {
                       Icons.home,
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Feed.routeName, (route) => false);
+                    },
                     splashRadius: screenWidth(context) * 0.07,
                   ),
                   const Spacer(),
