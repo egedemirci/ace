@@ -69,7 +69,8 @@ class _MessageScreenState extends State<MessageScreen> {
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, Search.routeName);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Search.routeName, (route) => false);
                     },
                     splashRadius: screenWidth(context) * 0.07,
                   ),
@@ -96,7 +97,6 @@ class _MessageScreenState extends State<MessageScreen> {
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
                       Navigator.pushNamed(context, AddPost.routeName);
                     },
                     splashRadius: screenWidth(context) * 0.07,

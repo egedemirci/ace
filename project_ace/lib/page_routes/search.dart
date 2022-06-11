@@ -113,7 +113,8 @@ class _SearchState extends State<Search> {
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, MessageScreen.routeName);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, MessageScreen.routeName, (route) => false);
                     },
                     splashRadius: screenWidth(context) * 0.07,
                   ),
@@ -125,7 +126,10 @@ class _SearchState extends State<Search> {
                       Icons.search,
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Search.routeName, (route) => false);
+                    },
                     splashRadius: screenWidth(context) * 0.07,
                   ),
                   const Spacer(),
@@ -136,10 +140,7 @@ class _SearchState extends State<Search> {
                       Icons.home,
                       color: AppColors.bottomNavigationBarIconOutlineColor,
                     ),
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Feed.routeName, (route) => false);
-                    },
+                    onPressed: () {},
                     splashRadius: screenWidth(context) * 0.07,
                   ),
                   const Spacer(),

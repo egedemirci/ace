@@ -147,8 +147,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                     .bottomNavigationBarIconOutlineColor,
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(
-                                    context, MessageScreen.routeName);
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    MessageScreen.routeName, (route) => false);
                               },
                               splashRadius: screenWidth(context) * 0.07,
                             ),
@@ -162,7 +162,8 @@ class _OwnProfileViewState extends State<OwnProfileView> {
                                     .bottomNavigationBarIconOutlineColor,
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, Search.routeName);
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    Search.routeName, (route) => false);
                               },
                               splashRadius: screenWidth(context) * 0.07,
                             ),
