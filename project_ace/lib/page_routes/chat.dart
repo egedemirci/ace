@@ -37,6 +37,7 @@ class _ChatPageState extends State<ChatPage> {
   String message = '';
   String otherUsername = "";
   String otherUserPP = "";
+  bool otherUserPrivacy = false;
 
   Future getOtherUserName() async {
     final uname = await userService.getUsername(widget.otherUserId);
@@ -49,6 +50,14 @@ class _ChatPageState extends State<ChatPage> {
     final upp = await userService.getUserProfilePicture(widget.otherUserId);
     setState(() {
       otherUserPP = upp;
+    });
+  }
+
+  Future getOtherUserPrivacy() async {
+    final privacy = await userService.getPrivacy(widget.otherUserId);
+    setState(() {
+      print(privacy);
+      otherUserPrivacy = privacy;
     });
   }
 
@@ -121,6 +130,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     getOtherUserName();
     getOtherUserPP();
+    getOtherUserPrivacy();
     super.initState();
   }
 
@@ -170,72 +180,89 @@ class _ChatPageState extends State<ChatPage> {
           backgroundColor: AppColors.profileScreenBackgroundColor,
         ),
         backgroundColor: AppColors.profileScreenBackgroundColor,
-        body: StreamBuilder(
-          stream:
-              messageService.chatRoomReference.doc(widget.chatId).snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Oops, something went wrong"));
-            }
-            if (snapshot.hasData &&
-                snapshot.data != null &&
-                snapshot.data!.data() != null) {
-              List<dynamic> messages =
-                  (snapshot.data!.data() as Map<String, dynamic>)["texts"];
-              return FutureBuilder<DocumentSnapshot>(
-                  future: userService.usersRef.doc(user.uid).get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> querySnapshot) {
-                    if (!querySnapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
+        body: FutureBuilder<DocumentSnapshot>(
+            future: userService.usersRef.doc(widget.otherUserId).get(),
+            builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> querySnapshot) {
+                if (!querySnapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                } else {
+    MyUser otherUser = MyUser.fromJson(
+    (querySnapshot.data!.data() ??
+    Map<String, dynamic>.identity())
+    as Map<String, dynamic>);
+    if(otherUser.isDisabled == false) {
+      return StreamBuilder(
+        stream:
+        messageService.chatRoomReference.doc(widget.chatId).snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text("Oops, something went wrong"));
+          }
+          if (snapshot.hasData &&
+              snapshot.data != null &&
+              snapshot.data!.data() != null) {
+            List<dynamic> messages =
+            (snapshot.data!.data() as Map<String, dynamic>)["texts"];
+            return FutureBuilder<DocumentSnapshot>(
+                future: userService.usersRef.doc(user.uid).get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> querySnapshot) {
+                  if (!querySnapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    MyUser myUser = MyUser.fromJson(
+                        (querySnapshot.data!.data() ??
+                            Map<String, dynamic>.identity())
+                        as Map<String, dynamic>);
+                    if (myUser.isDisabled == true) {
+                      return const Center(
+                          child: Text("Your account is not active."));
                     } else {
-                      MyUser myUser = MyUser.fromJson(
-                          (querySnapshot.data!.data() ??
-                                  Map<String, dynamic>.identity())
-                              as Map<String, dynamic>);
-                      if (myUser.isDisabled == true) {
-                        return const Center(
-                            child: Text("Your account is not active."));
-                      } else {
-                        String prevUserName = "";
-                        return Column(
-                          children: [
-                            Expanded(
-                              child: ListView.builder(
-                                reverse: true,
-                                keyboardDismissBehavior:
-                                    ScrollViewKeyboardDismissBehavior.onDrag,
-                                physics: const BouncingScrollPhysics(),
-                                padding: EdgeInsets.all(
-                                    screenHeight(context) * 0.023),
-                                itemCount: messages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  Message message = Message.fromJson(
-                                      messages.reversed.toList()[index]);
-                                  final bool isMe =
-                                      message.senderUsername == myUser.username;
-                                  final bool isSameUser =
-                                      prevUserName == message.senderUsername;
-                                  prevUserName = message.senderUsername;
-                                  return ChatCard(
-                                      urlAvatar: otherUserPP,
-                                      message: message,
-                                      isMe: isMe,
-                                      isSameUser: isSameUser);
-                                },
-                              ),
+                      String prevUserName = "";
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              reverse: true,
+                              keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.onDrag,
+                              physics: const BouncingScrollPhysics(),
+                              padding: EdgeInsets.all(
+                                  screenHeight(context) * 0.023),
+                              itemCount: messages.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Message message = Message.fromJson(
+                                    messages.reversed.toList()[index]);
+                                final bool isMe =
+                                    message.senderUsername == myUser.username;
+                                final bool isSameUser =
+                                    prevUserName == message.senderUsername;
+                                prevUserName = message.senderUsername;
+                                return ChatCard(
+                                    urlAvatar: otherUserPP,
+                                    message: message,
+                                    isMe: isMe,
+                                    isSameUser: isSameUser);
+                              },
                             ),
-                            _sendMessageArea(widget.chatId, myUser.username,
-                                myUser.profilepicture)
-                          ],
-                        );
-                      }
+                          ),
+                          _sendMessageArea(widget.chatId, myUser.username,
+                              myUser.profilepicture)
+                        ],
+                      );
                     }
-                  });
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-        ));
-  }
-}
+                  }
+                });
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      );
+    }
+    else{
+      return const Center(child: Text("This account is private. You cannot send message to this user."));
+    }
+    }
+  }));
+}}

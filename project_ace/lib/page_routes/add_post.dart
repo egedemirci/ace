@@ -131,7 +131,7 @@ class _AddPostState extends State<AddPost> {
   Future<void> _getLocation() async {
     bool permissionGranted = false;
     LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.unableToDetermine) {
+    if (permission == LocationPermission.unableToDetermine || permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
       LocationPermission permission = await Geolocator.requestPermission();
       if (!(permission == LocationPermission.deniedForever) ||
           !(permission == LocationPermission.denied)) {
@@ -180,6 +180,42 @@ class _AddPostState extends State<AddPost> {
           } else {
             MyUser myUser =
                 MyUser.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+
+            if (myUser.isDisabled){
+              return Scaffold(
+                  backgroundColor: AppColors.profileScreenBackgroundColor,
+                  appBar: AppBar(
+                    leading: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        size: screenHeight(context) * 0.025,
+                      ),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        Navigator.pop(context);
+                      },
+                      splashRadius: screenHeight(context) * 0.03,
+                    ),
+                    toolbarHeight: screenHeight(context) * 0.08,
+                    elevation: 0,
+                    centerTitle: true,
+                    foregroundColor: AppColors.welcomeScreenBackgroundColor,
+                    title: SizedBox(
+                      width: screenWidth(context) * 0.65,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "Add New Post",
+                          style: messageHeader,
+                        ),
+                      ),
+                    ),
+                    backgroundColor: AppColors.profileScreenBackgroundColor,
+                  ),
+              body: const Center(child: Text("Your account is not active."))
+              );
+            }
+            else{
             return Scaffold(
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
@@ -505,6 +541,7 @@ class _AddPostState extends State<AddPost> {
                 ),
               ),
             );
+            }
           }
         });
   }

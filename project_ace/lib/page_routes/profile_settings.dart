@@ -10,6 +10,7 @@ import 'package:project_ace/page_routes/change_password.dart';
 import 'package:project_ace/page_routes/delete_account.dart';
 import 'package:project_ace/page_routes/edit_bio.dart';
 import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -67,7 +68,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     }
   }
 
-  void changePP() async {
+  Future changePP() async {
     await pickImage();
     if (_image != null) {
       await _userServices.uploadProfilePicture(
@@ -252,7 +253,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               SizedBox(
                 height: screenHeight(context) * 0.062,
                 child: ElevatedButton(
-                  onPressed: changePP,
+                  onPressed: () async{
+                    await changePP();
+                    Navigator.pushNamedAndRemoveUntil(context, OwnProfileView.routeName, (route) => false);
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: AppColors.metaGoogleConnectButtonColor,
                       shape: RoundedRectangleBorder(

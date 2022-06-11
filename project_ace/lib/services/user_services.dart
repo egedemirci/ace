@@ -168,7 +168,7 @@ class UserServices {
       usersRef.doc(userToBeFollow).update({
         "followers": FieldValue.arrayUnion([mainUserId]),
       });
-      pushNotifications(userToBeFollow, mainUserId, "followedYou");
+      pushNotifications(mainUserId, userToBeFollow, "followedYou");
     }
   }
 

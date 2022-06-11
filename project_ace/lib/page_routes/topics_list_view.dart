@@ -78,7 +78,7 @@ class _TopicListViewState extends State<TopicListView> {
                           .map((topic) => TopicCard(
                                 topic: Topic.fromJson(
                                     topic.data() as Map<String, dynamic>),
-                                isSearch: false,
+                                isSearch: true,
                                 analytics: widget.analytics,
                                 userId: user!.uid,
                               ))

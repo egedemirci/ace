@@ -44,6 +44,17 @@ class _TopicPostsViewState extends State<TopicPostsView> {
         backgroundColor: AppColors.profileScreenBackgroundColor,
         appBar: AppBar(
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: screenHeight(context) * 0.025,
+            ),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            },
+            splashRadius: screenHeight(context) * 0.03,
+          ),
           title: SizedBox(
             width: screenWidth(context) * 0.6,
             child: FittedBox(

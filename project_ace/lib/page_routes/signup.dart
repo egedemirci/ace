@@ -74,7 +74,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future registerUser() async {
-    _auth.registerWithEmailPassword(_email, _password, _userName, _fullName);
+    return _auth.registerWithEmailPassword(_email, _password, _userName, _fullName);
   }
 
   @override
@@ -281,11 +281,18 @@ class _SignUpState extends State<SignUp> {
                   await _showDialog('Form Error',
                       "This username already in use, try another one");
                 } else {
-                  await registerUser();
-                  await _showDialog("Sign Up Success",
-                      "You have successfully signed up.\nYou will now be directed to your profile page");
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, Login.routeName, (route) => false);
+                  dynamic message = await registerUser();
+                  if(message is String){
+                    await _showDialog("Sign Up Error",
+                        message.toString());
+
+                  }
+                  else {
+                    await _showDialog("Sign Up Success",
+                        "You have successfully signed up.\nYou will now be directed to your profile page");
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Login.routeName, (route) => false);
+                  }
                 }
               } else {
                 await _showDialog('Form Error',
