@@ -41,6 +41,8 @@ class _SearchState extends State<Search> {
   changeCurrentSearchLoc(int i) {
     setState(() {
       currentSearchLoc = i;
+      _controller.clear();
+      query = "";
     });
   }
 
@@ -238,6 +240,7 @@ class _SearchState extends State<Search> {
                             child: OutlinedButton(
                               onPressed: () {
                                 changeCurrentSearchLoc(0);
+
                               },
                               style: OutlinedButton.styleFrom(
                                   elevation: 0, side: BorderSide.none),
