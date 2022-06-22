@@ -69,24 +69,34 @@ class _TopicListViewState extends State<TopicListView> {
                   .where((QueryDocumentSnapshot<Object?> element) {
                 return (widget.topicList.contains(element["text"]));
               }).toList();
-              return SingleChildScrollView(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: List.from(topicList
-                          .map((topic) => TopicCard(
-                                topic: Topic.fromJson(
-                                    topic.data() as Map<String, dynamic>),
-                                isSearch: true,
-                                analytics: widget.analytics,
-                                userId: user!.uid,
-                              ))
-                          .toList()),
+              if(topicList.isEmpty){
+                return Center(
+                  child: Text(
+                    "It is empty here.",
+                    style: bookmarksScreenNoBookmarks,
+                  ),
+                );
+              } else {
+                return SingleChildScrollView(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        children: List.from(topicList
+                            .map((topic) =>
+                            TopicCard(
+                              topic: Topic.fromJson(
+                                  topic.data() as Map<String, dynamic>),
+                              isSearch: true,
+                              analytics: widget.analytics,
+                              userId: user!.uid,
+                            ))
+                            .toList()),
+                      ),
                     ),
                   ),
-                ),
-              );
+                );
+              }
             }
           }),
     );

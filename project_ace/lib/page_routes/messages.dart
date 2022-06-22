@@ -160,7 +160,16 @@ class _MessageScreenState extends State<MessageScreen> {
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
-              } else {
+              } else if(snapshot.data!.docs
+                  .where((element) =>
+                  element["usersChatting"].contains(user.uid)).isEmpty) {
+                return Center(
+                  child: Text(
+                    "Use + button to chat with users.",
+                    style: bookmarksScreenNoBookmarks,
+                  ),
+                );
+              }else {
                 return SingleChildScrollView(
                     child: SafeArea(
                         child: Column(

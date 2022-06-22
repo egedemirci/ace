@@ -233,6 +233,14 @@ class _FeedState extends State<Feed> {
                           }
                           followingPosts.sort((a, b) =>
                               a["createdAt"].compareTo(b["createdAt"]));
+                          if (followingPosts.isEmpty) {
+                            return Center(
+                              child: Text(
+                                "It is empty here. Try following some \nusers or subscribing some topics",
+                                style: bookmarksScreenNoBookmarks,
+                              ),
+                            );
+                          }
                           return SingleChildScrollView(
                             child: Center(
                               child: Padding(

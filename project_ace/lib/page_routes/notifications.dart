@@ -75,6 +75,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 }).toList();
                 MyUser myUser =
                     MyUser.fromJson(userList[0].data() as Map<String, dynamic>);
+                if (myUser.notifications.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "You have no notifications.",
+                      style: bookmarksScreenNoBookmarks,
+                    ),
+                  );
+                }
                 return SingleChildScrollView(
                   child: SafeArea(
                     child: Column(

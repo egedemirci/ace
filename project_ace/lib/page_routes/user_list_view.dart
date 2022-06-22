@@ -79,23 +79,34 @@ class _UserListViewState extends State<UserListView> {
                 return ((widget.userIdList.contains(element["userId"])) &&
                     !element["isDisabled"]);
               }).toList();
-              return SingleChildScrollView(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: List.from(userList
-                          .map((myUser) => UserCard(
-                                user: MyUser.fromJson(
-                                    myUser.data() as Map<String, dynamic>),
-                                isNewChat: widget.isNewChat,
-                                analytics: widget.analytics,
-                              ))
-                          .toList()),
+              if(userList.isEmpty){
+                return Center(
+                  child: Text(
+                    "It is empty here.",
+                    style: bookmarksScreenNoBookmarks,
+                  ),
+                );
+              }
+              else {
+                return SingleChildScrollView(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        children: List.from(userList
+                            .map((myUser) =>
+                            UserCard(
+                              user: MyUser.fromJson(
+                                  myUser.data() as Map<String, dynamic>),
+                              isNewChat: widget.isNewChat,
+                              analytics: widget.analytics,
+                            ))
+                            .toList()),
+                      ),
                     ),
                   ),
-                ),
-              );
+                );
+              }
             }
           }),
     );
