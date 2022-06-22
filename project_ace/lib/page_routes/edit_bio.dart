@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ace/page_routes/own_profile_view.dart';
 import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/utilities/colors.dart';
@@ -168,7 +169,7 @@ class _EditBioViewState extends State<EditBioView> {
                           await userService.editBio(user.uid, bio);
                           await _showDialog("Success!",
                               "Your bio has been changed successfully.");
-                          Navigator.of(context).pop();
+                          Navigator.pushNamedAndRemoveUntil(context, OwnProfileView.routeName, (route) => false);
                         },
                         style: OutlinedButton.styleFrom(
                           fixedSize: Size(screenWidth(context) * 0.5,

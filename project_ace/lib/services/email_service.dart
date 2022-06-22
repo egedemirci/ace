@@ -9,7 +9,7 @@ Future sendEmailPost({
   required String reportedPostId,
 }) async {
   final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-  /*final response = await http.post(
+  final response = await http.post(
       url,
       headers: {
         'origin': 'http://localhost',
@@ -27,7 +27,7 @@ Future sendEmailPost({
         }
       })
   );
-  print(response.body);*/
+  print(response.body);
 }
 
 Future sendEmailUser({
@@ -36,7 +36,7 @@ Future sendEmailUser({
   required String reportedUsername,
 }) async {
   final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-  /*final response = await http.post(
+  final response = await http.post(
       url,
       headers: {
         'origin': 'http://localhost',
@@ -53,5 +53,5 @@ Future sendEmailUser({
         }
       })
   );
-  print(response.body);*/
+  print(response.body);
 }
