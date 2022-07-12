@@ -1,16 +1,20 @@
-import 'dart:io' show Platform;
+import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ace/page_routes/login.dart';
+import 'package:project_ace/services/analytics.dart';
+import 'package:project_ace/services/user_services.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/utilities/firebase_auth.dart';
-import 'package:project_ace/utilities/screenSizes.dart';
+import 'package:project_ace/services/auth_services.dart';
+import 'package:project_ace/utilities/screen_sizes.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp({Key? key, required this.analytics}) : super(key: key);
 
+  final FirebaseAnalytics analytics;
   static const String routeName = '/signup';
 
   @override
@@ -18,12 +22,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  // TODO: Edit the font styles
-
-  final FirebaseAuthService _auth = FirebaseAuthService();
-
+  final AuthServices _auth = AuthServices();
+  UserServices userServices = UserServices();
   final _formKey = GlobalKey<FormState>();
-  String _email = '', _password = '', _phone = "", _userName = "";
+  String _email = '', _password = '', _fullName = "", _userName = "";
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -72,11 +74,12 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future registerUser() async {
-    _auth.registerWithEmailPassword(_email, _password);
+    return _auth.registerWithEmailPassword(_email, _password, _userName, _fullName);
   }
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(widget.analytics, "Signup View", "signup.dart");
     return Scaffold(
       backgroundColor: AppColors.signUpScreenBackgroundColor,
       body: SafeArea(
@@ -87,8 +90,9 @@ class _SignUpState extends State<SignUp> {
           Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text(
+              children: [
+                // TODO: Implement text styles
+                const Text(
                   "Create your account",
                   style: TextStyle(
                     color: AppColors.signUpTextColor,
@@ -97,9 +101,10 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(
-                  height: 2.5,
+                  height: screenHeight(context) * 0.003,
                 ),
-                Text(
+                // TODO: Implement text styles
+                const Text(
                   "Sign up to get started!",
                   style: TextStyle(
                     color: AppColors.signUpTextColor,
@@ -111,10 +116,9 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           const Spacer(),
-          // TODO: Implement the form here
           Center(
             child: SizedBox(
-              width: screenWidth(context) - 80,
+              width: screenWidth(context) * (1 - 0.194),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -126,8 +130,10 @@ class _SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.emailAddress,
                       enableSuggestions: false,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
+                        // TODO: Implement text styles
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
@@ -147,11 +153,6 @@ class _SignUpState extends State<SignUp> {
                           if (!EmailValidator.validate(value)) {
                             return 'Please enter a valid email address!';
                           }
-                          /*
-                          if (!isUnique(email)) {
-                            return "This email is already registered!';
-                          }
-                           */
                         }
                       },
                       onSaved: (value) {
@@ -164,8 +165,10 @@ class _SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.text,
                       enableSuggestions: false,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
+                        // TODO: Implement text styles
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
@@ -185,11 +188,6 @@ class _SignUpState extends State<SignUp> {
                           if (value.length < 6) {
                             return 'Username is too short!';
                           }
-                          /*
-                          if (!isUnique(value) {
-                            return 'This username has been taken before!';
-                          }
-                           */
                         }
                       },
                       onSaved: (value) {
@@ -203,6 +201,7 @@ class _SignUpState extends State<SignUp> {
                       enableSuggestions: false,
                       obscureText: true,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
                         labelStyle: const TextStyle(
@@ -230,22 +229,23 @@ class _SignUpState extends State<SignUp> {
                         _password = value ?? "";
                       },
                     ),
-                    /*const SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
                       autocorrect: false,
                       keyboardType: TextInputType.text,
                       enableSuggestions: false,
-                      obscureText: true,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: AppColors.signUpFormBackgroundColor,
+                        // TODO: Implement text styles
                         labelStyle: const TextStyle(
                             color: AppColors.signUpFormTextColor),
                         label: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: const [
                             Text(
-                              "re-enter password",
+                              "full name",
                             ),
                           ],
                         ),
@@ -253,47 +253,15 @@ class _SignUpState extends State<SignUp> {
                       validator: (value) {
                         if (value != null) {
                           if (value.isEmpty) {
-                            return 'Cannot leave re-enter password empty!';
+                            return 'Cannot leave full name empty!';
                           }
-                          if (value != _password) {
-                            return 'Password fields do not match up!';
-                          }
-                        }
-                      },
-                      onSaved: (value) {},
-                    ),
-                     */
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      autocorrect: false,
-                      keyboardType: TextInputType.phone,
-                      enableSuggestions: false,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: AppColors.signUpFormBackgroundColor,
-                        labelStyle: const TextStyle(
-                            color: AppColors.signUpFormTextColor),
-                        label: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Text(
-                              "phone number",
-                            ),
-                          ],
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave phone empty!';
-                          }
-                          if (value.length < 13) {
-                            return 'The number you entered is not in the right format!';
+                          if (value.length > 30) {
+                            return 'The name you entered is too long!';
                           }
                         }
                       },
                       onSaved: (value) {
-                        _phone = value ?? "";
+                        _fullName = value ?? "";
                       },
                     ),
                   ],
@@ -307,22 +275,38 @@ class _SignUpState extends State<SignUp> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                await registerUser();
-                _showDialog("Sign Up Success",
-                    "You have successfully signed up.\nYou will now be directed to the login page");
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Login.routeName, (route) => false);
+                bool isUsernameExist =
+                    await userServices.isUsernameExist(_userName);
+                if (isUsernameExist) {
+                  await _showDialog('Form Error',
+                      "This username already in use, try another one");
+                } else {
+                  dynamic message = await registerUser();
+                  if(message is String){
+                    await _showDialog("Sign Up Error",
+                        message.toString());
+
+                  }
+                  else {
+                    await _showDialog("Sign Up Success",
+                        "You have successfully signed up.\nYou will now be directed to your profile page");
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Login.routeName, (route) => false);
+                  }
+                }
               } else {
-                _showDialog('Form Error',
+                await _showDialog('Form Error',
                     "You could not register with the current information. Try again!");
               }
             },
             style: OutlinedButton.styleFrom(
               backgroundColor: AppColors.signUpButtonBackgroundColor,
-              fixedSize: const Size(125, 40),
+              fixedSize: Size(
+                  screenWidth(context) * 0.3, screenHeight(context) * 0.046),
             ),
             child: const Text(
               "SIGN UP",
+              // TODO: Implement text styles
               style: TextStyle(
                 color: AppColors.signUpButtonTextColor,
                 fontSize: 20,

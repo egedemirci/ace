@@ -1,23 +1,25 @@
-import 'dart:convert';
-import 'dart:io' show Platform;
-import 'package:http/http.dart' as http;
+import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_ace/page_routes/profile_view.dart';
-import 'package:project_ace/templates/user.dart';
+import 'package:project_ace/page_routes/own_profile_view.dart';
+import 'package:project_ace/services/analytics.dart';
 import 'package:project_ace/page_routes/signup.dart';
+import 'package:project_ace/services/auth_services.dart';
 import 'package:project_ace/utilities/colors.dart';
-import 'package:project_ace/utilities/firebase_auth.dart';
-import 'package:project_ace/utilities/screenSizes.dart';
-import "package:project_ace/utilities/api.dart";
+import 'package:project_ace/utilities/screen_sizes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:project_ace/utilities/styles.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({Key? key, required this.analytics}) : super(key: key);
 
+  final FirebaseAnalytics analytics;
   static const String routeName = "/login";
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -26,9 +28,8 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   String _password = '';
   String _email = '';
-  late String s;
 
-  final FirebaseAuthService _auth = FirebaseAuthService();
+  final AuthServices _auth = AuthServices();
 
   Future<dynamic> loginUser() async {
     dynamic result = await _auth.signInWithEmailPassword(_email, _password);
@@ -36,45 +37,8 @@ class _LoginState extends State<Login> {
       _showDialog("Login Error", result);
     } else if (result is User) {
       // user is signed in.
-      // Navigator.pushNamedAndRemoveUntil(context, ProfileView.routeName, (route) => false);
     } else {
       _showDialog("Login Error", result.toString());
-    }
-  }
-
-  Future getUsers() async {
-    final url = Uri.parse(API.allUsers);
-    final response = await http.get(Uri.https(url.authority, url.path));
-    //_showDialog("Response", "${response.statusCode}");
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      // Successful
-      // _showDialog("HTTP Response: ${response.statusCode}", response.body);
-      /*
-      Map<String, dynamic> post = jsonDecode(response.body);
-      print('User ID: ${post["userId"]}');
-      print('Title: ${post["title"]}');
-      print('Body: ${post["body"]}');
-      JSONPost newPost = JSONPost(
-          title: post["title"],
-          body: post["body"],
-          userID: post["userId"],
-          postID: post["id"]);
-      print(newPost);
-      */
-      var responseList = jsonDecode(response.body) as List;
-      /*
-      print("Post Count: ${responseList.length}");
-      List<JSONPost> postItems =
-          responseList.map((postItem) => JSONPost.fromJSON(postItem)).toList();
-      print("${postItems[10]}");
-       */
-      List<MyUser> users =
-          responseList.map((user) => MyUser.fromJSON(user)).toList();
-      print("Latitude: ${users[1].address.geo.lat}");
-      print("Longitude: ${users[1].address.geo.lng}");
-    } else {
-      // Unsuccessful
-      _showDialog("HTTP Response: ${response.statusCode}", response.body);
     }
   }
 
@@ -125,194 +89,207 @@ class _LoginState extends State<Login> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    s = '';
-    /*_auth.authStateChanges().listen((user) {
-      if (user == null) {
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, ProfileView.routeName, (route) => false);
-      }
-    });
-     */
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.loginScreenBackgroundColor,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40),
-            ClipRect(
-              child: Image.asset(
-                "assets/images/ace_logo_edited.png",
-                scale: 1.075,
+    final user = Provider.of<User?>(context);
+    if (user == null) {
+      setCurrentScreen(widget.analytics, "Login View", "login.dart");
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: AppColors.loginScreenBackgroundColor,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: screenHeight(context) * 0.048),
+              ClipRect(
+                child: Image(
+                    image: const NetworkImage(
+                        'https://i.hizliresim.com/bxfjezq.png'),
+                    width: screenWidth(context) * 0.5,
+                    height: screenHeight(context) * 0.25),
               ),
-            ),
-            const SizedBox(height: 40),
-            SizedBox(
-              width: screenWidth(context) - 80,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelStyle: const TextStyle(
-                            color: AppColors.loginFormTextColor),
-                        label: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [Text("e-mail")],
+              SizedBox(height: screenHeight(context) * 0.048),
+              SizedBox(
+                width: screenWidth(context) * 0.75,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        constraints: BoxConstraints(
+                            maxHeight: screenHeight(context) * 0.075),
+                        child: TextFormField(
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            label: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "e-mail",
+                                  style: loginForm,
+                                )
+                              ],
+                            ),
+                            fillColor: AppColors.loginFormBackgroundColor,
+                            filled: true,
+                          ),
+                          validator: (value) {
+                            if (value != null) {
+                              if (value.isEmpty) {
+                                return 'Cannot leave email empty!';
+                              }
+                              if (!EmailValidator.validate(value)) {
+                                return 'Please enter a valid email address!';
+                              }
+                            }
+                          },
+                          onSaved: (value) {
+                            _email = value ?? "";
+                          },
                         ),
-                        fillColor: AppColors.loginFormBackgroundColor,
-                        filled: true,
                       ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave email empty!';
-                          }
-                          if (!EmailValidator.validate(value)) {
-                            return 'Please enter a valid email address!';
-                          }
-                        }
-                      },
-                      onSaved: (value) {
-                        _email = value ?? "";
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelStyle: const TextStyle(
-                            color: AppColors.loginFormTextColor),
-                        label: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [Text("password")],
+                      SizedBox(height: screenHeight(context) * 0.024),
+                      Container(
+                        constraints: BoxConstraints(
+                            maxHeight: screenHeight(context) * 0.075),
+                        child: TextFormField(
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          obscureText: true,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            label: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "password",
+                                  style: loginForm,
+                                )
+                              ],
+                            ),
+                            fillColor: AppColors.loginFormBackgroundColor,
+                            filled: true,
+                          ),
+                          validator: (value) {
+                            if (value != null) {
+                              if (value.isEmpty) {
+                                return 'Cannot leave password empty!';
+                              }
+                              if (value.length < 6) {
+                                return 'Password is too short!';
+                              }
+                            }
+                          },
+                          onSaved: (value) {
+                            _password = value ?? "";
+                          },
                         ),
-                        fillColor: AppColors.loginFormBackgroundColor,
-                        filled: true,
                       ),
-                      validator: (value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return 'Cannot leave password empty!';
-                          }
-                          if (value.length < 6) {
-                            return 'Password is too short!';
-                          }
-                        }
-                      },
-                      onSaved: (value) {
-                        _password = value ?? "";
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                OutlinedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      await loginUser();
-                    } else {
-                      _showDialog(
-                          'Form Error', "Your email or password is invalid!");
-                    }
-                  },
-                  child: const Text(
-                    "LOG IN",
-                    style: TextStyle(
-                      color: AppColors.loginSignupButtonTextColor,
-                      fontSize: 20,
+              SizedBox(height: screenHeight(context) * 0.024),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        await loginUser();
+                      } else {
+                        _showDialog(
+                            'Form Error', "Your email or password is invalid!");
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor:
+                          AppColors.loginSignupButtonBackgroundColor,
+                      fixedSize: Size(screenWidth(context) * 0.3,
+                          screenHeight(context) * 0.05),
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        "LOG IN",
+                        style: loginSignUpButton,
+                      ),
                     ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: AppColors.loginSignupButtonBackgroundColor,
-                    fixedSize: const Size(125, 40),
+                  SizedBox(height: screenHeight(context) * 0.012),
+                  Text(
+                    "OR CONNECT WITH",
+                    style: loginPageText,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  "OR CONNECT WITH",
-                  style: TextStyle(
-                      color: AppColors.loginPageTextColor, fontSize: 12),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: Image.asset("assets/images/meta.png", scale: 25),
+                  SizedBox(height: screenHeight(context) * 0.012),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () async {
+                          await _auth.signInWithFacebook();
+                        },
+                        style: OutlinedButton.styleFrom(
+                            backgroundColor: AppColors
+                                .loginPageMetaGoogleOptionBackgroundColor,
+                            fixedSize: Size(screenWidth(context) * 0.3,
+                                screenHeight(context) * 0.05)),
+                        child: Image.asset("assets/images/meta.png", scale: 25),
+                      ),
+                      SizedBox(width: screenHeight(context) * 0.024),
+                      OutlinedButton(
+                        onPressed: () async {
+                          await _auth.signInWithGoogle();
+                        },
+                        style: OutlinedButton.styleFrom(
+                            backgroundColor: AppColors
+                                .loginPageMetaGoogleOptionBackgroundColor,
+                            fixedSize: Size(screenWidth(context) * 0.3,
+                                screenHeight(context) * 0.05)),
+                        child:
+                            Image.asset("assets/images/google.png", scale: 25),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: screenHeight(context) * 0.012),
+                  Text(
+                    "NEED ACCOUNT?",
+                    style: loginPageText,
+                  ),
+                  SizedBox(height: screenHeight(context) * 0.012),
+                  OutlinedButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, SignUp.routeName, (route) => false);
+                      },
                       style: OutlinedButton.styleFrom(
-                          backgroundColor: AppColors
-                              .loginPageMetaGoogleOptionBackgroundColor,
-                          fixedSize: const Size(150, 40)),
-                    ),
-                    const SizedBox(width: 20),
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: Image.asset("assets/images/google.png", scale: 25),
-                      style: OutlinedButton.styleFrom(
-                          backgroundColor: AppColors
-                              .loginPageMetaGoogleOptionBackgroundColor,
-                          fixedSize: const Size(150, 40)),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "NEED ACCOUNT?",
-                  style: TextStyle(
-                    color: AppColors.loginPageTextColor,
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, SignUp.routeName, (route) => false);
-                  },
-                  child: const Text(
-                    "SIGN UP",
-                    style: TextStyle(
-                        color: AppColors.welcomeScreenBackgroundColor,
-                        fontSize: 20),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: AppColors.loginSignupButtonBackgroundColor,
-                    fixedSize: const Size(125, 40),
-                  ),
-                ),
-              ],
-            ),
-            const Spacer(),
-          ],
+                        backgroundColor:
+                            AppColors.loginSignupButtonBackgroundColor,
+                        fixedSize: Size(screenWidth(context) * 0.3,
+                            screenHeight(context) * 0.05),
+                      ),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "SIGN UP",
+                          style: loginSignUpButton,
+                        ),
+                      )),
+                ],
+              ),
+              const Spacer(),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return OwnProfileView(analytics: widget.analytics);
+    }
   }
 }
