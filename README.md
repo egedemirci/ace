@@ -1,4 +1,6 @@
-
+<p align="center" width="10%">
+    <img width="10%" src="https://i.hizliresim.com/7gbubze.png">
+</p>
 
 # Ace 
 
