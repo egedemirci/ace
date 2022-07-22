@@ -18,6 +18,7 @@ There are a lot of people that follow and discuss sports almost in every corner 
 - [Ege Demirci](https://github.com/egedemirci)
 - [Taner Giray Sonmez](https://github.com/tanersnmz)
 
+![](https://i.hizliresim.com/cnk8978.png)
 
   
 ## Features
@@ -40,3 +41,41 @@ There are a lot of people that follow and discuss sports almost in every corner 
 - Users can partial search other users and posts based on: username, post content and topic.
 - Users will be recommended to other users for a new potential connection. Recommendation is done based on the small algorithm which uses topic and user list.
  
+ ![](https://i.hizliresim.com/cnk8978.png)
+
+
+ ## Screenshots from Application
+
+<div>
+<img src="https://i.imgur.com/Vr5b4bZ.jpg" width="200">  
+<img src="https://i.imgur.com/ijsZ4fE.jpg" width="200">
+<img src="https://i.imgur.com/mQAOk7p.jpg" width="200">
+<img src="https://i.imgur.com/hEjpiys.jpg" width="200">
+<img src="https://i.imgur.com/QhUzI5O.jpg" width="200">
+<img src="https://i.imgur.com/Gkch98N.jpg" width="200">
+<img src="https://i.imgur.com/TEebhxd.jpg" width="200">
+<img src="https://i.imgur.com/UgtsmmA.jpg" width="200">
+<img src="https://i.imgur.com/XiXovvK.jpg" width="200">
+<img src="https://i.imgur.com/8XpAa3s.jpg" width="200">
+<img src="https://i.imgur.com/OVuiurn.jpg" width="200">
+<img src="https://i.imgur.com/4awvYJh.jpg" width="200">
+<img src="https://i.imgur.com/gWLdadS.jpg" width="200">
+<img src="https://i.imgur.com/484RfJ5.jpg" width="200">
+<img src="https://i.imgur.com/BYH5EmI.jpg" width="200">
+<img src="https://i.imgur.com/u4SUG8C.jpg" width="200">
+<img src="https://i.imgur.com/ZT6zOwO.jpg" width="200">
+<img src="https://i.imgur.com/cYMnd8L.jpg" width="200">
+<img src="https://i.imgur.com/P5PSGRN.jpg" width="200">
+<img src="https://i.imgur.com/CN4OvcB.jpg" width="200">
+<img src="https://i.imgur.com/ew0fwZw.jpg" width="200">
+<img src="https://i.imgur.com/1B0Ie2g.jpg" width="200">
+<img src="https://i.imgur.com/61AmtXU.jpg" width="200">
+
+</div>
+  
+  
+ #  
+ 
+<p align="center" width="10%">
+    <img width="10%" src="https://i.hizliresim.com/7gbubze.png">
+</p>
