@@ -1,3 +1,8 @@
+ #  
+ 
+<p align="center" width="10%">
+    <img width="10%" src="https://i.imgur.com/pdeKNCG.png">
+</p>
 
 
 # Ace 
@@ -75,5 +80,5 @@ There are a lot of people that follow and discuss sports almost in every corner 
  #  
  
 <p align="center" width="10%">
-    <img width="10%" src="https://i.hizliresim.com/7gbubze.png">
+    <img width="10%" src="https://i.imgur.com/pdeKNCG.png">
 </p>
